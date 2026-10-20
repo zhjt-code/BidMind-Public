@@ -10,5 +10,5 @@ httpx==0.28.1
 
 # 开发工具
 black==24.10.0
-ruff==0.8.4
+ruff==0.17.1
 pyflakes==3.4.0  # test_no_undefined_names_in_submodules 静态扫描依赖，缺失时该护栏空转（BUG-969）
