@@ -3,7 +3,7 @@
 描述每个 LLM 节点的输入/输出/运行时参数契约，供前端 schema-driven 渲染。
 """
 
-from sqlalchemy import Column, String, Text, Integer, Boolean, ForeignKey, UniqueConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel

@@ -7,7 +7,7 @@
 from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -22,7 +22,6 @@ from app.services.ops_metrics.project_logs import (
     is_valid_flow,
     resolve_batch_target_ids,
 )
-
 
 router = APIRouter(prefix="/admin/ops", tags=["运维监控-项目日志"])
 

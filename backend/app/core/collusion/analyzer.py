@@ -1,3 +1,5 @@
+# Compatibility facade: external imports and monkeypatch targets use these exports.
+# ruff: noqa: F401
 """串标分析编排器
 
 编排 S1~S4 四阶段分析流程：
@@ -15,78 +17,46 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import Any, Optional, Callable
+from typing import Any, Callable, Optional
 
 from loguru import logger
-from sqlalchemy import select, delete
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import async_session_factory, db_session_scope
-from app.core.observability.instrument import instrument as _observability_instrument
-from app.models.document import Document, DocumentType
-from app.models.collusion_extraction import CollusionExtraction
-from app.models.collusion_result import CollusionResult, CollusionRiskLevel
-from app.models.project import Project
-from app.schemas.collusion import (
-    CollusionProjectSummary,
-    LLMExtractionResult,
-    LLMTenderFormatResult,
-    LLMCompareResult,
-    LLMSynthesisResult,
-    LLMEntityResult,
-    LLMTextPatternResult,
-    LLMBusinessResult,
-    LLMSingleDimResult,
-    DIMENSION_EVIDENCE_LEVEL_CONTRACT,
-    EVIDENCE_LEVEL_CORRECTED_FLAG,
-    coerce_evidence_level_for_dim,
-    build_pair_id,
-    is_flattened_field_string,
-    is_valid_person_name,
-    sanitize_quote,
-)
 from app.core.ai.ai_factory import get_review_client
 from app.core.ai.critic.flows import FLOW_COLLUSION
 from app.core.ai.input_guard import retry_on_input_too_long_400
-from app.core.ai.retry_tracker import LLMRetryTracker
-from app.core.config import (
-    settings,
-    get_review_concurrency,
-    get_collusion_extract_timeout,
-    get_collusion_compare_timeout,
-    get_collusion_synthesis_timeout,
-)
-from app.core.collusion.prompts import (
-    COLLUSION_SYSTEM_PROMPT as _CODE_COLLUSION_SYSTEM,
-    COLLUSION_TENDER_FORMAT_PROMPT,
-    build_collusion_extract_route_prompt,
-    COLLUSION_PAIR_JUDGEMENT_PROMPT,
-    COLLUSION_ENTITY_PROMPT,
-    COLLUSION_TEXT_PATTERN_PROMPT,
-    COLLUSION_BUSINESS_PROMPT,
-    COLLUSION_SINGLE_DIM_PROMPT,
-    DIMENSION_INSTRUCTIONS,
-    COLLUSION_PROJECT_SUMMARY_PROMPT,
-    COLLUSION_GROUP_ANALYSIS_PROMPT,
-    build_tender_context,
-    build_similar_chunks_text,
-    build_profile_domain_context,
-    build_profile_business_context,
-)
 from app.core.ai.prompt_registry import get_registry, resolve_user_template
-from app.core.observability.guard_instrument import observe_guard
-from app.core.collusion.feature_flags import (
-    use_fused_evidence_to_llm,
-    use_global_findings_enrich,
-    use_d4_full_coverage,
+from app.core.ai.retry_tracker import LLMRetryTracker
+
+# Task 8 Step 6-9: 阶段方法迁出的子模块（analyzer_parts 不反向 import 本模块）
+from app.core.collusion.analyzer_parts import (
+    extraction_stage,
+    group_stage,
+    pair_compare,
+    pair_dimensions,
+    pair_evidence,
+    pair_persistence,
+    synthesis_stage,
 )
-from app.core.collusion.llm_keepalive import await_with_collusion_keepalive
-from app.core.collusion.similarity import batch_compute_similarity
-from app.core.collusion.global_features import GlobalFeatureAnalyzer, GlobalFeatureResult
-from app.core.collusion.graph_cluster import (
-    build_collusion_graph,
-    CollusionCluster,
-    enrich_clusters_with_global_findings,
+
+# Task 8 Step 1: 模块级常量与基础工具迁出到 analyzer_parts.constants
+# 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
+from app.core.collusion.analyzer_parts.constants import (
+    _CERTAINTY_MIN,
+    _DECISION_ENGINE_VERSION,
+    _DIM_KEYS,
+    _DIM_MAP,
+    _DIMENSION_RETRIEVAL,
+    _EXTRACTION_FAIL_THRESHOLD,
+    _IMAGE_BUDGET,
+    _MAX_EXTRACT_CHARS,
+    _MAX_TENDER_CHARS,
+    _RISK_RANK_LOCAL,
+    ExtractionQualityError,
+    _shrink_list_semantically,
+    _shrink_text_blocks,
+    _trim_pair_results_for_summary,
 )
 from app.core.collusion.extraction_routes import (
     EXTRACTION_ROUTE_CONFIGS,
@@ -95,10 +65,23 @@ from app.core.collusion.extraction_routes import (
     get_extraction_route,
     merge_route_extractions,
 )
+from app.core.collusion.feature_flags import (
+    use_d4_full_coverage,
+    use_fused_evidence_to_llm,
+    use_global_findings_enrich,
+)
+from app.core.collusion.global_features import GlobalFeatureAnalyzer, GlobalFeatureResult
+from app.core.collusion.graph_cluster import (
+    CollusionCluster,
+    build_collusion_graph,
+    enrich_clusters_with_global_findings,
+)
+from app.core.collusion.industry_profiler import CollusionIndustryProfiler
 from app.core.collusion.knowledge_base import (
     build_dynamic_normal_similarity_hint,
     build_normal_similarity_hint,
 )
+from app.core.collusion.llm_keepalive import await_with_collusion_keepalive
 from app.core.collusion.normalizers import (
     address_building_kind,
     credit_code_kind,
@@ -112,46 +95,66 @@ from app.core.collusion.normalizers import (
     normalize_id_tail,
     normalize_phone,
 )
-from app.core.collusion.industry_profiler import CollusionIndustryProfiler
-from app.core.config import get_collusion_group_timeout
-from app.models.collusion_group import CollusionGroup
-from app.schemas.collusion import (
-    LLMGroupAnalysisResult,
+from app.core.collusion.prompts import (
+    COLLUSION_BUSINESS_PROMPT,
+    COLLUSION_ENTITY_PROMPT,
+    COLLUSION_GROUP_ANALYSIS_PROMPT,
+    COLLUSION_PAIR_JUDGEMENT_PROMPT,
+    COLLUSION_PROJECT_SUMMARY_PROMPT,
+    COLLUSION_SINGLE_DIM_PROMPT,
+    COLLUSION_TENDER_FORMAT_PROMPT,
+    COLLUSION_TEXT_PATTERN_PROMPT,
+    DIMENSION_INSTRUCTIONS,
+    build_collusion_extract_route_prompt,
+    build_profile_business_context,
+    build_profile_domain_context,
+    build_similar_chunks_text,
+    build_tender_context,
 )
+from app.core.collusion.prompts import (
+    COLLUSION_SYSTEM_PROMPT as _CODE_COLLUSION_SYSTEM,
+)
+from app.core.collusion.similarity import batch_compute_similarity
+from app.core.config import (
+    get_collusion_compare_timeout,
+    get_collusion_extract_timeout,
+    get_collusion_group_timeout,
+    get_collusion_synthesis_timeout,
+    get_review_concurrency,
+    settings,
+)
+from app.core.database import async_session_factory, db_session_scope
+from app.core.observability.guard_instrument import observe_guard
+from app.core.observability.instrument import instrument as _observability_instrument
 from app.core.parser.image_extractor import (
     is_annotation_chunk_content,
     is_evidence_chunk_content,
     is_image_related_chunk_content,
 )
-
-
-# Task 8 Step 1: 模块级常量与基础工具迁出到 analyzer_parts.constants
-# 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
-from app.core.collusion.analyzer_parts.constants import (
-    ExtractionQualityError,
-    _EXTRACTION_FAIL_THRESHOLD,
-    _MAX_EXTRACT_CHARS,
-    _IMAGE_BUDGET,
-    _MAX_TENDER_CHARS,
-    _DIM_MAP,
-    _DIM_KEYS,
-    _CERTAINTY_MIN,
-    _DECISION_ENGINE_VERSION,
-    _RISK_RANK_LOCAL,
-    _DIMENSION_RETRIEVAL,
-    _shrink_list_semantically,
-    _shrink_text_blocks,
-    _trim_pair_results_for_summary,
+from app.models.collusion_extraction import CollusionExtraction
+from app.models.collusion_group import CollusionGroup
+from app.models.collusion_result import CollusionResult, CollusionRiskLevel
+from app.models.document import Document, DocumentType
+from app.models.project import Project
+from app.schemas.collusion import (
+    DIMENSION_EVIDENCE_LEVEL_CONTRACT,
+    EVIDENCE_LEVEL_CORRECTED_FLAG,
+    CollusionProjectSummary,
+    LLMBusinessResult,
+    LLMCompareResult,
+    LLMEntityResult,
+    LLMExtractionResult,
+    LLMGroupAnalysisResult,
+    LLMSingleDimResult,
+    LLMSynthesisResult,
+    LLMTenderFormatResult,
+    LLMTextPatternResult,
+    build_pair_id,
+    coerce_evidence_level_for_dim,
+    is_flattened_field_string,
+    is_valid_person_name,
+    sanitize_quote,
 )
-
-# Task 8 Step 6-9: 阶段方法迁出的子模块（analyzer_parts 不反向 import 本模块）
-from app.core.collusion.analyzer_parts import extraction_stage
-from app.core.collusion.analyzer_parts import pair_compare
-from app.core.collusion.analyzer_parts import pair_dimensions
-from app.core.collusion.analyzer_parts import pair_evidence
-from app.core.collusion.analyzer_parts import pair_persistence
-from app.core.collusion.analyzer_parts import group_stage
-from app.core.collusion.analyzer_parts import synthesis_stage
 
 
 def _get_collusion_system() -> str:
@@ -884,6 +887,7 @@ class CollusionAnalyzer:
     ) -> set[tuple[int, int]]:
         """P1-1: 两份文件报价呈现精确比例/等差/尾数一致时命中 D4。"""
         from itertools import combinations
+
         from app.core.collusion.global_features import parse_price
 
         hits: set[tuple[int, int]] = set()
@@ -1136,75 +1140,71 @@ class CollusionAnalyzer:
 
 # Task 8 Step 2: 抽取域纯函数迁出到 analyzer_parts.extraction_validation
 # 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
-from app.core.collusion.analyzer_parts.extraction_validation import (
-    _is_empty_extraction,
-    _validate_extraction_payload,
-    _extract_docx_structure_from_info,
-    _build_chunk_text_blob,
-    _build_chunk_fallback_context,
-    _empty_extraction,
-    _format_extraction,
-    _infer_doc_subtype,
-)
-
-
 # Task 8 Step 3: 算法兜底域纯函数迁出到 analyzer_parts.algorithmic
 # 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
 from app.core.collusion.analyzer_parts.algorithmic import (
+    _META_CHECKS,
     _algorithm_compare,
     _algorithm_d4_score,
-    _META_CHECKS,
     _inject_d8_from_metadata,
     _is_close_pdf_datetime,
 )
-
+from app.core.collusion.analyzer_parts.extraction_validation import (
+    _build_chunk_fallback_context,
+    _build_chunk_text_blob,
+    _empty_extraction,
+    _extract_docx_structure_from_info,
+    _format_extraction,
+    _infer_doc_subtype,
+    _is_empty_extraction,
+    _validate_extraction_payload,
+)
 
 # Task 8 Step 4: findings/attention 域纯函数迁出到 analyzer_parts.findings
 # 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
 from app.core.collusion.analyzer_parts.findings import (
-    _has_positive_dimension_score,
-    _has_dimension_payload,
-    _finalize_pair_contract,
     _EVIDENCE_LEVEL_ORDER,
     _FLAT_FINDING_RECOVERED_FLAG,
-    _recover_flattened_findings,
-    _extract_structured_findings,
-    _maybe_promote_to_attention,
-    _collect_attention_from_dim,
-    _normalize_compare_result,
+    _HOLLOW_EVIDENCE_PATTERNS,
     _build_evidences_for_pair,
-    _extract_page_number,
-    _normalize_evidence_text,
+    _collect_attention_from_dim,
     _compact_evidence_quote,
-    _has_verifiable_evidence_refs,
-    _normalize_dim_evidence_levels,
     _consistency_check,
     _derive_overall_risk_from_dims,
-    _HOLLOW_EVIDENCE_PATTERNS,
+    _extract_page_number,
+    _extract_structured_findings,
+    _finalize_pair_contract,
+    _has_dimension_payload,
+    _has_positive_dimension_score,
+    _has_verifiable_evidence_refs,
+    _maybe_promote_to_attention,
+    _normalize_compare_result,
+    _normalize_dim_evidence_levels,
+    _normalize_evidence_text,
+    _recover_flattened_findings,
 )
-
 
 # Task 8 Step 5: synthesis 域纯函数迁出到 analyzer_parts.synthesis_helpers
 # 此处 re-export 兑现外部 `from app.core.collusion.analyzer import _xxx` 契约。
 from app.core.collusion.analyzer_parts.synthesis_helpers import (
-    _GLOBAL_FINDING_TYPE_PRIORITY,
     _GLOBAL_FINDING_TYPE_LABEL,
-    _build_global_findings_context,
-    _format_group_evidence_for_llm,
-    _build_pair_summaries,
-    _simple_synthesis,
-    _build_pair_facts_context,
-    _highest_risk_local,
-    _build_failed_pair_result,
-    _build_coverage_stats,
+    _GLOBAL_FINDING_TYPE_PRIORITY,
     _apply_profile_confidence_to_candidate_scores,
+    _build_coverage_stats,
     _build_data_quality_flags,
+    _build_failed_pair_result,
+    _build_global_findings_context,
+    _build_pair_facts_context,
+    _build_pair_summaries,
     _build_profile_quality_flags,
-    _derive_project_decision,
     _build_project_narrative_summary,
     _build_project_summary_payload,
-    _result_to_dict,
+    _derive_project_decision,
+    _format_group_evidence_for_llm,
+    _highest_risk_local,
     _merge_group_results,
+    _result_to_dict,
+    _simple_synthesis,
 )
 
 

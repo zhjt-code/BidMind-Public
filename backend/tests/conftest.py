@@ -33,8 +33,8 @@ os.environ.setdefault("ADMIN_PASSWORD", "<TEST_PASSWORD>")
 # 邮箱验证/指纹等用例通过 monkeypatch 显式开启 EMAIL_VERIFICATION_ENABLED=True。
 os.environ["EMAIL_VERIFICATION_ENABLED"] = "false"
 
-from app.main import app  # noqa: E402
 from app.core.config import settings  # noqa: E402
+from app.main import app  # noqa: E402
 
 
 @pytest.fixture(autouse=True)
@@ -56,7 +56,8 @@ def _mark_regression_traffic():
  那部分由 resolve_traffic_class 的进程级兜底(检测 pytest)负责。
  """
     from app.core.observability.traffic_class import (
-        TRAFFIC_CLASS_REGRESSION, current_traffic_class,
+        TRAFFIC_CLASS_REGRESSION,
+        current_traffic_class,
     )
     token = current_traffic_class.set(TRAFFIC_CLASS_REGRESSION)
     yield

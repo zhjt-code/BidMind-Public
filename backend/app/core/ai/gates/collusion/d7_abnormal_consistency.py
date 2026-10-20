@@ -6,7 +6,6 @@ LCS 滑动窗口连续文本块检测 + 相同拼写错误检测。
 from __future__ import annotations
 
 import re
-from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 

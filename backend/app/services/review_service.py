@@ -5,44 +5,18 @@
 
 import time
 from dataclasses import dataclass, field
-from typing import Optional, Any
+from typing import Any, Optional
 
-from sqlalchemy import select, func
-from sqlalchemy.orm import selectinload
-from sqlalchemy.ext.asyncio import AsyncSession
 from loguru import logger
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
-from app.models.project import Project, ProjectStatus
-from app.models.document import Document, DocumentType
-from app.models.requirement import Requirement
-from app.models.review_result import ReviewResult, ComplianceLevel, RiskLevel
-from app.models.bid_response import BidResponse
-from app.models.user import User
-from app.schemas.review import ReviewStatus, ReviewStepStatus
+from app.core.ai.reviewer import get_review_orchestrator
+from app.core.config import settings
 from app.core.exceptions import ServiceError
 from app.core.filename import build_export_filename
-from app.core.tasks import (
-    run_review_task,
-    create_background_task,
-    inspect_task_liveness,
-    cancel_task,
-    get_task_heartbeat,
-    mark_task_queued,
-    HEARTBEAT_TIMEOUT,
-    MAX_RECOVERY,
-    get_recovery_count,
-    increment_recovery_count,
-    reset_recovery_count,
-)
-from app.core.tasks.parallel_unit_progress import (
-    heartbeat_belongs_to_running_step,
-    heartbeat_phase_belongs_to_stage,
-    heartbeat_text_matches_tokens,
-    merge_running_step_detail,
-    running_step_progress_from_heartbeat,
-    stage_tokens_for_review_step,
-)
-from app.core.config import settings
+from app.core.report.generator import get_report_generator
 from app.core.review_contracts import (
     REVIEW_STAGE_ASSEMBLING,
     REVIEW_STAGE_COMPLETED,
@@ -64,8 +38,32 @@ from app.core.review_contracts import (
     parse_page_numbers,
     reviewable_requirement_conditions,
 )
-from app.core.report.generator import get_report_generator
-from app.core.ai.reviewer import get_review_orchestrator
+from app.core.tasks import (
+    HEARTBEAT_TIMEOUT,
+    MAX_RECOVERY,
+    cancel_task,
+    get_recovery_count,
+    get_task_heartbeat,
+    increment_recovery_count,
+    inspect_task_liveness,
+    reset_recovery_count,
+    run_review_task,
+)
+from app.core.tasks.parallel_unit_progress import (
+    heartbeat_belongs_to_running_step,
+    heartbeat_phase_belongs_to_stage,
+    heartbeat_text_matches_tokens,
+    merge_running_step_detail,
+    running_step_progress_from_heartbeat,
+    stage_tokens_for_review_step,
+)
+from app.models.bid_response import BidResponse
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus
+from app.models.requirement import Requirement
+from app.models.review_result import ReviewResult, RiskLevel
+from app.models.user import User
+from app.schemas.review import ReviewStatus, ReviewStepStatus
 from app.services.audit_service import audit_log
 from app.services.project_access import get_project_or_raise
 

@@ -101,8 +101,8 @@ async def test_prefetch_and_compose_builder_share_fingerprint(monkeypatch: pytes
 @pytest.mark.asyncio
 async def test_prefetch_hit_skips_second_plan_llm(monkeypatch: pytest.MonkeyPatch) -> None:
     from app.core.writer.composer.plan_prefetch import prefetch_one_section_plan
-    from app.core.writer.section_plan.contracts import SectionPlanResolution
     from app.core.writer.section_plan import source_loader
+    from app.core.writer.section_plan.contracts import SectionPlanResolution
 
     monkeypatch.setattr(
         source_loader,

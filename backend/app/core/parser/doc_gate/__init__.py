@@ -5,8 +5,8 @@
 """
 
 from app.core.parser.doc_gate.contracts import DocGateResult, GateVerdict
-from app.core.parser.doc_gate.sampler import GateSample, sample_pdf_bytes
 from app.core.parser.doc_gate.gate_engine import evaluate_doc_gate
+from app.core.parser.doc_gate.sampler import GateSample, sample_pdf_bytes
 from app.core.parser.doc_gate.usability import (
     UsabilityAssessment,
     assess_pdf_usability,

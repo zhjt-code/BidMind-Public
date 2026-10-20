@@ -13,7 +13,6 @@ import json
 import sys
 import time
 from pathlib import Path
-from unittest.mock import AsyncMock, patch
 
 import pytest
 
@@ -63,7 +62,6 @@ def test_parse_worker_info_tolerates_bytes_and_junk() -> None:
 
 def test_is_fresh_respects_window(monkeypatch) -> None:
     # 伪造 settings.ARQ_WORKER_FRESHNESS_WINDOW=10 秒
-    import app.core.arq_runtime as ar
 
     fresh_info = {"last_seen": int(time.time())}
     stale_info = {"last_seen": int(time.time()) - 10_000}

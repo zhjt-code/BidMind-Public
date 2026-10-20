@@ -17,18 +17,20 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
+from app.core.ai.reviewer_parts.result_builder import (
+    _resolve_estimated_score,  # noqa: E402
+    create_review_result,  # noqa: E402
+)
 from app.core.review_contracts import (  # noqa: E402
     compute_estimated_score,
     compute_scoring_aggregate,
     is_scoring_universe_member,
     parse_estimated_score_from_comment,
 )
-from app.core.ai.reviewer_parts.result_builder import _resolve_estimated_score  # noqa: E402
-from app.core.ai.reviewer_parts.result_builder import create_review_result  # noqa: E402
 from app.models.review_result import ComplianceLevel  # noqa: E402
 from app.schemas.review import ExtractedReviewResult  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 
@@ -461,7 +463,7 @@ def test_aggregate_multi_lot_groups_per_lot():
     assert agg["scoring_item_count"] == 4
 
 
-def test_aggregate_multi_lot_unassigned_fail_visible():
+def test_aggregate_multi_lot_unassigned_fail_visible_with_full_lot_scores():
     """ 教训: lot 缺失评分项禁止静默丢弃/并入任何包, 须独立成"未识别归属"桶。"""
     items = [
         _lot_si(100, 80, "technical", "采购包1"),
@@ -479,7 +481,7 @@ def test_aggregate_multi_lot_unassigned_fail_visible():
     assert by_lot["采购包2"]["max"] == 100
 
 
-def test_aggregate_single_lot_keeps_flat_behavior():
+def test_aggregate_single_lot_keeps_flat_behavior_with_volume_labels():
     """单包文档(lot 全同/全缺失)不进入分包模式, 旧行为零变化(回归护栏)。"""
     same_lot = [
         _lot_si(60, 50, "technical", "采购包1"),

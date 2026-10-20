@@ -6,6 +6,7 @@
 """
 
 import base64
+
 import fitz
 from loguru import logger
 

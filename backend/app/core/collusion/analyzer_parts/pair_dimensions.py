@@ -14,25 +14,18 @@ Task 8 Step 7：从 CollusionAnalyzer 主类迁出 S3 维度 LLM 调用 4 个方
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.ai.prompt_registry import resolve_user_template
-from app.core.collusion.analyzer_parts.constants import _DIM_MAP
-from app.core.collusion.analyzer_parts.extraction_validation import _format_extraction
-from app.core.collusion.prompts import build_similar_chunks_text
-from app.core.parser.image_extractor import is_image_related_chunk_content
-from app.models.document import Document
-from typing import Optional
-
-from typing import Any
+from typing import Any, Optional
 
 from loguru import logger
 
-from app.core.config import get_collusion_compare_timeout
+# 补全 import 修复
+from app.core.ai.prompt_registry import resolve_user_template
 from app.core.collusion.analyzer_parts.constants import (
+    _DIM_MAP,
     _shrink_list_semantically,
     _shrink_text_blocks,
 )
+from app.core.collusion.analyzer_parts.extraction_validation import _format_extraction
 from app.core.collusion.knowledge_base import (
     build_dynamic_normal_similarity_hint,
     build_normal_similarity_hint,
@@ -45,8 +38,12 @@ from app.core.collusion.prompts import (
     DIMENSION_INSTRUCTIONS,
     build_profile_business_context,
     build_profile_domain_context,
+    build_similar_chunks_text,
     build_tender_context,
 )
+from app.core.config import get_collusion_compare_timeout
+from app.core.parser.image_extractor import is_image_related_chunk_content
+from app.models.document import Document
 from app.schemas.collusion import (
     LLMBusinessResult,
     LLMEntityResult,

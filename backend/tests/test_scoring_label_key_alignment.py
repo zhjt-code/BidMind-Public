@@ -11,6 +11,8 @@
 """
 from __future__ import annotations
 
+import pytest
+
 from app.core.extractor.scoring.ledger.declaration_capture import (
     capture_scoring_declarations,
 )
@@ -22,8 +24,6 @@ from app.core.extractor.scoring.numeric_score_column_parser import (
     parse_numeric_score_column_table,
 )
 from app.core.extractor.scoring.volume_labeling import refine_scoring_group_label
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

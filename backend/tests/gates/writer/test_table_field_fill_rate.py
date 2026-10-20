@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import pytest
-
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.writer.table_field_fill_rate import (
     TableFieldFillRateGate,

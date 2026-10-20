@@ -9,11 +9,11 @@ from types import SimpleNamespace
 import pytest
 from PIL import Image
 
-from app.core.arq_runtime import ProjectCancelledError
-from app.core.tasks.process.vl_stage import run_vl_stage
 # 必须在本文件 patch arq_runtime.raise_if_project_cancelled 之前绑定，
 # 否则 vl_stage 首次 import cancellation 会把 fake 冻进模块全局。
 import app.core.tasks.cancellation  # noqa: F401
+from app.core.arq_runtime import ProjectCancelledError
+from app.core.tasks.process.vl_stage import run_vl_stage
 
 
 def _page_png_b64() -> str:

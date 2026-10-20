@@ -20,6 +20,7 @@ for _p in (_backend_root, _scripts_path):
         sys.path.insert(0, str(_p))
 
 import os
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
 pytestmark = [pytest.mark.scoring, pytest.mark.usefixtures('restore_real_ai_modules')]

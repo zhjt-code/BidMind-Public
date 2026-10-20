@@ -22,12 +22,11 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.collusion.global_features import GlobalFeatureResult
 from app.core.collusion.analyzer_parts.dimension_signals import (
     is_hollow_dimension_signal,
 )
+from app.core.collusion.global_features import GlobalFeatureResult
 from app.schemas.collusion import sanitize_quote
-
 
 _LEVEL_PRIORITY = {"first": 0, "second": 1, "third": 2, "unknown": 3}
 

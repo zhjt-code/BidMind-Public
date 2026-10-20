@@ -12,7 +12,6 @@ RED → GREEN 路径:
 - test_build_*: build_scoring_table_chunks 产出1个 p24-p26 大 chunk → RED; 修复后 GREEN。
 """
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import json
 import os
@@ -22,6 +21,8 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
+
+from tests.synthetic_data import synthetic_text
 
 pytestmark = pytest.mark.scoring
 
@@ -499,8 +500,8 @@ class TestStableBoundaryId:
     def test_boundary_id_has_no_page_number(self):
         """C2: 边界 ID 格式为 tb:{code}，不含 @p{page} 后缀（使用 boundary_id_for_page 单源，B5）。"""
         from app.core.parser.scoring_template_boundaries import (
-            detect_template_boundaries,
             boundary_id_for_page,
+            detect_template_boundaries,
         )
 
         page_texts = [
@@ -511,7 +512,7 @@ class TestStableBoundaryId:
         assert boundaries, "应检出至少1个边界"
         for b in boundaries:
             bid = boundary_id_for_page(boundaries, b.page_num)
-            assert bid is not None, f"boundary_id_for_page 不应为 None"
+            assert bid is not None, "boundary_id_for_page 不应为 None"
             assert "@p" not in bid, (
                 f"boundary_id 不应含页码，实际: {bid}"
             )
@@ -736,7 +737,7 @@ class TestFeatureSwitch:
 
     def test_feature_switch_off_returns_empty(self, monkeypatch):
         """I3 RED→GREEN: 开关关闭时 detect_template_boundaries 返回空列表。"""
-        import importlib
+
         from app.core.parser import scoring_template_boundaries as stb
 
         # 通过 monkeypatch 模拟 settings.SCORING_TEMPLATE_BOUNDARY_ENABLED = False
@@ -773,6 +774,7 @@ class TestSetPayloadScopeMetadata:
     def test_build_scoring_payload_at_most_six_positional_params(self):
         """M1: build_scoring_payload 函数签名不超过 6 个参数（不再把 scheme_boundary_id 作内置参数）。"""
         import inspect
+
         from app.core.extractor.scoring.scoring_grid_payload import build_scoring_payload
 
         sig = inspect.signature(build_scoring_payload)
@@ -1468,8 +1470,8 @@ class TestLotSectionIntersectionB4:
 
     def test_lot_boundaries_respected_no_cross_lot_merge(self):
         """B4: 有 lots 时，assembly_spans 不跨越 lot 边界（逐 lot 独立求交）。"""
-        from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks
         from app.core.parser.chunk_planner import ChunkPlanner
+        from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks
 
         doc = _build_two_lot_doc()
         planner = ChunkPlanner()

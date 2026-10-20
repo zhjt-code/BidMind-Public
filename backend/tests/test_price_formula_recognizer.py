@@ -19,7 +19,6 @@ from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
 from app.core.parser.price_formula_recognizer import recognize_price_formula_sections  # noqa: E402
 from app.core.parser.scoring_section_locator import ScoringSection  # noqa: E402
 
-
 VOLUME_CONTEXT_1550 = (
     "四、分值构成(权重)(详见公告中附件) "
     "分技术、商务、价格三个部分分别进行量化评审,每个部分满分均为100分,并按分值合计计算最终量化评审得分。"
@@ -169,9 +168,9 @@ def test_price_formula_per_lot_requires_explicit_full_score():
 # 证据)矛盾或无 inline → 维持 fail-closed(见 task4b I2 护栏)。
 # ---------------------------------------------------------------------------
 
-from app.core.parser.price_formula_recognizer import _resolve_price_score_strict  # noqa: E402
-
 import pytest
+
+from app.core.parser.price_formula_recognizer import _resolve_price_score_strict  # noqa: E402
 
 pytestmark = pytest.mark.scoring
 

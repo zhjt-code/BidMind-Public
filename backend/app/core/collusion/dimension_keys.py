@@ -10,7 +10,6 @@
 
 from __future__ import annotations
 
-
 COLLUSION_DIM_KEYS: tuple[str, ...] = (
     "d1_personnel",
     "d2_company",

@@ -10,8 +10,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from app.core.document_qa.author_spans import grid_rows, line_for_offset, outline_nodes, prose_spans
 from app.core.document_qa.contracts import (
-    paragraph_hash,
     CheckerOutcome,
     CheckerStatus,
     DocumentModel,
@@ -21,8 +21,8 @@ from app.core.document_qa.contracts import (
     QaCategory,
     QaCertainty,
     QaSeverity,
+    paragraph_hash,
 )
-from app.core.document_qa.author_spans import grid_rows, line_for_offset, outline_nodes, prose_spans
 from app.core.document_qa.evidence_geom import coerce_bbox, locate_bbox
 from app.core.document_qa.normalizers import normalize_slot_value
 

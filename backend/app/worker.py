@@ -18,9 +18,6 @@ from arq.cron import cron
 from arq.worker import func as arq_func
 from loguru import logger
 
-from app.core.config import settings
-from app.core.redis import REDIS_SETTINGS
-from app.core.middleware import get_request_id
 from app.core.arq_runtime import (
     clear_worker_heartbeat_async,
     generate_worker_id,
@@ -29,6 +26,9 @@ from app.core.arq_runtime import (
     is_project_cancelled_async,
     record_worker_heartbeat_async,
 )
+from app.core.config import settings
+from app.core.middleware import get_request_id
+from app.core.redis import REDIS_SETTINGS
 
 
 def _new_incident_id() -> str:
@@ -63,6 +63,7 @@ else:
 logger.configure(patcher=_log_patcher)
 
 from app.core.log_sink import db_log_sink  # noqa: E402
+
 logger.add(db_log_sink, level="WARNING", format="{message}")
 
 
@@ -1199,12 +1200,12 @@ async def shutdown(ctx: dict) -> None:
 # 用 ARQ after_job_end 钩子归还项目份额, 而不是在 _run_with_resource_permit 里包
 # try/finally: 后者会给这个已超复杂度阈值的文件再加一层嵌套。钩子在 job 成功、失败、
 # 被公平机制重排三种收场下都会触发 (已实测), 因此份额不会漏还。
+from app.core.tasks.document_qa_job import document_qa_job  # noqa: E402
+from app.core.tasks.document_qa_verify_task import document_qa_verify_job  # noqa: E402
+from app.core.tasks.express_advance_task import express_advance_job  # noqa: E402
 from app.core.tasks.fairness.project_admission import (  # noqa: E402
     release_project_share_after_job,
 )
-from app.core.tasks.express_advance_task import express_advance_job  # noqa: E402
-from app.core.tasks.document_qa_verify_task import document_qa_verify_job  # noqa: E402
-from app.core.tasks.document_qa_job import document_qa_job  # noqa: E402
 
 
 class WorkerSettings:

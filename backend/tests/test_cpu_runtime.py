@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -115,9 +115,6 @@ def test_cgroup_v2_unlimited_returns_none(tmp_path):
         cpu_runtime, "_read_cgroup_v2_cores", wraps=cpu_runtime._read_cgroup_v2_cores
     ):
         # 直接调底层函数测试 v2 解析逻辑
-        original_paths = [
-            cpu_runtime.Path("/sys/fs/cgroup/cpu.max"),
-        ]
         # 替换 candidates 列表过于侵入, 直接验证 'max' 解析返回 None
         # 通过临时 patch Path.is_file + read_text 来模拟
         with patch.object(cpu_runtime.Path, "is_file", return_value=True), \

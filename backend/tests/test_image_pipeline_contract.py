@@ -1,24 +1,24 @@
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
-from contextlib import asynccontextmanager
 
 import pytest
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
+from app.core.collusion.analyzer import CollusionAnalyzer
 from app.core.parser.image_extractor import (
     IMAGE_EVIDENCE_MARKER,
+    ExtractedImage,
     is_annotation_chunk_content,
     is_evidence_chunk_content,
     is_image_related_chunk_content,
 )
-from app.core.collusion.analyzer import CollusionAnalyzer
 from app.core.retriever.semantic_retriever import SearchResult, SemanticRetriever
 from app.core.tasks import process_task as process_task_module
 from app.core.tasks.process_task import _get_document_image_dir
-from app.core.parser.image_extractor import ExtractedImage
 from app.core.writer.material_content_extractor import MaterialContentExtractor
 from app.models.chunk import Chunk
 from app.models.document import DocumentType

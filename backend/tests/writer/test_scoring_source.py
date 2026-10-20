@@ -18,12 +18,12 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+import pytest
+
+import app.core.writer.scoring_source as scoring_source  # noqa: E402
 from app.core.extractor.scoring.scoring_extractor import ScoringStructureOutcome  # noqa: E402
 from app.core.writer.scoring_constants import SCORING_AUTHORITY_SOURCE  # noqa: E402
 from app.schemas.requirement import ExtractedScoringItem  # noqa: E402
-import app.core.writer.scoring_source as scoring_source  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

@@ -9,13 +9,13 @@
 from __future__ import annotations
 
 from app.core.extractor.scoring.ledger.contracts import (
+    LEDGER_TOLERANCE,
+    SCOPE_SENTINEL_LOTS,
     Applicability,
     BasisLevel,
-    LEDGER_TOLERANCE,
     LeafIntegrityEvidence,
     LedgerReport,
     LedgerStatus,
-    SCOPE_SENTINEL_LOTS,
     ScopedReport,
 )
 

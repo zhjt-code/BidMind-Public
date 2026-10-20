@@ -22,13 +22,13 @@ from app.core.extractor.scoring.extraction_observability import (
     log_extraction_summary,
     summarize_diagnostics,
 )
+from app.core.extractor.scoring.score_totals import verify_score_totals
 from app.core.extractor.scoring.scoring_facts import build_scoring_fact_set
 from app.core.extractor.scoring.scoring_outcome import ScoringStructureOutcome
 from app.core.extractor.scoring.scoring_progress import emit_scoring_progress
 from app.core.extractor.scoring.scoring_rescue_integration import (
     ScoringRescueIntegrationResult,
 )
-from app.core.extractor.scoring.score_totals import verify_score_totals
 from app.core.extractor.scoring.vlm.rescue_rounds import (
     RescueChannelNotes,
     RescueRoundsRequest,

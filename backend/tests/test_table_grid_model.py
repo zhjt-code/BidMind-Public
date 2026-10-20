@@ -14,12 +14,12 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.column_role_inference import (  # noqa: E402
     validate_name_rule_orientation,
 )
 from app.core.parser.table_grid_model import extract_column_structure  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

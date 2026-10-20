@@ -11,12 +11,12 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.xml_compat import sanitize_xml_compatible_text
 from app.core.writer.identity_image_layout import (
     IdentityImageLayout,
     IdentityImageSlot,
 )
 from app.core.writer.image_node_affinity import is_exclusive_image
+from app.core.xml_compat import sanitize_xml_compatible_text
 
 _IDENTITY_CARD_WIDTH_MM = 78
 

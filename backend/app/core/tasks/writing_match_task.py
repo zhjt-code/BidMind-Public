@@ -34,8 +34,8 @@ async def run_writing_match_task(
  reset_reviewed_bindings: 用户显式"重置审核并重新匹配"，清空全部绑定。
  默认 False，仅重算 suggested，保留人工 confirmed 与 rejected。
  """
-    from app.core.tasks import update_heartbeat
     from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled
+    from app.core.tasks import update_heartbeat
 
     task_name = get_writing_match_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化")

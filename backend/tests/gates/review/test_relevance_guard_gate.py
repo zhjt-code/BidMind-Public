@@ -3,8 +3,9 @@
 覆盖：四档 x 3 边界 + relevance=None + is_mandatory 翻转 = 14 tests。
 """
 
-import pytest
 from types import SimpleNamespace
+
+import pytest
 
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.review.relevance_guard import RelevanceGuardGate

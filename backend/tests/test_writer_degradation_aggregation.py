@@ -11,7 +11,6 @@ os.environ.setdefault(
 )
 
 from app.core.observability.degradation_aggregator import (
-    DegradationAggregator,
     clear_aggregator,
     get_aggregator,
     record_degradation,

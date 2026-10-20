@@ -17,9 +17,9 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.chunk import Chunk
-from app.core.config import settings
 from app.core.collusion.knowledge_base import is_known_normal_similarity
+from app.core.config import settings
+from app.models.chunk import Chunk
 
 
 @dataclass

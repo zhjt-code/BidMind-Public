@@ -1,14 +1,15 @@
-import numpy as np
 import asyncio
+
+import numpy as np
 import pytest
 
+import app.core.extractor.tender_extractor_parts.candidate_gate as candidate_gate
+import app.core.vectorizer.encode_gate as encode_gate
 from app.core.extractor.tender_extractor_parts.candidate_gate import (
     CandidateEmbeddingBuffer,
     build_candidate_groups,
     partition_requirements_by_candidates,
 )
-import app.core.extractor.tender_extractor_parts.candidate_gate as candidate_gate
-import app.core.vectorizer.encode_gate as encode_gate
 from app.schemas.requirement import ExtractedRequirement
 
 

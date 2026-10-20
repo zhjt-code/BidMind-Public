@@ -21,16 +21,16 @@ os.environ.setdefault("LOG_LEVEL", "WARNING")
 os.environ.setdefault("JWT_SECRET_KEY", "test-only-secret-key-not-for-prod")
 os.environ.setdefault("ADMIN_PASSWORD", "<TEST_PASSWORD>")
 
-from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
-from app.core.parser import ChunkPlanner  # noqa: E402
-from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks  # noqa: E402
-from app.core.extractor.scoring.score_totals import verify_score_totals  # noqa: E402
-from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
+import pytest
+
 from app.core.extractor.scoring.ledger.extractor_bridge import (  # noqa: E402
     observe_scoring_ledger_shadow,
 )
-
-import pytest
+from app.core.extractor.scoring.score_totals import verify_score_totals  # noqa: E402
+from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
+from app.core.parser import ChunkPlanner  # noqa: E402
+from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
+from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks  # noqa: E402
 
 pytestmark = pytest.mark.scoring
 

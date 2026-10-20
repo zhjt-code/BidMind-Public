@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from app.core.filename import sanitize_filename, resolve_within_dir, build_export_filename
+from app.core.filename import build_export_filename, resolve_within_dir, sanitize_filename
 
 
 class TestSanitizeFilename:

@@ -17,24 +17,26 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.parser.table_stitcher import (  # noqa: E402
-    render_stitched_table_markdown,
-    stitch_cross_page_tables,
-)
-from app.core.parser.scoring_section_locator import locate_scoring_sections  # noqa: E402
-from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
+import pytest
+
 from app.core.extractor.scoring.score_totals import verify_score_totals  # noqa: E402
-from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
 from app.core.extractor.scoring.scoring_extractor import (  # noqa: E402
     backfill_source_pages,
     normalize_score_weight,
 )
 from app.core.extractor.scoring.scoring_identity import build_scoring_identity  # noqa: E402
+from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
 from app.core.parser import ChunkPlanner  # noqa: E402
+from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
 from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks  # noqa: E402
-from app.core.parser.scoring_section_locator import ScoringSection  # noqa: E402
-
-import pytest
+from app.core.parser.scoring_section_locator import (
+    ScoringSection,  # noqa: E402
+    locate_scoring_sections,  # noqa: E402
+)
+from app.core.parser.table_stitcher import (  # noqa: E402
+    render_stitched_table_markdown,
+    stitch_cross_page_tables,
+)
 
 pytestmark = pytest.mark.scoring
 

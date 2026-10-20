@@ -15,16 +15,16 @@
 
 import asyncio
 from typing import Any, Optional
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import async_session_factory
-from app.models.project import Project, ProjectStatus
-from app.models.document import Document, DocumentType
 from app.core.extractor.tender_extractor import get_tender_extractor
-from app.core.observability.task_observation import observe_task, TaskFlow
 from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
+
 # 步骤/阶段契约的唯一同源(与状态接口 steps[]、前端步骤映射共用)。
 # normalize_extract_heartbeat_stage 在此再导出, 保持既有调用方 import 路径不变。
 from app.core.tasks.extract_progress import (  # noqa: F401
@@ -33,6 +33,8 @@ from app.core.tasks.extract_progress import (  # noqa: F401
     normalize_extract_heartbeat_stage,
 )
 from app.core.tasks.extract_progress_generation import ExtractProgressGeneration
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus
 
 # 心跳 stage 字面量, 取自契约以避免与 EXTRACT_STAGE_WEIGHTS 漂移。
 # mandatory_coverage 阶段由 TenderExtractor 在合并前经 progress_callback 发射。
@@ -142,11 +144,13 @@ async def run_extract_task(
         run_id / generation_number: ARQ 位置参数兼容拆分
     """
     # 延迟导入避免循环依赖
-    from app.core.tasks import update_heartbeat
     from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled
+    from app.core.tasks import update_heartbeat
     from app.core.tasks.cancellation import make_project_cancel_check
     from app.core.tasks.extract_progress_generation import (
         ExtractProgressGeneration as _ExtractProgressGeneration,
+    )
+    from app.core.tasks.extract_progress_generation import (
         bind_extract_generation,
     )
     

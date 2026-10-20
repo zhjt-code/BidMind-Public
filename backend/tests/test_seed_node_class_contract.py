@@ -11,7 +11,6 @@ if str(_scripts) not in sys.path:
 
 from seed_llm_registry import ALL_NODES  # type: ignore[import-not-found]
 
-
 _VALID = frozenset({"mechanical", "judgment"})
 
 

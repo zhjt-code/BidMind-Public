@@ -28,7 +28,6 @@ from app.schemas.collusion import (
     normalize_finding_list_strict,
 )
 
-
 FLATTENED_LIST_5_FIELDS = [
     "summary: 发现两份投标文件中存在同名同角色的关键人员。",
     "detail: 在文档bid_document2.pdf (doc_id=981) 和 bid_document1.pdf 中均出现",

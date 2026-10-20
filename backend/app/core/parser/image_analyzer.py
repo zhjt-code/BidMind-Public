@@ -8,11 +8,12 @@
   fitz提取图片 → ImageAnalyzer.analyze_images() → VL模型识别 → visual_content
 """
 
-import base64
 import asyncio
+import base64
 import time
 from pathlib import Path
-from typing import Optional, Literal, TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, Optional
+
 from loguru import logger
 
 from app.core.parser.image_extractor import ExtractedImage

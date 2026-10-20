@@ -10,10 +10,8 @@ from types import SimpleNamespace
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
-from app.core.parser.scoring_table_detector import (  # noqa: E402
-    analyze_scoring_table_rows,
-    looks_like_operational_assessment,
-)
+import pytest
+
 from app.core.extractor.scoring.operational_assessment import (  # noqa: E402
     assessment_pages_from_chunks,
     item_is_suspected_assessment,
@@ -22,10 +20,12 @@ from app.core.extractor.scoring.operational_assessment import (  # noqa: E402
 from app.core.extractor.scoring.scoring_item_metadata import (  # noqa: E402
     build_scoring_item_metadata,
 )
+from app.core.parser.scoring_table_detector import (  # noqa: E402
+    analyze_scoring_table_rows,
+    looks_like_operational_assessment,
+)
 from app.schemas.requirement import ExtractedScoringItem  # noqa: E402
 from app.services.writing.scoring_report import build_scoring_report_payload  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

@@ -37,11 +37,6 @@ from typing import TYPE_CHECKING, Any, Optional
 
 from loguru import logger
 
-from app.core.writer.fixed_template_contract import (
-    fixed_template_review_gate,
-    has_verbatim_source,
-    resolve_fixed_template_source,
-)
 from app.core.writer.composer.fixed_template_material_fill import (
     append_fixed_template_material_facts,
 )
@@ -53,6 +48,11 @@ from app.core.writer.fixed_template.features import (
     is_generic_template_requirement,
 )
 from app.core.writer.fixed_template.ownership import select_owner_node
+from app.core.writer.fixed_template_contract import (
+    fixed_template_review_gate,
+    has_verbatim_source,
+    resolve_fixed_template_source,
+)
 from app.core.writer.image_node_affinity import filter_images_for_node
 from app.core.writer.material_consumption_trace import build_consumption_trace
 from app.core.writer.numbering import format_number_for_depth, strip_existing_number

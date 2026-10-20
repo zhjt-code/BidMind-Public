@@ -14,7 +14,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.writing_render_artifact import WritingRenderArtifact
 from app.models.writing_section_draft import WritingSectionDraft
 
-
 _BINDING_CHANGED_REASON = "绑定已变更，请重新生成章节"
 
 

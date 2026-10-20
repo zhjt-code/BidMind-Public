@@ -13,7 +13,6 @@
 
 from __future__ import annotations
 
-from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -21,7 +20,7 @@ import pytest
 from app.core.arq_runtime import ProjectCancelledError
 from app.core.writer import material_matcher as material_matcher_mod
 from app.core.writer.material_matcher import MaterialMatcher
-from app.models.writing_binding import BindingStatus, BindingType
+from app.models.writing_binding import BindingType
 
 
 def _make_matcher(db_mock) -> MaterialMatcher:

@@ -1,11 +1,11 @@
 from tests.synthetic_data import synthetic_text
+
 """OCR 后处理器单元测试
 
 覆盖: 证照字段抽取、文档类型推断、输出长度控制、空输入处理。
 """
 
 import os
-import pytest
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 

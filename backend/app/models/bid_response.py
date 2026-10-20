@@ -1,8 +1,10 @@
 """投标响应模型"""
 
-from sqlalchemy import Column, String, Integer, ForeignKey, Enum, Text, JSON
-from sqlalchemy.orm import relationship
 import enum
+
+from sqlalchemy import JSON, Column, Enum, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 

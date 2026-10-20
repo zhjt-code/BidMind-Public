@@ -13,12 +13,11 @@
 
 from __future__ import annotations
 
+import importlib.util
 import os
-from pathlib import Path
 import sys
 import types
-import importlib.util
-
+from pathlib import Path
 
 # 测试环境最小化配置，避免导入 Settings 时报缺失
 os.environ.setdefault(

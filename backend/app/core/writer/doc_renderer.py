@@ -19,18 +19,29 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.writer.bid_format_defaults import (
+    BODY_FIRST_INDENT_PT,
+    BODY_SIZE_PT,
+    COLOR_BLACK,
+    FONT_BODY,
+    FONT_HEADER_FOOTER,
+    FONT_HEADING,
+    HEADER_FOOTER_SIZE_PT,
+    HEADING_SPECS,
+    MARGIN_BOTTOM_MM,
+    MARGIN_LEFT_MM,
+    MARGIN_RIGHT_MM,
+    MARGIN_TOP_MM,
+    PAGE_HEIGHT_MM,
+    PAGE_WIDTH_MM,
+    TABLE_BODY_SIZE_PT,
+    TABLE_HEADER_BOLD,
+    TABLE_HEADER_SIZE_PT,
+    merge_with_profile,
+    normalize_line_spacing,
+)
 from app.core.writer.binding_consumption_policy import (
     select_confirmed_material_bindings,
-)
-from app.core.writer.bid_format_defaults import (
-    HEADING_SPECS, BODY_SIZE_PT, BODY_FIRST_INDENT_PT,
-    FONT_BODY, FONT_HEADING, FONT_HEADER_FOOTER,
-    COLOR_BLACK, LINE_SPACING,
-    PAGE_WIDTH_MM, PAGE_HEIGHT_MM,
-    MARGIN_TOP_MM, MARGIN_BOTTOM_MM, MARGIN_LEFT_MM, MARGIN_RIGHT_MM,
-    TABLE_HEADER_SIZE_PT, TABLE_BODY_SIZE_PT, TABLE_HEADER_BOLD,
-    HEADER_FOOTER_SIZE_PT, merge_with_profile,
-    normalize_line_spacing,
 )
 from app.core.writer.numbering import (
     compute_chapter_numbers,
@@ -39,7 +50,6 @@ from app.core.writer.numbering import (
     strip_existing_number,
     strip_existing_number_strict,
 )
-from app.core.xml_compat import sanitize_xml_compatible_text
 from app.core.writer.section_composer import sanitize_residual_placeholders
 from app.core.writer.section_structure import (
     SectionBlock,
@@ -51,12 +61,12 @@ from app.core.writer.verbatim_section_renderer import (
     render_verbatim_preview_html,
     write_verbatim_docx_section,
 )
-from app.models.writing_material_image import WritingMaterialImage, ImageType
-from app.models.writing_binding import WritingBinding, BindingType
+from app.core.xml_compat import sanitize_xml_compatible_text
+from app.models.writing_binding import BindingType, WritingBinding
+from app.models.writing_material_image import WritingMaterialImage
 from app.models.writing_outline_node import WritingOutlineNode
 from app.models.writing_render_profile import WritingRenderProfile
 from app.models.writing_section_draft import WritingSectionDraft
-
 
 # ---------------------------------------------------------------------------
 # fix: htmldocx 按首行列数创建 python-docx Table，后续行列数超出
@@ -72,7 +82,7 @@ def _normalize_table_html_for_docx(html: str) -> str:
     - 统一行列数，避免后续行列数 > 首行
     返回可安全交给 HtmlToDocx 的 HTML 字符串。
     """
-    from bs4 import BeautifulSoup, Tag
+    from bs4 import BeautifulSoup
 
     soup = BeautifulSoup(html, "html.parser")
     tables = soup.find_all("table")
@@ -201,8 +211,8 @@ def _set_cjk_font(rpr_or_style_element, font_name: str, font_name_ascii: str = "
 
 def _set_font_color(rpr_element, hex_color: str):
     """设置 run properties 的字体颜色"""
-    from docx.oxml.ns import qn
     from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
 
     color_el = rpr_element.find(qn("w:color"))
     if color_el is None:
@@ -232,8 +242,8 @@ def _set_outline_level(style_element, level: int) -> None:
     职责: 让自定义标题样式可被 Word/WPS「自动目录」按大纲级别收集。
     不做: 不插入 TOC 域、不计算页码、不改标题文案。
     """
-    from docx.oxml.ns import qn
     from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
 
     pPr = style_element.find(qn("w:pPr"))
     if pPr is None:
@@ -374,7 +384,7 @@ class DocRenderer:
         """渲染完整 Word 文档"""
         try:
             from docx import Document as DocxDocument
-            from docx.shared import Pt, Mm
+            from docx.shared import Mm, Pt
         except ImportError:
             logger.error("python-docx 未安装，无法渲染 Word 文档")
             raise RuntimeError("python-docx 未安装")
@@ -1040,6 +1050,7 @@ class DocRenderer:
         统一上限 160mm,下限 60mm
         """
         from docx.shared import Mm
+
         from app.models.writing_material_image import ImageType
 
         MAX_W = Mm(160)
@@ -1071,8 +1082,8 @@ class DocRenderer:
         consumed_image_keys: Optional[dict[str, str]] = None,
     ) -> None:
         """扫描文档中的图片占位段落,替换为实际图片"""
-        from docx.shared import Mm
         from docx.enum.text import WD_ALIGN_PARAGRAPH
+
         from app.core.writer.image_node_affinity import filter_images_for_node
 
         figure_pattern = re.compile(
@@ -1264,8 +1275,8 @@ class DocRenderer:
         - 表格字体和大小
         - 清理多余空段落
         """
-        from docx.oxml.ns import qn
         from docx.oxml import OxmlElement
+        from docx.oxml.ns import qn
 
         heading_styles = {"BM_H1", "BM_H2", "BM_H3", "BM_H4", "BM_H5"}
         list_styles = {"List Bullet", "List Number"}
@@ -1448,8 +1459,8 @@ class DocRenderer:
         self, doc: object, cfg: dict, Pt: type,
     ) -> None:
         """设置页眉页脚(含字体和页码)"""
-        from docx.oxml.ns import qn
         from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.oxml.ns import qn
 
         header_text = sanitize_xml_compatible_text(cfg.get("header_text"))
         footer_text = sanitize_xml_compatible_text(cfg.get("footer_text"))

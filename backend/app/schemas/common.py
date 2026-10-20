@@ -3,7 +3,8 @@
 定义 API 响应格式、分页参数等通用数据结构。
 """
 
-from typing import Generic, TypeVar, Optional, Any
+from typing import Any, Generic, Optional, TypeVar
+
 from pydantic import BaseModel, Field
 
 T = TypeVar("T")

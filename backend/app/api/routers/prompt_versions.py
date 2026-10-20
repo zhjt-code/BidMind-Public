@@ -5,16 +5,21 @@
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import (
+    PaginationParams,
+    get_pagination,
+    handle_service_error,
+    require_admin,
+)
 from app.core.database import get_db
+from app.core.exceptions import ServiceError
 from app.models.user import User
 from app.schemas.common import ApiResponse
-from app.api.dependencies import require_admin, get_pagination, handle_service_error, PaginationParams
 from app.services.prompt_service import PromptService
-from app.core.exceptions import ServiceError
 
 router = APIRouter(prefix="/admin/prompts", tags=["Prompt管理"])
 

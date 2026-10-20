@@ -4,30 +4,30 @@
 """
 
 import asyncio
-from typing import Optional, Any
+from typing import Any, Optional
 
-from sqlalchemy import select, func
-from sqlalchemy.orm import selectinload
-from sqlalchemy.ext.asyncio import AsyncSession
 from loguru import logger
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
-from app.models.project import Project, ProjectStatus, ProjectType
-from app.models.document import Document
-from app.models.user import User, UserRole
-from app.models.vector_job_state import VectorJobState
-from app.schemas.project import ProjectCreate, ProjectUpdate
-from app.core.exceptions import NotFoundError, ForbiddenError, ServiceError
-from app.core.tasks import cancel_task, get_task, clear_collusion_cache
-from app.services.review_service import clear_review_cache
-from app.services.audit_service import audit_log
 from app.core.ai import release_project_binding
 from app.core.arq_runtime import (
     abort_arq_job_best_effort,
     mark_project_cancelled_async,
 )
+from app.core.exceptions import ForbiddenError, NotFoundError, ServiceError
 from app.core.redis import get_redis_pool
+from app.core.tasks import cancel_task, clear_collusion_cache, get_task
+from app.models.document import Document
+from app.models.project import Project, ProjectStatus, ProjectType
+from app.models.user import User, UserRole
+from app.models.vector_job_state import VectorJobState
+from app.schemas.project import ProjectCreate, ProjectUpdate
+from app.services.audit_service import audit_log
 from app.services.project_log_snapshot_service import backfill_project_log_snapshot
 from app.services.project_task_cleanup import ProjectWritingTaskCleanup
+from app.services.review_service import clear_review_cache
 
 
 class ProjectService:

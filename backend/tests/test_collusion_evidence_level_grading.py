@@ -9,7 +9,6 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import pytest
 
@@ -21,15 +20,13 @@ from app.core.collusion.analyzer import (
     _normalize_dim_evidence_levels,
 )
 from app.schemas.collusion import (
-    DIMENSION_EVIDENCE_LEVEL_CONTRACT,
     EVIDENCE_LEVEL_CORRECTED_FLAG,
-    LLMCompareResult,
+    LLMBusinessResult,
     LLMEntityResult,
     LLMTextPatternResult,
-    LLMBusinessResult,
     coerce_evidence_level_for_dim,
 )
-
+from tests.synthetic_data import synthetic_text
 
 # ---------------------------------------------------------------------------
 # T1. D1 强一级（score=0.6, cert=0.8, level="first"）→ HIGH

@@ -39,7 +39,6 @@ from app.models.bid_response import BidResponse
 from app.models.requirement import Requirement
 from app.models.review_result import ComplianceLevel, RiskLevel
 
-
 # ---------------------------------------------------------------------------
 # A. 模块级符号导出（拆分后 reviewer.py 必须保留这些符号供外部 patch / import）
 # ---------------------------------------------------------------------------

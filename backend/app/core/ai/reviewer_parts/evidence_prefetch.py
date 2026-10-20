@@ -26,6 +26,7 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.ai.reviewer_parts.evidence_ledger.contracts import EvidenceLedger
 from app.core.ai.reviewer_parts.evidence_pack_budget import (
     SECTION_CROSS,
     SECTION_IMAGE,
@@ -43,6 +44,7 @@ from app.core.ai.reviewer_parts.evidence_policy import (
     select_facet_covered_rows,
     should_search_independently,
 )
+from app.core.config import settings
 from app.core.matcher.requirement_matcher import MatchedPair
 from app.core.retriever.evidence_coverage import EvidenceFacet, build_evidence_facets
 from app.core.retriever.evidence_priors import is_starvation_note
@@ -53,8 +55,6 @@ from app.core.review_contracts import (
     parse_json_list,
     parse_page_numbers,
 )
-from app.core.ai.reviewer_parts.evidence_ledger.contracts import EvidenceLedger
-from app.core.config import settings
 from app.models.project import Project
 
 if TYPE_CHECKING:

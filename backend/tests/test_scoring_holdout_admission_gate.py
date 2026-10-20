@@ -1,10 +1,9 @@
+import pytest
 from backend.scripts.run_scoring_holdout_admission import (
     classify_sample_safety,
     parse_sealed_truth_items,
     summarize_gate,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

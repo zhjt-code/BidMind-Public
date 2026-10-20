@@ -1,7 +1,8 @@
-from tests.synthetic_data import synthetic_text
 from pathlib import Path
 
 import pytest
+
+from tests.synthetic_data import synthetic_text
 
 
 def test_build_pseudonym_is_stable_and_keyed() -> None:

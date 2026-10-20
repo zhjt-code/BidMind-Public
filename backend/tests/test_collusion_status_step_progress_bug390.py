@@ -13,10 +13,8 @@
 
 from __future__ import annotations
 
-import pytest
-
-from app.services.collusion_status_service import compute_step_progresses
 from app.models.project import ProjectStatus
+from app.services.collusion_status_service import compute_step_progresses
 
 
 def _call(**overrides) -> dict:

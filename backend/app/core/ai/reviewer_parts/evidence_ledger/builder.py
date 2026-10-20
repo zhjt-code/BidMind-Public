@@ -18,23 +18,22 @@ from app.core.ai.reviewer_parts.evidence_ledger.contracts import (
     facet_covers_normalized,
     prepare_facet,
 )
+from app.core.ai.reviewer_parts.evidence_ledger.grading import grade_atom
 from app.core.ai.reviewer_parts.evidence_ledger.probe_index import (
     bind_probe_index,
     extend_probe_index,
 )
-from app.core.retriever.material_key import (
-    MATCH_STRONG,
-    canonical_material_key,
-    match_key_in_compact,
-    normalize_material_compact,
-)
-from app.core.ai.reviewer_parts.evidence_ledger.grading import grade_atom
 from app.core.retriever.evidence_coverage import (
     EvidenceFacet,
     build_evidence_facets,
     normalize_text,
 )
 from app.core.retriever.material_inventory import load_material_facts
+from app.core.retriever.material_key import (
+    MATCH_STRONG,
+    match_key_in_compact,
+    normalize_material_compact,
+)
 from app.core.review_contracts import parse_json_list
 from app.models.bid_response_chunk import BidResponseChunk
 from app.models.chunk import Chunk

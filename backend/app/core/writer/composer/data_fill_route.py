@@ -22,13 +22,13 @@ from typing import TYPE_CHECKING, Any, Final, Optional
 from loguru import logger
 
 from app.core.ai.prompt_registry import resolve_runtime_params
-from app.core.writer.material_consumption_trace import build_consumption_trace
 from app.core.writer.composer.clause_directive import build_clause_directives
 from app.core.writer.image_node_affinity import filter_images_for_node
 from app.core.writer.industry_profile_view import (
     PURPOSE_DATA_FILL,
     build_profile_excerpt,
 )
+from app.core.writer.material_consumption_trace import build_consumption_trace
 from app.core.writer.numbering import get_sub_numbering_hint, strip_existing_number
 from app.core.writer.section_structure import normalize_section_html
 from app.core.writer.text_budget import make_priority_shrink_reducer
@@ -65,9 +65,9 @@ def try_data_fill_template(
 
     try:
         from app.core.writer.template_router import (
-            should_use_template,
             match_template,
             render_template,
+            should_use_template,
         )
     except Exception:
         return None
@@ -198,8 +198,8 @@ async def fill_data(
     """
     # 函数级 import 避免循环依赖；同时保留测试 monkeypatch 主模块 settings 引用
     from app.core.writer.section_composer import (
-        ComposePayload,
         _CHARS_PER_TOKEN,
+        ComposePayload,
         get_data_fill_prompt,
         settings,
     )

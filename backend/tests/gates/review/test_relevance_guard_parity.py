@@ -5,16 +5,13 @@ Fix-01 起 reviewer.py ``_apply_relevance_guard`` 已删除，Gate Pipeline 为�
 确保未来任何 Gate 修改都能显式发现语义漂移。
 """
 
-import copy
-import pytest
 from dataclasses import dataclass
-from types import SimpleNamespace
 from typing import Optional
 
-from app.core.ai.gates.base import GateContext
-from app.core.ai.gates.pipeline import GatePipeline
-from app.core.ai.gates.review.relevance_guard import RelevanceGuardGate
+import pytest
 
+from app.core.ai.gates.base import GateContext
+from app.core.ai.gates.review.relevance_guard import RelevanceGuardGate
 
 # ---------------------------------------------------------------------------
 # Minimal stubs that replicate the fields the guard touches

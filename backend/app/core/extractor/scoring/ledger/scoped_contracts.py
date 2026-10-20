@@ -14,8 +14,8 @@ from __future__ import annotations
 # ── 重导出（向后兼容） ─────────────────────────────────────────────────────
 from app.core.extractor.scoring.ledger.contracts import (  # noqa: F401
     Applicability,
-    ScopeIdentity,
     ScopedReport,
+    ScopeIdentity,
 )
 from app.core.extractor.scoring.scoring_facts import ScoringScopeKey  # noqa: F401
 

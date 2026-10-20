@@ -10,12 +10,11 @@
 - 历史空壳信号识别与过滤
 """
 
-from app.core.collusion.analyzer_parts.findings import _extract_structured_findings
 from app.core.collusion.analyzer_parts.dimension_signals import (
     is_hollow_dimension_signal,
     synthesize_dimension_signal_findings,
 )
-from app.core.collusion.analyzer_parts.constants import _DIM_MAP
+from app.core.collusion.analyzer_parts.findings import _extract_structured_findings
 from app.core.collusion.evidence_fusion import EvidenceFusionEngine
 
 
@@ -59,6 +58,7 @@ def test_is_hollow_dimension_signal_detects_legacy_template() -> None:
 def test_view_build_finding_items_filters_hollow_signals() -> None:
     """API 展示层过滤历史空壳信号，保留有实质内容的维度信号。"""
     from types import SimpleNamespace
+
     from app.services.collusion_view_service import build_finding_items
 
     r = SimpleNamespace(

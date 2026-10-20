@@ -21,7 +21,6 @@ from app.core.writer.fixed_template.titles import (
 )
 from app.core.writer.numbering import strip_existing_number
 
-
 _SCORE_SNAPSHOT_TITLE_EXACT = 4
 _SCORE_ALIAS_EXACT = 3
 _SCORE_KEY_MATCH = 2

@@ -9,19 +9,19 @@
 """
 import json
 import re
-from dataclasses import dataclass
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import Optional
 
 from loguru import logger
 
-from app.models.writing_material_image import ImageType
-from app.core.writer.material_matching.material_taxonomy import same_label_group
 from app.core.writer.image_subtype_contract import (
-    normalize_business_subtype,
     NEEDS_REVIEW_SUBTYPE,
     UNKNOWN_SUBTYPE,
+    normalize_business_subtype,
 )
+from app.core.writer.material_matching.material_taxonomy import same_label_group
+from app.models.writing_material_image import ImageType
 
 
 @dataclass

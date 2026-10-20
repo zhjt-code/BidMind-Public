@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from app.core.document_qa.text_shapes import strip_font_subset_prefix
+from app.core.document_qa.author_spans import outline_nodes, prose_blocks
 from app.core.document_qa.contracts import (
     CheckerOutcome,
     CheckerStatus,
@@ -22,7 +22,7 @@ from app.core.document_qa.contracts import (
     QaSeverity,
     QaSpan,
 )
-from app.core.document_qa.author_spans import outline_nodes, prose_blocks
+from app.core.document_qa.text_shapes import strip_font_subset_prefix
 
 CODE = "layout"
 _RULE_CODE = "DOC-LAY-001"

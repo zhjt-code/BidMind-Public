@@ -5,11 +5,12 @@
 使AI审查时能感知PDF中图片附件的存在。
 """
 
-import fitz
 import re as _re
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
+
+import fitz
 from loguru import logger
 
 from app.core.parser.page_image_evidence import (

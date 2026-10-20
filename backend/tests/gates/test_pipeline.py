@@ -1,13 +1,12 @@
 """Tests for GatePipeline."""
 
-import random
 
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.pipeline import GatePipeline
 from app.core.contracts.failure_state import FailureState
+
 from .conftest import (
     AlwaysPassGate,
-    AlwaysRejectGate,
     NotApplicableGate,
     PatchGate,
 )

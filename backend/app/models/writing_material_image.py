@@ -5,8 +5,10 @@
 """
 
 import enum
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, Enum
-from sqlalchemy.orm import relationship, backref
+
+from sqlalchemy import Column, Enum, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import backref, relationship
+
 from app.models.base import BaseModel
 
 

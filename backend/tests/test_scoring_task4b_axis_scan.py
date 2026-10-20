@@ -11,8 +11,8 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any
 from types import SimpleNamespace
+from typing import Any
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 os.environ.setdefault("LOG_LEVEL", "WARNING")
@@ -20,20 +20,19 @@ os.environ.setdefault("JWT_SECRET_KEY", "test-only-secret-key-not-for-prod")
 os.environ.setdefault("ADMIN_PASSWORD", "<TEST_PASSWORD>")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
+from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
 from app.core.parser import ChunkPlanner  # noqa: E402
 from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
 from app.core.parser.price_formula_recognizer import (  # noqa: E402
     recognize_price_formula_sections,
 )
 from app.core.parser.scoring_axis_chunk_source import (  # noqa: E402
-    AxisScanResult,
     PriceFormulaContext,
     scan_transposed_axis_chunks,
 )
-from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
 from app.core.parser.scoring_section_locator import ScoringSection  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 
@@ -331,6 +330,7 @@ def test_detect_volume_title_ambiguity_returns_none() -> None:
 def test_c1_collect_text_formula_chunk_config_parameter_count() -> None:
     """C1: collect_text_formula_scoring_chunks 参数数量 ≤ 6（TextFormulaChunkConfig 收敛）。"""
     import inspect
+
     from app.core.parser.scoring_chunk_sources import collect_text_formula_scoring_chunks
 
     sig = inspect.signature(collect_text_formula_scoring_chunks)

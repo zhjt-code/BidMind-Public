@@ -19,14 +19,14 @@ from app.models.project import Project, ProjectType
 from app.models.task_run import TaskRun, TaskRunStatus, freeze_completed_duration
 from app.models.user import User, UserRole
 from app.models.writing_material import WritingMaterial
+from app.models.writing_material_chunk import WritingMaterialChunk
+from app.models.writing_material_image import WritingMaterialImage
 from app.services.retry.failure_reason_resolver import (
     PersistedFailureSources,
     load_persisted_failure_sources,
     pick_failure_reason,
 )
 from app.services.retry.node_completion_gate import resolve_node_completion
-from app.models.writing_material_chunk import WritingMaterialChunk
-from app.models.writing_material_image import WritingMaterialImage
 
 
 @dataclass(frozen=True)
@@ -1127,7 +1127,7 @@ class RetryService:
         await self._get_project_or_raise(project_id, user)
         spec = self._spec(self.NODE_WRITING_RENDER)
         task_name = self._generic_task_name(self.NODE_WRITING_RENDER, project_id, None)
-        run = await self.begin_attempt(
+        await self.begin_attempt(
             project_id=project_id,
             node_key=self.NODE_WRITING_RENDER,
             user_id=user.id,

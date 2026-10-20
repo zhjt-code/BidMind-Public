@@ -16,7 +16,6 @@ from loguru import logger
 
 from app.core.config import settings
 
-
 _PROCESS_WORKER_ROLE = "process"
 _PRELOAD_PROBE_TEXT = "模型预热"
 _DEFAULT_TIMEOUT_SEC = 180.0

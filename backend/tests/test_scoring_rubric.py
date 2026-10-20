@@ -20,9 +20,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pytest
 
 from app.core.ai.reviewer_parts.scoring_rubric import (
+    build_rule_assessments_prompt_block,
     normalize_rule_assessments,
     reconcile_estimated_score,
-    build_rule_assessments_prompt_block,
 )
 
 pytestmark = pytest.mark.scoring

@@ -17,16 +17,7 @@ from loguru import logger
 
 from app.core.ai.ai_factory import get_review_client
 from app.core.ai.input_guard import retry_on_input_too_long_400
-from app.core.config import get_collusion_extract_timeout
-from app.core.ai.prompt_registry import resolve_user_template, resolve_system_prompt
-from app.core.collusion.prompts import (
-    COLLUSION_INDUSTRY_SIGNAL_PROMPT,
-    COLLUSION_INDUSTRY_PROFILE_PROMPT_V2,
-)
-from app.core.collusion.system_prompts import (
-    COLLUSION_INDUSTRY_SIGNAL_SYSTEM_PROMPT,
-    COLLUSION_INDUSTRY_PROFILE_SYSTEM_PROMPT,
-)
+from app.core.ai.prompt_registry import resolve_system_prompt, resolve_user_template
 from app.core.collusion.industry_profile_context import (
     IndustryProfileContextInput,
     assess_industry_signal_adequacy,
@@ -35,6 +26,15 @@ from app.core.collusion.industry_profile_context import (
     build_profile_generation_payload,
     extract_deterministic_industry_signals,
 )
+from app.core.collusion.prompts import (
+    COLLUSION_INDUSTRY_PROFILE_PROMPT_V2,
+    COLLUSION_INDUSTRY_SIGNAL_PROMPT,
+)
+from app.core.collusion.system_prompts import (
+    COLLUSION_INDUSTRY_PROFILE_SYSTEM_PROMPT,
+    COLLUSION_INDUSTRY_SIGNAL_SYSTEM_PROMPT,
+)
+from app.core.config import get_collusion_extract_timeout
 from app.schemas.collusion import LLMIndustryProfileResult, LLMIndustrySignalResult
 
 

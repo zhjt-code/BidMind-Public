@@ -3,31 +3,31 @@
 提供启动审查、查询状态、获取结果、下载报告等 API。
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.responses import StreamingResponse
-from sqlalchemy.ext.asyncio import AsyncSession
-from loguru import logger
 from io import BytesIO
 from urllib.parse import quote
-from pydantic import BaseModel
 
-from app.core.database import get_db
-from app.models.user import User
-from app.models.project import ProjectStatus
-from app.schemas.review import (
-    ReviewResultResponse,
-    ReviewSummaryResponse,
-    ReviewResultListResponse,
-    ReviewStatus,
-)
-from app.schemas.common import ApiResponse
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
+from loguru import logger
+from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.api.dependencies import get_current_user, handle_service_error, project_log_context
-from app.services.review_service import ReviewService
+from app.core.database import get_db
 from app.core.exceptions import ServiceError
 from app.core.tasks import dispatch_background_job, get_task_heartbeat
-from app.core.tasks.extract_task import get_extract_task_name, run_extract_task
+from app.core.tasks.extract_task import run_extract_task
 from app.core.tasks.process_task import get_process_task_name, run_process_task
 from app.core.tasks.review_task import run_review_task
+from app.models.project import ProjectStatus
+from app.models.user import User
+from app.schemas.common import ApiResponse
+from app.schemas.review import (
+    ReviewResultListResponse,
+    ReviewResultResponse,
+    ReviewStatus,
+    ReviewSummaryResponse,
+)
 from app.services.flow_retry_service import (
     REVIEW_ARQ_FUNCTION_BY_NODE,
     REVIEW_RETRY_SPECS,
@@ -41,7 +41,7 @@ from app.services.flow_retry_service import (
     latest_review_task_run,
     mark_review_task_run_by_task_name,
 )
-
+from app.services.review_service import ReviewService
 
 router = APIRouter(
     prefix="/projects/{project_id}",
@@ -255,7 +255,8 @@ async def retry_review(
                 raise ServiceError("文档处理重试需要 target_id", status_code=400)
             task_name = get_process_task_name(target_id)
             arq_function = "process_document_job"
-            fallback_factory = lambda: run_process_task(project_id, target_id)
+            def fallback_factory():
+                return run_process_task(project_id, target_id)
             task_type = "process"
             arq_args = (project_id, target_id)
         elif spec.node_key == "requirement_extract":
@@ -263,14 +264,14 @@ async def retry_review(
 
             task_name, generation, arq_args = build_extract_dispatch_args(project_id)
             arq_function = "extract_requirements_job"
-            fallback_factory = lambda: run_extract_task(
-                project_id, generation=generation
-            )
+            def fallback_factory():
+                return run_extract_task(project_id, generation=generation)
             task_type = "extract"
         else:
             task_name = f"review_project_{project_id}"
             arq_function = "review_project_job"
-            fallback_factory = lambda: run_review_task(project_id)
+            def fallback_factory():
+                return run_review_task(project_id)
             task_type = "review"
             arq_args = (project_id,)
 

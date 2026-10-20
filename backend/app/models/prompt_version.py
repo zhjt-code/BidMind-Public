@@ -3,7 +3,7 @@
 支持 Prompt 模板的版本化管理：每个 purpose 可有多个版本，仅一个 is_active。
 """
 
-from sqlalchemy import Column, Integer, String, Text, Boolean, UniqueConstraint
+from sqlalchemy import Boolean, Column, Integer, String, Text, UniqueConstraint
 
 from app.models.base import BaseModel
 

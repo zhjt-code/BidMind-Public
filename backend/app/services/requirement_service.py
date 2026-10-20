@@ -9,17 +9,17 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from loguru import logger
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.exceptions import NotFoundError, ServiceError
-from app.core.extractor.scoring.score_totals import (
-    ScoringTotalsEntry,
-    build_totals_report_payload,
-)
 from app.core.extractor.scoring.operational_assessment import (
     attach_suspected_assessment_payload,
     is_suspected_assessment_meta,
+)
+from app.core.extractor.scoring.score_totals import (
+    ScoringTotalsEntry,
+    build_totals_report_payload,
 )
 from app.core.extractor.scoring.scoring_green_verdict import resolve_scoring_verdict
 from app.core.review_contracts import (
@@ -30,17 +30,9 @@ from app.core.review_contracts import (
 )
 from app.core.tasks import (
     TASK_TERMINAL_STAGES,
-    create_background_task,
     get_extract_task_name,
     is_task_active,
-    mark_task_queued,
     run_extract_task,
-)
-from app.services.liveness.extract_liveness import (
-    extract_heartbeat_is_midstage,
-    inspect_extract_task_liveness,
-    persist_extract_task_dead,
-    should_declare_extract_dead,
 )
 from app.core.tasks.extract_progress import (
     EXTRACT_PROGRESS_STEPS,
@@ -52,6 +44,12 @@ from app.models.requirement import Requirement, RequirementCategory
 from app.models.user import User
 from app.schemas.requirement import RequirementCreate, RequirementUpdate
 from app.services.audit_service import audit_log
+from app.services.liveness.extract_liveness import (
+    extract_heartbeat_is_midstage,
+    inspect_extract_task_liveness,
+    persist_extract_task_dead,
+    should_declare_extract_dead,
+)
 from app.services.project_access import get_project_or_raise
 from app.services.requirement_grouping import group_requirements_for_display
 from app.services.scoring_ledger_report_service import build_scoring_ledger_report

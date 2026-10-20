@@ -14,8 +14,8 @@ from app.core.permissions import check_project_permission
 from app.models.project import Project, ProjectType
 from app.models.user import User
 from app.services.express_flow.run_mode import (
-    ProjectRunMode,
     RUN_MODE_EDITABLE_STATUSES,
+    ProjectRunMode,
 )
 
 

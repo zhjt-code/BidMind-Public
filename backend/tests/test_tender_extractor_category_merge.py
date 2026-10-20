@@ -1,11 +1,11 @@
 """TenderExtractor 分类合并稳态测试"""
 
+import importlib.util
 import json
 import os
-from pathlib import Path
 import sys
 import types
-import importlib.util
+from pathlib import Path
 
 import pytest
 

@@ -12,6 +12,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+pytestmark = pytest.mark.scoring
+
 from app.core.ai.gates.base import GateVerdict
 from app.core.ai.gates.registry import GateRegistry
 from app.core.ai.reviewer_parts.pair_review import try_pre_llm_skip

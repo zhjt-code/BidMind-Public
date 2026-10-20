@@ -1,3 +1,5 @@
+# This contract intentionally imports public symbols to assert compatibility.
+# ruff: noqa: F401
 """Collusion Router 瘦身（R2-6）Phase 1 快照契约测试
 
 锁定以下 6 类契约，作为后续把 17 个非 endpoint 业务函数迁移到
@@ -35,8 +37,8 @@ from app.api.routers.collusion import (
     _build_pair_ref_labels,
     _build_runtime_narrative_summary,
     _collusion_retry_payload,
-    _derive_overall_risk,
     _derive_display_overall_risk,
+    _derive_overall_risk,
     _derive_runtime_project_decision,
     _fractional_progress_from_heartbeat,
     _get_project_or_404,
@@ -75,7 +77,6 @@ from app.schemas.collusion import (
     SuspectedGroup,
     build_pair_id,
 )
-
 
 # ---------------------------------------------------------------------------
 # A. 模块级出口契约（拆分后 router 必须保留这些符号供外部 import / patch）
@@ -464,7 +465,7 @@ class TestSanitizeRulesAnchors:
         assert "甲公司×乙公司" in results.synthesis_summary
 
     def test_E2_empty_parens_stripped(self):
-        """未知 pair_id 替换后产生的空括号 `` 必须被清洗。"""
+        """未知 pair_id 替换后产生的空括号必须被清洗。"""
         results = CollusionResults(
             project_id=1,
             overall_risk="none",
@@ -481,7 +482,8 @@ class TestSanitizeRulesAnchors:
         _sanitize_collusion_results(results)
 
         assert results.investigation_suggestions == ["未知文件对不应留下空括号。"]
-        assert "" not in (results.investigation_suggestions[0] or "")
+        assert "（）" not in (results.investigation_suggestions[0] or "")
+        assert "()" not in (results.investigation_suggestions[0] or "")
 
     def test_E3_nested_attention_items_findings_evidences_sanitized(self):
         """嵌套结构 attention_items / findings.evidences 必须递归清洗。"""

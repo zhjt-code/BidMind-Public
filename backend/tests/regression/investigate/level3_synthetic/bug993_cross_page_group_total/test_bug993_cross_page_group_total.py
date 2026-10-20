@@ -11,6 +11,10 @@ volume_max=15盖到评分项后，确认页按卷校验以15为基准指控正�
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.scoring
+
 from types import SimpleNamespace
 
 from app.core.extractor.scoring.item_group_relation import (

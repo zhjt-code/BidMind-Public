@@ -9,12 +9,11 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://x:x@localhost/x")
 
 import json
 from types import SimpleNamespace
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from app.models.writing_render_profile import WritingRenderProfile
-from app.schemas.writing import RenderProfileParsed
 
 
 class _FakeScalarResult:
@@ -124,6 +123,7 @@ def test_extract_task_contains_cleanup_logic() -> None:
     upsert 测试(上方三个)已覆盖运行时防御。
     """
     import inspect
+
     from app.core.tasks.writing_extract_task import run_writing_extract_task
 
     source = inspect.getsource(run_writing_extract_task)

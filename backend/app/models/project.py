@@ -1,13 +1,15 @@
 """项目模型"""
 
-from typing import TYPE_CHECKING
-from sqlalchemy import Column, String, Enum, Integer, ForeignKey, JSON
-from sqlalchemy.orm import relationship
 import enum
+from typing import TYPE_CHECKING
+
+from sqlalchemy import JSON, Column, Enum, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.user import User
+    pass
 
 
 class ProjectStatus(str, enum.Enum):

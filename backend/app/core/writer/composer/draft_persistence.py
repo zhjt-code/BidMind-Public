@@ -17,16 +17,16 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from html import unescape
-import re
 from typing import TYPE_CHECKING, Optional, Union
 
 from loguru import logger
 from sqlalchemy import select
 
-from app.core.xml_compat import sanitize_xml_compatible_text
 from app.core.writer.composer.length_control import count_plain_text
+from app.core.xml_compat import sanitize_xml_compatible_text
 from app.models.writing_outline_node import OutlineNodeStatus
 from app.models.writing_section_draft import DraftStatus, WritingSectionDraft
 

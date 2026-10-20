@@ -23,7 +23,6 @@ from app.models.writing_material import WritingMaterial
 
 if TYPE_CHECKING:
     from app.core.writer.material_content_extractor import ParseResult
-
     from app.services.writing.material_batch.heartbeat import MaterialBatchHeartbeat
     from app.services.writing.material_service import MaterialService
 
@@ -42,10 +41,11 @@ async def run_postprocess(
     各内部步骤之间无返回值依赖（仅副作用），按原顺序串行执行；
     每个 phase 前重新检查项目取消（与原 ``raise_if_project_cancelled`` 节奏一致）。
     """
+    from sqlalchemy import select
+
     from app.core.arq_runtime import raise_if_project_cancelled
     from app.core.writer.material_tagger import get_material_tagger
     from app.models.writing_outline_node import WritingOutlineNode as _OutlineNode
-    from sqlalchemy import select
 
     # Phase 3.5: 图片记录持久化 + 分类 + 结构化提取
     raise_if_project_cancelled(project_id)

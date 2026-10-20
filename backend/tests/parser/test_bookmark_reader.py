@@ -12,10 +12,8 @@ bookmark_reader 防御测试。
 from pathlib import Path
 
 import fitz
-import pytest
 
 from app.core.parser.bookmark_reader import BookmarkEntry, read_pdf_bookmarks
-
 
 # ---------------------------------------------------------------------------
 # 辅助工厂

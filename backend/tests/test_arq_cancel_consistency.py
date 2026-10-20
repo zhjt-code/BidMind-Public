@@ -13,17 +13,13 @@ from __future__ import annotations
 
 import json
 import sys
-import time
 from pathlib import Path
-from types import SimpleNamespace
-from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.arq_runtime import (  # noqa: E402
-    ARQ_JOB_CANCEL_KEY_PREFIX,
     PROJECT_CANCEL_KEY_PREFIX,
     ProjectCancelledError,
     abort_arq_job_best_effort,
@@ -34,7 +30,6 @@ from app.core.arq_runtime import (  # noqa: E402
     mark_arq_job_cancelled_async,
     mark_project_cancelled_async,
     mark_project_cancelled_sync,
-    raise_if_project_cancelled,
     raise_if_project_cancelled_async,
 )
 from app.core.vectorizer.job_state import upsert_vector_job_state  # noqa: E402

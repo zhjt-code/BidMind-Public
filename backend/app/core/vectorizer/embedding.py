@@ -3,15 +3,15 @@
 使用sentence-transformers和BAAI/bge-m3模型将文本转换为向量表示。
 """
 
-from typing import Optional, Union
 import threading
 import time
+from typing import Optional, Union
+
 import numpy as np
 from loguru import logger
 from sentence_transformers import SentenceTransformer
 
 from app.core.config import settings
-
 
 # 进程级 ONNX 损坏记忆 
 # 职责: 记录"本进程内 ONNX 后端已被验证为损坏", 避免每个新建的 EmbeddingModel
@@ -133,7 +133,7 @@ class EmbeddingModel:
         
         if normalized == "auto":
             if torch.cuda.is_available():
-                logger.info(f"自动检测到CUDA可用，使用GPU加速")
+                logger.info("自动检测到CUDA可用，使用GPU加速")
                 return "cuda"
             _log_cuda_unavailable("auto")
             return "cpu"
@@ -429,7 +429,6 @@ class EmbeddingModel:
 
 
 # 全局模型实例（单例模式，双重检查锁保证线程安全）
-import threading
 
 _embedding_model: Optional[EmbeddingModel] = None
 _embedding_init_lock = threading.Lock()

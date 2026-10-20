@@ -70,7 +70,6 @@ def check_collusion_redlines(
     """串标审查红线检查。"""
     results: list[RedlineResult] = []
 
-    b_fp = _count_false_positive_high(baseline_results)
     c_fp = _count_false_positive_high(candidate_results)
     results.append(RedlineResult(
         name="一级证据误报率",

@@ -15,7 +15,6 @@ from app.core.bid_envelope import BID_PART_LABELS
 from app.core.retriever.evidence_coverage import (
     EvidenceFacet,
     _literal_probes,
-    facet_hit,
     facet_hit_prepared,
     normalize_text,
 )
@@ -25,7 +24,6 @@ from app.core.retriever.material_key import (
     match_key_in_compact,
     normalize_material_compact,
 )
-
 
 # ---------------------------------------------------------------------------
 # PreparedFacet: 分面预规范化，避免热路径重复 normalize

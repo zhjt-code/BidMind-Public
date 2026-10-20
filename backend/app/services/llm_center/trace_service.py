@@ -14,16 +14,16 @@ LLM Center 调试运行 + 执行轨迹 + 追踪模式 + 发布历史 + 归档。
 from __future__ import annotations
 
 import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 from loguru import logger
-from sqlalchemy import select, delete as sa_delete
+from sqlalchemy import delete as sa_delete
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.llm_template_version import LlmTemplateVersion
 from app.models.llm_execution_trace import LlmExecutionTrace
 from app.models.llm_publish_record import LlmPublishRecord
-
+from app.models.llm_template_version import LlmTemplateVersion
 from app.services.llm_center._helpers import _get_node_or_raise
 
 
@@ -46,7 +46,7 @@ class TraceService:
             version = (await self.db.execute(
                 select(LlmTemplateVersion).where(
                     LlmTemplateVersion.node_id == node.id,
-                    LlmTemplateVersion.is_active == True,
+                    LlmTemplateVersion.is_active.is_(True),
                     LlmTemplateVersion.template_role == "system",
                 )
             )).scalar_one_or_none()
@@ -57,7 +57,7 @@ class TraceService:
         user_version = (await self.db.execute(
             select(LlmTemplateVersion).where(
                 LlmTemplateVersion.node_id == node.id,
-                LlmTemplateVersion.is_active == True,
+                LlmTemplateVersion.is_active.is_(True),
                 LlmTemplateVersion.template_role == "user",
             )
         )).scalar_one_or_none()

@@ -32,7 +32,6 @@ from app.core.retriever.evidence_pipeline.query_planner import (
 from app.core.retriever.evidence_priors import CATEGORY_EVIDENCE_PRIORS
 from app.core.retriever.facet_vocab import translate_facet_label
 from app.core.retriever.query_decomposer import (
-    QueryDecomposer,
     _extract_objects,
     _tokenize_for_matching,
 )

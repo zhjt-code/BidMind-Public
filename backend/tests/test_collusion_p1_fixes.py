@@ -11,9 +11,6 @@
 
 from __future__ import annotations
 
-import pytest
-
-
 # ---------------------------------------------------------------------------
 # P1-1 _algorithm_d4_score
 # ---------------------------------------------------------------------------
@@ -274,6 +271,7 @@ class TestSimpleSynthesis:
     def test_no_bid_docs_param(self):
         """P1-4: bid_docs 参数应被删除或变为可选（签名检查）"""
         import inspect
+
         from app.core.collusion.analyzer import _simple_synthesis
         sig = inspect.signature(_simple_synthesis)
         params = list(sig.parameters.keys())

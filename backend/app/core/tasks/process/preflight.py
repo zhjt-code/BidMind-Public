@@ -38,8 +38,8 @@ async def run_preflight(
     """
     # 函数内 import: 避免主模块加载时与 process_task 形成循环依赖
     # 同时确保 monkeypatch 在每次调用时拿到最新的模块属性
-    from app.core.config import settings
     from app.core.arq_runtime import is_project_cancelled
+    from app.core.config import settings
     from app.core.tasks import process_task as ptm
     from app.core.vectorizer.job_state import upsert_vector_job_state
     from app.models.project import ProjectStatus

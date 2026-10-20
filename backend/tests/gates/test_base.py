@@ -1,6 +1,7 @@
 """Tests for Gate base classes."""
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
+
 from .conftest import AlwaysPassGate
 
 

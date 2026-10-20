@@ -11,7 +11,6 @@ from typing import Literal
 
 from app.core.config import settings
 
-
 ResourceType = Literal["default", "process", "llm", "report", "maintenance", "gpu"]
 
 

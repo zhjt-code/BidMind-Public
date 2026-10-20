@@ -6,6 +6,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.scoring
+
 import asyncio
 import json
 import os
@@ -26,7 +30,6 @@ from app.core.extractor.scoring import scoring_reconcile  # noqa: E402
 from app.models.requirement import Requirement, RequirementCategory  # noqa: E402
 from app.schemas.requirement import ExtractedRequirement  # noqa: E402
 from app.services.requirement_grouping import group_requirements_for_display  # noqa: E402
-
 
 # ----------------------------------------------------------------------------
 # 原子条件页码锚定: 模型自报页码必须被原文命中推翻

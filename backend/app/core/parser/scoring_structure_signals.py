@@ -18,8 +18,6 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-from loguru import logger
-
 from app.core.extractor.scoring.score_column_semantics import (
     is_scoring_header_row,
     is_total_row,

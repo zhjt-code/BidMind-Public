@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.registration_signal import RegistrationSignal
 
+
 class AbuseGuardService:
     """设备指纹/IP 风控"""
 

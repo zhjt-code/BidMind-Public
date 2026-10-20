@@ -2,7 +2,6 @@
 
 from app.core.document_qa.checks.toc_check import check_toc
 from app.core.document_qa.contracts import QaHeading, QaTocEntry
-
 from tests.document_qa.conftest import make_model
 
 

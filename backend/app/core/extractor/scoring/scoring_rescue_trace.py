@@ -11,16 +11,13 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-from loguru import logger
-
 from app.core.extractor.scoring.scoring_full_candidate_context import (
-    build_scoring_chunk_scope_trace,
     ScoringChunkScopeTrace,
+    build_scoring_chunk_scope_trace,
 )
-from app.core.extractor.scoring.scoring_grid_payload import payload_from_chunk
 from app.core.extractor.scoring.scoring_scope_contracts import (
-    ScoringScopeExpectation,
     ScopeIdentity,
+    ScoringScopeExpectation,
     ScoringScopeValidation,
     ScoringValidationKind,
 )

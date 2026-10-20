@@ -8,11 +8,13 @@ or file system, keeping the suite fast and deterministic.
 """
 from __future__ import annotations
 
-from unittest.mock import patch
-
 import pytest
 
-from app.core.ai.gates.base import GateContext, GateVerdict
+pytestmark = pytest.mark.scoring
+
+from unittest.mock import patch
+
+from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.review.physical_form_skip import PhysicalFormRequirementSkipGate
 from app.core.extractor.tools.physical_form_classifier import PhysicalFormVerdict
 

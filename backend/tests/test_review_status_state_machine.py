@@ -44,14 +44,12 @@ from app.core.review_contracts import (
     REVIEW_STAGE_EXTRACTING,
     REVIEW_STAGE_FAILED,
     REVIEW_STAGE_PENDING,
-    REVIEW_STAGE_RESULT_READY,
     REVIEW_STAGE_REVIEWING,
 )
 from app.core.tasks import TaskLiveness
 from app.models.project import ProjectStatus
 from app.models.user import UserRole
 from app.services import review_service as review_service_module
-
 
 # ============================================================
 # 通用桩

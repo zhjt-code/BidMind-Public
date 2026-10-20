@@ -2,6 +2,7 @@
 
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.registry import GateRegistry, ab_branch
+
 from .conftest import AlwaysPassGate
 
 

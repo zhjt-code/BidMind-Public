@@ -17,7 +17,9 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.extractor.scoring.scoring_facts import build_scoring_fact_set  # noqa: E402
-from app.core.extractor.scoring.scoring_scope_validator import validate_scoring_fact_set  # noqa: E402
+from app.core.extractor.scoring.scoring_scope_validator import (
+    validate_scoring_fact_set,  # noqa: E402
+)
 
 pytestmark = pytest.mark.scoring
 

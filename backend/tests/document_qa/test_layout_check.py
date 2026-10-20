@@ -13,7 +13,6 @@ from app.core.document_qa.contracts import (
 )
 from app.core.document_qa.model_builder import _build_style_profile
 from app.core.document_qa.region_text import KIND_BODY, KIND_FORMULA, KIND_TABLE
-
 from tests.document_qa.conftest import make_line, make_model, make_region, with_regions
 
 _BODY = (

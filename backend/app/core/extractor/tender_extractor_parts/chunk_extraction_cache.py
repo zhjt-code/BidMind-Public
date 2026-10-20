@@ -15,7 +15,6 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import func
 
-from app.core.config import settings
 from app.models.tender_chunk_extraction_cache import TenderChunkExtractionCache
 from app.schemas.requirement import ExtractedRequirement
 

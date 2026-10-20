@@ -12,19 +12,19 @@
 
 from datetime import datetime, timezone
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, update
 
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy import func, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.dependencies import get_current_user, get_pagination
 from app.core.database import get_db
-from app.models.user import User
 from app.models.message import Message
-from app.schemas.message import MessageResponse, MessageListResponse, UnreadCountResponse
+from app.models.user import User
 from app.schemas.broadcast import BannerItem, BannerListResponse
 from app.schemas.common import ApiResponse, PaginationParams
-from app.api.dependencies import get_current_user, get_pagination
+from app.schemas.message import MessageListResponse, MessageResponse, UnreadCountResponse
 from app.services import broadcast_service
-
 
 router = APIRouter(prefix="/messages", tags=["站内信"])
 

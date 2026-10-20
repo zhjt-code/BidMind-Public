@@ -25,12 +25,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.exceptions import NotFoundError, ServiceError
-from app.core.xml_compat import sanitize_xml_compatible_text
 from app.core.writer.clause_coverage_diagnostics import (
     build_clause_coverage_diagnostics,
 )
 from app.core.writer.numbering import strip_existing_number
 from app.core.writer.section_structure import normalize_section_html
+from app.core.xml_compat import sanitize_xml_compatible_text
 from app.models.project import Project, ProjectStatus
 from app.models.user import User
 from app.models.writing_binding import BindingType, WritingBinding
@@ -85,8 +85,8 @@ class ComposeService:
             return {"task_name": "", "message": "内容已生成,无需重复执行"}
 
         from app.core.tasks.writing_compose_task import (
-            run_writing_compose_task,
             get_writing_compose_task_name,
+            run_writing_compose_task,
         )
         from app.services.writing.generation_admission import (
             WritingGenerationAdmissionService,

@@ -24,10 +24,10 @@ from app.core.retriever.material_inventory import (
     merge_fact_union,
 )
 from app.core.retriever.material_key import (
+    _CONTAINS_STRONG_MIN,
     MATCH_NONE,
     MATCH_STRONG,
     MATCH_WEAK,
-    _CONTAINS_STRONG_MIN,
     _match_canonical_left,
     canonical_material_key,
     match_key_in_compact,

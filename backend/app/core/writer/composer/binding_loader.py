@@ -37,14 +37,18 @@ from sqlalchemy import select
 
 from app.core.writer.binding_consumption_policy import (
     collect_confirmed_material_ids,
+)
+from app.core.writer.binding_consumption_policy import (
     select_consumable_bindings as _policy_select_consumable_bindings,
+)
+from app.core.writer.binding_consumption_policy import (
     status_to_str as _policy_status_to_str,
 )
-from app.core.writer.numbering import strip_existing_number
 from app.core.writer.fixed_template import infer_fixed_template_key, match_template_title
-from app.core.writer.fixed_template.titles import is_custom_template_key
 from app.core.writer.fixed_template.features import is_generic_template_requirement
+from app.core.writer.fixed_template.titles import is_custom_template_key
 from app.core.writer.fixed_template_contract import resolve_fixed_template_source
+from app.core.writer.numbering import strip_existing_number
 from app.models.writing_binding import BindingStatus, BindingType, WritingBinding
 from app.models.writing_clause import WritingClause
 from app.models.writing_material import WritingMaterial

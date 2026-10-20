@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 from typing import Any
 
@@ -114,12 +113,12 @@ def run_ab_comparison(
         包含 ``samples``, ``baseline_results``, ``candidate_results``,
         ``diff_summary``, ``redline_report``, ``has_synthetic`` 字段。
     """
-    from .diff import compute_field_diffs, DiffSummary
+    from .diff import compute_field_diffs
     from .redlines import (
-        check_investigate_redlines,
-        check_collusion_redlines,
-        check_writer_redlines,
         RedlineReport,
+        check_collusion_redlines,
+        check_investigate_redlines,
+        check_writer_redlines,
     )
     if flow == "writer" and (baseline_snapshot or candidate_snapshot):
         if not baseline_snapshot or not candidate_snapshot:

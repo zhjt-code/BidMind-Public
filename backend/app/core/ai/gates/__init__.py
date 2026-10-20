@@ -34,37 +34,37 @@ __all__ = [
 
 def _get_all_gates() -> list[Gate]:
     """Lazily import and instantiate all registered Gate subclasses."""
-    from .review.relevance_guard import RelevanceGuardGate
-    from .review.page_anchor_verify import PageAnchorVerifyGate
-    from .review.claim_response_consistency import ClaimResponseConsistencyGate
-    from .review.ledger_presence import LedgerPresenceGate
-    from .review.cross_group_conflict import CrossGroupConflictGate
-    from .review.relevance_anomaly_backfill import RelevanceAnomalyBackfillGate
-    from .review.physical_form_skip import PhysicalFormRequirementSkipGate
-    from .review.algorithmic_risk_band import AlgorithmicRiskBandGate
-    from .review.scoring_quote_presence import ScoringQuotePresenceGate
-    from .review.scoring_presence_max import ScoringPresenceMaxGate
-    from .review.prohibition_leak import ProhibitionLeakGate
+    from .collusion.cross_dimension_hint import CrossDimensionHintGate
     from .collusion.d1_personnel_claim import D1PersonnelClaimGate
     from .collusion.d2_company_claim import D2CompanyClaimGate
+    from .collusion.d3_text_algorithmic import D3TextAlgorithmicGate
     from .collusion.d5_business_relation import D5BusinessRelationGate
     from .collusion.d5_qual_type_exemption import D5QualTypeExemptionGate
-    from .collusion.finding_page_quote_verify import FindingPageQuoteVerifyGate
-    from .collusion.paired_quote_identity import PairedQuoteIdentityGate
-    from .collusion.d7_concrete_evidence import D7ConcreteEvidenceGate
-    from .collusion.cross_dimension_hint import CrossDimensionHintGate
     from .collusion.d6_format_algorithmic import D6FormatAlgorithmicGate
     from .collusion.d7_abnormal_consistency import D7AbnormalConsistencyGate
-    from .collusion.d3_text_algorithmic import D3TextAlgorithmicGate
+    from .collusion.d7_concrete_evidence import D7ConcreteEvidenceGate
+    from .collusion.finding_page_quote_verify import FindingPageQuoteVerifyGate
+    from .collusion.paired_quote_identity import PairedQuoteIdentityGate
+    from .review.algorithmic_risk_band import AlgorithmicRiskBandGate
+    from .review.claim_response_consistency import ClaimResponseConsistencyGate
+    from .review.cross_group_conflict import CrossGroupConflictGate
+    from .review.ledger_presence import LedgerPresenceGate
+    from .review.page_anchor_verify import PageAnchorVerifyGate
+    from .review.physical_form_skip import PhysicalFormRequirementSkipGate
+    from .review.prohibition_leak import ProhibitionLeakGate
+    from .review.relevance_anomaly_backfill import RelevanceAnomalyBackfillGate
+    from .review.relevance_guard import RelevanceGuardGate
+    from .review.scoring_presence_max import ScoringPresenceMaxGate
+    from .review.scoring_quote_presence import ScoringQuotePresenceGate
+    from .writer.cross_reference import CrossReferenceGate
+    from .writer.de_ai_filter import DeAIFilterGate
     from .writer.disqualification_risk import DisqualificationRiskGate
     from .writer.fixed_template_placeholder import FixedTemplatePlaceholderGate
-    from .writer.required_section_completeness import RequiredSectionCompletenessGate
-    from .writer.cross_reference import CrossReferenceGate
-    from .writer.terminology_consistency import TerminologyConsistencyGate
     from .writer.material_source_trace import MaterialSourceTraceGate
     from .writer.placeholder_density import PlaceholderDensityGate
-    from .writer.de_ai_filter import DeAIFilterGate
+    from .writer.required_section_completeness import RequiredSectionCompletenessGate
     from .writer.table_field_fill_rate import TableFieldFillRateGate
+    from .writer.terminology_consistency import TerminologyConsistencyGate
 
     return [
         # investigate pre_llm (B4)

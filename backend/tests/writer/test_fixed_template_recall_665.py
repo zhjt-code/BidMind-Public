@@ -27,7 +27,6 @@ from app.core.writer.fixed_template.titles import (
 )
 from app.schemas.writing import ExtractedClause
 
-
 # ---------------------------------------------------------------------------
 # R1: 泛化检查不再拼接 content
 # ---------------------------------------------------------------------------

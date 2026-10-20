@@ -21,20 +21,21 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.parser.pdf_parser import PdfParser
-from app.core.parser.pdf_parser import ParsedDocument
-from app.core.parser.xlsx_parser import XlsxParser
 from app.core.parser.image_extractor import (
     ExtractedImage,
+    build_natural_evidence_chunk,
     extract_context_for_images,
     generate_image_annotations,
     insert_annotation_near_anchor,
-    build_natural_evidence_chunk,
 )
+from app.core.parser.pdf_parser import ParsedDocument, PdfParser
 from app.core.parser.scan_page_policy import (
     is_scan_dominated_page,
     render_scan_page_image,
 )
+from app.core.parser.xlsx_parser import XlsxParser
+
+
 @dataclass
 class MaterialContent:
     """素材内容提取结果

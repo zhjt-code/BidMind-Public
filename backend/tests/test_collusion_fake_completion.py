@@ -8,7 +8,6 @@
 
 import pytest
 
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # 1. _is_empty_extraction 逻辑验证
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -53,11 +52,13 @@ class TestEmptyInputQualityGate:
 
     def test_all_empty_extractions_no_embedding_raises(self):
         """所有 bid 提取均为空 + similarity 无任何有效分数 -> 应抛出异常"""
+        from dataclasses import dataclass
+        from dataclasses import field as dc_field
+
         from app.core.collusion.analyzer import (
-            _is_empty_extraction,
             ExtractionQualityError,
+            _is_empty_extraction,
         )
-        from dataclasses import dataclass, field as dc_field
 
         @dataclass
         class FakeSimilarityResult:
@@ -106,8 +107,10 @@ class TestEmptyInputQualityGate:
 
     def test_has_embedding_passes(self):
         """有任何 embedding 分数 > 0 -> 不应触发闸门"""
+        from dataclasses import dataclass
+        from dataclasses import field as dc_field
+
         from app.core.collusion.analyzer import _is_empty_extraction
-        from dataclasses import dataclass, field as dc_field
 
         @dataclass
         class FakeSimilarityResult:

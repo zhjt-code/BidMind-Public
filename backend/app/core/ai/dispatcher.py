@@ -18,12 +18,12 @@ import asyncio
 import json
 import re
 import time
-from dataclasses import dataclass, field
-from typing import Optional, Any, TYPE_CHECKING
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Optional
 from urllib.parse import urlparse
 
 from loguru import logger
-from openai import APIConnectionError, APITimeoutError, RateLimitError, APIStatusError
+from openai import APIConnectionError, APIStatusError, APITimeoutError, RateLimitError
 from pydantic import BaseModel
 
 from app.core.ai.cloud_client import (
@@ -37,6 +37,7 @@ from app.core.ai.rate_limit_signal import (
     classify_rate_limit_error,
 )
 from app.core.observability.metrics import fallback_trigger_total
+
 _RETRYABLE_BAD_REQUEST_PATTERNS = (
     re.compile(r"invalid temperature", re.IGNORECASE),
     re.compile(r"only\s+1\s+is\s+allowed", re.IGNORECASE),
@@ -606,13 +607,13 @@ class AIDispatcher:
                 )
 
     async def _dispatch(self, method: str, project_id: Optional[int] = None, **kwargs: Any) -> Any:
-        from app.core.ai.dispatcher_concurrency import DispatcherRequestMetric
-        from app.core.ai.attempt_recorder import get_attempt_recorder
         from app.core.ai.attempt_budget import (
             DeadlineClock,
             LlmDeadlineExceededError,
             resolve_budget,
         )
+        from app.core.ai.attempt_recorder import get_attempt_recorder
+        from app.core.ai.dispatcher_concurrency import DispatcherRequestMetric
         from app.core.ai.project_fair_queue import fair_request_slot
 
         _budget = resolve_budget()
@@ -658,6 +659,8 @@ class AIDispatcher:
                 avoid_models: set[str] = set()
                 from app.core.ai.timeout_avoidance import (
                     current_avoids as _sticky_avoids,
+                )
+                from app.core.ai.timeout_avoidance import (
                     record_timeout as _record_sticky_timeout,
                 )
                 _sticky_groups, _sticky_models = _sticky_avoids(self._purpose)
@@ -753,7 +756,6 @@ class AIDispatcher:
 
                     start = time.monotonic()
                     is_429 = False
-                    is_timeout = False
                     try:
                         fn = getattr(channel.client, method)
                         # P0-B: 单次通道调用不得越过端到端 deadline
@@ -1020,7 +1022,6 @@ class AIDispatcher:
                         # 首次即 avoid_groups, 超时类物理尝试受 timeout_max_attempts 限制。
                         latency_ms = (time.monotonic() - start) * 1000
                         channel.active_requests -= 1
-                        is_timeout = True
                         _timeout_attempts += 1
                         channel.record_failure()
                         self.metrics.record_request(latency_ms, success=False)

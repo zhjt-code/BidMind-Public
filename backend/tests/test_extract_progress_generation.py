@@ -14,7 +14,6 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.tasks.extract_progress_generation import (  # noqa: E402
-    ExtractProgressGeneration,
     begin_extract_generation,
     bind_extract_generation,
     parse_progress_value,

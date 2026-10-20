@@ -2,7 +2,6 @@
 
 from app.core.document_qa.checks.structure_check import check_structure
 from app.core.document_qa.contracts import QaHeading
-
 from tests.document_qa.conftest import make_model
 
 

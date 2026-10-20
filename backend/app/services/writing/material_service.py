@@ -42,7 +42,6 @@ from app.models.user import User
 from app.models.writing_binding import WritingBinding
 from app.models.writing_material import (
     MaterialRole,
-    MaterialType,
     SplitReviewStatus,
     WritingMaterial,
 )
@@ -617,7 +616,7 @@ class MaterialService:
 
         await self._resolve_project(project_id, user)
 
-        from app.core.filename import sanitize_filename, resolve_within_dir
+        from app.core.filename import resolve_within_dir, sanitize_filename
 
         # 清洗不可信的上传文件名, 防止路径穿越/任意覆盖
         safe_name = sanitize_filename(filename, fallback="material")
@@ -653,8 +652,8 @@ class MaterialService:
             f"size={len(file_bytes)/1024:.1f}KB, type={ext}"
         )
 
-        from app.models.writing_material import WritingMaterial as WM
         from app.core.writer.filename_classifier import classify_by_filename
+        from app.models.writing_material import WritingMaterial as WM
 
         _biz_type, detail_label = classify_by_filename(safe_name)
 
@@ -783,9 +782,9 @@ class MaterialService:
         阶段细节见 ``material_batch/`` 子包；各阶段间状态通过函数参数显式传递，
         主类不持有跨 phase 实例字段。
         """
+        from app.core.arq_runtime import raise_if_project_cancelled
         from app.core.writer.material_content_extractor import MaterialContentExtractor
         from app.core.writer.material_splitter import MaterialSplitter
-        from app.core.arq_runtime import raise_if_project_cancelled
 
         hb = MaterialBatchHeartbeat(task_name)
         pending_materials = await self._load_pending_materials(project_id)

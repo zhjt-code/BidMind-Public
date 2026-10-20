@@ -63,7 +63,7 @@ import multiprocessing
 import threading
 import time
 from dataclasses import dataclass
-from typing import Iterator, Optional, Callable
+from typing import Callable, Iterator, Optional
 
 import numpy as np
 from loguru import logger

@@ -15,7 +15,6 @@ from __future__ import annotations
 
 from typing import Literal
 
-
 FLOW_INVESTIGATE: Literal["investigate"] = "investigate"
 FLOW_REVIEW: Literal["review"] = "review"
 FLOW_COLLUSION: Literal["collusion"] = "collusion"

@@ -10,24 +10,23 @@
           → 返回 chunk_id 列表
 """
 
-import asyncio
 import json
 import time
 from typing import Any, Callable, Optional
 
 from loguru import logger
-from sqlalchemy import String, text, select, delete
+from sqlalchemy import String, delete, select, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.sql_array_filters import not_in_array_values
-from app.models.writing_material_chunk import WritingMaterialChunk
+from app.core.config import settings
 from app.core.parser import ChunkPlanner
 from app.core.parser.chunk_evidence import plan_pages_with_image_evidence
 from app.core.parser.pdf_parser import ParsedPage
 from app.core.parser.text_chunker import TextChunk
-from app.core.config import settings
+from app.core.sql_array_filters import not_in_array_values
 from app.core.vectorizer.encode_gate import safe_encode_batch
+from app.models.writing_material_chunk import WritingMaterialChunk
 
 
 class MaterialIndexer:

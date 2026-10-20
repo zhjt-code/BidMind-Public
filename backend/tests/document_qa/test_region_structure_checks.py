@@ -23,7 +23,6 @@ from app.core.document_qa.region_text import (
     KIND_TITLE,
     KIND_VISUAL,
 )
-
 from tests.document_qa.conftest import make_line, make_model, make_region, with_regions
 
 _ROW = 0.025

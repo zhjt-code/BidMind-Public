@@ -9,10 +9,11 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_list_weekly_advice_includes_display_fields() -> None:
+    from sqlalchemy import delete
+
     from app.core.database import AsyncSessionLocal
     from app.models.llm_weekly_advice import LlmWeeklyAdvice
     from app.services.ops_advisor.weekly_reliability_report import list_weekly_advice
-    from sqlalchemy import delete
 
     marker = f"bug886_{datetime.now(timezone.utc).strftime('%H%M%S%f')}"
     async with AsyncSessionLocal() as db:

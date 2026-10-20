@@ -16,7 +16,6 @@ from app.core.collusion.paired_evidence_identity import (
     side_subject_tokens,
 )
 
-
 _METADATA_PAGE_MARKERS = ("pdf元数据", "元数据")
 
 

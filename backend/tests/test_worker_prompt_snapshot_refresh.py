@@ -6,8 +6,8 @@ async def test_run_with_prompt_snapshot_skips_load_when_registry_is_loaded(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     from app import worker
-    from app.core.ai import prompt_registry as prompt_registry_mod
     from app.core import database as database_mod
+    from app.core.ai import prompt_registry as prompt_registry_mod
 
     events: list[str] = []
 
@@ -49,8 +49,8 @@ async def test_run_with_prompt_snapshot_loads_once_when_registry_is_unloaded(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     from app import worker
-    from app.core.ai import prompt_registry as prompt_registry_mod
     from app.core import database as database_mod
+    from app.core.ai import prompt_registry as prompt_registry_mod
 
     events: list[str] = []
 

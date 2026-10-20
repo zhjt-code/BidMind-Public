@@ -9,10 +9,10 @@
 
 from __future__ import annotations
 
+import pytest
+
 from app.core.writer.clause_writability_filter import split_writable_clauses
 from app.schemas.writing import ExtractedClause
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

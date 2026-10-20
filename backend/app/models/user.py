@@ -3,16 +3,18 @@
 定义用户表结构，支持用户认证和角色管理。
 """
 
-from datetime import datetime
-from typing import Optional, TYPE_CHECKING
-from sqlalchemy import Column, String, Integer, Boolean, DateTime, Enum as SQLEnum
-from sqlalchemy.orm import relationship
 import enum
+from datetime import datetime
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.project import Project
+    pass
 
 
 class UserRole(str, enum.Enum):

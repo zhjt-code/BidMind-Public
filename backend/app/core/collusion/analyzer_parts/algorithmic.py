@@ -18,7 +18,6 @@ Task 8 Step 3：从 analyzer.py 迁出算法兜底（无 LLM）的 4 个纯函�
 
 from __future__ import annotations
 
-from app.schemas.collusion import is_valid_person_name
 from app.core.collusion.normalizers import (
     address_building_kind,
     credit_code_kind,
@@ -28,7 +27,7 @@ from app.core.collusion.normalizers import (
     normalize_credit_code,
     normalize_id_tail,
 )
-
+from app.schemas.collusion import is_valid_person_name
 
 # P1-3: 通用 PDF 生成工具关键词黑名单（大小写不敏感子串匹配）。
 # 命中后：

@@ -12,7 +12,6 @@ from typing import Any
 from app.core.writer.bookmark_directory_source import build_spec_from_bookmarks
 from app.schemas.writing import BidDirectorySpec
 
-
 # ── 测试夹具数据 ───────────────────────────────────────────────────
 
 def _qual_entries() -> list[tuple[int, str, int]]:

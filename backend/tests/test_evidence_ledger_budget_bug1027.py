@@ -18,7 +18,6 @@ from app.core.config import settings
 from app.core.retriever.evidence_coverage import EvidenceFacet
 from app.core.review_contracts import ReviewEvidenceBundle
 
-
 CHAR_BUDGET = int(settings.REVIEW_LEDGER_CHAR_BUDGET)
 PER_KIND = int(settings.REVIEW_LEDGER_ATOMS_PER_KIND)
 

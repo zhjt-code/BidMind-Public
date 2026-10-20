@@ -4,24 +4,27 @@
 画像存为一条特殊的 writing_clause (layer=generation_guide, sub_type=industry_profile)。
 """
 
-import re
 import json
+import re
 from typing import Callable, Optional
 
 from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.input_guard import retry_on_input_too_long_400
-from app.core.writer.text_budget import shrink_semantic_text as _shrink_semantic_text
+from app.core.ai.prompt_registry import get_registry as _get_reg
+from app.core.ai.prompt_registry import resolve_runtime_params
 from app.core.writer.industry_profile_gate import fulfill_industry_profile_text
 from app.core.writer.prompts.industry_profile import (
     INDUSTRY_PROFILE_COMPLETION_SYSTEM,
     attach_output_contract,
+)
+from app.core.writer.prompts.industry_profile import (
     get_industry_profile_prompt as _code_industry_profile,
 )
-from app.core.ai.prompt_registry import get_registry as _get_reg
-from app.core.ai.prompt_registry import resolve_runtime_params
+from app.core.writer.text_budget import shrink_semantic_text as _shrink_semantic_text
+from app.models.writing_clause import WritingClause, WritingClauseLayer
 
 
 def get_industry_profile_prompt(*a, **kw):
@@ -66,8 +69,6 @@ def get_industry_profile_prompt(*a, **kw):
                 f"node=writing.industry_profile, error={e}, 回退代码默认 Prompt"
             )
     return _code_industry_profile(*a, **kw)
-from app.models.writing_clause import WritingClause, WritingClauseLayer
-
 
 _PROFILE_LEADING_PHRASES = (
     "好的，",

@@ -4,7 +4,7 @@
 规则匹配条件：module 精确 + message 前缀匹配。
 """
 
-from sqlalchemy import Column, Integer, BigInteger, String, Text, Boolean, DateTime
+from sqlalchemy import BigInteger, Boolean, Column, DateTime, Integer, String, Text
 
 from app.models.base import BaseModel
 

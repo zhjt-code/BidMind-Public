@@ -21,7 +21,9 @@ from dataclasses import dataclass
 from itertools import combinations
 from typing import Any
 
-from app.core.extractor.scoring import volume_parser as _vp  # noqa: PLC2701 私有正则只读复用(探针先例)
+from app.core.extractor.scoring import (
+    volume_parser as _vp,  # noqa: PLC2701 私有正则只读复用(探针先例)
+)
 from app.core.extractor.scoring.group_column import (
     GroupColumnDetection,
     detect_group_column,

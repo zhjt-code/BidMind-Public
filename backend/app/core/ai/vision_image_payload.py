@@ -14,7 +14,6 @@ from typing import Sequence
 
 from PIL import Image, UnidentifiedImageError
 
-
 _SUPPORTED_FORMAT_TO_MIME = {
     "JPEG": "image/jpeg",
     "PNG": "image/png",

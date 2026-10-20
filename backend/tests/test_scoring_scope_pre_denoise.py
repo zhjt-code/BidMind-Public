@@ -11,14 +11,14 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.extractor.scoring.scoring_grid_payload import payload_from_chunk  # noqa: E402
+import pytest
+
 from app.core.extractor.scoring.ledger.extractor_bridge import _chunk_inputs  # noqa: E402
+from app.core.extractor.scoring.scoring_grid_payload import payload_from_chunk  # noqa: E402
 from app.core.parser import ChunkPlanner  # noqa: E402
 from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
 from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks  # noqa: E402
 from app.core.parser.text_cleaner import denoise_pages  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

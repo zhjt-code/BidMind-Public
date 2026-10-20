@@ -17,7 +17,7 @@ import contextvars
 import inspect
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable, Optional
 
 from loguru import logger
@@ -37,8 +37,6 @@ current_project_id: contextvars.ContextVar[int | None] = contextvars.ContextVar(
 current_snapshot: contextvars.ContextVar[
     Optional[dict[str, tuple[Optional[int], Optional[int]]]]
 ] = contextvars.ContextVar("current_snapshot", default=None)
-from sqlalchemy.orm import selectinload
-
 
 # ═══════════════════════════════════════════════
 # 跨进程热更新 -- Redis Pub/Sub Channel 与消息协议
@@ -213,7 +211,7 @@ class PromptRegistry:
 
         async with self._lock:
             nodes = (await db.execute(
-                select(LlmNode).where(LlmNode.is_active == True)
+                select(LlmNode).where(LlmNode.is_active.is_(True))
             )).scalars().all()
 
             new_cache: dict[str, _CachedNode] = {}
@@ -233,7 +231,7 @@ class PromptRegistry:
                 versions = (await db.execute(
                     select(LlmTemplateVersion).where(
                         LlmTemplateVersion.node_id == node.id,
-                        LlmTemplateVersion.is_active == True,
+                        LlmTemplateVersion.is_active.is_(True),
                     )
                 )).scalars().all()
 
@@ -280,7 +278,7 @@ class PromptRegistry:
             versions = (await db.execute(
                 select(LlmTemplateVersion).where(
                     LlmTemplateVersion.node_id == node.id,
-                    LlmTemplateVersion.is_active == True,
+                    LlmTemplateVersion.is_active.is_(True),
                 )
             )).scalars().all()
 
@@ -497,9 +495,10 @@ class PromptRegistry:
         completion_tokens: int, error: bool, model_name: str,
     ) -> None:
         try:
+            from sqlalchemy import select
+
             from app.core.database import async_session_factory
             from app.models.llm_execution_trace import LlmExecutionTrace
-            from sqlalchemy import select
 
             async with async_session_factory() as db:
                 existing = (await db.execute(

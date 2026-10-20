@@ -5,17 +5,18 @@
 
 from dataclasses import dataclass
 from typing import Optional
+
 from loguru import logger
-from sqlalchemy import select, or_
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.chunk import Chunk
-from app.models.document import Document, DocumentType
-from app.core.vectorizer import VectorIndexer
 from app.core.parser.image_extractor import (
     IMAGE_EVIDENCE_MARKER,
     is_image_related_chunk_content,
 )
+from app.core.vectorizer import VectorIndexer
+from app.models.chunk import Chunk
+from app.models.document import Document, DocumentType
 
 
 @dataclass

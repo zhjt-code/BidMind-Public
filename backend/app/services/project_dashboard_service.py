@@ -33,7 +33,6 @@ from app.services.project_dashboard_metrics import (
     status_group,
 )
 
-
 PROJECT_TYPE_LABELS: tuple[tuple[str, str], ...] = (
     (ProjectType.BID_WRITING.value, "标书编写"),
     (ProjectType.BID_REVIEW.value, "投标审查"),

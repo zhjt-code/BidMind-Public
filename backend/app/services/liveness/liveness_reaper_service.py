@@ -27,10 +27,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.tasks import ENQUEUE_GRACE_SEC
-from app.models.document import Document, DocumentType
+from app.models.document import Document
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.user import User
-
 
 # 仅扫描这些"任务应在运行"的状态. 严格排除人工等待态与终态, 防止误杀。
 _RUNNING_STATUSES = (

@@ -19,6 +19,8 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.config import settings  # noqa: E402
 from app.core.review_contracts import (  # noqa: E402
     actionable_requirement_condition,
@@ -26,8 +28,6 @@ from app.core.review_contracts import (  # noqa: E402
     is_reviewable_requirement,
     reviewable_requirement_conditions,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 
@@ -236,4 +236,4 @@ def test_bid_extractor_single_path_uses_row_level_gate():
     source = (backend_root / "app/core/extractor/bid_extractor.py").read_text(
         encoding="utf-8"
     )
-    assert "is_reviewable_requirement" in source
+    assert "*reviewable_requirement_conditions()" in source

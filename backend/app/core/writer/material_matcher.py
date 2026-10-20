@@ -18,10 +18,17 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
+from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
 from app.core.ai.retry_tracker import LLMRetryTracker
 from app.core.config import settings
 from app.core.observability.instrument import instrument as _observability_instrument
+from app.core.writer.chapter_judge_runtime import (
+    cap_judge_candidates,
+    iter_judge_batches,
+    merge_bind_true,
+    try_unique_rule_bind,
+)
 from app.core.writer.clause_scope_policy import (
     HIDDEN_COVERAGE_SUB_TYPES,
     WRITING_RELEVANCE_REFERENCE,
@@ -32,15 +39,10 @@ from app.core.writer.clause_scope_policy import (
 )
 from app.core.writer.fixed_template_contract import FIXED_TEMPLATE_SNAPSHOT_KEY
 from app.core.writer.numbering import strip_existing_number
-from app.core.writer.prompts.clause_classify import get_clause_classify_prompt as _code_clause_classify
-from app.core.writer.prompts.material_match import get_chapter_judge_prompt as _code_chapter_judge
-from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
-from app.core.writer.chapter_judge_runtime import (
-    cap_judge_candidates,
-    iter_judge_batches,
-    merge_bind_true,
-    try_unique_rule_bind,
+from app.core.writer.prompts.clause_classify import (
+    get_clause_classify_prompt as _code_clause_classify,
 )
+from app.core.writer.prompts.material_match import get_chapter_judge_prompt as _code_chapter_judge
 
 
 # NOTE: call_with_fallback 通过 inspect.signature 自动把位置参数映射成
@@ -52,7 +54,6 @@ def get_clause_classify_prompt(*a, **kw):
 def get_chapter_judge_prompt(*a, **kw):
     return call_with_fallback("writing.chapter_judge", _code_chapter_judge, *a, **kw)
 from app.core.arq_runtime import (
-    ProjectCancelledError,
     is_project_cancelled,
     raise_if_project_cancelled,
 )
@@ -65,10 +66,10 @@ from app.core.writer.material_matching.binding_persistence import (
     BindingPersistenceDeps,
     persist_rematched_bindings,
 )
-from app.models.writing_binding import WritingBinding, BindingType, BindingStatus
+from app.models.writing_binding import BindingType, WritingBinding
 from app.models.writing_clause import WritingClause
 from app.models.writing_material import WritingMaterial
-from app.models.writing_outline_node import WritingOutlineNode, OutlineNodeType
+from app.models.writing_outline_node import WritingOutlineNode
 
 ProgressCallback = Callable[..., None]
 

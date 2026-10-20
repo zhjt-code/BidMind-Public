@@ -12,12 +12,11 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 from app.core.collusion.analyzer_parts.algorithmic import (
     build_skipped_pair_baseline,
 )
-
+from tests.synthetic_data import synthetic_text
 
 # ---------------------------------------------------------------------------
 # 1. 提取缺失边界

@@ -22,7 +22,7 @@
 from loguru import logger
 
 from app.core.database import async_session_factory
-from app.core.observability.task_observation import observe_task, TaskFlow
+from app.core.observability.task_observation import TaskFlow, observe_task
 
 
 def get_writing_material_process_task_name(project_id: int) -> str:
@@ -37,8 +37,8 @@ async def run_writing_material_process_task(project_id: int) -> None:
     该函数同时被 ARQ worker 与 asyncio 回退路径调用,
     必须自行管理 DB session、心跳、取消墓碑与失败态。
     """
-    from app.core.tasks import update_heartbeat
     from app.core.arq_runtime import is_project_cancelled
+    from app.core.tasks import update_heartbeat
 
     task_name = get_writing_material_process_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化中")
@@ -88,6 +88,7 @@ async def run_writing_material_process_task(project_id: int) -> None:
                     error=str(e),
                 )
                 from sqlalchemy import update
+
                 from app.models.writing_material import WritingMaterial
 
                 await db.execute(

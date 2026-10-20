@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .diff import DiffSummary, compute_field_diffs
+from .diff import compute_field_diffs
 from .redlines import RedlineReport, RedlineResult
 
 _AVAILABILITY_RANK = {

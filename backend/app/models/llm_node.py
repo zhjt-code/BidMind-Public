@@ -3,7 +3,7 @@
 每个 LLM 调用点对应一个节点，记录其元数据、执行配置和管理属性。
 """
 
-from sqlalchemy import Column, String, Text, Integer, Float, Boolean, ForeignKey
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel

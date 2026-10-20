@@ -1,5 +1,6 @@
 """P3 回归测试: 渲染器收口"""
 import sys
+
 sys.path.insert(0, ".")
 
 
@@ -7,6 +8,7 @@ def test_renderer_no_global_grab():
     """验证 _replace_all_image_placeholders 不再做全局补位"""
     print("=== P3 renderer regression ===")
     import inspect
+
     from app.core.writer.doc_renderer import DocRenderer
 
     source = inspect.getsource(DocRenderer._replace_all_image_placeholders)

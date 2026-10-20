@@ -11,10 +11,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from app.core.writer.binding_consumption_policy import status_to_str
 from app.core.writer.clause_coverage_checker import (
     parse_source_clause_ids,
 )
-from app.core.writer.binding_consumption_policy import status_to_str
 from app.core.writer.clause_scope_policy import (
     HIDDEN_COVERAGE_SUB_TYPES,
     WRITING_RELEVANCE_CHECK_ONLY,

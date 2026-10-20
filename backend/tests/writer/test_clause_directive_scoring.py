@@ -14,9 +14,9 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from app.core.writer.composer.clause_directive import build_clause_directives
-
 import pytest
+
+from app.core.writer.composer.clause_directive import build_clause_directives
 
 pytestmark = pytest.mark.scoring
 

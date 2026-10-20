@@ -1,9 +1,11 @@
 """标书编写 -- 编写约束模型"""
 
 import enum
-from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey, Enum, JSON
-from sqlalchemy.orm import relationship
+
 from pgvector.sqlalchemy import Vector
+from sqlalchemy import JSON, Column, Enum, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 

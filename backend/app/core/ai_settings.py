@@ -10,13 +10,16 @@
 """
 
 import asyncio
-import json
 import base64
+import json
 import shutil
 import tempfile
 from pathlib import Path
+from typing import Any, Literal, Optional
 from urllib.parse import urlparse
-from typing import Any, Optional, Literal
+
+# ==================== 加密工具 ====================
+from cryptography.fernet import Fernet, InvalidToken
 from loguru import logger
 from pydantic import BaseModel, Field
 
@@ -27,10 +30,6 @@ from app.core.ai_settings_purpose_ready import (
     sync_legacy_model_id,
 )
 from app.core.config import settings as app_settings
-
-# ==================== 加密工具 ====================
-
-from cryptography.fernet import Fernet, InvalidToken
 
 _OBFUSCATION_KEY = b"BidMind_AI_Lite_2024"
 
@@ -1143,8 +1142,8 @@ def _sync_to_runtime(
         purpose: 指定仅重建 "review" 或 "vision" 侧的 Dispatcher,
                  None 则全量重建(启动阶段使用)
     """
-    from app.core.config import set_ai_mode
     from app.core.ai.cloud_client import reset_cloud_client, reset_local_client
+    from app.core.config import set_ai_mode
 
     set_ai_mode(model.get_active_review_mode())
 

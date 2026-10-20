@@ -22,7 +22,6 @@ from typing import Any, Optional
 
 from loguru import logger
 
-
 HOT_KEY_PREFIX = "metrics:ts:"
 RECENT_NAMES_KEY = "metrics:ts:recent"
 DEFAULT_BUCKET_SECONDS = 300  # 5min

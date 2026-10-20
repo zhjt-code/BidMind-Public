@@ -8,7 +8,6 @@
 """
 
 from types import SimpleNamespace
-from unittest.mock import patch
 
 import pytest
 
@@ -19,11 +18,6 @@ from app.core.extractor.scoring.scheme_reader.basis import (
 )
 from app.core.extractor.scoring.scheme_reader.contracts import SchemeMap
 from app.core.extractor.scoring.scheme_reader.integration import SchemeReaderContext
-from app.core.extractor.scoring.scoring_facts import build_scoring_fact_set
-from app.schemas.requirement import ExtractedScoringItem
-
-from tests.test_scheme_reader import _FakeLLM
-from tests.test_scheme_reader_attribution import SCHEME_MAP_2249, SIGNALS_2249
 
 pytestmark = pytest.mark.scoring
 

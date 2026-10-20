@@ -2,7 +2,6 @@ from pathlib import Path
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 COMPOSE_PATH = REPO_ROOT / "docker-compose.prod.yml"
 DOCKERFILE_PATH = REPO_ROOT / "backend" / "Dockerfile"

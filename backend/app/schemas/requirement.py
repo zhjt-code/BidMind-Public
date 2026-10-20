@@ -4,8 +4,8 @@
 """
 
 from typing import Literal, Optional
-from pydantic import BaseModel, Field, field_validator
 
+from pydantic import BaseModel, Field, field_validator
 
 # 要求分类类型
 RequirementCategoryType = Literal["QUAL", "TECH", "COMM", "PERF", "STAFF", "FORMAT"]

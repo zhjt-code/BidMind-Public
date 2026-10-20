@@ -14,7 +14,10 @@ from loguru import logger
 from app.core.config import settings
 from app.core.extractor.scoring.scoring_grid_payload import write_parse_diagnostics
 from app.core.parser.price_formula_recognizer import recognize_price_formula_sections
-from app.core.parser.scoring_segment_acceptance import build_partial_rejection_diagnostics, compute_span_claim
+from app.core.parser.scoring_segment_acceptance import (
+    build_partial_rejection_diagnostics,
+    compute_span_claim,
+)
 from app.core.parser.scoring_stub_recovery import recover_stub_continuation
 from app.core.parser.scoring_table_assembler import assemble_scoring_segments
 from app.core.parser.scoring_table_detector import analyze_scoring_table_rows

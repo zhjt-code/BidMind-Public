@@ -12,11 +12,11 @@ import pytest
 from app.core.writer import clause_extractor as extractor_mod
 from app.core.writer.clause_extractor import ClauseExtractor
 from app.core.writer.prompts.clause_extract import (
+    BID_DIRECTORY_EXTRACT_SYSTEM,
+    BID_DIRECTORY_EXTRACT_USER,
     HARD_CONSTRAINT_SYSTEM,
     HARD_CONSTRAINT_USER,
     STRUCTURE_CONSTRAINT_SYSTEM,
-    BID_DIRECTORY_EXTRACT_SYSTEM,
-    BID_DIRECTORY_EXTRACT_USER,
     get_bid_directory_extract_prompt,
     get_bid_structure_analysis_prompt,
     get_dedup_decision_prompt,

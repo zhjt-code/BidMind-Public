@@ -4,16 +4,27 @@
 每个 project 产生 C(N_bid, 2) 条记录。
 """
 
-from typing import TYPE_CHECKING
-from sqlalchemy import Column, DateTime, Integer, ForeignKey, Float, SmallInteger, String, Text, JSON, UniqueConstraint
-from sqlalchemy.orm import relationship
 import enum
+from typing import TYPE_CHECKING
+
+from sqlalchemy import (
+    JSON,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    SmallInteger,
+    String,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.project import Project
-    from app.models.document import Document
+    pass
 
 
 class CollusionRiskLevel(str, enum.Enum):

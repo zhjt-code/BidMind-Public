@@ -23,7 +23,6 @@ from app.core.extractor.scoring.scoring_pipeline_core import (  # noqa: E402
 )
 from app.core.extractor.scoring.scoring_progress import emit_scoring_progress  # noqa: E402
 
-
 pytestmark = pytest.mark.scoring
 
 

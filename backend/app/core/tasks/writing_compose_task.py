@@ -14,12 +14,12 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.ai.task_prompt_snapshot import with_task_prompt_snapshot
 from app.core.database import async_session_factory
+from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.writing_render_artifact import WritingRenderArtifact
-from app.core.observability.task_observation import observe_task, TaskFlow
-from app.core.observability.milestone import milestone
-from app.core.ai.task_prompt_snapshot import with_task_prompt_snapshot
 
 
 def get_writing_compose_task_name(project_id: int) -> str:
@@ -64,12 +64,18 @@ async def _refresh_consistency_cache_after_compose(
 @with_task_prompt_snapshot("writing")
 async def run_writing_compose_task(project_id: int, explicit_retry: bool = False) -> None:
     """执行标书编写全文生成任务"""
-    from app.core.tasks import update_heartbeat
-    from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled, raise_if_project_cancelled
-    from app.core.observability.degradation_aggregator import (
-        set_aggregator_for_task, get_aggregator, set_denominator,
-        record_degradation,
+    from app.core.arq_runtime import (
+        ProjectCancelledError,
+        is_project_cancelled,
+        raise_if_project_cancelled,
     )
+    from app.core.observability.degradation_aggregator import (
+        get_aggregator,
+        record_degradation,
+        set_aggregator_for_task,
+        set_denominator,
+    )
+    from app.core.tasks import update_heartbeat
 
     task_name = get_writing_compose_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化")

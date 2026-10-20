@@ -21,7 +21,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from app.core.arq_runtime import ProjectCancelledError
 from app.core.tasks.writing_compose_single_task import run_writing_compose_single_task
 
-
 _SINGLE_TASK_PATH = (
     Path(__file__).resolve().parents[2]
     / "app"

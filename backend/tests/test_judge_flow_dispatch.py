@@ -21,8 +21,11 @@ from app.core.ai.critic.flows import (
 )
 from app.core.ai.critic.judge import run_judge
 from app.core.ai.critic.prompts.judge_templates import (
-    JUDGE_REVIEW_SYSTEM, JUDGE_COLLUSION_SYSTEM, JUDGE_WRITER_SYSTEM,
-    JUDGE_GENERIC_SYSTEM, get_judge_templates,
+    JUDGE_COLLUSION_SYSTEM,
+    JUDGE_GENERIC_SYSTEM,
+    JUDGE_REVIEW_SYSTEM,
+    JUDGE_WRITER_SYSTEM,
+    get_judge_templates,
 )
 
 

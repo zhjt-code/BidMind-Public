@@ -2,7 +2,6 @@
 
 from app.core.document_qa.checks.hygiene_check import check_hygiene
 from app.core.document_qa.contracts import QaPage
-
 from tests.document_qa.conftest import make_model
 
 

@@ -3,7 +3,7 @@
 只读 Seed 数据，供流程图渲染节点之间的数据流关系。
 """
 
-from sqlalchemy import Column, String, Text, Integer, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import BaseModel

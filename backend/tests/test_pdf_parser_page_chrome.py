@@ -7,14 +7,13 @@ import zlib
 from pathlib import Path
 
 import fitz
+import pytest
 
-from app.core.parser.pdf_parser import PdfParser
+from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table
 from app.core.parser import ChunkPlanner
+from app.core.parser.pdf_parser import PdfParser
 from app.core.parser.scoring_chunk_builder import build_scoring_table_chunks
 from app.core.parser.scoring_section_locator import locate_scoring_sections
-from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

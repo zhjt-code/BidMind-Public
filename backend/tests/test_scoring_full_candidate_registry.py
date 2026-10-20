@@ -17,6 +17,7 @@ for _p in (_backend_root, _scripts_path):
         sys.path.insert(0, str(_p))
 
 import os
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
 # 恢复真实 app.core.ai 模块（见 conftest.py restore_real_ai_modules）

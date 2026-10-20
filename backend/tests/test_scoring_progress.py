@@ -9,12 +9,12 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.scoring_progress import (  # noqa: E402
     emit_scoring_progress,
     map_scoring_phase,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

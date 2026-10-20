@@ -119,9 +119,9 @@ def test_admin_processing_entrypoints_do_not_use_owner_only_gate(
 async def test_admin_start_review_charges_project_owner(monkeypatch: pytest.MonkeyPatch) -> None:
     """管理员代用户启动投标审查时,计费预检使用项目 owner_id。"""
 
+    from app.billing.services import billing_guard as billing_guard_module
     from app.services import review_service as review_service_module
     from app.services.review_service import ReviewService
-    from app.billing.services import billing_guard as billing_guard_module
 
     project = SimpleNamespace(
         id=101,
@@ -181,10 +181,10 @@ async def test_admin_trigger_writing_extract_charges_project_owner(
 ) -> None:
     """管理员代用户触发写标约束提取时,计费预检使用项目 owner_id。"""
 
-    from app.services import writing_service as writing_service_module
-    from app.services import retry_service as retry_service_module
-    from app.services.writing_service import WritingService
     from app.billing.services import billing_guard as billing_guard_module
+    from app.services import retry_service as retry_service_module
+    from app.services import writing_service as writing_service_module
+    from app.services.writing_service import WritingService
 
     project = SimpleNamespace(
         id=202,

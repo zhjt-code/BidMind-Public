@@ -4,25 +4,26 @@
 """
 
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import get_db
-from app.models.user import User
-from app.schemas.requirement import (
-    RequirementResponse,
-    RequirementListResponse,
-    RequirementCreate,
-    ManualScoringItemCreate,
-    RequirementUpdate,
-    RequirementConfirmRequest,
-)
-from app.schemas.common import ApiResponse
 from app.api.dependencies import get_current_user, handle_service_error, project_log_context
-from app.services.manual_scoring_item_service import ManualScoringItemService
-from app.services.requirement_service import RequirementService
-from app.services.requirement_reextract_service import RequirementReextractService
+from app.core.database import get_db
 from app.core.exceptions import ServiceError
+from app.models.user import User
+from app.schemas.common import ApiResponse
+from app.schemas.requirement import (
+    ManualScoringItemCreate,
+    RequirementConfirmRequest,
+    RequirementCreate,
+    RequirementListResponse,
+    RequirementResponse,
+    RequirementUpdate,
+)
+from app.services.manual_scoring_item_service import ManualScoringItemService
+from app.services.requirement_reextract_service import RequirementReextractService
+from app.services.requirement_service import RequirementService
 
 router = APIRouter(
     prefix="/projects/{project_id}/requirements",

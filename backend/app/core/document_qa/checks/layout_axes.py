@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from statistics import median
 
+from app.core.document_qa.author_spans import outline_nodes, prose_blocks
 from app.core.document_qa.checks.layout_check import (
     _folded_len,
     _is_heading_block,
@@ -23,7 +24,6 @@ from app.core.document_qa.contracts import (
     QaSeverity,
     QaSpan,
 )
-from app.core.document_qa.author_spans import outline_nodes, prose_blocks
 
 _RULE_CODE = "DOC-LAY-001"
 

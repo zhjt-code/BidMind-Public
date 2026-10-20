@@ -12,12 +12,12 @@ LLM Center 草稿生命周期管理：草稿创建/更新 + 丢弃。
 from __future__ import annotations
 
 from loguru import logger
-from sqlalchemy import select, func, delete as sa_delete
+from sqlalchemy import delete as sa_delete
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.llm_template_version import LlmTemplateVersion
-from app.schemas.llm_center import TemplateVersionInfo, TemplateVersionCreate
-
+from app.schemas.llm_center import TemplateVersionCreate, TemplateVersionInfo
 from app.services.llm_center._helpers import _get_node_or_raise
 
 
@@ -59,7 +59,7 @@ class DraftService:
                 LlmTemplateVersion.node_id == node.id,
                 LlmTemplateVersion.template_role == data.template_role,
                 LlmTemplateVersion.status == "validated",
-                LlmTemplateVersion.is_active == False,
+                LlmTemplateVersion.is_active.is_(False),
             )
         )).scalars().all()
         for stale in stale_validated:

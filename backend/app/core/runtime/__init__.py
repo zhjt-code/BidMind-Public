@@ -10,12 +10,6 @@
   GpuDeviceCooldownController）完全解耦
 """
 
-from app.core.runtime.cpu_runtime import (
-    CpuTopology,
-    detect_cpu_topology,
-    get_cpu_topology,
-    reset_cpu_topology,
-)
 from app.core.runtime.cpu_budget import (
     CpuBudget,
     apply_env_thread_limits,
@@ -24,6 +18,12 @@ from app.core.runtime.cpu_budget import (
     compute_cpu_budget,
     get_cpu_budget,
     reset_cpu_budget,
+)
+from app.core.runtime.cpu_runtime import (
+    CpuTopology,
+    detect_cpu_topology,
+    get_cpu_topology,
+    reset_cpu_topology,
 )
 
 __all__ = [

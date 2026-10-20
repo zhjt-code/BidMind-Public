@@ -11,17 +11,16 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
-import asyncio
-import json
 import os
-from dataclasses import dataclass, fields
+from dataclasses import fields
 from types import SimpleNamespace
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
+from tests.synthetic_data import synthetic_text
 
 os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
@@ -217,7 +216,8 @@ class TestWriterCommitmentClassifier:
 
     def test_title_keyword_hits_critical(self) -> None:
         from app.core.writer.section_composer import (
-            ComposePayload, SectionComposer,
+            ComposePayload,
+            SectionComposer,
         )
         node = SimpleNamespace(title="资质承诺", node_type=None)
         payload = ComposePayload("正文", [], [])
@@ -227,7 +227,8 @@ class TestWriterCommitmentClassifier:
 
     def test_non_critical_returns_default_keyword(self) -> None:
         from app.core.writer.section_composer import (
-            ComposePayload, SectionComposer,
+            ComposePayload,
+            SectionComposer,
         )
         node = SimpleNamespace(title="公司简介", node_type=None)
         payload = ComposePayload("我司成立于 2010 年。", [], [])
@@ -441,7 +442,8 @@ async def test_maybe_run_writer_cove_disagree_returns_writer_cove_entry() -> Non
     """关键承诺章节 CoVe disagree 时, 必须返回 WriterCoVe 条目, 含 needs_review patch"""
     from app.core.ai.critic.cove import CoveAnswer, CoveResult
     from app.core.writer.section_composer import (
-        ComposePayload, SectionComposer,
+        ComposePayload,
+        SectionComposer,
     )
 
     composer = SectionComposer.__new__(SectionComposer)

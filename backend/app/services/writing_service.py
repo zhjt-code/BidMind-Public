@@ -30,10 +30,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.exceptions import NotFoundError, ServiceError
 from app.core.permissions import check_project_permission
-from app.core.tasks import create_background_task, inspect_task_liveness, is_task_active
+from app.core.tasks import inspect_task_liveness, is_task_active
 from app.core.tasks.writing_extract_task import (
-    run_writing_extract_task,
     get_writing_extract_task_name,
+    run_writing_extract_task,
 )
 from app.models.document import Document, DocumentType
 from app.models.project import Project, ProjectStatus, ProjectType
@@ -42,7 +42,7 @@ from app.models.writing_binding import WritingBinding
 from app.models.writing_clause import WritingClause
 from app.models.writing_material import WritingMaterial
 from app.models.writing_material_image import WritingMaterialImage
-from app.models.writing_outline_node import WritingOutlineNode, OutlineNodeType
+from app.models.writing_outline_node import OutlineNodeType, WritingOutlineNode
 from app.models.writing_render_artifact import WritingRenderArtifact
 from app.models.writing_section_draft import WritingSectionDraft
 
@@ -51,6 +51,8 @@ from app.models.writing_section_draft import WritingSectionDraft
 #   from app.services.writing_service import _build_upload_doc_steps, _build_upload_extract_steps, _build_writing_steps
 # 被 backend/tests/test_progress_standardization.py 作为契约锚点使用。
 from app.services.writing.progress_steps import (  # noqa: F401
+    _WRITING_PROGRESS_CONFIG,
+    _WRITING_UPLOAD_DOC_LABELS,
     _build_upload_doc_steps,
     _build_upload_extract_steps,
     _build_writing_steps,
@@ -58,8 +60,6 @@ from app.services.writing.progress_steps import (  # noqa: F401
     _parse_fraction_progress,
     _parse_percent_detail,
     _step_status,
-    _WRITING_PROGRESS_CONFIG,
-    _WRITING_UPLOAD_DOC_LABELS,
     resolve_writing_upload_vl_skipped,
 )
 
@@ -309,8 +309,8 @@ class WritingService:
         副作用: 可能触发 db.commit / dispatch / retry_service.mark_task_failed。
         """
         from app.core.tasks import (
-            get_task_heartbeat,
             get_recovery_count,
+            get_task_heartbeat,
         )
         from app.core.tasks.process_task import get_process_task_name
         from app.core.vectorizer.job_state import get_vector_job_state
@@ -572,9 +572,9 @@ class WritingService:
         release_project_binding。
         """
         from app.core.tasks import get_recovery_count
-        from app.core.tasks.writing_outline_task import get_writing_outline_task_name
-        from app.core.tasks.writing_match_task import get_writing_match_task_name
         from app.core.tasks.writing_compose_task import get_writing_compose_task_name
+        from app.core.tasks.writing_match_task import get_writing_match_task_name
+        from app.core.tasks.writing_outline_task import get_writing_outline_task_name
 
         project = ctx.project
         task_hb_timeout = ctx.task_hb_timeout
@@ -861,7 +861,6 @@ class WritingService:
         if is_task_active(task_name):
             return {"task_name": task_name, "message": "约束提取任务进行中"}
         from app.core.tasks import dispatch_background_job
-
         from app.services.retry_service import RetryService
 
         retry_svc = RetryService(self.db)
@@ -903,11 +902,11 @@ class WritingService:
         ``monkeypatch.setattr("app.services.writing_service.is_task_active", ...)``
         和 ``app.services.writing_service.create_background_task`` patch 此函数行为。
         """
+        from app.core.tasks import dispatch_background_job
         from app.core.tasks.writing_clause_vectorize_task import (
             get_writing_clause_vectorize_task_name,
             run_writing_clause_vectorize_task,
         )
-        from app.core.tasks import dispatch_background_job
 
         task_name = get_writing_clause_vectorize_task_name(project_id)
         if is_task_active(task_name):
@@ -1177,7 +1176,9 @@ class WritingService:
 
     # _build_outline_embedding_text 保留为 staticmethod 暴露给 test_writer_text_material_consumption
     # 的 ``WritingService._build_outline_embedding_text(node, node_map)`` 类直接调用。
-    from app.services.writing.match_service import MatchService as _MatchServiceForBind  # noqa: PLC0415
+    from app.services.writing.match_service import (
+        MatchService as _MatchServiceForBind,  # noqa: PLC0415
+    )
     _build_outline_embedding_text = staticmethod(_MatchServiceForBind._build_outline_embedding_text)
     del _MatchServiceForBind
 
@@ -1349,11 +1350,11 @@ class WritingService:
     async def _build_render_snapshot(
         self, project_id: int,
     ) -> tuple[str, bytes, list[dict]]:
+        from app.core.writer.consistency_checker import get_consistency_checker
         from app.core.writer.doc_renderer import (
             get_doc_renderer,
             get_html_preview_builder,
         )
-        from app.core.writer.consistency_checker import get_consistency_checker
         from app.core.writer.section_composer import get_section_composer
 
         await self._refresh_fixed_template_drafts(

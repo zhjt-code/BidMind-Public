@@ -1,11 +1,11 @@
 """应用配置"""
 
 import os
-from pydantic_settings import BaseSettings
-from pydantic import model_validator
-from typing import Optional, Literal
-from loguru import logger
+from typing import Literal, Optional
 
+from loguru import logger
+from pydantic import model_validator
+from pydantic_settings import BaseSettings
 
 # 项目根目录
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))

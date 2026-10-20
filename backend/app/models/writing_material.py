@@ -1,8 +1,10 @@
 """标书编写 -- 素材模型"""
 
 import enum
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, Enum, Float, DateTime
-from sqlalchemy.orm import relationship, backref
+
+from sqlalchemy import Column, DateTime, Enum, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import backref, relationship
+
 from app.models.base import BaseModel
 
 

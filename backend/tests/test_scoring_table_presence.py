@@ -9,11 +9,11 @@ import os
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
+import pytest
+
 from app.core.extractor.scoring.scoring_table_presence import (  # noqa: E402
     decide_scoring_table_presence,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

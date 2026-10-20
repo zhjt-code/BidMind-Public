@@ -13,8 +13,8 @@ os.environ.setdefault(
     "postgresql+asyncpg://user:pass@localhost:5432/testdb",
 )
 
-from app.core.contracts.degradation_signal import DegradationSignal, push_signal
 from app.core.config import settings
+from app.core.contracts.degradation_signal import DegradationSignal, push_signal
 from app.core.extractor.tender_extractor import TenderExtractor
 from app.core.extractor.tender_extractor_parts import chunk_extraction_cache
 from app.models.chunk import Chunk

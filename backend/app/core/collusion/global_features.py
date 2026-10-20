@@ -18,7 +18,6 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.config import settings
 from app.core.collusion.normalizers import (
     address_building_kind,
     credit_code_kind,
@@ -29,6 +28,7 @@ from app.core.collusion.normalizers import (
     normalize_credit_code,
     normalize_id_tail,
 )
+from app.core.config import settings
 from app.schemas.collusion import is_valid_person_name
 
 
@@ -85,8 +85,8 @@ class GlobalFeatureAnalyzer:
         跨主体跨维度的标识符串联，落地《招标投标法实施条例》第40条第6项。
         """
         try:
-            from app.core.collusion.identifier_index import build_index
             from app.core.collusion.cross_field_correlator import CrossFieldCorrelator
+            from app.core.collusion.identifier_index import build_index
         except Exception as exc:  # noqa: BLE001
             logger.warning(f"[CrossField] 模块加载失败，跳过跨字段串联: {exc}")
             return []

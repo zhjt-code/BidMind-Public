@@ -15,14 +15,14 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.volume_parser import (  # noqa: E402
     VolumeDefinition,
     apply_volume_definitions,
     parse_volume_definition,
     split_definitions_and_items,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

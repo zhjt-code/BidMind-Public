@@ -22,7 +22,6 @@ from app.core.writer.fixed_template.prompts import (
 )
 from app.core.writer.fixed_template.section_locator import SectionRange
 
-
 NODE_KEY = "writing.fixed_template_recognize"
 _DEFAULT_TEMPERATURE = 0.1
 _DEFAULT_MAX_TOKENS = 6000

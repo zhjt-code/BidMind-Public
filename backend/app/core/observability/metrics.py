@@ -6,7 +6,7 @@ B0 仅实例化 guard 观测 + JSON 修复 + 空返回 + fallback 指标。
 使用 prometheus_client（与 app/core/ai/metrics.py 一致）。
 """
 
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 # ==================== Guard 观测指标（B0 埋点用）====================
 

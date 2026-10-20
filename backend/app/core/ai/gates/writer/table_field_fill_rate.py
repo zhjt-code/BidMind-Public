@@ -16,10 +16,8 @@ stage=post_llm, default_severity=advisory, order=40。
 from __future__ import annotations
 
 import re
-from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
-
 
 DEFAULT_MIN_FILL_RATE = 0.8
 # 忽略的表头/序号类 td 内容，不计入"空/非空"统计（避免误判）

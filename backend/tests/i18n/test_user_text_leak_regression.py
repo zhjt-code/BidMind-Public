@@ -21,7 +21,6 @@ from app.core.i18n import (
     sanitize_user_facing_text,
 )
 
-
 REPO_ROOT = Path(__file__).resolve().parents[3]
 BACKEND_ROOT = REPO_ROOT / "backend"
 FRONTEND_TRANSFORMS = (

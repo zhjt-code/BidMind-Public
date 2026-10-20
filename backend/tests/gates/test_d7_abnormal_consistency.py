@@ -5,9 +5,8 @@ import pytest
 
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.collusion.d7_abnormal_consistency import (
-    D7AbnormalConsistencyGate,
     _TYPO_PAIRS,
-    _WINDOW_SIZE,
+    D7AbnormalConsistencyGate,
 )
 
 # ──────────────────────────────── helpers ─────────────────────────────────────

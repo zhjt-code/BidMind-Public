@@ -18,7 +18,6 @@ from app.core.writer.section_plan.contracts import (
     SectionPlanRequest,
 )
 
-
 # SectionPlan 契约边界(与 contracts.py 的 Field 约束一致): 越界输入在构建层收敛。
 _MAX_CONSTRAINTS = 100
 _MAX_EVIDENCE = 100

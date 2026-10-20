@@ -16,7 +16,6 @@ from app.core.document_qa.author_spans import (
     line_for_offset,
     prose_spans,
 )
-from app.core.document_qa.text_shapes import bracket_residual, first_unmatched_bracket
 from app.core.document_qa.contracts import (
     CheckerOutcome,
     CheckerStatus,
@@ -28,6 +27,7 @@ from app.core.document_qa.contracts import (
     QaCertainty,
     QaSeverity,
 )
+from app.core.document_qa.text_shapes import bracket_residual, first_unmatched_bracket
 
 CODE = "language"
 

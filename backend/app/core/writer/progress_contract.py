@@ -5,7 +5,6 @@
 
 from typing import Any
 
-
 WRITING_EXTRACT_STEP_CONFIG: list[dict[str, Any]] = [
     {
         "label": "约束提取",

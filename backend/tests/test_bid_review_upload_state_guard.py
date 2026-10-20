@@ -9,7 +9,6 @@ from sqlalchemy import create_engine, text
 
 from app.core.config import settings
 
-
 _PDF_BYTES = b"%PDF-1.4\n% bid review upload state guard\n"
 
 

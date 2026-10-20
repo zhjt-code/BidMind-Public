@@ -7,7 +7,6 @@ stage=post_llm, default_severity=advisory, order=30。
 from __future__ import annotations
 
 import re
-from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 

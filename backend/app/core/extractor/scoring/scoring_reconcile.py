@@ -24,11 +24,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.review_contracts import parse_json_list, serialize_json_list
 from app.core.extractor.scoring.scoring_relation_planner import (
     ScoringRelation,
     append_scoring_relation,
 )
+from app.core.review_contracts import parse_json_list, serialize_json_list
 from app.models.requirement import Requirement
 
 # 描述相似度阈值(字符 bigram Jaccard)。0.55 对"同一评分条款的不同措辞"达标,

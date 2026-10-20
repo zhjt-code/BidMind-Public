@@ -11,12 +11,13 @@ from dataclasses import dataclass, replace
 
 from loguru import logger
 
+from app.core.extractor.scoring.leaf_integrity import assess_leaf_integrity
 from app.core.extractor.scoring.ledger.contracts import (
     Applicability,
     LedgerItemEntry,
     LedgerReport,
-    ScopeIdentity,
     ScopedReport,
+    ScopeIdentity,
 )
 from app.core.extractor.scoring.ledger.declaration_capture import (
     capture_scoring_declarations,
@@ -27,12 +28,16 @@ from app.core.extractor.scoring.ledger.declaration_scope import (
 from app.core.extractor.scoring.ledger.evidence_sufficiency import (
     assess_item_evidence_sufficiency,
 )
-from app.core.extractor.scoring.leaf_integrity import assess_leaf_integrity
 from app.core.extractor.scoring.ledger.ledger_reconciliation import (
     reconcile_scoring_ledger,
 )
 from app.core.extractor.scoring.ledger.remainder_attribution import (
     attribute_unique_remainder,
+)
+from app.core.extractor.scoring.ledger.scope_filtering import (
+    ScopeFilterContext,
+    filter_grids_for_scope,
+    filter_pages_for_scope,
 )
 from app.core.extractor.scoring.ledger.scoped_aggregation import (
     aggregate_and_build_report,
@@ -40,11 +45,6 @@ from app.core.extractor.scoring.ledger.scoped_aggregation import (
     determine_applicability,
 )
 from app.core.extractor.scoring.ledger.scoped_contracts import DEFAULT_SCOPE
-from app.core.extractor.scoring.ledger.scope_filtering import (
-    ScopeFilterContext,
-    filter_grids_for_scope,
-    filter_pages_for_scope,
-)
 from app.core.extractor.scoring.scoring_facts import ScoringScopeKey
 
 _SINGLE_LOT = ScoringScopeKey.SINGLE_LOT

@@ -13,8 +13,8 @@ from app.core.writer.prompts.clause_classify import get_clause_classify_prompt
 from app.core.writer.prompts.industry_profile import get_industry_profile_prompt
 from app.core.writer.prompts.outline_generate import (
     OUTLINE_GENERATE_SYSTEM,
-    SKELETON_ENRICH_SYSTEM,
     SECTION_FILL_SYSTEM,
+    SKELETON_ENRICH_SYSTEM,
     get_section_fill_prompt,
     get_skeleton_enrich_prompt,
 )

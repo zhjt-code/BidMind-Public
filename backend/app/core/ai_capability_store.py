@@ -26,10 +26,10 @@ async def update_declared_capabilities(
     由探测链路专管, 显式忽略防止前端伪造实测结论。
     """
     from app.core.ai_settings import (
-        load_ai_settings,
-        save_ai_settings,
         _sync_to_runtime,
+        load_ai_settings,
         publish_runtime_invalidate,
+        save_ai_settings,
     )
 
     current = load_ai_settings()
@@ -60,10 +60,10 @@ async def record_probe_results(
 ) -> ModelCapabilityProfile:
     """把 health_probe 探测报告写入配置的 observed 能力(带时间戳)"""
     from app.core.ai_settings import (
-        load_ai_settings,
-        save_ai_settings,
         _sync_to_runtime,
+        load_ai_settings,
         publish_runtime_invalidate,
+        save_ai_settings,
     )
 
     current = load_ai_settings()

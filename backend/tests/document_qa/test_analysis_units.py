@@ -3,9 +3,8 @@
 from app.core.document_qa.checks.language_check import check_language
 from app.core.document_qa.checks.numbering_check import check_numbering
 from app.core.document_qa.checks.structure_check import check_structure
-from app.core.document_qa.contracts import QaBlock, QaHeading, QaPage, QaSpan
+from app.core.document_qa.contracts import QaBlock, QaHeading, QaPage
 from app.core.document_qa.heading_detector import detect_headings
-
 from tests.document_qa.conftest import make_model
 from tests.document_qa.test_outline_scope import _block, _filled_model
 

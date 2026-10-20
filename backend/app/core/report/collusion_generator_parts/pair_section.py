@@ -56,9 +56,8 @@ from app.core.report.collusion_generator import (
 )
 
 if TYPE_CHECKING:
-    from app.schemas.collusion import CollusionPairResult, CollusionResults
-
     from app.core.report.collusion_generator import CollusionReportGenerator
+    from app.schemas.collusion import CollusionPairResult, CollusionResults
 
 
 # ---------------------------------------------------------------------------

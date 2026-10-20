@@ -6,9 +6,9 @@ import pytest
 
 from app.core.writer.composer.binding_loader import (
     _is_acceptable_template_clause,
+    extract_fixed_template_keywords,
     find_fallback_template_clause,
     normalize_fixed_template_lookup,
-    extract_fixed_template_keywords,
 )
 from app.core.writer.composer.template_route import _is_template_source_usable
 from app.core.writer.fixed_template.models import FixedTemplateEntry

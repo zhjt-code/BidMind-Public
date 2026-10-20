@@ -117,7 +117,10 @@ def inject_scheme_boundary_ids(chunks: list, template_boundaries: list) -> None:
           按 chunk 起始页找最近模板边界并写入 payload["scheme_boundary_id"]。
     不做: 不重建 payload、不改变 chunk 其他字段。
     """
-    from app.core.extractor.scoring.scoring_grid_payload import PAYLOAD_KEY, set_payload_scope_metadata
+    from app.core.extractor.scoring.scoring_grid_payload import (
+        PAYLOAD_KEY,
+        set_payload_scope_metadata,
+    )
     from app.core.parser.scoring_template_boundaries import boundary_id_for_page
 
     for chunk in chunks:

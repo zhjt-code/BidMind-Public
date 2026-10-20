@@ -12,7 +12,6 @@ from typing import Any, Optional
 
 from app.models.project import Project
 
-
 # ── 纯函数 ──────────────────────────────────────────────────────────────────
 
 

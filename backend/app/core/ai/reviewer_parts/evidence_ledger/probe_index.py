@@ -16,9 +16,9 @@ from app.core.ai.reviewer_parts.evidence_ledger.contracts import (
     EvidenceLedger,
     PreparedFacet,
     _atom_identity,
+    _prepared_atom_matches,
     prepare_atom,
     prepare_facet,
-    _prepared_atom_matches,
 )
 from app.core.retriever.evidence_coverage import EvidenceFacet
 

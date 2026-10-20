@@ -15,9 +15,9 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.extractor.scoring.scoring_facts import build_scoring_fact_set  # noqa: E402
-
 import pytest
+
+from app.core.extractor.scoring.scoring_facts import build_scoring_fact_set  # noqa: E402
 
 pytestmark = pytest.mark.scoring
 

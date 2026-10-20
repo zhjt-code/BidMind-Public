@@ -1,4 +1,5 @@
 from tests.synthetic_data import synthetic_text
+
 """身份证图片布局计划器防御测试。"""
 
 import json

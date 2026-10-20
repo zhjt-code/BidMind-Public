@@ -220,6 +220,7 @@ def test_call_llm_review_retries_and_recovers_after_input_too_long():
 def test_call_llm_review_fail_loud_when_shrink_exhausted(monkeypatch):
     """收缩到下限仍 400 → fail-loud return None(非静默, 不原样重发)。"""
     import asyncio
+
     from app.core.config import settings as _settings
 
     monkeypatch.setattr(_settings, "REVIEW_INPUT_SHRINK_RETRIES", 1)

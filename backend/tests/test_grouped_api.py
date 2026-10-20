@@ -68,14 +68,14 @@ class TestGroupedAPI:
         ])
         try:
             resp = client.get("/api/admin/error-logs/grouped", headers=admin_headers, params={
-                "keyword": f"GrpTest", "page_size": 50,
+                "keyword": "GrpTest", "page_size": 50,
             })
             assert resp.status_code == 200, resp.text
             data = resp.json()["data"]
             fps = {g["fingerprint"]: g for g in data["groups"]}
 
-            assert fp_a in fps, f"fp_a missing from groups"
-            assert fp_b in fps, f"fp_b missing from groups"
+            assert fp_a in fps, "fp_a missing from groups"
+            assert fp_b in fps, "fp_b missing from groups"
             assert fps[fp_a]["count"] == 3
             assert fps[fp_a]["unresolved_count"] == 2
             assert fps[fp_b]["count"] == 2

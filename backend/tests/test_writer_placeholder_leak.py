@@ -16,11 +16,10 @@
 7. 纯 ASCII 花括号内容 (CSS/JSON 片段) 不被误匹配
 """
 
-import re
 import zipfile
 from io import BytesIO
 from types import SimpleNamespace
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 

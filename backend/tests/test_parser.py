@@ -1,13 +1,14 @@
 """PDF解析模块测试"""
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # 添加项目路径
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.parser import PdfParser, TableExtractor, ParsedDocument, ExtractedTable
+from app.core.parser import ExtractedTable, ParsedDocument, PdfParser, TableExtractor
 
 
 class TestPdfParser:

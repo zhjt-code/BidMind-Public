@@ -25,7 +25,6 @@ from app.core.ai.reviewer_parts.pair_review import build_review_prompt
 from app.core.config import settings
 from app.core.review_contracts import ReviewEvidenceBundle
 
-
 # ---------------------------------------------------------------------------
 # 1. _format_raw_evidence_excerpts 单元测试
 # ---------------------------------------------------------------------------

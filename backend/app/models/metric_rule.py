@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Boolean, Column, Integer, String, Text
+from sqlalchemy import Boolean, Column, String, Text
 
 from app.models.base import BaseModel
 

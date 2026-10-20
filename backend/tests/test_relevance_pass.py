@@ -6,18 +6,20 @@ LLM 证据载体判非投标文件 且 行为性词表双确认时折叠为 proc
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import asyncio
 import os
 import sys
 from pathlib import Path
 
+from tests.synthetic_data import synthetic_text
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.schemas.requirement import ExtractedRequirement  # noqa: E402
+import pytest
+
 from app.core.extractor.relevance.behavioral_disqualification import (  # noqa: E402
     matches_behavioral_disqualification,
 )
@@ -25,8 +27,7 @@ from app.core.extractor.relevance.relevance_classifier import (  # noqa: E402
     _parse_inline_score,
     classify_review_relevance,
 )
-
-import pytest
+from app.schemas.requirement import ExtractedRequirement  # noqa: E402
 
 pytestmark = pytest.mark.scoring
 

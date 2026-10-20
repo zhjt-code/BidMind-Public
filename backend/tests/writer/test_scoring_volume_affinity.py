@@ -14,12 +14,12 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+import pytest
+
 from app.core.writer.outline_generator import OutlineGenerator  # noqa: E402
 from app.core.writer.scoring_volume_affinity import (  # noqa: E402
     volume_category_from_metadata,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

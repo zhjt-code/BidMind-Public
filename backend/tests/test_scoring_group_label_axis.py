@@ -19,6 +19,9 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent))
 
+import pytest
+from test_group_column import _DOC1933_GRID  # noqa: E402
+
 from app.core.extractor.scoring.embedded_score_parser import (  # noqa: E402
     parse_embedded_score_table,
 )
@@ -29,9 +32,6 @@ from app.core.extractor.scoring.ledger.declaration_capture import (  # noqa: E40
 from app.core.extractor.scoring.ledger.ledger_reconciliation import (  # noqa: E402
     reconcile_scoring_ledger,
 )
-from test_group_column import _DOC1933_GRID  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

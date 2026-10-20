@@ -18,16 +18,13 @@ from pydantic import ValidationError
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.input_guard import retry_on_input_too_long_400
 from app.core.ai.json_response import require_dict_response
 from app.core.ai.prompt_registry import resolve_runtime_params
 from app.core.config import get_review_concurrency, settings
 from app.core.parser.text_normalizer import compat_ratio as _compat_ratio
-from app.core.writer.fixed_template_contract import (
-    FIXED_TEMPLATE_SNAPSHOT_KEY,
-    FixedTemplateSnapshot,
-)
+from app.core.writer.clause_writability_filter import split_writable_clauses
 from app.core.writer.fixed_template import (
     FixedTemplateEntry,
     build_fixed_template_catalog_async,
@@ -36,16 +33,25 @@ from app.core.writer.fixed_template import (
 from app.core.writer.fixed_template.verbatim_extractor import (
     enrich_snapshots_verbatim,
 )
-from app.core.writer.clause_writability_filter import split_writable_clauses
-from app.core.writer.text_budget import make_priority_shrink_reducer
+from app.core.writer.fixed_template_contract import (
+    FIXED_TEMPLATE_SNAPSHOT_KEY,
+    FixedTemplateSnapshot,
+)
 from app.core.writer.prompts.clause_extract import (
-    get_hard_constraint_prompt as _code_hard_constraint,
-    get_structure_constraint_prompt as _code_structure_constraint,
-    get_generation_guide_prompt as _code_generation_guide,
+    get_bid_structure_analysis_prompt,
     get_dedup_decision_prompt,
     get_render_profile_prompt,
-    get_bid_structure_analysis_prompt,
 )
+from app.core.writer.prompts.clause_extract import (
+    get_generation_guide_prompt as _code_generation_guide,
+)
+from app.core.writer.prompts.clause_extract import (
+    get_hard_constraint_prompt as _code_hard_constraint,
+)
+from app.core.writer.prompts.clause_extract import (
+    get_structure_constraint_prompt as _code_structure_constraint,
+)
+from app.core.writer.text_budget import make_priority_shrink_reducer
 from app.models.chunk import Chunk
 from app.models.document import Document
 from app.models.writing_clause import WritingClause, WritingClauseLayer
@@ -682,7 +688,8 @@ class ClauseExtractor:
                     # (兜底行为本身不变, 但失败必须可见, 供任务警告呈现)
                     try:
                         from app.core.contracts.degradation_signal import (
-                            DegradationSignal, push_signal,
+                            DegradationSignal,
+                            push_signal,
                         )
                         push_signal(DegradationSignal(
                             source="clause_batch_extract_failed",

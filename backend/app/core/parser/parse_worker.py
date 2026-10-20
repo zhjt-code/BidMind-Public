@@ -24,6 +24,7 @@ def parse_pdf_in_process(file_path: str, image_save_dir_str: str) -> ParsedDocum
     所有依赖均在函数体内懒导入，保证模块加载零开销。
     """
     from pathlib import Path
+
     from app.core.parser.pdf_parser import PdfParser
 
     parser = PdfParser()

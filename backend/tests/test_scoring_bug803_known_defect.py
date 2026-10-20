@@ -29,12 +29,12 @@ os.environ.setdefault("LOG_LEVEL", "WARNING")
 os.environ.setdefault("JWT_SECRET_KEY", "test-only-secret-key-not-for-prod")
 os.environ.setdefault("ADMIN_PASSWORD", "<TEST_PASSWORD>")
 
+import pytest
+
 from app.core.extractor.scoring.ledger.extractor_bridge import (  # noqa: E402
     observe_scoring_ledger_shadow,
 )
 from app.core.extractor.scoring.scoring_facts import ScoringScopeKey  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

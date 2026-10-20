@@ -23,11 +23,11 @@ from app.core.extractor.scoring.score_column_semantics import (
 from app.core.parser.scoring_header_role_binding import (
     roles_from_header as _roles_from_header,
 )
+from app.core.parser.scoring_row_projection import project_scoring_row
 from app.core.parser.scoring_table_assembler import (
     CanonicalScoringRow,
     LogicalScoringSegment,
 )
-from app.core.parser.scoring_row_projection import project_scoring_row
 from app.core.parser.scoring_table_detector import analyze_scoring_table_rows
 
 if TYPE_CHECKING:

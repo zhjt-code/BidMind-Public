@@ -1,9 +1,9 @@
 """: 分类合并进度文案必须用「组合并组数」，不得把任务数说成正式类别数。"""
 
+import importlib.util
 import os
 import sys
 import types
-import importlib.util
 from pathlib import Path
 
 import pytest

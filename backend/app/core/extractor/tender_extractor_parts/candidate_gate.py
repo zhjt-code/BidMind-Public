@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from time import perf_counter
 from typing import Callable
 

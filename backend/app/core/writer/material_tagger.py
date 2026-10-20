@@ -18,12 +18,13 @@ from typing import Optional
 from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.json_response import require_dict_response
+from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
 from app.core.ai.retry_tracker import LLMRetryTracker
 from app.core.writer.material_titles import get_effective_material_title
 from app.core.writer.prompts.material_tag import get_material_tag_prompt as _code_material_tag
-from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
+from app.models.writing_material import WritingMaterial
 
 _TAG_STATUS_LLM_SUCCESS = "llm_success"
 _TAG_STATUS_LLM_FAILED = "llm_failed"
@@ -36,7 +37,6 @@ _MAX_TAG_CONCURRENCY = 4
 # 因调用方传位置参数而静默 fallback。
 def get_material_tag_prompt(*a, **kw):
     return call_with_fallback("writing.material_tag", _code_material_tag, *a, **kw)
-from app.models.writing_material import WritingMaterial
 
 
 class MaterialTagger:

@@ -22,10 +22,11 @@ from openai import APITimeoutError
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from loguru import logger
+
 from app.core.ai.attempt_budget import resolve_budget
 from app.core.ai.dispatcher import AIDispatcher
 from app.core.ai.dispatcher_concurrency import DispatcherRequestMetric
-from loguru import logger
 
 
 class _FakeClient:

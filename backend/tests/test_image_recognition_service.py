@@ -7,10 +7,10 @@
 """
 
 import os
-import asyncio
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 from dataclasses import dataclass
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
@@ -20,7 +20,6 @@ from app.core.parser.image_recognition_service import (
     get_ocr_engine,
     get_vl_deps,
     recognize_images,
-    RecognitionStats,
 )
 from app.core.parser.ocr_engine import OcrResult
 
@@ -172,7 +171,7 @@ class TestRecognizeImages:
                 return_value={"ocr_ok": 0},
             ) as mock_analyze,
         ):
-            stats = await recognize_images(imgs, purpose="test")
+            await recognize_images(imgs, purpose="test")
 
         mock_analyze.assert_called()
         call_kwargs = mock_analyze.call_args
@@ -213,7 +212,7 @@ class TestRecognizeImages:
                 return_value={"ocr_ok": 0},
             ) as mock_analyze,
         ):
-            stats = await recognize_images(imgs, purpose="test_no_ocr")
+            await recognize_images(imgs, purpose="test_no_ocr")
 
         call_kwargs = mock_analyze.call_args
         assert call_kwargs.kwargs.get("ocr_engine") is None

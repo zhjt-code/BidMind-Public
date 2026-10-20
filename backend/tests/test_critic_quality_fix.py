@@ -26,8 +26,8 @@ from typing import Any
 
 import pytest
 
-from app.core.ai.critic.cove import CoveResult, run_cove
 from app.core.ai.critic import judge as judge_module
+from app.core.ai.critic.cove import CoveResult, run_cove
 from app.core.ai.critic.judge import should_sample
 
 

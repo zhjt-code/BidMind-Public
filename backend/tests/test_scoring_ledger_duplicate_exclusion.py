@@ -3,11 +3,11 @@
 覆盖必测场景: 跨表全等副本命中、同表对称并列因素不误判(反例)、
 同表重复行不判、短行不参与; 另补三表连环副本与空表边界。
 """
+import pytest
+
 from app.core.extractor.scoring.ledger.duplicate_exclusion import (
     detect_duplicate_grid_rows,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

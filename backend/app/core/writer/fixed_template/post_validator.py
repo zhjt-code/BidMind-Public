@@ -28,7 +28,6 @@ from app.core.writer.fixed_template.titles import (
     infer_fixed_template_key,
 )
 
-
 _MIN_TEMPLATE_CHARS = 50
 _COMMON_ANCHORS = ("致", "签字", "盖章", "公章", "日期", "投标人")
 _VOLUME_VALUES = {"technical", "commercial"}

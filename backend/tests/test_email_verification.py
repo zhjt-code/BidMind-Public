@@ -5,9 +5,10 @@ monkeypatch 临时开启 EMAIL_VERIFICATION_ENABLED 验证灰度开关下行为,
 """
 
 import time
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 from fastapi.testclient import TestClient
+
 from app.core.config import settings
 
 PWD = "Pass1234"

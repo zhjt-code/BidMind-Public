@@ -7,13 +7,25 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form, Query, Request
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    Request,
+    UploadFile,
+    status,
+)
 from fastapi.responses import FileResponse
+from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from loguru import logger
 
-from app.core.database import get_db
+from app.api.dependencies import check_project_permission, get_current_user, project_log_context
+from app.core.arq_runtime import can_use_arq
+from app.core.bid_envelope import parse_bid_part
 from app.core.config import settings
 from app.core.convert.office_to_pdf import (
     ALLOWED_UPLOAD_MIME_TYPES,
@@ -22,29 +34,26 @@ from app.core.convert.office_to_pdf import (
     sniff_upload_magic,
     suffix_of,
 )
-from app.core.bid_envelope import parse_bid_part
+from app.core.database import get_db
 from app.core.rate_limit import limiter
-from app.models.document import DocumentType
-from app.models.project import Project, ProjectType
-from app.models.user import User
-from app.schemas.document import (
-    DocumentUploadResponse,
-    DocumentResponse,
-    DocumentListResponse,
-)
-from app.schemas.common import ApiResponse
-from app.services.document_service import DocumentService
-from app.services.document_gate_service import DocumentGateService
-from app.api.dependencies import get_current_user, check_project_permission, project_log_context
 from app.core.redis import get_redis_pool
-from app.core.arq_runtime import can_use_arq
 from app.core.vectorizer.job_state import (
     enqueue_process_document_job,
     get_vector_job_state,
     upsert_vector_job_state,
 )
+from app.models.document import DocumentType
+from app.models.project import Project, ProjectType
+from app.models.user import User
 from app.models.vector_job_state import VectorJobStatus
-
+from app.schemas.common import ApiResponse
+from app.schemas.document import (
+    DocumentListResponse,
+    DocumentResponse,
+    DocumentUploadResponse,
+)
+from app.services.document_gate_service import DocumentGateService
+from app.services.document_service import DocumentService
 
 router = APIRouter(
     prefix="/projects/{project_id}/files",
@@ -234,7 +243,6 @@ async def process_document(
         create_background_task,
         is_task_active,
         mark_task_queued,
-        update_heartbeat,
     )
     from app.core.tasks.process_task import (
         get_process_task_name,

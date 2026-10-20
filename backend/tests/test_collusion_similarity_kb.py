@@ -58,6 +58,7 @@ def test_extract_top_k_pairs_respects_min_score_floor() -> None:
 def test_similarity_uses_dedicated_chunk_floor_not_med_thresh() -> None:
     """静态守护：similarity.py 片段抽取必须用独立 chunk 阈值，禁止回退到 med_thresh。"""
     import inspect
+
     from app.core.collusion import similarity
     from app.core.config import settings
 

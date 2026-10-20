@@ -9,7 +9,6 @@ from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 
-
 _COMMON_VARIANTS: list[tuple[list[str], str]] = [
     (["甲方", "采购人", "招标人", "业主"], "招标方称谓"),
     (["乙方", "投标人", "供应商", "承包商", "中标人"], "投标方称谓"),

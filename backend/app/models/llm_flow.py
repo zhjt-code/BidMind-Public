@@ -4,7 +4,7 @@ llm_flows: 三大业务流程（投标审查/串标审查/标书编写）
 llm_stages: 流程下的阶段分组（如招标提取、对比审查等）
 """
 
-from sqlalchemy import Column, String, Text, Integer, Boolean, ForeignKey, UniqueConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel

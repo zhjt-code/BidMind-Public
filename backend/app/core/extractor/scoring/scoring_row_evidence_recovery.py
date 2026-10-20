@@ -25,7 +25,6 @@ from app.core.extractor.scoring.scoring_item_naming import normalize_scoring_ite
 from app.core.extractor.scoring.weighted_volume_table import volume_from_scoring_label
 from app.schemas.requirement import ExtractedScoringItem
 
-
 # ---------------------------------------------------------------------------
 # Public result type
 # ---------------------------------------------------------------------------

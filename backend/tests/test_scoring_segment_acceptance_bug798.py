@@ -21,14 +21,14 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # noqa: E402
 from app.core.parser.scoring_section_locator import ScoringSection  # noqa: E402
 from app.core.parser.scoring_table_assembler import (  # noqa: E402
     LogicalScoringSegment,
     assemble_scoring_segments,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 
@@ -261,13 +261,14 @@ def test_I1_stub_keys_excluded_from_global_on_rejection():
     build_segment_chunk 返回 None 时，stub 恢复的表键也不应 claim。
     """
     from types import SimpleNamespace
+
     from app.core.parser import ChunkPlanner  # type: ignore[import]
     from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # type: ignore[import]
-    from app.core.parser.scoring_section_locator import ScoringSection  # type: ignore[import]
     from app.core.parser.scoring_chunk_sources import (  # type: ignore[import]
         ScoringChunkBuildState,
         collect_assembled_scoring_chunks,
     )
+    from app.core.parser.scoring_section_locator import ScoringSection  # type: ignore[import]
 
     header = ["评分项目", "评分标准", "分值"]
     data = [["技术方案", "内容全面得10分，一般得5分", "10"]]
@@ -317,14 +318,15 @@ def test_I2_rejected_segment_table_enters_fallback_full_chain():
     RED: 若 compute_span_claim 不存在或逻辑有误，claimed_global 含 (1,0)，fallback 返回空。
     """
     from types import SimpleNamespace
+
     from app.core.parser import ChunkPlanner  # type: ignore[import]
     from app.core.parser.pdf_parser import ParsedDocument, ParsedPage  # type: ignore[import]
-    from app.core.parser.scoring_section_locator import ScoringSection  # type: ignore[import]
     from app.core.parser.scoring_chunk_sources import (  # type: ignore[import]
         ScoringChunkBuildState,
         collect_assembled_scoring_chunks,
         collect_unclaimed_table_scoring_chunks,
     )
+    from app.core.parser.scoring_section_locator import ScoringSection  # type: ignore[import]
 
     header = ["评分项目", "评分标准", "分值"]
     data = [

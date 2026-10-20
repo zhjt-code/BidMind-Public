@@ -12,7 +12,7 @@ from dataclasses import replace
 from typing import Any, Iterable
 
 from app.core.config import settings
-from app.core.contracts.failure_state import FailureState, max_severity, severity_rank
+from app.core.contracts.failure_state import FailureState, max_severity
 from app.core.contracts.failure_state_determiner import FailureStateDeterminer
 from app.core.observability.instrument import instrument as _observability_instrument
 
@@ -33,6 +33,8 @@ def _build_audit_fields(ctx: GateContext) -> dict | None:
         try:
             from app.core.ai.prompt_registry import (
                 current_node_key as _nk_var,
+            )
+            from app.core.ai.prompt_registry import (
                 get_registry as _get_reg,
             )
             node_key = _nk_var.get()
@@ -52,6 +54,8 @@ def _build_audit_fields(ctx: GateContext) -> dict | None:
         try:
             from app.core.ai.determinism import (
                 current_project_id as _pid_var,
+            )
+            from app.core.ai.determinism import (
                 resolve_current_seed,
             )
             pid = _pid_var.get()
@@ -74,9 +78,9 @@ def _build_audit_fields(ctx: GateContext) -> dict | None:
 
 try:
     from app.core.observability.metrics import (
-        gate_verdict_total,
-        gate_pipeline_duration_seconds,
         failure_state_distribution_total,
+        gate_pipeline_duration_seconds,
+        gate_verdict_total,
     )
     _METRICS_AVAILABLE = True
 except Exception:

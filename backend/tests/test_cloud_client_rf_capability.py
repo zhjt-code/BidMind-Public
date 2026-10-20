@@ -12,7 +12,6 @@
 from __future__ import annotations
 
 import asyncio
-import json
 from types import SimpleNamespace
 from typing import Any
 from unittest.mock import AsyncMock, patch
@@ -20,9 +19,9 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from app.core.ai.cloud_client import (
+    _UNSUPPORTED_RESPONSE_FORMAT_CACHE,
     CloudClient,
     UnsupportedResponseFormatError,
-    _UNSUPPORTED_RESPONSE_FORMAT_CACHE,
     _clear_response_format_cache,
     _is_response_format_unsupported,
 )

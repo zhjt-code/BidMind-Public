@@ -9,21 +9,27 @@ import json
 import time
 import uuid
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Coroutine, Optional
+from typing import Any, Callable, Coroutine, Optional
 
 from loguru import logger
 
-from app.core.tasks.review_task import run_review_task
-from app.core.tasks.extract_task import run_extract_task, get_extract_task_name
-from app.core.tasks.process_task import run_process_task, get_process_task_name
-from app.core.tasks.collusion_task import run_collusion_task, get_collusion_task_name
-from app.core.tasks.writing_extract_task import run_writing_extract_task, get_writing_extract_task_name
-from app.core.tasks.writing_compose_task import run_writing_compose_task, get_writing_compose_task_name
-from app.core.tasks.writing_clause_vectorize_task import (
-    run_writing_clause_vectorize_task,
-    get_writing_clause_vectorize_task_name,
-)
 from app.core.config import settings
+from app.core.tasks.collusion_task import get_collusion_task_name, run_collusion_task
+from app.core.tasks.extract_task import get_extract_task_name, run_extract_task
+from app.core.tasks.process_task import get_process_task_name, run_process_task
+from app.core.tasks.review_task import run_review_task
+from app.core.tasks.writing_clause_vectorize_task import (
+    get_writing_clause_vectorize_task_name,
+    run_writing_clause_vectorize_task,
+)
+from app.core.tasks.writing_compose_task import (
+    get_writing_compose_task_name,
+    run_writing_compose_task,
+)
+from app.core.tasks.writing_extract_task import (
+    get_writing_extract_task_name,
+    run_writing_extract_task,
+)
 
 # ---- 内存态 (asyncio 模式 + 兼容缓存) ----
 _background_tasks: dict[str, asyncio.Task] = {}
@@ -1049,6 +1055,8 @@ __all__ = [
     "clear_collusion_cache",
     "run_writing_compose_task",
     "get_writing_compose_task_name",
+    "run_writing_extract_task",
+    "get_writing_extract_task_name",
     "run_writing_clause_vectorize_task",
     "get_writing_clause_vectorize_task_name",
 ]

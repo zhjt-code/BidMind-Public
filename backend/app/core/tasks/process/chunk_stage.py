@@ -102,10 +102,10 @@ async def run_chunk_stage(
     pre_denoise_scoring_signals = None
     if bool(getattr(settings, "TENDER_TABLE_STITCH_ENABLED", True)):
         try:
-            from app.core.parser.scoring_section_locator import locate_scoring_sections
             from app.core.parser.scoring_chunk_builder import (
                 scan_sections_by_table_signals,
             )
+            from app.core.parser.scoring_section_locator import locate_scoring_sections
 
             # 与 scoring_chunk_builder._merge_sections 同源:
             # 章节定位 ∪ 表信号回扫，确保 1889 类"无关键词但有评分结构表"的文档

@@ -11,15 +11,12 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
-import pytest
-
 from app.core.ai.gates import (
+    _get_all_gates,
     build_pipeline_for,
     should_use_algorithm_first,
-    _get_all_gates,
 )
 from app.core.ai.gates.base import GateContext
-
 
 # ---------------------------------------------------------------------------
 # should_use_algorithm_first 分流函数

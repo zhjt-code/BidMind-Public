@@ -16,7 +16,6 @@ from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 
-
 _UNVERIFIED_COMMENT_SUFFIX = (
     "\n\n（原文位置未通过自动核验：以下页码未出现在检索到的投标 chunk 中："
     "{pages}。建议人工核对页码或在投标文件中重新检索关键词。）"

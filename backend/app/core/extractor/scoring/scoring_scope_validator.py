@@ -12,10 +12,10 @@ from typing import Any, Mapping
 from app.core.extractor.scoring.score_totals import _volume_label
 from app.core.extractor.scoring.scoring_facts import ScoringFactSet, ScoringScopeKey
 from app.core.extractor.scoring.scoring_scope_contracts import (
+    ScopeIdentity,
     ScopeVolumeDelta,
     ScoringScopeExpectation,
     ScoringScopeValidation,
-    ScopeIdentity,
     ScoringValidationKind,
 )
 

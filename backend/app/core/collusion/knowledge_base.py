@@ -9,7 +9,6 @@ from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
 _KB_DIR = Path(__file__).with_name("kb")
 
 

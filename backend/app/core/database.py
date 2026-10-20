@@ -7,11 +7,11 @@ from contextlib import asynccontextmanager
 from functools import wraps
 from typing import AsyncGenerator, AsyncIterator, Awaitable, Callable, Optional, TypeVar
 
+from loguru import logger
 from sqlalchemy import event, select
 from sqlalchemy.exc import InterfaceError as SAInterfaceError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import declarative_base
-from loguru import logger
 
 from app.core.config import settings
 

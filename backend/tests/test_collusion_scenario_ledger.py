@@ -13,8 +13,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-import pytest
-
 from app.core.collusion.rules.facts import DocumentFacts, build_document_facts
 from app.core.collusion.rules.ledger import (
     ScenarioLedger,

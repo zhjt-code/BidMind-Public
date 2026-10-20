@@ -16,18 +16,19 @@
 
 import asyncio
 from typing import Any, Callable, Optional
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import async_session_factory
-from app.models.project import Project, ProjectStatus
-from app.models.document import Document, DocumentType
-from app.core.extractor.bid_extractor import get_bid_extractor
 from app.core.ai.reviewer import get_review_orchestrator
+from app.core.database import async_session_factory
+from app.core.extractor.bid_extractor import get_bid_extractor
 from app.core.matcher.requirement_matcher import get_requirement_matcher
-from app.core.observability.task_observation import observe_task, TaskFlow
 from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus
 
 
 def _get_task_name(project_id: int) -> str:
@@ -54,8 +55,8 @@ async def run_review_task(project_id: int) -> None:
         project_id: 项目ID
     """
     # 延迟导入避免循环依赖
-    from app.core.tasks import update_heartbeat
     from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled
+    from app.core.tasks import update_heartbeat
     from app.core.tasks.cancellation import make_project_cancel_check
 
     task_name = _get_task_name(project_id)
@@ -206,7 +207,7 @@ async def _validate_review_inputs(
     from app.core.tasks import update_heartbeat
 
     cancel_check()
-    logger.info(f"[后台任务] 步骤1: 验证项目和文档")
+    logger.info("[后台任务] 步骤1: 验证项目和文档")
     update_heartbeat(task_name, stage="步骤1", progress="验证项目和文档")
 
     async with async_session_factory() as db:
@@ -260,7 +261,7 @@ async def _extract_bid_responses(
     from app.core.tasks.parallel_unit_progress import parallel_unit_heartbeat_extra
 
     cancel_check()
-    logger.info(f"[后台任务] 步骤2: 开始提取投标响应")
+    logger.info("[后台任务] 步骤2: 开始提取投标响应")
     update_heartbeat(task_name, stage="步骤2", progress="开始提取投标响应")
 
     concurrency = get_review_concurrency()
@@ -324,7 +325,7 @@ async def _match_review_pairs(
     from app.core.tasks.parallel_unit_progress import parallel_unit_heartbeat_extra
 
     cancel_check()
-    logger.info(f"[后台任务] 步骤3: 匹配招标要求和投标响应")
+    logger.info("[后台任务] 步骤3: 匹配招标要求和投标响应")
     update_heartbeat(
         task_name,
         stage="步骤3",

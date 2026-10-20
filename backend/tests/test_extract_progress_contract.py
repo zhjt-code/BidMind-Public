@@ -21,6 +21,8 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.tasks import extract_task  # noqa: E402
 from app.core.tasks.extract_progress import (  # noqa: E402
     CHILD_COMPLETED_MAX_PROGRESS,
@@ -34,8 +36,6 @@ from app.core.tasks.extract_progress import (  # noqa: E402
 from app.services.requirement_service import (  # noqa: E402
     _build_requirement_extract_steps,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

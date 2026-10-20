@@ -6,7 +6,6 @@ import json
 from typing import Any
 
 from app.core.writer.clause_scope_policy import (
-    HIDDEN_COVERAGE_SUB_TYPES,
     is_body_coverage_counted,
 )
 

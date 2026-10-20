@@ -1,9 +1,10 @@
 """文本分块模型(含向量)"""
 
-from sqlalchemy import Column, String, Integer, ForeignKey, Text, UniqueConstraint
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
-from pgvector.sqlalchemy import Vector
+
 from app.models.base import BaseModel
 
 

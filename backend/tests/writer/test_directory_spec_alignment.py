@@ -10,16 +10,12 @@
 
 from __future__ import annotations
 
-import pytest
-
 from app.core.writer.directory_spec_alignment import (
-    SpecCoverageReport,
     build_numbered_line_inventory,
     evaluate_spec_coverage,
     verify_spec_against_source,
 )
 from app.schemas.writing import BidDirectoryItem, BidDirectorySpec, BidVolumeSpec
-
 
 # ─── 公共测试数据 ──────────────────────────────────────────────────────────────
 

@@ -13,15 +13,15 @@ from loguru import logger
 
 from app.core.config import settings
 from app.core.extractor.scoring.volume_parser import extract_volume_composition_sentence
-from app.core.parser.scoring_section_locator import locate_scoring_sections
 from app.core.parser.scoring_group_anchor import (
     GroupAnchor,
     build_group_composition_sentence,
     extract_closed_group_anchors_from_pages,
 )
-from app.core.parser.table_stitcher import StitchedTable, stitch_cross_page_tables
+from app.core.parser.scoring_section_locator import locate_scoring_sections
 from app.core.parser.scoring_table_detector import analyze_scoring_table_rows
 from app.core.parser.table_linearizer import join_cell_lines_cjk_aware
+from app.core.parser.table_stitcher import StitchedTable, stitch_cross_page_tables
 
 from .lot_boundary_locator import locate_lot_boundaries, lot_for_page
 from .scoring_chunk_sources import (
@@ -64,10 +64,10 @@ def build_scoring_table_chunks(
 
     # 模板编码边界切分——在装配层面隔离不同模板的页范围，
     # 防止 stitch_cross_page_tables 将多模板页面拼接成单一超大逻辑表。
+    from app.core.parser.scoring_assembly_scopes import split_sections_by_template_boundaries
     from app.core.parser.scoring_template_boundaries import (
         detect_template_boundaries_from_sections,
     )
-    from app.core.parser.scoring_assembly_scopes import split_sections_by_template_boundaries
     template_boundaries = detect_template_boundaries_from_sections(
         pages_by_num, located_sections
     )

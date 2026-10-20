@@ -16,9 +16,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import async_session_factory
-from app.models.project import Project, ProjectStatus
-from app.core.observability.task_observation import observe_task, TaskFlow
 from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
+from app.models.project import Project, ProjectStatus
 
 
 def get_collusion_task_name(project_id: int) -> str:
@@ -42,12 +42,11 @@ async def run_collusion_task(project_id: int) -> None:
     Args:
         project_id: 项目ID
     """
-    from app.core.tasks import update_heartbeat, reset_recovery_count
     from app.core.arq_runtime import (
         ProjectCancelledError,
         is_project_cancelled,
-        raise_if_project_cancelled,
     )
+    from app.core.tasks import reset_recovery_count, update_heartbeat
     from app.core.tasks.cancellation import make_project_cancel_check
 
     task_name = get_collusion_task_name(project_id)
@@ -218,8 +217,9 @@ async def _get_project(db: AsyncSession, project_id: int) -> Optional[Project]:
 
 
 async def _count_bid_docs(db: AsyncSession, project_id: int) -> int:
-    from app.models.document import Document, DocumentType
     from sqlalchemy import func
+
+    from app.models.document import Document, DocumentType
 
     result = await db.execute(
         select(func.count()).where(

@@ -31,8 +31,8 @@ def test_cross_ref_returns_degraded_on_llm_error(_mock_db):
 
     llm.chat_json = AsyncMock(side_effect=RuntimeError("provider timeout"))
 
-    from app.models.writing_section_draft import WritingSectionDraft
     from app.models.writing_outline_node import WritingOutlineNode
+    from app.models.writing_section_draft import WritingSectionDraft
 
     draft = MagicMock(spec=WritingSectionDraft)
     draft.content = "本投标方案详见第三章技术方案章"

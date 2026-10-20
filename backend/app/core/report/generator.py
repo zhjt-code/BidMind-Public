@@ -4,22 +4,19 @@
 """
 
 import os
-from io import BytesIO
 from datetime import datetime
+from io import BytesIO
 from typing import Optional
 from xml.sax.saxutils import escape as xml_escape
-from loguru import logger
 
+from loguru import logger
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    PageBreak
-)
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from app.core.bid_envelope import format_page_locations
 from app.core.extractor.evidence_verdict import user_facing_response_text

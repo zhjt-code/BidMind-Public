@@ -21,6 +21,8 @@ import pytest
 
 from app.core.collusion.analyzer_parts import (
     extraction_stage as extraction_stage_mod,
+)
+from app.core.collusion.analyzer_parts import (
     pair_persistence as pair_persistence_mod,
 )
 

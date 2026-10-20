@@ -15,7 +15,6 @@ from app.core.parser.table_extractor import ExtractedTable
 from app.core.parser.table_linearizer import linearize_table
 from app.core.parser.text_chunker import TextChunk, TextChunker
 
-
 _HEADING_RE = re.compile(
     r"^(第[一二三四五六七八九十百千万0-9]+[章节部分编]|[0-9]+(?:\.[0-9]+){0,3}|[一二三四五六七八九十]+、).{0,80}$"
 )

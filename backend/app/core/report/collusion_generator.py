@@ -9,26 +9,28 @@
 
 import re
 from io import BytesIO
-from datetime import datetime
 from typing import Callable, Optional
 from xml.sax.saxutils import escape as xml_escape
 
 from loguru import logger
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import mm
 from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph,
-    PageBreak, Spacer, Table, TableStyle,
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    Table,
+    TableStyle,
 )
 
-from app.models.project import Project
-from app.schemas.collusion import CollusionResults, CollusionPairResult
-
-from app.core.report.generator import _FONT_NAME
 from app.core.collusion.identity_display import replace_document_identity_tokens
+from app.core.report.generator import _FONT_NAME
+from app.models.project import Project
+from app.schemas.collusion import CollusionPairResult, CollusionResults
 
 # ---------------------------------------------------------------------------
 # 常量 / 映射

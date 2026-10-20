@@ -113,9 +113,8 @@ async def _ask_page(
     client: Any,
     user_message: str,
 ) -> PageVerifyResult:
-    from app.core.ai.prompt_registry import get_registry
-
     from app.core.ai.constrained_decoding import build_response_format
+    from app.core.ai.prompt_registry import get_registry
 
     resolved = get_registry().get_prompt(_NODE_KEY)
     system_message = resolved.system_message or VERIFY_SYSTEM

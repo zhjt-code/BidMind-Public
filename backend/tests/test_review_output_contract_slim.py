@@ -13,15 +13,12 @@ import json
 from types import SimpleNamespace
 from typing import Any, Optional
 
-import pytest
-
-from app.schemas.review import ReviewJudgementPayload
+from app.core.ai.reviewer_parts.result_assembly import assemble_review_result
 from app.core.ai.validators import (
     get_review_judgement_validator,
     get_review_result_validator,
 )
-from app.core.ai.reviewer_parts.result_assembly import assemble_review_result
-
+from app.schemas.review import ReviewJudgementPayload
 
 # ---------------------------------------------------------------------------
 # 辅助工厂

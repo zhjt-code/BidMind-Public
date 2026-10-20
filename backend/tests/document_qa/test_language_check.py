@@ -1,7 +1,6 @@
 """语言检查: 括号未闭合 + 重复标点(第二形态) + 干净文本零误报"""
 
 from app.core.document_qa.checks.language_check import check_language
-
 from tests.document_qa.conftest import make_model
 
 

@@ -12,9 +12,6 @@ CollusionExtraction 对象的字段赋值检查，确保契约一致。
 
 from __future__ import annotations
 
-from types import SimpleNamespace
-
-
 # ---------------------------------------------------------------------------
 # M4 读取路径：_extraction_to_dict
 # ---------------------------------------------------------------------------
@@ -132,6 +129,7 @@ class TestSaveExtractionContract:
     def test_source_code_writes_to_new_column(self):
         """静态检查：_save_extraction 里 field_values 应包含 subcontractors_info 键"""
         import inspect
+
         from app.core.collusion.analyzer import CollusionAnalyzer
         src = inspect.getsource(CollusionAnalyzer._save_extraction)
         assert '"subcontractors_info"' in src or "'subcontractors_info'" in src
@@ -139,6 +137,7 @@ class TestSaveExtractionContract:
     def test_source_code_cleans_metadata_subcontractors(self):
         """静态检查：_save_extraction 会从 metadata_info 剔除 subcontractors 错位键"""
         import inspect
+
         from app.core.collusion.analyzer import CollusionAnalyzer
         src = inspect.getsource(CollusionAnalyzer._save_extraction)
         # 新代码应调用 metadata_info.pop("subcontractors", None)
@@ -147,6 +146,7 @@ class TestSaveExtractionContract:
     def test_source_code_no_longer_mutates_metadata_with_subs(self):
         """静态检查：_save_extraction 不再把 extraction.get("subcontractors") 塞进 metadata_info"""
         import inspect
+
         from app.core.collusion.analyzer import CollusionAnalyzer
         src = inspect.getsource(CollusionAnalyzer._save_extraction)
         # 原错位写法 metadata_info["subcontractors"] = extraction.get("subcontractors") 不应再出现

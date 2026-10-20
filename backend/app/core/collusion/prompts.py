@@ -883,6 +883,8 @@ def build_industry_signal_context(
     """兼容旧导入路径，实际实现位于 industry_profile_context.py。"""
     from app.core.collusion.industry_profile_context import (
         IndustryProfileContextInput,
+    )
+    from app.core.collusion.industry_profile_context import (
         build_industry_signal_context as _build_context,
     )
 

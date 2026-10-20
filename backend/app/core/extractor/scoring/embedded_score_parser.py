@@ -18,18 +18,18 @@ from typing import Iterable
 from pydantic import ValidationError
 
 from app.core.extractor.scoring.category_inference import infer_scoring_category
+from app.core.extractor.scoring.embedded_score_row_join import (
+    join_split_embedded_score_rows,
+)
 from app.core.extractor.scoring.group_column import detect_group_column
 from app.core.extractor.scoring.row_group_attribution import (
     backfill_recovered_group_labels,
-)
-from app.core.extractor.scoring.scoring_item_naming import strip_scoring_name_decoration
-from app.core.extractor.scoring.embedded_score_row_join import (
-    join_split_embedded_score_rows,
 )
 from app.core.extractor.scoring.score_column_semantics import (
     find_embedded_penalties,
     find_embedded_scores,
 )
+from app.core.extractor.scoring.scoring_item_naming import strip_scoring_name_decoration
 from app.core.extractor.scoring.weighted_volume_table import volume_from_scoring_label
 from app.schemas.requirement import ExtractedScoringItem
 

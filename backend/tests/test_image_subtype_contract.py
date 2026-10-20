@@ -1,16 +1,16 @@
+import json
 import os
 import sys
 from types import SimpleNamespace
-import json
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://x:x@localhost/x")
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.core.writer.image_subtype_contract import (
+    NEEDS_REVIEW_SUBTYPE,
+    UNKNOWN_SUBTYPE,
     normalize_business_subtype,
     validate_business_subtype,
-    UNKNOWN_SUBTYPE,
-    NEEDS_REVIEW_SUBTYPE,
 )
 from app.core.writer.material_tagger import MaterialTagger
 

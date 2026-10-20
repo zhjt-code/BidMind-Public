@@ -20,11 +20,11 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.row_group_attribution import (  # noqa: E402
     recover_row_group_labels,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

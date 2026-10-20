@@ -1,6 +1,6 @@
-from tests.synthetic_data import synthetic_text
-import pytest
 from types import SimpleNamespace
+
+import pytest
 
 from app.core.collusion.knowledge_base import build_dynamic_normal_similarity_hint
 from app.core.exceptions import ServiceError
@@ -10,9 +10,9 @@ from app.core.knowledge.usage_config import (
     build_usage_payload,
     parse_usage_config,
 )
-from app.models.kb_document import KbDocument
-from app.services.knowledge_base_service import KnowledgeService
 from app.schemas.knowledge_base import KnowledgeChunkReference
+from app.services.knowledge_base_service import KnowledgeService
+from tests.synthetic_data import synthetic_text
 
 
 def test_knowledge_context_detects_forceful_conflict() -> None:

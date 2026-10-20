@@ -23,29 +23,28 @@ from types import SimpleNamespace
 from typing import Iterable
 
 import pytest
-from reportlab.platypus import Paragraph, Spacer, Table, PageBreak
+from reportlab.platypus import PageBreak, Paragraph, Spacer, Table
 
 from app.core.report import collusion_generator as cg
 from app.core.report.collusion_generator import (
     CollusionReportGenerator,
-    get_collusion_report_generator,
     _build_pair_ref_replacer,
     _replace_legacy_pair_aliases,
-    _score_level,
     _score_color,
+    _score_level,
+    get_collusion_report_generator,
 )
 from app.schemas.collusion import (
-    CollusionResults,
-    CollusionPairResult,
     CollusionGroupResult,
+    CollusionPairResult,
+    CollusionResults,
     CoverageStats,
-    FindingItem,
     EvidenceRef,
+    FindingItem,
     GlobalFindingItem,
     GroupRoleItem,
     SuspectedGroup,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixture 构造 helpers

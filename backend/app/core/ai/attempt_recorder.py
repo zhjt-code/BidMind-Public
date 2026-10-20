@@ -18,17 +18,17 @@ from __future__ import annotations
 
 import asyncio
 import os
-import time
 import uuid
 from collections import deque
 from contextvars import ContextVar
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 from loguru import logger
 
 from app.core.ai.llm_outcome import LlmOutcome, classify_exception, classify_response
+
 # 流量类别的唯一权威定义在 observability 层(错误日志与 attempt 事实表共用同一 ContextVar);
 # 此处再导出以保持 `from app.core.ai.attempt_recorder import current_traffic_class` 的既有入口。
 from app.core.observability.traffic_class import (  # noqa: F401

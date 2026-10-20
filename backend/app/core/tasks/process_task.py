@@ -21,20 +21,18 @@
 
 import asyncio
 import concurrent.futures
-import threading
 import multiprocessing
-import time
+import threading
 from pathlib import Path
 from typing import Optional
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import async_session_factory
-from app.core.parser.parse_worker import parse_pdf_in_process
+from app.core.observability.task_observation import TaskFlow, observe_task, record_stage
 from app.models.document import Document, DocumentType
-from app.models.project import Project, ProjectStatus, ProjectType
-from app.core.observability.task_observation import observe_task, record_stage, TaskFlow
+from app.models.project import Project, ProjectType
 
 
 class _VLQualityError(Exception):
@@ -135,6 +133,7 @@ def _render_pages_sync(
         {page_num: (base64, context)} 渲染缓存
     """
     import fitz as _fitz
+
     from app.core.parser.page_renderer import render_page_to_base64
 
     result: dict[int, tuple[str, str]] = {}
@@ -210,8 +209,8 @@ async def _run_process_task_inner(
     import shutil
 
     from app.core.arq_runtime import ProjectCancelledError
-    from app.core.tasks.cancellation import make_project_cancel_check
     from app.core.tasks import update_heartbeat
+    from app.core.tasks.cancellation import make_project_cancel_check
     from app.core.tasks.process.preflight import run_preflight
 
     task_name = get_process_task_name(document_id)
@@ -261,7 +260,6 @@ async def _run_process_task_inner(
 
     file_path = preflight.file_path
     doc_project_id = preflight.doc_project_id
-    project = preflight.project
     business_flow = preflight.business_flow
     effective_skip_vl = preflight.effective_skip_vl
     image_save_dir = preflight.image_save_dir
@@ -328,7 +326,6 @@ async def _run_process_task_inner(
         )
         chunks = chunk_result.chunks
         shadow_summary = chunk_result.shadow_summary
-        evidence_count = chunk_result.evidence_count
 
         # ========== 阶段4: 向量化存储 ==========
         _check_project_cancelled()

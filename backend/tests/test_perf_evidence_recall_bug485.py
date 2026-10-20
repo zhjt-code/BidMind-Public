@@ -15,6 +15,7 @@ import asyncio
 
 import pytest
 
+from app.core.parser.toc_parser import TocParser
 from app.core.retriever.evidence_priors import (
     CATEGORY_EVIDENCE_PRIORS,
     StarvationFinding,
@@ -35,9 +36,7 @@ from app.core.retriever.query_decomposer import (
     QueryDecomposer,
 )
 from app.core.retriever.semantic_retriever import SearchResult
-from app.core.parser.toc_parser import TocParser
 from app.models.requirement import RequirementCategory
-
 
 # 项目1488要求15507的真实描述(故障样本)
 REQ_15507_DESC = (

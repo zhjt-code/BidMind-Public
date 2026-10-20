@@ -25,12 +25,12 @@ from loguru import logger
 
 from app.core.ai.prompt_registry import resolve_runtime_params
 from app.core.writer.composer.clause_directive import build_clause_directives
-from app.core.writer.material_consumption_trace import build_consumption_trace
 from app.core.writer.image_node_affinity import filter_images_for_node
 from app.core.writer.industry_profile_view import (
     PURPOSE_FREE_WRITING,
     build_profile_excerpt,
 )
+from app.core.writer.material_consumption_trace import build_consumption_trace
 from app.core.writer.numbering import get_sub_numbering_hint, strip_existing_number
 from app.core.writer.section_structure import normalize_section_html
 from app.core.writer.text_budget import make_priority_shrink_reducer

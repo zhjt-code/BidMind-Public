@@ -12,8 +12,6 @@ import os
 from contextlib import asynccontextmanager
 from types import SimpleNamespace
 
-import pytest
-
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
 from app.core.bid_envelope import BidEnvelope

@@ -8,9 +8,10 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import os
+
+from tests.synthetic_data import synthetic_text
 
 # 必须在 import app 之前设置
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
@@ -23,7 +24,6 @@ from dataclasses import dataclass
 
 from app.core.ai.reviewer_parts.evidence_ledger.builder import (
     assemble_project_ledger,
-    collect_atoms_from_rows,
     merge_inventory_atoms,
 )
 from app.core.ai.reviewer_parts.evidence_ledger.contracts import (
@@ -38,12 +38,8 @@ from app.core.ai.reviewer_parts.evidence_ledger.probe_index import (
 from app.core.retriever.evidence_coverage import EvidenceFacet, facet_hit, normalize_text
 from app.core.retriever.material_key import (
     MATCH_STRONG,
-    canonical_material_key,
-    match_key_in_compact,
     match_material_in_text,
-    normalize_material_compact,
 )
-
 
 # ---------------------------------------------------------------------------
 # 神谕：内联旧四段判定，不调用 _prepared_atom_matches / facet_covers_text

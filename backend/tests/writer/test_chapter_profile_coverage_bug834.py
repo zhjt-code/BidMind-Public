@@ -28,6 +28,7 @@ from app.core.writer.chapter_profiling.quality import (
     assess_profile_raw,
     is_matchable,
 )
+from app.core.writer.material_matcher import MaterialMatcher
 from app.core.writer.material_matching.contracts import (
     ChapterDemandProfile,
     MaterialChapterCandidate,
@@ -36,7 +37,6 @@ from app.core.writer.material_matching.contracts import (
 )
 from app.core.writer.material_matching.decision_policy import select_binding_proposals
 from app.core.writer.material_matching.profiles import build_chapter_demand_profiles
-from app.core.writer.material_matcher import MaterialMatcher
 from app.core.writer.outline_generator import OutlineGenerator
 
 

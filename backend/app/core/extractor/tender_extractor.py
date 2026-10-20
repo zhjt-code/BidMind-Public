@@ -1,3 +1,5 @@
+# Compatibility facade: extracted helpers remain available to callers and tests.
+# ruff: noqa: F401
 """招标要求提取器
 
 从招标文件中提取结构化的招标要求。
@@ -10,62 +12,69 @@
 """
 
 import asyncio
+import hashlib
 import json
 import re
-import hashlib
 from collections import Counter
+from collections.abc import Callable
 from datetime import datetime, timezone
 from pathlib import Path
 from time import perf_counter
-from collections.abc import Callable
-from typing import Optional, Any
+from typing import Any, Optional
+
 from loguru import logger
 from pydantic import ValidationError
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.config import settings
-from app.models.document import Document, DocumentType
-from app.models.chunk import Chunk
-from app.models.requirement import Requirement, RequirementCategory
-from app.core.ai import get_review_client, LLMClient
-from app.core.observability.instrument import instrument as _observability_instrument
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.prompts.tender_extract import (
-    get_tender_extract_prompt,
     get_category_merge_decision_prompt,
     get_reflection_prompt,
     get_secondary_merge_decision_prompt,
+    get_tender_extract_prompt,
 )
-from app.core.review_contracts import serialize_json_list
+from app.core.config import settings
 from app.core.extractor.relevance_resolver import resolve_review_relevance
-from app.core.retriever.facet_vocab import FACET_SUBJECT_SCOPE, FACET_TRIGGER_WORDS
-from app.schemas.requirement import ExtractedRequirement
-
 from app.core.extractor.tender_extractor_parts import (
     dedup_stage as _dedup_stage,
-    extraction_stage as _extraction_stage,
-    merge_category_stage as _merge_category_stage,
-    quality_check as _quality_check,
-    secondary_merge_stage as _secondary_merge_stage,
 )
-from app.core.extractor.tender_extractor_parts.performance_metrics import (
-    TenderExtractionMetrics,
+from app.core.extractor.tender_extractor_parts import (
+    extraction_stage as _extraction_stage,
+)
+from app.core.extractor.tender_extractor_parts import (
+    merge_category_stage as _merge_category_stage,
+)
+from app.core.extractor.tender_extractor_parts import (
+    quality_check as _quality_check,
+)
+from app.core.extractor.tender_extractor_parts import (
+    secondary_merge_stage as _secondary_merge_stage,
 )
 from app.core.extractor.tender_extractor_parts.candidate_gate import (
     CandidateEmbeddingBuffer,
     partition_requirements_with_embeddings,
 )
-from app.core.extractor.tender_extractor_parts.near_duplicate_premerge import (
-    collapse_near_duplicates,
-)
 from app.core.extractor.tender_extractor_parts.extraction_units import (
     build_lead_context_map,
     select_extraction_chunks,
 )
+from app.core.extractor.tender_extractor_parts.near_duplicate_premerge import (
+    collapse_near_duplicates,
+)
+from app.core.extractor.tender_extractor_parts.performance_metrics import (
+    TenderExtractionMetrics,
+)
 from app.core.extractor.tender_extractor_parts.waiver_fold import (
     fold_delegations_into_waivers,
 )
-
+from app.core.observability.instrument import instrument as _observability_instrument
+from app.core.retriever.facet_vocab import FACET_SUBJECT_SCOPE, FACET_TRIGGER_WORDS
+from app.core.review_contracts import serialize_json_list
+from app.models.chunk import Chunk
+from app.models.document import Document, DocumentType
+from app.models.requirement import Requirement, RequirementCategory
+from app.schemas.requirement import ExtractedRequirement
 
 # 分类代码到枚举的映射
 CATEGORY_MAP = {

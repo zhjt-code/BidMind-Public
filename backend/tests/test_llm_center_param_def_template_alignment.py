@@ -37,7 +37,13 @@ _scripts_path = _backend_root / "scripts"
 if str(_scripts_path) not in sys.path:
     sys.path.insert(0, str(_scripts_path))
 
+import seed_llm_registry  # type: ignore[import-not-found]
+
 from app.core.ai.prompts.bid_extract import BID_EXTRACT_SYSTEM, BID_EXTRACT_USER
+from app.core.ai.prompts.relevance_classify import (
+    RELEVANCE_CLASSIFY_SYSTEM,
+    RELEVANCE_CLASSIFY_USER,
+)
 from app.core.ai.prompts.review import (
     NO_RESPONSE_PROMPT,
     REVIEW_PROMPT,
@@ -55,10 +61,6 @@ from app.core.ai.prompts.scoring_vlm_rescue import (
     SCORING_VLM_RESCUE_SYSTEM,
     SCORING_VLM_RESCUE_USER,
 )
-from app.core.ai.prompts.relevance_classify import (
-    RELEVANCE_CLASSIFY_SYSTEM,
-    RELEVANCE_CLASSIFY_USER,
-)
 from app.core.collusion.prompts import (
     COLLUSION_BUSINESS_PROMPT,
     COLLUSION_ENTITY_PROMPT,
@@ -73,8 +75,6 @@ from app.core.collusion.prompts import (
     COLLUSION_TENDER_FORMAT_PROMPT,
     COLLUSION_TEXT_PATTERN_PROMPT,
 )
-
-import seed_llm_registry  # type: ignore[import-not-found]
 
 pytestmark = pytest.mark.scoring
 

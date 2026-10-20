@@ -7,12 +7,13 @@
 - 法定代表人身份证明标题正确映射到 legal_representative_certificate template_key
 """
 
-import pytest
 from types import SimpleNamespace
 
+import pytest
+
 from app.core.writer.fixed_template import build_fixed_template_catalog, infer_fixed_template_key
-from app.core.writer.fixed_template.features import is_generic_template_requirement
 from app.core.writer.fixed_template.catalog import build_fixed_template_catalog_async
+from app.core.writer.fixed_template.features import is_generic_template_requirement
 
 
 def _chunk(page: int, text: str, idx: int | None = None) -> SimpleNamespace:

@@ -21,11 +21,11 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from app.core.ai.critic.flows import (
-    CriticFlow,
     FLOW_COLLUSION,
     FLOW_GENERIC,
     FLOW_REVIEW,
     FLOW_WRITER,
+    CriticFlow,
     resolve_judge_template_flow,
 )
 from app.core.ai.critic.prompts.judge_templates import get_judge_templates
@@ -61,7 +61,7 @@ def _judge_evidence_budget(reduction_round: int) -> int | None:
 
 
 try:
-    from app.core.observability.metrics import judge_outcome_total, judge_inconclusive_total
+    from app.core.observability.metrics import judge_inconclusive_total, judge_outcome_total
     _METRICS = True
 except Exception:
     _METRICS = False

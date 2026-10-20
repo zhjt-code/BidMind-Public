@@ -11,10 +11,11 @@
     4.1 项目经理证件 ............... 17
 """
 
-from dataclasses import dataclass
 import json
 import re
+from dataclasses import dataclass
 from typing import Any, Optional
+
 from loguru import logger
 
 from app.core.parser.page_coordinates import (
@@ -22,7 +23,6 @@ from app.core.parser.page_coordinates import (
     resolve_toc_page_coordinates,
 )
 from app.core.parser.pdf_parser import ParsedPage
-
 
 # 目录行匹配: "标题 ...... 页码" 或 "标题 —— 页码"
 _TOC_LINE = re.compile(

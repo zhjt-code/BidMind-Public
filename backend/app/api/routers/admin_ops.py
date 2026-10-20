@@ -25,7 +25,6 @@ from app.models.task_observation import TaskFlow
 from app.models.user import User
 from app.schemas.common import ApiResponse
 
-
 router = APIRouter(prefix="/admin/ops", tags=["运维监控"])
 
 
@@ -305,10 +304,10 @@ async def get_ops_overview(
     dispatcher = {}
     try:
         from app.core.ai.ai_factory import (
+            get_extract_dispatcher,
             get_judge_dispatcher,
             get_review_dispatcher,
             get_vision_dispatcher,
-            get_extract_dispatcher,
         )
         review = get_review_dispatcher()
         vision = get_vision_dispatcher()
@@ -446,6 +445,8 @@ async def get_llm_reliability_metrics(
     """P0-A: LLM 可靠性聚合(基于 llm_attempt_events 事实表, 跨进程可信口径)."""
     from app.services.ops_metrics.llm_reliability import (
         WINDOW_SECONDS as RELIABILITY_WINDOWS,
+    )
+    from app.services.ops_metrics.llm_reliability import (
         get_llm_reliability,
     )
     if window not in RELIABILITY_WINDOWS:

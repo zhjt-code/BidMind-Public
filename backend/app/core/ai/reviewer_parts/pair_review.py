@@ -63,9 +63,10 @@ if TYPE_CHECKING:
 # ---------------------------------------------------------------------------
 from app.core.ai.reviewer_parts.scoring_rubric import (  # noqa: E402
     expects_rule_assessments,
+)
+from app.core.ai.reviewer_parts.scoring_rubric import (
     scoring_supplement as _scoring_supplement,
 )
-
 
 # ---------------------------------------------------------------------------
 # Prompt 构造

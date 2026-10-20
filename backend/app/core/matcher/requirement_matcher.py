@@ -9,14 +9,15 @@
 
 from dataclasses import dataclass, field
 from typing import Callable, Optional
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.requirement import Requirement
-from app.models.bid_response import BidResponse
 from app.core.observability.instrument import instrument as _observability_instrument
 from app.core.review_contracts import reviewable_requirement_conditions
+from app.models.bid_response import BidResponse
+from app.models.requirement import Requirement
 
 
 @dataclass

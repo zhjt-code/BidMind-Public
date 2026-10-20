@@ -9,12 +9,12 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 from app.core.ai_settings import (
+    PRIORITIES_SINGLETON,
     PRIORITY_BACKUP,
     PRIORITY_LAST_RESORT,
     PRIORITY_NORMAL,
     PRIORITY_PREFERRED,
     PRIORITY_SECOND,
-    PRIORITIES_SINGLETON,
 )
 
 # 最小样本量：低于此值标 insufficient_data

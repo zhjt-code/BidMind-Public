@@ -202,8 +202,8 @@ def evaluate_no_response_pair(
 
     response = getattr(pair, "response", None)
     if response is not None:
-        from app.core.extractor.extraction_failure import is_extraction_failed_content
         from app.core.extractor.evidence_verdict import is_evidence_insufficient_content
+        from app.core.extractor.extraction_failure import is_extraction_failed_content
         if is_extraction_failed_content(getattr(response, "content", None)):
             reasons.append(ABSTAIN_EXTRACTION_FAILED)
         if is_evidence_insufficient_content(getattr(response, "content", None)):

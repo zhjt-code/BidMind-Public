@@ -21,9 +21,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import pytest  # noqa: E402
 from fastapi import HTTPException, status  # noqa: E402
 
-from app.api.dependencies import check_project_permission as api_check_project_permission  # noqa: E402
+from app.api.dependencies import (
+    check_project_permission as api_check_project_permission,  # noqa: E402
+)
 from app.core.exceptions import ForbiddenError  # noqa: E402
-from app.core.permissions import check_project_permission as core_check_project_permission  # noqa: E402
+from app.core.permissions import (
+    check_project_permission as core_check_project_permission,  # noqa: E402
+)
 from app.models.user import UserRole  # noqa: E402
 
 

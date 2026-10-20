@@ -3,23 +3,25 @@
 提供错误日志的查询、统计和状态管理功能。
 """
 
-from typing import Optional, Any
+import logging as _logging
 from datetime import datetime, timedelta, timezone
+from typing import Any, Optional
 
-from sqlalchemy import select, func, desc, case, extract, delete, update, distinct
+from sqlalchemy import case, delete, desc, distinct, extract, func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.system_error_log import SystemErrorLog
-from app.core.message_fingerprint import (
-    normalize_message, compute_fingerprint, FINGERPRINT_ALGORITHM_VERSION,
-)
-from app.models.log_suppression_rule import LogSuppressionRule
-from app.models.user import User
-from app.models.project import Project
 from app.core.config import settings
+from app.core.message_fingerprint import (
+    FINGERPRINT_ALGORITHM_VERSION,
+    compute_fingerprint,
+    normalize_message,
+)
 from app.core.observability.traffic_class import resolve_query_traffic_class
+from app.models.log_suppression_rule import LogSuppressionRule
+from app.models.project import Project
+from app.models.system_error_log import SystemErrorLog
+from app.models.user import User
 
-import logging as _logging
 _logger = _logging.getLogger(__name__)
 
 

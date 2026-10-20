@@ -4,15 +4,16 @@
 """
 
 import enum
-from typing import Optional, TYPE_CHECKING
-from sqlalchemy import Column, String, Text, Integer, ForeignKey, JSON, Enum as SQLEnum
+from typing import TYPE_CHECKING
+
+from sqlalchemy import JSON, Column, ForeignKey, Integer, String, Text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.user import User
-    from app.models.project import Project
+    pass
 
 
 class FeedbackType(str, enum.Enum):

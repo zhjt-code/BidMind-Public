@@ -6,8 +6,8 @@ from app.core.config import settings
 from app.core.extractor.tender_extractor_parts.performance_metrics import (
     TenderExtractionMetrics,
 )
-from app.schemas.requirement import ExtractedRequirement
 from app.models.tender_chunk_extraction_cache import TenderChunkExtractionCache
+from app.schemas.requirement import ExtractedRequirement
 
 
 def test_tender_chunk_extraction_cache_model_has_unique_reuse_key():
@@ -94,8 +94,7 @@ def test_build_chunk_extraction_cache_key_changes_with_prompt_and_model():
 
 @pytest.mark.asyncio
 async def test_extract_from_chunk_uses_cache_without_calling_llm(monkeypatch):
-    from app.core.extractor.tender_extractor_parts import extraction_stage
-    from app.core.extractor.tender_extractor_parts import chunk_extraction_cache
+    from app.core.extractor.tender_extractor_parts import chunk_extraction_cache, extraction_stage
 
     cached_item = ExtractedRequirement(
         category="QUAL",

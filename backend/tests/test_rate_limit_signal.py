@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from email.utils import formatdate
 import sys
 import time
+from email.utils import formatdate
 from pathlib import Path
 
 import httpx

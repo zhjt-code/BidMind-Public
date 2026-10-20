@@ -16,16 +16,20 @@ LLM Center 流程/阶段/节点树查询，含 5 个 DB 计数 helper。
 
 from __future__ import annotations
 
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.llm_flow import LlmFlow, LlmStage
 from app.models.llm_node import LlmNode
-from app.models.llm_template_version import LlmTemplateVersion
-from app.models.llm_param_def import LlmParamDef
 from app.models.llm_node_edge import LlmNodeEdge
+from app.models.llm_param_def import LlmParamDef
+from app.models.llm_template_version import LlmTemplateVersion
 from app.schemas.llm_center import (
-    FlowSummary, FlowTopology, StageInfo, NodeSummary, EdgeInfo,
+    EdgeInfo,
+    FlowSummary,
+    FlowTopology,
+    NodeSummary,
+    StageInfo,
 )
 
 
@@ -50,7 +54,7 @@ class FlowTopologyService:
             node_count = (await self.db.execute(
                 select(func.count(LlmNode.id))
                 .join(LlmStage)
-                .where(LlmStage.flow_id == f.id, LlmNode.is_active == True)
+                .where(LlmStage.flow_id == f.id, LlmNode.is_active.is_(True))
             )).scalar() or 0
             result.append(FlowSummary(
                 flow_key=f.flow_key, name=f.name, description=f.description,
@@ -80,7 +84,7 @@ class FlowTopologyService:
             # 这些节点 DB 数据保留供审计/回滚, 但 LLM Center UI 不再展示可编辑入口。
             nodes = (await self.db.execute(
                 select(LlmNode)
-                .where(LlmNode.stage_id == s.id, LlmNode.is_active == True)
+                .where(LlmNode.stage_id == s.id, LlmNode.is_active.is_(True))
                 .order_by(LlmNode.display_order)
             )).scalars().all()
 
@@ -125,7 +129,7 @@ class FlowTopologyService:
         """返回 (active_version, total_versions)"""
         active = (await self.db.execute(
             select(LlmTemplateVersion.version)
-            .where(LlmTemplateVersion.node_id == node_id, LlmTemplateVersion.is_active == True)
+            .where(LlmTemplateVersion.node_id == node_id, LlmTemplateVersion.is_active.is_(True))
             .limit(1)
         )).scalar_one_or_none()
 
@@ -141,7 +145,7 @@ class FlowTopologyService:
             select(func.count(LlmTemplateVersion.id)).where(
                 LlmTemplateVersion.node_id == node_id,
                 LlmTemplateVersion.source == "code",
-                LlmTemplateVersion.is_active == False,
+                LlmTemplateVersion.is_active.is_(False),
             )
         )).scalar() or 0
         return count > 0

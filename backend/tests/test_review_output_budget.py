@@ -22,8 +22,6 @@ import json
 from typing import Any, Optional
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from app.core.ai.retry_tracker import LLMRetryTracker
 from app.core.ai.reviewer_parts.result_builder import (
     FAILURE_COMMENT_MARKER,
@@ -35,7 +33,6 @@ from app.core.ai.reviewer_parts.review_output_budget import (
     looks_like_truncated_output,
 )
 from app.core.ai.validators import get_review_result_validator
-
 
 # ---------------------------------------------------------------------------
 # 1-2. 截断判定与扩容

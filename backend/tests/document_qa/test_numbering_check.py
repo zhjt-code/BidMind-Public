@@ -2,7 +2,6 @@
 
 from app.core.document_qa.checks.numbering_check import check_numbering
 from app.core.document_qa.contracts import QaBlock, QaHeading, QaSpan
-
 from tests.document_qa.conftest import make_model
 
 

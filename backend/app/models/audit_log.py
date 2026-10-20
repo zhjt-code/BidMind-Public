@@ -3,7 +3,7 @@
 记录用户在系统中的关键操作，供管理员查看和合规审计。
 """
 
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 
 from app.models.base import BaseModel
 

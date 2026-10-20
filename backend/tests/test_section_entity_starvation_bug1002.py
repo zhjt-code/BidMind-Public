@@ -1,11 +1,12 @@
 """ P1: section/entity 通道与饥饿页有界进包。"""
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import os
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
+
+from tests.synthetic_data import synthetic_text
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 

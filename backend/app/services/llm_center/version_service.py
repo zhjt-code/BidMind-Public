@@ -23,17 +23,19 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.llm_template_version import LlmTemplateVersion
-from app.models.llm_param_def import LlmParamDef
 from app.models.llm_node import LlmNode
 from app.models.llm_node_edge import LlmNodeEdge
+from app.models.llm_param_def import LlmParamDef
 from app.models.llm_publish_record import LlmPublishRecord
+from app.models.llm_template_version import LlmTemplateVersion
 from app.schemas.llm_center import (
-    TemplateVersionInfo, ParamDefInfo,
-    NodeConfigUpdate, ImpactAnalysisResponse,
-    ParamDefCreate, ParamDefUpdate,
+    ImpactAnalysisResponse,
+    NodeConfigUpdate,
+    ParamDefCreate,
+    ParamDefInfo,
+    ParamDefUpdate,
+    TemplateVersionInfo,
 )
-
 from app.services.llm_center._helpers import _broadcast_invalidate, _get_node_or_raise
 
 
@@ -79,7 +81,7 @@ class VersionService:
         old_active = (await self.db.execute(
             select(LlmTemplateVersion).where(
                 LlmTemplateVersion.node_id == node.id,
-                LlmTemplateVersion.is_active == True,
+                LlmTemplateVersion.is_active.is_(True),
                 LlmTemplateVersion.template_role.in_(roles_to_publish),
             )
         )).scalars().all()

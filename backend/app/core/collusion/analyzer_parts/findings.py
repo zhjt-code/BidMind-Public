@@ -27,19 +27,17 @@ Task 8 Step 4：从 analyzer.py 迁出 finding 提取、规范化、attention �
 
 from __future__ import annotations
 
+import re as _re
 
 # 补全 import 修复
-from typing import Optional
-
-import re as _re
-from typing import Any
+from typing import Any, Optional
 
 from loguru import logger
 
 from app.core.collusion.analyzer_parts.constants import (
+    _CERTAINTY_MIN,
     _DIM_KEYS,
     _DIM_MAP,
-    _CERTAINTY_MIN,
 )
 from app.schemas.collusion import (
     DIMENSION_EVIDENCE_LEVEL_CONTRACT,

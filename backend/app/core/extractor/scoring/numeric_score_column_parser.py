@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from pydantic import ValidationError
 
 from app.core.extractor.scoring.category_inference import infer_scoring_category
-from app.core.extractor.scoring.scoring_item_naming import strip_scoring_name_decoration
 from app.core.extractor.scoring.column_role_inference import (
     infer_column_roles,
     volume_from_group_text,
@@ -25,12 +24,12 @@ from app.core.extractor.scoring.score_column_semantics import (
     parse_adjustment_score,
     parse_short_score_tolerant,
 )
+from app.core.extractor.scoring.scoring_item_naming import strip_scoring_name_decoration
 from app.core.extractor.scoring.volume_labeling import (
     infer_scoring_group_label_from_row,
     refine_scoring_group_label,
 )
 from app.schemas.requirement import ExtractedScoringItem
-
 
 _NUMERIC_SKIP_NAME_TERMS = (
     "分值构成",

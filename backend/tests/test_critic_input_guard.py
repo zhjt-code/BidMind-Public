@@ -11,7 +11,6 @@ import sys
 from pathlib import Path
 
 import httpx
-import pytest
 from openai import APIStatusError
 
 sys.path.insert(0, str(Path(__file__).parent.parent))

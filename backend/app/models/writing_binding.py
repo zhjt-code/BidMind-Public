@@ -1,8 +1,10 @@
 """标书编写 -- 三元绑定模型"""
 
 import enum
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Enum
-from sqlalchemy.orm import relationship, backref
+
+from sqlalchemy import Column, Enum, Float, ForeignKey, Integer, String
+from sqlalchemy.orm import backref, relationship
+
 from app.models.base import BaseModel
 
 

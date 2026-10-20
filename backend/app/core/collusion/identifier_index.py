@@ -33,7 +33,6 @@ from app.core.collusion.normalizers import (
 )
 from app.schemas.collusion import is_valid_person_name
 
-
 # 字段路径常量（用于跨字段命中时定位证据来源）
 FIELD_COMPANY_NAME = "company_info.company_name"
 FIELD_LEGAL_REP = "company_info.legal_representative"

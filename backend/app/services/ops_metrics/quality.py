@@ -10,7 +10,7 @@ prom_counter_sum / critic_flow_breakdown / critic_flow_verdict 通过 kwargs
 """
 from __future__ import annotations
 
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from app.core.ai.critic.flows import (
     CRITIC_BUSINESS_FLOWS,
@@ -18,7 +18,6 @@ from app.core.ai.critic.flows import (
     FLOW_INVESTIGATE,
     FLOW_WRITER,
 )
-
 
 CRITIC_FLOW_LABELS: dict[str, str] = {
     FLOW_INVESTIGATE: "投标审查",

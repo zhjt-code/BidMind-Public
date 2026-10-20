@@ -10,8 +10,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from app.core.writer.image_node_affinity import (
     filter_images_for_node,
     find_best_image_for_placeholder,
-    _title_matches_image_type,
-    _caption_matches_title,
 )
 from app.models.writing_material_image import ImageType
 
@@ -243,8 +241,9 @@ def test_find_best_for_placeholder_empty_inputs() -> None:
 
 def test_calc_image_width_with_dimensions() -> None:
     """有宽高信息时按 150DPI 换算"""
-    from app.core.writer.doc_renderer import DocRenderer
     from docx.shared import Mm
+
+    from app.core.writer.doc_renderer import DocRenderer
 
     rec = _make_img(1, ImageType.license)
     rec.width = 2480
@@ -256,8 +255,9 @@ def test_calc_image_width_with_dimensions() -> None:
 
 def test_calc_image_width_zero_dimensions_cert() -> None:
     """宽高为0的证照类图片默认140mm"""
-    from app.core.writer.doc_renderer import DocRenderer
     from docx.shared import Mm
+
+    from app.core.writer.doc_renderer import DocRenderer
 
     rec = _make_img(1, ImageType.license)
     rec.width = 0
@@ -268,8 +268,9 @@ def test_calc_image_width_zero_dimensions_cert() -> None:
 
 def test_calc_image_width_zero_dimensions_other() -> None:
     """宽高为0的非证照图片默认120mm"""
-    from app.core.writer.doc_renderer import DocRenderer
     from docx.shared import Mm
+
+    from app.core.writer.doc_renderer import DocRenderer
 
     rec = _make_img(1, ImageType.photo)
     rec.width = 0
@@ -280,8 +281,9 @@ def test_calc_image_width_zero_dimensions_other() -> None:
 
 def test_calc_image_width_small_image() -> None:
     """小图片不低于60mm下限"""
-    from app.core.writer.doc_renderer import DocRenderer
     from docx.shared import Mm
+
+    from app.core.writer.doc_renderer import DocRenderer
 
     rec = _make_img(1, ImageType.other)
     rec.width = 100

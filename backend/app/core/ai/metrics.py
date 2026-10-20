@@ -4,7 +4,7 @@
 延迟、重试和 Dispatcher 自适应并发状态。
 """
 
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 llm_calls_total = Counter(
     "llm_calls_total",

@@ -1,19 +1,18 @@
 from tests.synthetic_data import synthetic_text
+
 """投标侧 4 Gate 单元测试（B3.6）。
 
 PageAnchorVerifyGate / ClaimResponseConsistencyGate /
 CrossGroupConflictGate / RelevanceAnomalyBackfillGate
 """
 
-import pytest
 from types import SimpleNamespace
 
 from app.core.ai.gates.base import GateContext
-from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
 from app.core.ai.gates.review.claim_response_consistency import ClaimResponseConsistencyGate
 from app.core.ai.gates.review.cross_group_conflict import CrossGroupConflictGate
+from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
 from app.core.ai.gates.review.relevance_anomaly_backfill import RelevanceAnomalyBackfillGate
-
 
 # ============================================================================
 # PageAnchorVerifyGate

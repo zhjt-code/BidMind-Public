@@ -19,6 +19,7 @@ for _p in (_backend_root, _scripts_path):
         sys.path.insert(0, str(_p))
 
 import os
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
 pytestmark = [pytest.mark.scoring, pytest.mark.usefixtures('restore_real_ai_modules')]
@@ -58,8 +59,9 @@ def test_node_prompt_refs_resolvable() -> None:
 
 def test_input_params_match_user_template_placeholders() -> None:
     """ 防线: input ParamDef 必须与模板 {占位符} 完全对齐。"""
-    from app.core.ai.prompts.scheme_reader import SCHEME_READER_USER
     import re
+
+    from app.core.ai.prompts.scheme_reader import SCHEME_READER_USER
 
     placeholders = set(
         re.findall(r"(?<!\{)\{([a-z_]+)\}(?!\})", SCHEME_READER_USER)

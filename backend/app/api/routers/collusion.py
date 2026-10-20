@@ -21,85 +21,133 @@ if TYPE_CHECKING:
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from sqlalchemy import select, delete
-from sqlalchemy.ext.asyncio import AsyncSession
 from loguru import logger
 from pydantic import BaseModel
+from sqlalchemy import delete, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import get_current_user, project_log_context
+from app.core.config import settings
 from app.core.database import get_db
 from app.core.filename import build_export_filename
-from app.models.document import Document, DocumentType
-from app.models.project import Project, ProjectStatus, ProjectType
-from app.models.collusion_result import CollusionResult
+from app.core.tasks import (
+    dispatch_background_job,
+    get_collusion_task_name,
+    get_process_task_name,
+    is_task_active,
+    run_collusion_task,
+    run_process_task,
+)
 from app.models.collusion_extraction import CollusionExtraction
 from app.models.collusion_group import CollusionGroup
+from app.models.collusion_result import CollusionResult
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus, ProjectType
+from app.models.user import User
 from app.schemas.collusion import (
-    CollusionStatus,
-    CollusionResults,
     CollusionProjectSummary,
+    CollusionResults,
+    CollusionStatus,
     CoverageStats,
     SuspectedGroup,
 )
 from app.schemas.common import ApiResponse
-from app.core.tasks import (
-    run_collusion_task,
-    get_collusion_task_name,
-    run_process_task,
-    get_process_task_name,
-    is_task_active,
-    dispatch_background_job,
+from app.services.collusion_readiness_service import (
+    assess_collusion_document_readiness,
+    assess_collusion_readiness,
 )
-from app.core.config import settings
-from app.models.user import User
-from app.api.dependencies import get_current_user, project_log_context
+from app.services.collusion_status_service import (
+    build_collusion_results as _status_build_collusion_results,
+)
+from app.services.collusion_status_service import (
+    collusion_retry_payload as _status_collusion_retry_payload,
+)
+from app.services.collusion_status_service import (
+    compute_collusion_status as _status_compute_collusion_status,
+)
+from app.services.collusion_status_service import (
+    fractional_progress_from_heartbeat as _status_fractional_progress_from_heartbeat,
+)
+from app.services.collusion_status_service import (
+    get_project_or_404 as _status_get_project_or_404,
+)
+from app.services.collusion_status_service import (
+    group_fractional_progress_from_heartbeat as _status_group_fractional_progress_from_heartbeat,
+)
+from app.services.collusion_status_service import (
+    heartbeat_message as _status_heartbeat_message,
+)
+from app.services.collusion_status_service import (
+    heartbeat_stage_pct as _status_heartbeat_stage_pct,
+)
+from app.services.collusion_status_service import (
+    recheck_project_terminal as _status_recheck_project_terminal,
+)
+from app.services.collusion_summary_service import (
+    RISK_RANK as _SUMMARY_RISK_RANK,
+)
+from app.services.collusion_summary_service import (
+    build_narrative_summary as _summary_build_narrative_summary,
+)
+from app.services.collusion_summary_service import (
+    derive_display_overall_risk as _summary_derive_display_overall_risk,
+)
+from app.services.collusion_summary_service import (
+    derive_overall_risk as _summary_derive_overall_risk,
+)
+from app.services.collusion_summary_service import (
+    derive_project_decision as _summary_derive_project_decision,
+)
+from app.services.collusion_summary_service import (
+    highest_risk as _summary_highest_risk,
+)
+from app.services.collusion_summary_service import (
+    load_or_build_project_summary as _summary_load_or_build_project_summary,
+)
+from app.services.collusion_summary_service import (
+    normalize_suspected_groups as _summary_normalize_suspected_groups,
+)
+from app.services.collusion_view_service import (
+    EMPTY_PARENS_RE as _VIEW_EMPTY_PARENS_RE,
+)
+from app.services.collusion_view_service import (
+    PAIR_REF_PARAM_RE as _VIEW_PAIR_REF_PARAM_RE,
+)
+from app.services.collusion_view_service import (
+    build_evidences_from_legacy as _view_build_evidences_from_legacy,
+)
+from app.services.collusion_view_service import (
+    build_finding_items as _view_build_finding_items,
+)
+from app.services.collusion_view_service import (
+    build_pair_ref_labels as _view_build_pair_ref_labels,
+)
+from app.services.collusion_view_service import (
+    normalize_pair_ref as _view_normalize_pair_ref,
+)
+from app.services.collusion_view_service import (
+    replace_collusion_pair_refs as _view_replace_collusion_pair_refs,
+)
+from app.services.collusion_view_service import (
+    sanitize_collusion_results as _view_sanitize_collusion_results,
+)
+from app.services.collusion_view_service import (
+    step_status as _view_step_status,
+)
+from app.services.collusion_view_service import (
+    strip_pdf_suffix as _view_strip_pdf_suffix,
+)
 from app.services.flow_retry_service import (
     COLLUSION_RETRY_SPECS,
     attach_collusion_dispatch_result,
     begin_collusion_retry_attempt,
-    build_retry_payload,
     build_collusion_retry_state,
+    build_retry_payload,
     cleanup_collusion_retry_scope,
     infer_collusion_retry_context,
     is_collusion_retry_running,
     latest_collusion_task_run,
     mark_collusion_task_run_by_task_name,
-)
-from app.services.collusion_summary_service import (
-    RISK_RANK as _SUMMARY_RISK_RANK,
-    build_narrative_summary as _summary_build_narrative_summary,
-    derive_display_overall_risk as _summary_derive_display_overall_risk,
-    derive_overall_risk as _summary_derive_overall_risk,
-    derive_project_decision as _summary_derive_project_decision,
-    highest_risk as _summary_highest_risk,
-    load_or_build_project_summary as _summary_load_or_build_project_summary,
-    normalize_suspected_groups as _summary_normalize_suspected_groups,
-)
-from app.services.collusion_view_service import (
-    EMPTY_PARENS_RE as _VIEW_EMPTY_PARENS_RE,
-    PAIR_REF_PARAM_RE as _VIEW_PAIR_REF_PARAM_RE,
-    build_evidences_from_legacy as _view_build_evidences_from_legacy,
-    build_finding_items as _view_build_finding_items,
-    build_pair_ref_labels as _view_build_pair_ref_labels,
-    normalize_pair_ref as _view_normalize_pair_ref,
-    replace_collusion_pair_refs as _view_replace_collusion_pair_refs,
-    sanitize_collusion_results as _view_sanitize_collusion_results,
-    step_status as _view_step_status,
-    strip_pdf_suffix as _view_strip_pdf_suffix,
-)
-from app.services.collusion_status_service import (
-    build_collusion_results as _status_build_collusion_results,
-    collusion_retry_payload as _status_collusion_retry_payload,
-    compute_collusion_status as _status_compute_collusion_status,
-    fractional_progress_from_heartbeat as _status_fractional_progress_from_heartbeat,
-    get_project_or_404 as _status_get_project_or_404,
-    group_fractional_progress_from_heartbeat as _status_group_fractional_progress_from_heartbeat,
-    heartbeat_message as _status_heartbeat_message,
-    heartbeat_stage_pct as _status_heartbeat_stage_pct,
-    recheck_project_terminal as _status_recheck_project_terminal,
-)
-from app.services.collusion_readiness_service import (
-    assess_collusion_document_readiness,
-    assess_collusion_readiness,
 )
 
 
@@ -446,13 +494,15 @@ async def retry_collusion(
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="文档处理重试需要 target_id")
         task_name = get_process_task_name(target_id)
         arq_function = "process_document_job"
-        fallback_factory = lambda: run_process_task(project_id, target_id)
+        def fallback_factory():
+            return run_process_task(project_id, target_id)
         task_type = "process"
         arq_args = (project_id, target_id)
     else:
         task_name = get_collusion_task_name(project_id)
         arq_function = "collusion_analyze_job"
-        fallback_factory = lambda: run_collusion_task(project_id)
+        def fallback_factory():
+            return run_collusion_task(project_id)
         task_type = "collusion"
         arq_args = (project_id,)
 

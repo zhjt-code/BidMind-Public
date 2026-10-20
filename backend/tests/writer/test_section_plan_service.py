@@ -67,7 +67,7 @@ class FakeClient:
 
 @pytest.mark.asyncio
 async def test_resolve_section_plan_reuses_ready_plan_without_llm_call() -> None:
-    from app.core.writer.section_plan.contracts import SectionPlanResolution, SectionPlanRequest
+    from app.core.writer.section_plan.contracts import SectionPlanRequest, SectionPlanResolution
     from app.core.writer.section_plan.service import resolve_section_plan
 
     request = SectionPlanRequest(

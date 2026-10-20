@@ -18,7 +18,6 @@ from loguru import logger
 
 from app.core.config import settings
 
-
 GpuAdmissionAction = Literal["use_gpu", "cpu_fallback"]
 
 # 持有中的 GPU 许可心跳, 按 owner_key 索引; 释放时先停心跳再删 owner。

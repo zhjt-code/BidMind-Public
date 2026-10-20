@@ -18,7 +18,6 @@ import pytest
 
 from app.services.user_welcome_service import UserWelcomeService
 
-
 # ==================== 测试用辅助对象 ====================
 
 

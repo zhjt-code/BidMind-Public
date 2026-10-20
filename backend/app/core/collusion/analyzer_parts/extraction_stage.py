@@ -29,23 +29,19 @@ Task 8 Step 6：从 CollusionAnalyzer 主类迁出 S1 阶段 19 个类内方法�
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.ai.prompt_registry import resolve_user_template
-from app.core.collusion.extraction_routes import build_empty_extraction
-
 import asyncio
 from typing import Optional
 
 from loguru import logger
 from sqlalchemy import select
 
-from app.core.config import settings, get_collusion_extract_timeout
-from app.core.database import async_session_factory
+# 补全 import 修复
+from app.core.ai.prompt_registry import resolve_user_template
 from app.core.collusion.analyzer_parts.constants import (
     _EXTRACTION_FAIL_THRESHOLD,
     _IMAGE_BUDGET,
     _MAX_TENDER_CHARS,
+    ExtractionQualityError,
 )
 from app.core.collusion.analyzer_parts.extraction_validation import (
     _empty_extraction,
@@ -53,6 +49,7 @@ from app.core.collusion.analyzer_parts.extraction_validation import (
 from app.core.collusion.extraction_routes import (
     EXTRACTION_ROUTE_CONFIGS,
     ExtractionRouteConfig,
+    build_empty_extraction,
     get_extraction_route,
     merge_route_extractions,
 )
@@ -61,7 +58,8 @@ from app.core.collusion.prompts import (
     COLLUSION_TENDER_FORMAT_PROMPT,
     build_collusion_extract_route_prompt,
 )
-from app.core.collusion.analyzer_parts.constants import ExtractionQualityError
+from app.core.config import get_collusion_extract_timeout, settings
+from app.core.database import async_session_factory
 from app.core.parser.image_extractor import (
     is_annotation_chunk_content,
     is_evidence_chunk_content,
@@ -88,7 +86,7 @@ async def extract_tender_format(self, tender_doc: Document) -> Optional[dict]:
             timeout=get_collusion_extract_timeout(),
             max_tokens=1500,
         )
-        logger.info(f"[Analyzer] 招标格式提取完成")
+        logger.info("[Analyzer] 招标格式提取完成")
         return result
     except Exception as e:
         logger.warning(f"[Analyzer] 招标格式提取失败（使用空格式）: {e}")

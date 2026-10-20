@@ -7,7 +7,7 @@ trace_mode:
 - full: 完整输入输出快照，仅调试模式启用
 """
 
-from sqlalchemy import Column, String, Text, Integer, Float, ForeignKey, Index
+from sqlalchemy import Column, Float, Index, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import BaseModel

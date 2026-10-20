@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import struct
 import zlib
-from pathlib import Path
 from inspect import signature
+from pathlib import Path
 
 import fitz
 

@@ -1,6 +1,6 @@
-from app.core.report.generator import ReportGenerator
-
 import pytest
+
+from app.core.report.generator import ReportGenerator
 
 pytestmark = pytest.mark.scoring
 

@@ -16,8 +16,8 @@ from __future__ import annotations
 
 import asyncio
 import json
-from time import perf_counter
 from collections.abc import Callable
+from time import perf_counter
 from typing import TYPE_CHECKING, Optional
 
 from loguru import logger

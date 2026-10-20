@@ -15,7 +15,6 @@ from app.core.extractor.scoring.scheme_reader.integration import (
     resolve_scheme_reader_mode,
 )
 from app.schemas.requirement import ExtractedScoringItem
-
 from tests.test_scheme_reader import SIGNALS_2250, _FakeLLM, _scheme_map_2250
 
 pytestmark = pytest.mark.scoring

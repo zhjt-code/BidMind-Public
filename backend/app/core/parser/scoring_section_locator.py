@@ -17,7 +17,6 @@ from dataclasses import dataclass
 from app.core.parser.pdf_parser import ParsedDocument
 from app.core.parser.pdf_structure_analyzer import PdfStructureAnalyzer
 
-
 _SCORING_KEYWORDS: tuple[str, ...] = (
     "评标办法",
     "评标方法",

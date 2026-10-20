@@ -18,22 +18,17 @@ import json
 import re
 from dataclasses import dataclass
 from typing import Callable, Optional
+
 from loguru import logger
 from pydantic import ValidationError
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.bid_envelope import BidEnvelope, load_bid_envelope
-from app.models.requirement import Requirement
-from app.models.bid_response import BidResponse, EvidenceType
-from app.core.ai import get_review_client, LLMClient, retry_on_input_too_long_400
+from app.core.ai import LLMClient, get_review_client, retry_on_input_too_long_400
 from app.core.ai.json_response import require_dict_response
-from app.core.config import settings, get_ai_mode, get_review_concurrency
 from app.core.ai.prompts.bid_extract import get_bid_extract_prompt
-from app.core.extractor.extraction_failure import (
-    ExtractionFailedSignal,
-    build_extraction_failed_response,
-)
+from app.core.bid_envelope import BidEnvelope, load_bid_envelope
+from app.core.config import get_ai_mode, get_review_concurrency, settings
 from app.core.extractor.bid_envelope_retrieval import retrieve_first_round_evidence
 from app.core.extractor.bid_extract_prompt_budget import (
     OVERSIZE_REASON,
@@ -54,26 +49,30 @@ from app.core.extractor.evidence_verdict import (
     decide_bid_response_persist,
     pack_has_substantial_hits,
 )
-from app.core.extractor.scoring.scoring_prompt_block import (
-    build_scoring_context,
-    build_query_extension,
+from app.core.extractor.extraction_failure import (
+    ExtractionFailedSignal,
+    build_extraction_failed_response,
 )
-from app.core.retriever.semantic_retriever import SemanticRetriever, SearchResult
+from app.core.extractor.scoring.scoring_prompt_block import (
+    build_query_extension,
+    build_scoring_context,
+)
+from app.core.observability.guard_instrument import guard_observe
 from app.core.retriever.context_reassembler import ContextReassembler
 from app.core.retriever.evidence_coverage import (
     build_evidence_facets,
-    evaluate_facet_coverage,
 )
 from app.core.retriever.evidence_pipeline.assemble_package import assemble_evidence_package
 from app.core.retriever.evidence_pipeline.contracts import RetrievalQuery
 from app.core.retriever.evidence_priors import format_starvation_note
+from app.core.retriever.semantic_retriever import SearchResult, SemanticRetriever
 from app.core.review_contracts import (
     parse_json_list,
     reviewable_requirement_conditions,
 )
+from app.models.bid_response import BidResponse, EvidenceType
+from app.models.requirement import Requirement
 from app.schemas.bid_response import ExtractedBidResponse
-from app.core.observability.guard_instrument import guard_observe
-
 
 # 证明材料类型映射
 EVIDENCE_TYPE_MAP = {
@@ -637,7 +636,7 @@ class BidExtractor:
             retriever.db, query, retriever=retriever
         )
         results = list(package.results)
-        from app.core.parser.toc_parser import deserialize_toc_map, TocParser
+        from app.core.parser.toc_parser import TocParser, deserialize_toc_map
         from app.core.retriever.evidence_coverage import evaluate_facet_coverage
 
         coverage = package.coverage or evaluate_facet_coverage(facets, results)

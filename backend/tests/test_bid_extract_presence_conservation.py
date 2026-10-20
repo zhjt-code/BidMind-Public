@@ -17,7 +17,6 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:
 from app.core.extractor.evidence_verdict import decide_bid_response_persist
 from app.core.extractor.facet_closure import (
     PRESENCE_FOUND,
-    PRESENCE_MISSING,
     build_facet_states,
     coverage_with_inventory,
     reconcile_review_gaps_with_inventory,

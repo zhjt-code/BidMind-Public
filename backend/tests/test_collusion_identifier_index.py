@@ -1,4 +1,5 @@
 from tests.synthetic_data import synthetic_text
+
 """主体标识符索引单元测试"""
 
 from app.core.collusion.identifier_index import (

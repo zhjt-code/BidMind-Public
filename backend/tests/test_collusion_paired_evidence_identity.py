@@ -24,7 +24,6 @@ from app.core.collusion.paired_evidence_identity import (
     side_subject_tokens,
 )
 
-
 SHARED_LICENSE_LINE = (
     '法定代表人:<PERSON_D> 住所地:山西省大同市平城区魏都大道1868号'
     + "御东世纪花园3号楼1单元17层1701室"

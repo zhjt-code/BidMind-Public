@@ -6,8 +6,8 @@
 
 from __future__ import annotations
 
-from typing import Any
 import json
+from typing import Any
 
 from app.core.ai.prompt_registry import resolve_runtime_params
 from app.core.writer.prompts.section_plan import get_section_plan_prompt

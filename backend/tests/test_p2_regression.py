@@ -1,5 +1,6 @@
 """P2 回归测试: 结构化字段白名单"""
 import sys
+
 sys.path.insert(0, ".")
 
 from app.core.writer.section_composer import SectionComposer

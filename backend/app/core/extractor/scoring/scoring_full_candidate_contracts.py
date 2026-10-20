@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.core.extractor.scoring.scoring_scope_contracts import (
-    ScoringScopeExpectation,
     ScopeIdentity,
+    ScoringScopeExpectation,
 )
 
 if TYPE_CHECKING:

@@ -11,7 +11,6 @@ import re
 from app.core.writer.fixed_template.models import TemplateMatchResult
 from app.core.writer.numbering import strip_existing_number
 
-
 KNOWN_TEMPLATE_KEYS: tuple[str, ...] = (
     "bid_letter",
     "bid_security_certificate",

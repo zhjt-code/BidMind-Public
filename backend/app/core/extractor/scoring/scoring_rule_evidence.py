@@ -17,6 +17,7 @@ from app.core.extractor.scoring.scoring_item_naming import (
 )
 from app.schemas.requirement import ExtractedScoringItem
 
+
 def backfill_rules_from_payload_roles(
     items: list[ExtractedScoringItem],
     rows: list[list[str]],

@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from matplotlib.patches import Circle, Polygon
 import matplotlib.pyplot as plt
+from matplotlib.patches import Circle, Polygon
 
 from app.core.writer.visuals.ir_contracts import RoadmapIR
 from app.core.writer.visuals.render_common import DPI, font_kwargs, wrap_label

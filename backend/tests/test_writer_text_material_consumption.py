@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from app.core.exceptions import ServiceError
+from app.core.tasks.writing_match_task import run_writing_match_task
 from app.core.writer.filename_classifier import classify_by_filename
 from app.core.writer.label_resolver import resolve_material_label
 from app.core.writer.material_tagger import MaterialTagger
@@ -13,7 +14,6 @@ from app.core.writer.prompts.section_compose import (
     get_data_fill_prompt,
     get_free_writing_prompt,
 )
-from app.core.tasks.writing_match_task import run_writing_match_task
 from app.core.writer.section_composer import SectionComposer
 from app.services.writing_service import WritingService
 

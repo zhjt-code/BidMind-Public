@@ -21,27 +21,11 @@ import re
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from loguru import logger
-
 from app.core.extractor.scoring.column_role_inference import (
     ColumnRoles,
     infer_column_roles,
 )
-from app.core.parser.scoring_header_role_binding import (
-    HeaderBindingContext,
-    bind_header_width_roles,
-    roles_from_header as _roles_from_header,
-)
-from app.core.parser.table_grid_model import (
-    ColumnStructureEvidence,
-    extract_column_structure,
-)
-from app.core.parser.scoring_row_projection import project_scoring_row
-from app.core.parser.scoring_sparse_assembly_gate import apply_sparse_projection
-from app.core.parser.scoring_sparse_grid_projection import SparseGridProjectionSchema
-from app.core.parser.table_linearizer import join_cell_lines_cjk_aware
 from app.core.extractor.scoring.numeric_score_column_parser import is_score_subtotal_row
-from app.core.extractor.scoring.scoring_item_naming import recover_subitem_name_from_rule
 from app.core.extractor.scoring.score_column_semantics import (
     is_price_formula_factor,
     is_scoring_header_row,
@@ -50,6 +34,22 @@ from app.core.extractor.scoring.score_column_semantics import (
     parse_short_score,
     row_text,
 )
+from app.core.extractor.scoring.scoring_item_naming import recover_subitem_name_from_rule
+from app.core.parser.scoring_header_role_binding import (
+    HeaderBindingContext,
+    bind_header_width_roles,
+)
+from app.core.parser.scoring_header_role_binding import (
+    roles_from_header as _roles_from_header,
+)
+from app.core.parser.scoring_row_projection import project_scoring_row
+from app.core.parser.scoring_sparse_assembly_gate import apply_sparse_projection
+from app.core.parser.scoring_sparse_grid_projection import SparseGridProjectionSchema
+from app.core.parser.table_grid_model import (
+    ColumnStructureEvidence,
+    extract_column_structure,
+)
+from app.core.parser.table_linearizer import join_cell_lines_cjk_aware
 
 if TYPE_CHECKING:
     from app.core.parser.pdf_parser import ParsedDocument

@@ -30,7 +30,7 @@ from collections import defaultdict
 
 import pytest
 
-from scripts.seed_llm_registry import PARAM_DEFS, _WRITING_NODES
+from scripts.seed_llm_registry import _WRITING_NODES, PARAM_DEFS
 
 _PLACEHOLDER_RE = re.compile(r"\{(\w+)\}")
 

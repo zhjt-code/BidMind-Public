@@ -5,13 +5,14 @@
 """
 
 from typing import TYPE_CHECKING
-from sqlalchemy import Column, Integer, ForeignKey, String, Text, JSON, UniqueConstraint
+
+from sqlalchemy import JSON, Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.project import Project
+    pass
 
 
 class CollusionGroup(BaseModel):

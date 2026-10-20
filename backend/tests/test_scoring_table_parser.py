@@ -15,16 +15,16 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
+import pytest
+
 from app.core.extractor.scoring.score_column_semantics import (  # noqa: E402
-    is_structural_score_item_name,
     is_ordinal_column,
+    is_structural_score_item_name,
     is_total_row,
     parse_short_score,
     parse_weight_value,
 )
-
-import pytest
+from app.core.extractor.scoring.scoring_table_parser import parse_scoring_table  # noqa: E402
 
 pytestmark = pytest.mark.scoring
 
@@ -990,7 +990,6 @@ def test_independent_item_does_not_inherit_previous_rule():
     res = parse_scoring_table(DETAIL_NO_RULE_FORWARD_FILL)
     assert res.confident is True
     assert len(res.items) == 2
-    by_name = {it.score_item_name.replace(" ", ""): it for it in res.items}
     # 技术类应有自己的规则
     tech_items = [it for it in res.items if "技术" in it.score_item_name]
     assert tech_items, "应能解析出技术类评分项"

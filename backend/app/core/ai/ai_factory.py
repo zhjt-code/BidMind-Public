@@ -13,20 +13,20 @@
 """
 
 import asyncio
-from typing import Protocol, Optional, Literal, Union
+from typing import Optional, Protocol, Union
+
 import httpx
 from loguru import logger
 from pydantic import BaseModel
 
-from app.core.config import get_ai_mode, settings
-from app.core.ai.dispatcher import AIDispatcher
 from app.core.ai.cloud_client import (
     CloudClient,
     get_cloud_client,
     get_local_client,
-    reset_cloud_client,
-    reset_local_client,
 )
+from app.core.ai.dispatcher import AIDispatcher
+from app.core.ai.node_pool_router import NodePoolRoutingClient
+from app.core.config import get_ai_mode, settings
 
 
 class LLMClientProtocol(Protocol):
@@ -548,7 +548,7 @@ async def benchmark_dispatchers() -> None:
     - 同档内按延迟排名: priority += rank (0~N)
     - 总超时 20s 保护启动流程
     """
-    import time as _time
+
     from app.core.ai.attempt_recorder import current_traffic_class
 
     # P0-A: 启动探测不计入生产可靠性统计(startup task 结束即失效)

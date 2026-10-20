@@ -1,4 +1,3 @@
-from tests.synthetic_data import synthetic_text
 from app.core.collusion.global_features import GlobalFeatureAnalyzer
 from app.core.collusion.normalizers import (
     is_credit_code_related,
@@ -6,6 +5,7 @@ from app.core.collusion.normalizers import (
     is_same_address_building,
     normalize_company_name,
 )
+from tests.synthetic_data import synthetic_text
 
 
 def test_normalizers_handle_company_phone_and_address() -> None:

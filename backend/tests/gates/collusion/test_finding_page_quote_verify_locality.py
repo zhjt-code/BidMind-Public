@@ -10,8 +10,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.collusion.finding_page_quote_verify import (
     FindingPageQuoteVerifyGate,

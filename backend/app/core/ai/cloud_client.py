@@ -10,21 +10,22 @@ import json
 import re
 import threading
 import time
-from typing import Optional, Any, Callable, Awaitable, TypeVar
+from typing import Any, Awaitable, Callable, Optional, TypeVar
+
 from loguru import logger
-from openai import AsyncOpenAI, RateLimitError, APIStatusError
+from openai import APIStatusError, AsyncOpenAI, RateLimitError
 from pydantic import BaseModel, ValidationError
 
-from app.core.ai.vision_image_payload import build_vision_image_payloads
-from app.core.ai.llm_errors import EmptyLLMResponseError
 from app.core.ai.attempt_recorder import get_attempt_recorder
-from app.core.ai.llm_outcome import LlmOutcome
 from app.core.ai.json_text_cleaning import strip_think_and_code_fences
+from app.core.ai.llm_errors import EmptyLLMResponseError
+from app.core.ai.llm_outcome import LlmOutcome
+from app.core.ai.metrics import record_llm_call
+from app.core.ai.vision_image_payload import build_vision_image_payloads
 from app.core.config import settings
+from app.core.observability.metrics import empty_return_total, json_repair_total
 
 T = TypeVar("T")
-from app.core.ai.metrics import record_llm_call, record_llm_retry
-from app.core.observability.metrics import json_repair_total, empty_return_total
 
 __all__ = [
     "CloudClient",
@@ -581,7 +582,10 @@ class CloudClient:
                 )
                 try:
                     async def _do_vision_retry():
-                        from app.core.ai.thinking_params import build_client_extra_kwargs, seed_allowed
+                        from app.core.ai.thinking_params import (
+                            build_client_extra_kwargs,
+                            seed_allowed,
+                        )
                         _retry_kwargs: dict = dict(
                             model=self.model_name,
                             messages=messages,
@@ -650,8 +654,8 @@ class CloudClient:
         temperature = self._resolve_temperature(temperature)
         effective_seed = self._resolve_seed(seed)
 
-        from app.core.observability.metrics import constrained_decoding_attempts_total
         from app.core.ai.dispatcher import detect_provider
+        from app.core.observability.metrics import constrained_decoding_attempts_total
         provider = detect_provider(self.base_url)
 
         # 修复 + 进阶：粘性降级
@@ -1217,7 +1221,8 @@ class CloudClient:
     ) -> None:
         json_repair_total.labels(repair_type=repair_type, flow="all").inc()
         from app.core.contracts.degradation_signal import (
-            DegradationSignal, push_signal,
+            DegradationSignal,
+            push_signal,
         )
         push_signal(DegradationSignal(
             source=source,

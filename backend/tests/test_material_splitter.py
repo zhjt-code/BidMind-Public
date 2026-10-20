@@ -4,13 +4,13 @@ import pytest
 
 from app.core.parser.image_extractor import ExtractedImage
 from app.core.parser.pdf_parser import ParsedDocument, ParsedPage
-from app.core.parser.pdf_structure_analyzer import PdfStructureAnalysis, PdfSection
+from app.core.parser.pdf_structure_analyzer import PdfSection, PdfStructureAnalysis
 from app.core.writer.material_content_extractor import ParseResult
+from app.core.writer.material_splitter import MaterialSplitter
 from app.core.writer.material_titles import (
     is_poor_material_title,
     normalize_image_caption_title,
 )
-from app.core.writer.material_splitter import MaterialSplitter
 
 
 def _page(page_num: int, text: str) -> ParsedPage:

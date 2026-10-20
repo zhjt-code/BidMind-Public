@@ -10,34 +10,34 @@ import string
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from sqlalchemy import select, or_, update
-from sqlalchemy.ext.asyncio import AsyncSession
 from loguru import logger
+from sqlalchemy import or_, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.models.user import User, UserRole
-from app.models.email_verification_token import EmailVerificationToken
-from app.models.password_reset_token import PasswordResetToken
-from app.schemas.auth import UserCreate, UserUpdate
-from app.core.security import (
-    verify_password,
-    get_password_hash,
-    create_access_token,
-    create_refresh_token,
-    decode_token,
+from app.core.disposable_email import is_disposable_email
+from app.core.email import send_password_reset_email, send_verification_email
+from app.core.exceptions import (
+    AuthenticationError,
+    ForbiddenError,
+    ServiceError,
 )
 from app.core.query_cardinality import (
     AmbiguousQueryResult,
     occupied,
     unique_scalar_or_none,
 )
-from app.core.exceptions import (
-    ServiceError,
-    AuthenticationError,
-    ForbiddenError,
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    decode_token,
+    get_password_hash,
+    verify_password,
 )
-from app.core.email import send_verification_email, send_password_reset_email
-from app.core.disposable_email import is_disposable_email
+from app.models.email_verification_token import EmailVerificationToken
+from app.models.password_reset_token import PasswordResetToken
+from app.models.user import User, UserRole
+from app.schemas.auth import UserCreate, UserUpdate
 from app.services.abuse_guard_service import AbuseGuardService
 from app.services.audit_service import audit_log
 

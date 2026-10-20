@@ -20,6 +20,7 @@ from app.core.document_qa.contracts import (
     QaCertainty,
     QaSeverity,
 )
+
 CODE = "reference"
 
 _MAX_FINDINGS = 15

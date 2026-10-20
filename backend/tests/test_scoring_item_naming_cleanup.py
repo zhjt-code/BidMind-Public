@@ -9,16 +9,15 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
-from types import SimpleNamespace
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.scoring_item_naming import (  # noqa: E402
     normalize_scoring_item_name,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

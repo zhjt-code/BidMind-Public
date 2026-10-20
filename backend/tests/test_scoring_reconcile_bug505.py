@@ -22,8 +22,6 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.review_contracts import parse_json_list  # noqa: E402
-from app.schemas.requirement import ExtractedScoringItem  # noqa: E402
 from app.core.extractor.scoring.scoring_reconcile import (  # noqa: E402
     _SIMILARITY_THRESHOLD,
     _backfill_scoring_into_normal,
@@ -34,6 +32,9 @@ from app.core.extractor.scoring.scoring_reconcile import (  # noqa: E402
     normal_weight_compatible,
     reconcile_scoring_items,
 )
+from app.core.review_contracts import parse_json_list  # noqa: E402
+from app.schemas.requirement import ExtractedScoringItem  # noqa: E402
+
 pytestmark = pytest.mark.scoring
 
 

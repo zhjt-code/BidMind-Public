@@ -1,6 +1,7 @@
 """密码重置令牌模型"""
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+
 from app.models.base import BaseModel
 
 

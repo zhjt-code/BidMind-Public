@@ -12,7 +12,6 @@ import pytest
 from app.core.writer.outline_generator import OutlineGenerator
 from app.schemas.writing import BidDirectorySpec, OutlineNodeGenerated
 
-
 # ---------------------------------------------------------------------------
 # 用例1: free_writing 叶子触发 LLM 丰富，产出子节点为非骨架
 # ---------------------------------------------------------------------------

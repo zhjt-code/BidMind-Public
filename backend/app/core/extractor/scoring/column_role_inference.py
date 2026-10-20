@@ -11,6 +11,10 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from app.core.extractor.scoring.paired_score_column import (
+    find_paired_header_columns,
+    validate_and_select_max,
+)
 from app.core.extractor.scoring.score_column_semantics import (
     has_scoring_rule_semantics,
     is_ordinal_column,
@@ -20,10 +24,6 @@ from app.core.extractor.scoring.score_column_semantics import (
     row_text,
 )
 from app.core.extractor.scoring.volume_labeling import service_volume_signal
-from app.core.extractor.scoring.paired_score_column import (
-    find_paired_header_columns,
-    validate_and_select_max,
-)
 
 _ATTRIBUTE_VALUE_TERMS = {"是", "否", "主观", "客观", "扣分"}
 # 明细表规则列表头信号(共用): 泛化词, 仅在"未分配角色的列"中检索。

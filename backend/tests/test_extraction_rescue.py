@@ -10,6 +10,7 @@
 
 import os
 import sys
+
 import pytest
 
 os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///")
@@ -17,6 +18,7 @@ os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///")
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from pydantic import ValidationError
+
 from app.schemas.requirement import ExtractedRequirement
 
 
@@ -65,6 +67,7 @@ class TestNormalizeRawItem:
     @pytest.fixture
     def extractor(self):
         from unittest.mock import AsyncMock
+
         from app.core.extractor.tender_extractor import TenderExtractor
         fake_db = AsyncMock()
         return TenderExtractor(db=fake_db)
@@ -174,6 +177,7 @@ class TestParseItemsWithSalvage:
     @pytest.fixture
     def extractor(self):
         from unittest.mock import AsyncMock
+
         from app.core.extractor.tender_extractor import TenderExtractor
         fake_db = AsyncMock()
         return TenderExtractor(db=fake_db)
@@ -233,6 +237,7 @@ class TestEmptyResultSemantics:
     @pytest.fixture
     def extractor(self):
         from unittest.mock import AsyncMock
+
         from app.core.extractor.tender_extractor import TenderExtractor
         fake_db = AsyncMock()
         return TenderExtractor(db=fake_db)
@@ -340,6 +345,7 @@ class TestExtractionQualityReader:
 
     def test_json_string_value(self):
         import json
+
         from app.services.requirement_service import _read_extraction_quality
         quality = {"failed_chunk_count": 1, "needs_quality_review": False}
         result = _read_extraction_quality({"extraction_quality": json.dumps(quality)})
@@ -461,6 +467,7 @@ class TestProceduralCategoryInference:
     def test_spill_item_with_procedural_text_now_salvaged(self):
         """生产形态闭环: PROCEDURAL 串入 category 且正文为版面要求时不再被丢弃。"""
         from unittest.mock import AsyncMock
+
         from app.core.extractor.tender_extractor import TenderExtractor
 
         extractor = TenderExtractor(db=AsyncMock())

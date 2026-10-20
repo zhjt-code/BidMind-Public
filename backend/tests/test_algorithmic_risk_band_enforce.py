@@ -10,8 +10,6 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import pytest
-
 from app.core.ai.gates.base import GateVerdict
 from app.core.ai.reviewer import ReviewOrchestrator
 

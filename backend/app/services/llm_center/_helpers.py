@@ -42,8 +42,8 @@ async def _broadcast_invalidate(node_key: str | None) -> None:
  + arq worker）的 PromptRegistry 缓存一致性。
  """
     try:
-        from app.core.redis import get_redis_pool
         from app.core.ai.prompt_registry import get_registry
+        from app.core.redis import get_redis_pool
         redis_client = await get_redis_pool()
         await get_registry().publish_invalidate(redis_client, node_key)
     except Exception as e:  # noqa: BLE001

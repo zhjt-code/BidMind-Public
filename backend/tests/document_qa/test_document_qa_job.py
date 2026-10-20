@@ -25,8 +25,8 @@ def _names(functions: list[Any]) -> set[str]:
 def test_document_qa_job_registered_only_on_process_worker() -> None:
     from app.core.tasks.resource_policy import resource_type_for_function
     from app.worker import (
-        LlmWorkerSettings,
         PROCESS_WORKER_FUNCTION_NAMES,
+        LlmWorkerSettings,
         ProcessWorkerSettings,
         WorkerSettings,
     )

@@ -19,11 +19,12 @@ from __future__ import annotations
 import json
 from typing import Awaitable, Callable
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.core.exceptions import ServiceError
 from app.models.project import Project
 from app.models.user import User
 from app.models.writing_render_artifact import WritingRenderArtifact
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class RenderService:

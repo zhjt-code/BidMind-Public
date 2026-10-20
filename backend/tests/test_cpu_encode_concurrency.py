@@ -14,9 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
-import time
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 
@@ -49,6 +47,8 @@ def _make_controller(**overrides):
 def reset_singletons():
     from app.core.vectorizer import (
         cpu_encode_concurrency as concurrency_mod,
+    )
+    from app.core.vectorizer import (
         encode_gate,
     )
 

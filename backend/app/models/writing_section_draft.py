@@ -1,8 +1,21 @@
 """标书编写 -- 章节草稿模型"""
 
 import enum
-from sqlalchemy import Column, DateTime, Float, SmallInteger, String, Integer, Text, ForeignKey, Enum, JSON
+
+from sqlalchemy import (
+    JSON,
+    Column,
+    DateTime,
+    Enum,
+    Float,
+    ForeignKey,
+    Integer,
+    SmallInteger,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 

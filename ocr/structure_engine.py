@@ -15,9 +15,8 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-from loguru import logger
-
 from cpu_quota import apply_cpu_thread_quota
+from loguru import logger
 from structure_blocks import blocks_from_layout_result, blocks_from_page_result
 
 _LAYOUT_MODE = "layout"

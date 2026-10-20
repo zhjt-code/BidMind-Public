@@ -15,7 +15,6 @@ from app.core.extractor.tools.amount_parser import AmountVerdict
 from app.core.extractor.tools.date_range_checker import DateRangeVerdict
 from app.core.matcher.relevance_scorer import RelevanceScore
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------

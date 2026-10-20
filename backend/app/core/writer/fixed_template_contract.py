@@ -9,7 +9,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional
 
-
 FIXED_TEMPLATE_SNAPSHOT_KEY = "fixed_template_snapshot"
 FIXED_TEMPLATE_REQUIRES_REVIEW_FLAG = "fixed_template_requires_review"
 

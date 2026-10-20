@@ -20,8 +20,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from regression.runner import run_ab_comparison
 from regression.report import generate_html_report
+from regression.runner import run_ab_comparison
 
 
 def main() -> None:

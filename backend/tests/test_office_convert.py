@@ -33,7 +33,6 @@ from app.core.convert.office_to_pdf import (  # noqa: E402
 from app.core.tasks.process.convert_stage import run_convert_stage  # noqa: E402
 from app.services.document_service import DocumentService  # noqa: E402
 
-
 OLE_MAGIC = bytes.fromhex("D0CF11E0A1B11AE1")
 
 

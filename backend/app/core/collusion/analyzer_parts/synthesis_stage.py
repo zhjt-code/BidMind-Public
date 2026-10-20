@@ -14,27 +14,13 @@ Task 8 Step 9：从 CollusionAnalyzer 主类迁出 S4 综合研判 4 个方法�
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.collusion.feature_flags import use_global_findings_enrich
-from app.core.collusion.global_features import GlobalFeatureResult
-from app.core.collusion.graph_cluster import CollusionCluster
-from app.core.database import async_session_factory
-from app.models.collusion_result import CollusionResult
-from app.models.document import Document
-from app.models.project import Project
-from app.schemas.collusion import CollusionProjectSummary
-from sqlalchemy import select
-from typing import Optional
-
 import json
-from typing import Any
+from typing import Any, Optional
 
 from loguru import logger
+from sqlalchemy import select
 
-from app.core.config import (
-    get_collusion_synthesis_timeout,
-)
+from app.core.ai.prompt_registry import resolve_user_template
 from app.core.collusion.analyzer_parts.constants import (
     _shrink_text_blocks,
     _trim_pair_results_for_summary,
@@ -46,16 +32,27 @@ from app.core.collusion.analyzer_parts.synthesis_helpers import (
     _build_profile_quality_flags,
     _simple_synthesis,
 )
+
+# 补全 import 修复
+from app.core.collusion.feature_flags import use_global_findings_enrich
+from app.core.collusion.global_features import GlobalFeatureResult
+from app.core.collusion.graph_cluster import CollusionCluster
 from app.core.collusion.narrative_builder import (
     build_factual_explanation,
     build_factual_explanation_items,
 )
-from app.core.ai.prompt_registry import resolve_user_template
 from app.core.collusion.prompts import (
     COLLUSION_OVERALL_SYNTHESIS_PROMPT,
     COLLUSION_PROJECT_SUMMARY_PROMPT,
 )
-from app.schemas.collusion import LLMSynthesisResult
+from app.core.config import (
+    get_collusion_synthesis_timeout,
+)
+from app.core.database import async_session_factory
+from app.models.collusion_result import CollusionResult
+from app.models.document import Document
+from app.models.project import Project
+from app.schemas.collusion import CollusionProjectSummary, LLMSynthesisResult
 
 
 def _inject_factual_explanation(

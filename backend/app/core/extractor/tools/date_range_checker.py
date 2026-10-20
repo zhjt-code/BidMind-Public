@@ -30,7 +30,6 @@ from typing import Literal
 import dateparser
 from dateutil.relativedelta import relativedelta
 
-
 # ──────────────────────────────────────────────────────────────────────────────
 # Public data models
 # ──────────────────────────────────────────────────────────────────────────────

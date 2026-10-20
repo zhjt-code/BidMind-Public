@@ -3,33 +3,33 @@
 提供向量存储和语义检索功能，集成PGVector。
 """
 
-import asyncio
 import hashlib
 import time
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
+
 import numpy as np
 from loguru import logger
-from sqlalchemy import Integer, String, select, text, delete
+from sqlalchemy import Integer, String, delete, select, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.sql_array_filters import in_array_values, not_in_array_values
-from app.models.chunk import Chunk
-from app.core.vectorizer.embedding import EmbeddingModel
-from app.core.parser.text_chunker import TextChunk
-from app.core.parser.image_extractor import (
-    is_annotation_chunk_content,
-    is_evidence_chunk_content,
-)
-from app.core.parser.chunk_context import build_embedding_text
-from app.core.parser.chunk_quality import filter_chunks as _filter_chunks_for_quality
 from app.core.config import settings
-from app.core.vectorizer.encode_gate import safe_encode, safe_encode_batch
 from app.core.observability.metrics import (
     vector_chunk_char_histogram,
     vector_chunk_plan_total,
     vector_lock_wait_seconds,
 )
+from app.core.parser.chunk_context import build_embedding_text
+from app.core.parser.chunk_quality import filter_chunks as _filter_chunks_for_quality
+from app.core.parser.image_extractor import (
+    is_annotation_chunk_content,
+    is_evidence_chunk_content,
+)
+from app.core.parser.text_chunker import TextChunk
+from app.core.sql_array_filters import in_array_values, not_in_array_values
+from app.core.vectorizer.embedding import EmbeddingModel
+from app.core.vectorizer.encode_gate import safe_encode, safe_encode_batch
+from app.models.chunk import Chunk
 
 
 class VectorIndexer:

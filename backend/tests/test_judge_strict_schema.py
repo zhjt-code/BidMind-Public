@@ -6,9 +6,9 @@ import pytest
 from pydantic import ValidationError
 
 from app.core.ai.critic.judge import (
-    JudgeVerdict,
-    JUDGE_VERDICT_SCHEMA,
     JUDGE_VERDICT_RESPONSE_FORMAT,
+    JUDGE_VERDICT_SCHEMA,
+    JudgeVerdict,
     _build_judge_response_format,
 )
 

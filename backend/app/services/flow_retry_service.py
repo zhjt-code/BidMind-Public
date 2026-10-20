@@ -1139,16 +1139,6 @@ async def infer_collusion_retry_context(
     if pair_count < total_pairs or failed_pair_count > 0:
         return CollusionRetryContext("collusion_compare")
 
-    group_count = int(
-        (
-            await db.execute(
-                select(func.count(CollusionGroup.id)).where(
-                    CollusionGroup.project_id == project.id
-                )
-            )
-        ).scalar()
-        or 0
-    )
     if not project.collusion_summary:
         if latest_stage_node == "collusion_cluster" or heartbeat_stage_node == "collusion_cluster":
             return CollusionRetryContext("collusion_cluster")

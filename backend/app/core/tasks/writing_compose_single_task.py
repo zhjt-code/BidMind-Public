@@ -13,8 +13,8 @@ import asyncio
 
 from loguru import logger
 
-from app.core.database import async_session_factory
 from app.core.ai.task_prompt_snapshot import with_task_prompt_snapshot
+from app.core.database import async_session_factory
 
 
 def get_writing_compose_single_task_name(project_id: int, node_id: int) -> str:
@@ -34,12 +34,12 @@ async def run_writing_compose_single_task(
         project_id: 项目 ID.
         node_id: 目录节点 ID.
     """
-    from app.core.tasks import update_heartbeat
     from app.core.arq_runtime import (
         ProjectCancelledError,
         is_project_cancelled,
         raise_if_project_cancelled,
     )
+    from app.core.tasks import update_heartbeat
 
     task_name = get_writing_compose_single_task_name(project_id, node_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化")

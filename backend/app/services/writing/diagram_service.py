@@ -22,7 +22,6 @@ from app.schemas.writing_diagram import (
     WritingDiagramUpdateRequest,
 )
 
-
 RenderInvalidator = Callable[[int], Awaitable[None] | None]
 
 

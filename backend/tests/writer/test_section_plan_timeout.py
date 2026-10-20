@@ -134,9 +134,9 @@ async def test_compose_free_wait_for_timeout_degrades_to_legacy(monkeypatch) -> 
     monkeypatch.setattr(settings, "WRITING_SECTION_PLAN_TIMEOUT_SEC", 0.05)
     monkeypatch.setattr(settings, "CLOUD_TIMEOUT", 0.05)
 
+    import app.core.writer.section_plan.repository as plan_repo
     import app.core.writer.section_plan.service as plan_service
     import app.core.writer.section_plan.source_loader as plan_source
-    import app.core.writer.section_plan.repository as plan_repo
 
     monkeypatch.setattr(plan_source, "load_section_plan_clauses", AsyncMock(return_value=[]))
     monkeypatch.setattr(plan_service, "resolve_section_plan", _hang)

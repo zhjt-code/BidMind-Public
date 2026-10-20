@@ -20,7 +20,6 @@ from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled
 from app.core.config import settings
 from app.core.parser.image_extractor import ExtractedImage
 
-
 # wait_for 期间不刷心跳会让 ProcessWorker 在大批次或慢 LLM API 场景下
 # 超过 ARQ_JOB_HEARTBEAT_TIMEOUT(180s), 被 API 误判 running_heartbeat_stale
 # 触发"自动恢复"。所有透传到 wait_for 的调用都接受可选 keepalive_callback,

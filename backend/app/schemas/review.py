@@ -6,11 +6,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Literal, Optional, List
+from typing import Any, List, Literal, Optional
 
 from loguru import logger
 from pydantic import BaseModel, Field, field_validator, model_serializer, model_validator
-
 
 # 符合程度类型
 ComplianceLevelType = Literal["fully", "partially", "not", "missing"]

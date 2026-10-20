@@ -14,7 +14,6 @@ import pytest
 
 from app.core.writer.material_matching.contracts import (
     MaterialMatchingRequest,
-    MaterialPairJudgeBatch,
 )
 from app.core.writer.material_matching.pipeline import match_materials_to_chapters
 

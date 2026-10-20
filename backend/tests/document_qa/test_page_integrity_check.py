@@ -2,7 +2,6 @@
 
 from app.core.document_qa.checks.page_integrity_check import check_page_integrity
 from app.core.document_qa.contracts import QaPage
-
 from tests.document_qa.conftest import make_model
 
 

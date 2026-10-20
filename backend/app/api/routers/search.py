@@ -3,25 +3,24 @@
 提供语义检索相关的 API 端点。
 """
 
-from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import check_project_permission, get_current_user, project_log_context
 from app.core.database import get_db
+from app.core.retriever import SearchResult, SemanticRetriever
 from app.models.document import DocumentType
-from app.core.retriever import SemanticRetriever, SearchResult
-from app.schemas.search import (
-    SearchRequest,
-    SearchResultItem,
-    SearchResponse,
-    RelatedContentRequest,
-)
-from app.schemas.common import ApiResponse
-from app.models.user import User
 from app.models.project import Project
-from app.api.dependencies import get_current_user, check_project_permission, project_log_context
-
+from app.models.user import User
+from app.schemas.common import ApiResponse
+from app.schemas.search import (
+    RelatedContentRequest,
+    SearchRequest,
+    SearchResponse,
+    SearchResultItem,
+)
 
 router = APIRouter(
     prefix="/projects/{project_id}/search",

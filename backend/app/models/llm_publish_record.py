@@ -3,7 +3,7 @@
 审计追踪：记录所有 Prompt 版本的发布和回滚操作。
 """
 
-from sqlalchemy import Column, String, Text, Integer, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import BaseModel

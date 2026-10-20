@@ -12,8 +12,6 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-import pytest
-
 os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
 )

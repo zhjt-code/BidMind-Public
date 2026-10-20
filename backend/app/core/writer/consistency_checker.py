@@ -17,24 +17,24 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.prompt_registry import resolve_runtime_params
+from app.core.config import settings
 from app.core.contracts.failure_state import FailureState
 from app.core.observability.guard_instrument import observe_guard
 from app.core.observability.metrics import cross_reference_check_failure_total
-from app.core.writer.fixed_template_contract import resolve_fixed_template_source
-from app.core.writer.fixed_template import match_template_title
-from app.core.writer.fixed_template_validator import validate_fixed_template
-from app.core.config import settings
 from app.core.writer.clause_coverage_checker import build_clause_coverage_issues
-from app.core.writer.industry_profile_view import extract_profile_terminology
-from app.core.writer.terminology_consistency import find_term_variant_issues
 from app.core.writer.disqualification_detector import find_disqualification_issues
+from app.core.writer.fixed_template import match_template_title
+from app.core.writer.fixed_template_contract import resolve_fixed_template_source
+from app.core.writer.fixed_template_validator import validate_fixed_template
+from app.core.writer.industry_profile_view import extract_profile_terminology
+from app.core.writer.prompts.section_compose import get_cross_ref_check_prompt
 from app.core.writer.scoring_response_checker import build_scoring_response_issues
 from app.core.writer.technical_task_coverage_checker import (
     build_technical_task_coverage_issues,
 )
-from app.core.writer.prompts.section_compose import get_cross_ref_check_prompt
+from app.core.writer.terminology_consistency import find_term_variant_issues
 from app.models.writing_clause import WritingClause, WritingClauseLayer
 from app.models.writing_outline_node import WritingOutlineNode
 from app.models.writing_section_draft import WritingSectionDraft
@@ -151,7 +151,7 @@ class ConsistencyChecker:
         Gate 可能追加 issue 到 issues 列表，但不直接修改草稿内容。
         """
         try:
-            from app.core.ai.gates import should_use_gate_pipeline, build_pipeline_for
+            from app.core.ai.gates import build_pipeline_for, should_use_gate_pipeline
             from app.core.ai.gates.base import GateContext
         except Exception:
             return

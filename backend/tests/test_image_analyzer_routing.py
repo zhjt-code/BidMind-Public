@@ -1,19 +1,21 @@
 from tests.synthetic_data import synthetic_text
+
 """图片分析路由决策单元测试
 
 覆盖: 路由决策逻辑、OCR 成功不回退、OCR 低置信回退 VL、ocr_engine=None 兼容、
 返回路由标记、日志路由统计。
 """
 
-import os
 import asyncio
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+import os
 from dataclasses import dataclass
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
-from app.core.parser.image_analyzer import _ocr_priority, analyze_single_image, analyze_images
+from app.core.parser.image_analyzer import _ocr_priority, analyze_images, analyze_single_image
 from app.core.parser.ocr_engine import OcrResult
 
 
@@ -166,6 +168,7 @@ class TestOcrEngineExtended:
     async def test_recognize_from_array(self):
         """numpy array 输入应正确解析结果"""
         import numpy as np
+
         from app.core.parser.ocr_engine import OcrEngine
 
         engine = OcrEngine(lang="ch", confidence_threshold=0.7, min_text_length=10)
@@ -191,6 +194,7 @@ class TestOcrEngineExtended:
     async def test_recognize_from_array_empty(self):
         """空 numpy array 应返回空结果"""
         import numpy as np
+
         from app.core.parser.ocr_engine import OcrEngine
 
         engine = OcrEngine(lang="ch")
@@ -203,6 +207,7 @@ class TestOcrEngineExtended:
     async def test_predict_lock_serializes_calls(self):
         """推理锁应阻止并发 predict 调用"""
         import numpy as np
+
         from app.core.parser.ocr_engine import OcrEngine
 
         engine = OcrEngine(lang="ch", confidence_threshold=0.5, min_text_length=5)
@@ -217,7 +222,6 @@ class TestOcrEngineExtended:
 
         import threading
         call_times = []
-        original_predict = mock_ocr.predict
 
         def tracking_predict(inp):
             call_times.append(("start", threading.current_thread().ident))
@@ -310,7 +314,8 @@ class TestCongestionDetection:
     async def test_congested_after_high_queue_wait(self, monkeypatch):
         from app.core.config import settings
         from app.core.parser.adaptive_concurrency import (
-            OcrAdaptiveConcurrency, OcrRequestMetric,
+            OcrAdaptiveConcurrency,
+            OcrRequestMetric,
         )
         monkeypatch.setattr(settings, "OCR_CONCURRENCY_INITIAL", 1)
         monkeypatch.setattr(settings, "OCR_CONCURRENCY_MIN", 1)

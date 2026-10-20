@@ -4,18 +4,18 @@
 """
 
 from app.core.ai.prompts.base import PromptTemplate
+from app.core.ai.prompts.bid_extract import (
+    BID_EXTRACT_SYSTEM,
+    get_bid_extract_prompt,
+)
 from app.core.ai.prompts.review import (
-    REVIEW_SYSTEM_PROMPT,
-    REVIEW_PROMPT,
     NO_RESPONSE_PROMPT,
+    REVIEW_PROMPT,
+    REVIEW_SYSTEM_PROMPT,
 )
 from app.core.ai.prompts.tender_extract import (
-    get_tender_extract_prompt,
     CATEGORY_DESCRIPTIONS,
-)
-from app.core.ai.prompts.bid_extract import (
-    get_bid_extract_prompt,
-    BID_EXTRACT_SYSTEM,
+    get_tender_extract_prompt,
 )
 
 __all__ = [

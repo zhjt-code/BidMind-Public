@@ -9,8 +9,7 @@
 渲染完成后 _enforce_format_baseline 以这些值为基线做合规扫描。
 """
 
-from dataclasses import dataclass, field
-
+from dataclasses import dataclass
 
 # ==================== 页面设置 ====================
 

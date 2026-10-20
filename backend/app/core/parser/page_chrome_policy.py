@@ -6,11 +6,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import math
 import re
+from dataclasses import dataclass, field
 from typing import Any, Iterable
-
 
 Rect = tuple[float, float, float, float]
 

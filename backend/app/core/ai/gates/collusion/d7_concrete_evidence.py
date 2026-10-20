@@ -29,7 +29,6 @@ from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 
-
 # D6 finding.detail 必须含的具体格式特征关键词之一
 _D6_CONCRETE_KEYWORDS = re.compile(
     r"(?:目录|章节|条款|编号|章序|节序|字体|字号|行距|段距|页边距|页眉|页脚"

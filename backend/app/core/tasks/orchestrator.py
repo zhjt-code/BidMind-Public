@@ -14,7 +14,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.project import Project, ProjectStatus
 from app.models.writing_outline_node import WritingOutlineNode
 
-
 StepDecision = Literal["ready", "waiting_dependency", "missing_project"]
 
 

@@ -20,6 +20,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from app.core.config import settings
 from app.worker import (
     LLM_WORKER_FUNCTION_NAMES,
     MAINTENANCE_WORKER_FUNCTION_NAMES,
@@ -30,8 +31,6 @@ from app.worker import (
     ProcessWorkerSettings,
     WorkerSettings,
 )
-from app.core.config import settings
-
 
 # ARQ 合同: 每个 worker function 的第一个参数必须是 ctx (dict)
 _EXPECTED_FIRST_PARAM = "ctx"

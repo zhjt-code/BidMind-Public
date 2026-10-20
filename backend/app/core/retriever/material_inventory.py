@@ -28,13 +28,13 @@ from app.core.retriever.material_key import (
     match_material_in_text,
     normalize_material_compact,
 )
+from app.core.retriever.query_decomposer import _extract_basis_objects, _extract_objects
+from app.core.review_contracts import parse_json_list
 from app.core.sql_bind_budget import (
     extra_binds_beyond_values,
     iter_bind_safe_row_batches,
 )
 from app.core.sql_column_fit import fit_string_column
-from app.core.retriever.query_decomposer import _extract_basis_objects, _extract_objects
-from app.core.review_contracts import parse_json_list
 from app.models.bid_response import BidResponse
 from app.models.bid_response_chunk import BidResponseChunk
 from app.models.chunk import Chunk

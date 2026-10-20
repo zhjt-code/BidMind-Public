@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import pytest
 
-
 # ---------------------------------------------------------------------------
 # CollusionExtractionMetadata
 # ---------------------------------------------------------------------------
@@ -206,6 +205,7 @@ class TestValidateExtractionPayloadFallback:
 
     def test_valid_dict_no_warning(self, caplog):
         import logging
+
         from app.core.collusion.analyzer import _validate_extraction_payload
         caplog.set_level(logging.WARNING)
         _validate_extraction_payload(
@@ -216,10 +216,11 @@ class TestValidateExtractionPayloadFallback:
 
     def test_schema_failure_logs_warning_not_raise(self, caplog, monkeypatch):
         """构造类型错误触发 ValidationError，函数吞掉并 log warning"""
-        import logging
-        from app.core.collusion.analyzer import _validate_extraction_payload
+
         # caplog 需要 propagate
         import loguru as _loguru
+
+        from app.core.collusion.analyzer import _validate_extraction_payload
         sink_id = _loguru.logger.add(caplog.handler, level="WARNING", format="{message}")
         try:
             _validate_extraction_payload(

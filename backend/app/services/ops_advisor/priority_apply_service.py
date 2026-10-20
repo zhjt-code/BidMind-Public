@@ -13,7 +13,7 @@ from typing import Any, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai_settings import Purpose, load_ai_settings, set_pool_priority
+from app.core.ai_settings import load_ai_settings, set_pool_priority
 from app.models.llm_priority_snapshot import LlmPrioritySnapshot
 from app.models.llm_weekly_advice import LlmWeeklyAdvice
 from app.services.audit_service import audit_log

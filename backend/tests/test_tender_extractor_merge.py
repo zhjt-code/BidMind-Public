@@ -1,11 +1,11 @@
 """TenderExtractor 二次合并稳态链路测试"""
 
+import importlib.util
 import json
 import os
-from pathlib import Path
 import sys
 import types
-import importlib.util
+from pathlib import Path
 
 import pytest
 

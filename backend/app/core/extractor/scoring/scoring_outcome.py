@@ -11,7 +11,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field as dataclasses_field
+from dataclasses import dataclass
+from dataclasses import field as dataclasses_field
 
 from app.core.extractor.scoring.score_totals import ScoreTotalsReport
 from app.core.extractor.scoring.scoring_facts import ScoringFactSet

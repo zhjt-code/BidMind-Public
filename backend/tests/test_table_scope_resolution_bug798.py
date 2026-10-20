@@ -22,7 +22,6 @@ import pytest  # noqa: E402
 
 from app.core.extractor.scoring.table_scope_resolution import (  # noqa: E402
     _qualify_heading_line,
-    _scope_title_from_page,
     _total_row_value,
     resolve_table_scopes,
 )

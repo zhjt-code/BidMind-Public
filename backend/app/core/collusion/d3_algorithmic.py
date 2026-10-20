@@ -22,7 +22,6 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from typing import Any, Iterable
 
-
 # ---------------------------------------------------------------------------
 # SimHash 简化版
 # ---------------------------------------------------------------------------

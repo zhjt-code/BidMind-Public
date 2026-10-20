@@ -3,10 +3,11 @@
 定义用户认证、注册、令牌等数据模型。
 """
 
-from datetime import datetime
-from typing import Optional, Literal
-from pydantic import BaseModel, EmailStr, Field, field_validator
 import re
+from datetime import datetime
+from typing import Literal, Optional
+
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class UserBase(BaseModel):

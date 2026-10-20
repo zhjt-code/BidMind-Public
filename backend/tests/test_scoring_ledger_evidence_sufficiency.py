@@ -6,9 +6,9 @@
 """
 from __future__ import annotations
 
-from app.core.extractor.scoring.ledger.evidence_sufficiency import assess_item_evidence_sufficiency
-
 import pytest
+
+from app.core.extractor.scoring.ledger.evidence_sufficiency import assess_item_evidence_sufficiency
 
 pytestmark = pytest.mark.scoring
 

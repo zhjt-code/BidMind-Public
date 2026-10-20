@@ -4,23 +4,23 @@
 """
 
 from datetime import datetime, timezone
-from typing import Optional, List
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
-from pydantic import BaseModel, Field, EmailStr
-from loguru import logger
+from typing import List, Optional
 
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from loguru import logger
+from pydantic import BaseModel, EmailStr, Field
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.dependencies import get_pagination, require_admin
 from app.core.database import get_db
 from app.core.security import get_password_hash
 from app.models.user import User, UserRole
-from app.schemas.auth import UserResponse, AdminPasswordResetResponse
+from app.schemas.auth import AdminPasswordResetResponse, UserResponse
 from app.schemas.common import ApiResponse, PaginationParams
 from app.schemas.presence import OnlineStatsResponse
-from app.api.dependencies import require_admin, get_pagination
 from app.services.auth_service import AuthService
 from app.services.presence_service import PresenceService
-
 
 router = APIRouter(prefix="/users", tags=["用户管理"])
 

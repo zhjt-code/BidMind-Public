@@ -10,7 +10,6 @@ from loguru import logger
 from app.core.extractor.tender_extractor_parts.dedup_normalize import normalize_dedup_key
 from app.schemas.requirement import ExtractedRequirement
 
-
 _HIGH_RISK_TERMS = (
     "评分",
     "评审",

@@ -18,11 +18,9 @@ import pytest
 
 from app.core.extractor.tools.date_range_checker import (
     DateRangeAssumption,
-    DateRangeVerdict,
     check_performance_anchor,
     parse_time_requirement,
 )
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # L0 — Typical cases

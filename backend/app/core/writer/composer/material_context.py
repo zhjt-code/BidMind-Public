@@ -309,12 +309,6 @@ def is_high_value_text_material(
         return False
 
     tags = composer._parse_material_tags(material)
-    label_signals = {
-        (getattr(material, "resolved_label", None) or "").strip(),
-        (getattr(material, "structure_hint_label", None) or "").strip(),
-        (getattr(material, "file_name_label", None) or "").strip(),
-        str(tags.get("domain") or "").strip(),
-    }
     keyword_signals = " ".join(
         [
             get_effective_material_title(material),

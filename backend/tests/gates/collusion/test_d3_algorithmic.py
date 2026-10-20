@@ -8,15 +8,14 @@ from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.collusion.d3_text_algorithmic import D3TextAlgorithmicGate
 from app.core.collusion.d3_algorithmic import (
     D3AlgorithmicResult,
+    _tokenize,
     compute_d3_algorithmic,
     hamming_distance,
     lcs_ratio,
     simhash,
     simhash_similarity,
     tfidf_cosine,
-    _tokenize,
 )
-
 
 # ==================== 纯函数层 ====================
 

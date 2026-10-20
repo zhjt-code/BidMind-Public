@@ -1,9 +1,23 @@
 """审查结果模型"""
 
-from sqlalchemy import Column, DateTime, Float, SmallInteger, String, Integer, ForeignKey, Enum, JSON, Text, UniqueConstraint
+import enum
+
+from sqlalchemy import (
+    JSON,
+    Column,
+    DateTime,
+    Enum,
+    Float,
+    ForeignKey,
+    Integer,
+    SmallInteger,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
-import enum
+
 from app.models.base import BaseModel
 
 

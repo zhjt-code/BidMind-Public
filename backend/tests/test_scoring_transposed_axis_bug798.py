@@ -28,14 +28,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
+from app.core.extractor.scoring.framework_table_parser import (  # noqa: E402
+    parse_weight_summary_defs,
+    try_parse_transposed_axis_volume_defs,
+)
 from app.core.extractor.scoring.transposed_score_axis import (  # noqa: E402
     FinalScoreAxis,
     final_score_axis_to_volume_defs,
     parse_transposed_final_score_axis,
-)
-from app.core.extractor.scoring.framework_table_parser import (  # noqa: E402
-    parse_weight_summary_defs,
-    try_parse_transposed_axis_volume_defs,
 )
 
 pytestmark = pytest.mark.scoring

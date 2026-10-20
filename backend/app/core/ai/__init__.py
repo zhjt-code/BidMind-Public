@@ -5,6 +5,26 @@
 支持按用途独立获取客户端（审查模型 / 视觉模型）。
 """
 
+from app.core.ai import task_prompt_snapshot
+from app.core.ai.ai_factory import (
+    AIClientManager,
+    LLMClient,
+    get_ai_manager,
+    get_available_modes,
+    get_client_by_config_id,
+    get_extract_client,
+    get_extract_dispatcher,
+    get_judge_client,
+    get_judge_dispatcher,
+    get_llm_client,
+    get_review_client,
+    get_review_dispatcher,
+    get_vision_client,
+    get_vision_dispatcher,
+    init_dispatchers,
+    probe_dispatchers,
+    reset_config_clients,
+)
 from app.core.ai.cloud_client import (
     CloudClient,
     get_cloud_client,
@@ -17,27 +37,7 @@ from app.core.ai.input_guard import (
     is_input_too_long_error,
     retry_on_input_too_long_400,
 )
-from app.core.ai.ai_factory import (
-    get_llm_client,
-    get_client_by_config_id,
-    get_review_client,
-    get_vision_client,
-    get_judge_client,
-    get_extract_client,
-    get_review_dispatcher,
-    get_vision_dispatcher,
-    get_judge_dispatcher,
-    get_extract_dispatcher,
-    reset_config_clients,
-    init_dispatchers,
-    probe_dispatchers,
-    get_available_modes,
-    AIClientManager,
-    get_ai_manager,
-    LLMClient,
-)
 from app.core.ai.reviewer import ReviewOrchestrator, get_review_orchestrator
-from app.core.ai import task_prompt_snapshot
 
 
 async def release_project_binding(project_id: int) -> None:
@@ -52,13 +52,13 @@ async def release_project_binding(project_id: int) -> None:
             await dispatcher.release_project_binding(project_id)
 from app.core.ai.validators import (
     OutputValidator,
-    ValidationResult,
     ValidationException,
-    validate_with_retry,
-    get_requirement_validator,
-    get_requirement_list_validator,
+    ValidationResult,
     get_bid_response_validator,
+    get_requirement_list_validator,
+    get_requirement_validator,
     get_review_result_validator,
+    validate_with_retry,
 )
 
 __all__ = [

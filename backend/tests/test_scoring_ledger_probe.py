@@ -11,14 +11,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from scripts.run_scoring_ledger_probe import (  # noqa: E402
     assess_ledger_consistency,
     match_reference_pairs,
     normalize_group_label,
     parse_composition_references,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

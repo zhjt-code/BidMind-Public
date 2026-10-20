@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import pytest
 
-
 # ---------------------------------------------------------------------------
 # P2-1 extract_docx_structure 边界
 # ---------------------------------------------------------------------------
@@ -109,7 +108,7 @@ class TestGatePipelineCertaintyCap:
     def test_certainty_cap_reduces_existing(self):
         """给定已有 d6_format.certainty=0.8，Gate 下发 certainty_cap=0.3，
         合并后 certainty 应降到 0.3（取 min）。"""
-        from dataclasses import replace
+
         from app.core.ai.gates.base import GateVerdict
         from app.core.ai.gates.pipeline import GatePipeline
 
@@ -164,9 +163,9 @@ class TestGatePipelineCertaintyCap:
 
 class TestD6GateCertaintyCapOnMissingStructure:
     def _run(self, monkeypatch, strict: bool, evidence: dict):
-        from app.core.config import settings
         from app.core.ai.gates.base import GateContext
         from app.core.ai.gates.collusion.d6_format_algorithmic import D6FormatAlgorithmicGate
+        from app.core.config import settings
 
         monkeypatch.setattr(settings, "COLLUSION_D6_STRICT_MODE", strict)
         monkeypatch.setattr(settings, "COLLUSION_D6_STRICT_MODE_RATIO", 1.0 if strict else 0.0)

@@ -19,10 +19,9 @@ from unittest.mock import patch
 import pytest
 
 from app.core.matcher.relevance_scorer import (
-    TYPE_MATCH_WEIGHT,
-    SEMANTIC_SIM_WEIGHT,
     DOMAIN_KEYWORD_WEIGHT,
-    RelevanceScore,
+    SEMANTIC_SIM_WEIGHT,
+    TYPE_MATCH_WEIGHT,
     _compute_domain_keyword_hit,
     _compute_type_match,
     score_relevance,

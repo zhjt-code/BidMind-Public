@@ -6,14 +6,14 @@
 """
 from __future__ import annotations
 
+import pytest
+
 from app.core.extractor.scoring.ledger.contracts import LedgerCapture
 from app.core.extractor.scoring.ledger.declaration_capture import (
     _ledger_flat_pairs,
     capture_scoring_declarations,
     declaration_pages_from_signals,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

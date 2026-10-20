@@ -9,7 +9,7 @@ from app.core.ai.reviewer import ReviewOrchestrator
 from app.core.extractor.tender_extractor import TenderExtractor
 from app.models.bid_response import BidResponse
 from app.models.requirement import Requirement
-from app.models.review_result import ReviewResult, ComplianceLevel, RiskLevel
+from app.models.review_result import ComplianceLevel, ReviewResult, RiskLevel
 
 
 class _DummyLLM:

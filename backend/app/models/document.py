@@ -1,8 +1,10 @@
 """文档模型"""
 
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, Enum, Boolean, JSON
-from sqlalchemy.orm import relationship
 import enum
+
+from sqlalchemy import JSON, Boolean, Column, Enum, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 

@@ -28,7 +28,6 @@ from app.core.tasks import TaskLiveness
 from app.models.project import ProjectStatus
 from app.services.writing_service import WritingService
 
-
 # ============================================================
 # 通用桩 / 工厂（风格参照 test_writing_status_state_machine.py）
 # ============================================================

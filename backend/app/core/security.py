@@ -5,13 +5,13 @@
 
 import hashlib
 from datetime import datetime, timedelta, timezone
-from typing import Optional, Any
-from jose import jwt, JWTError
-from passlib.context import CryptContext
+from typing import Any, Optional
+
+from jose import JWTError, jwt
 from loguru import logger
+from passlib.context import CryptContext
 
 from app.core.config import settings
-
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

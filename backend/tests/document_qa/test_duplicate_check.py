@@ -1,7 +1,6 @@
 """重复检查: 长段落精确重复报出; 短文本/高频固定内容不报"""
 
 from app.core.document_qa.checks.duplicate_check import check_duplicate
-
 from tests.document_qa.conftest import make_model
 
 _LONG_PARA = (
@@ -94,7 +93,6 @@ def test_table_row_and_heading_repeat_skip_copied_pages(qa_rules):
     """表内重复数据行命中; 另一张表是第二实体。整页复制不再另报标题重复。"""
     from app.core.document_qa.contracts import QaHeading
     from app.core.document_qa.region_text import KIND_TABLE
-
     from tests.document_qa.conftest import make_line, make_region, with_regions
 
     def table(page: int, data: str):
@@ -144,7 +142,6 @@ def test_table_row_and_heading_repeat_skip_copied_pages(qa_rules):
 def test_single_cell_repeat_is_not_a_data_row(qa_rules):
     """单格短值和半句不是数据行重复。另一格是第二实体。"""
     from app.core.document_qa.region_text import KIND_TABLE
-
     from tests.document_qa.conftest import make_line, make_region, with_regions
 
     def table(page: int, data: str):

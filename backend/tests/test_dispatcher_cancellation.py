@@ -19,6 +19,7 @@ if str(_backend_root) not in sys.path:
     sys.path.insert(0, str(_backend_root))
 
 import os
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 
 

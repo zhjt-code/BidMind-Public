@@ -21,30 +21,30 @@ from dataclasses import dataclass, field
 
 from pydantic import ValidationError
 
+from app.core.extractor.scoring.category_inference import infer_scoring_category
+from app.core.extractor.scoring.column_role_inference import infer_detail_rule_column
 from app.core.extractor.scoring.detail_row_semantics import (
     is_volume_group_name,
     leading_rule_label,
     rule_first_segment,
     volume_group_marker,
 )
-from app.core.extractor.scoring.category_inference import infer_scoring_category
-from app.core.extractor.scoring.column_role_inference import infer_detail_rule_column
 from app.core.extractor.scoring.embedded_score_parser import parse_embedded_score_table
 from app.core.extractor.scoring.framework_table_parser import (
     has_volume_definition_row,
     parse_framework_table,
     parse_weight_summary_defs,
 )
-from app.core.extractor.scoring.score_candidates import detect_score_rule_conflict
-from app.core.extractor.scoring.scoring_decision_trace import record as _trace
-from app.core.extractor.scoring.scoring_item_naming import normalize_scoring_item_name
-from app.core.extractor.scoring.scoring_grid_payload import (
-    markdown_table_to_grid,
-    override_column_roles,
+from app.core.extractor.scoring.group_closure import (
+    build_group_closure_diagnostics,
+    parse_group_subtotals,
 )
-from app.core.extractor.scoring.group_closure import build_group_closure_diagnostics
-from app.core.extractor.scoring.group_closure import parse_group_subtotals
-from app.core.extractor.scoring.scoring_lot_header import resolve_lot_from_content
+from app.core.extractor.scoring.group_column import detect_group_column
+from app.core.extractor.scoring.row_group_attribution import (
+    backfill_recovered_group_labels,
+    recover_row_group_labels,
+)
+from app.core.extractor.scoring.score_candidates import detect_score_rule_conflict
 from app.core.extractor.scoring.score_column_semantics import (
     SCORE_HEADER_TERMS,
     classify_adjustment_fact_type,
@@ -55,19 +55,13 @@ from app.core.extractor.scoring.score_column_semantics import (
     parse_score_range_max,
     parse_short_score_tolerant,
 )
-from app.core.extractor.scoring.volume_parser import (
-    VolumeDefinition,
-    parse_flat_volume_composition,
-    volume_defs_from_group_subtotals,
+from app.core.extractor.scoring.scoring_decision_trace import record as _trace
+from app.core.extractor.scoring.scoring_grid_payload import (
+    markdown_table_to_grid,
+    override_column_roles,
 )
-from app.core.extractor.scoring.volume_weight_signals import (
-    parse_decimal_volume_weight_defs,
-)
-from app.core.extractor.scoring.group_column import detect_group_column
-from app.core.extractor.scoring.row_group_attribution import (
-    backfill_recovered_group_labels,
-    recover_row_group_labels,
-)
+from app.core.extractor.scoring.scoring_item_naming import normalize_scoring_item_name
+from app.core.extractor.scoring.scoring_lot_header import resolve_lot_from_content
 from app.core.extractor.scoring.scoring_rule_evidence import (
     backfill_rules_from_payload_roles,
 )
@@ -83,6 +77,14 @@ from app.core.extractor.scoring.volume_labeling import (
     refine_scoring_group_label,
     service_volume_signal,
     volume_from_score_standard_marker,
+)
+from app.core.extractor.scoring.volume_parser import (
+    VolumeDefinition,
+    parse_flat_volume_composition,
+    volume_defs_from_group_subtotals,
+)
+from app.core.extractor.scoring.volume_weight_signals import (
+    parse_decimal_volume_weight_defs,
 )
 from app.core.extractor.scoring.weighted_volume_table import (
     parse_weighted_volume_definitions,

@@ -21,7 +21,6 @@ from app.core.writer.locator_volume import (
 from app.core.writer.outline_generator import OutlineGenerator
 from app.schemas.writing import BidDirectoryItem, BidDirectorySpec, OutlineNodeGenerated
 
-
 # ── 谓词 ───────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize(

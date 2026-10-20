@@ -3,14 +3,15 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 
 import pytest
+
+from app.core.writer.fixed_template_contract import FIXED_TEMPLATE_SNAPSHOT_KEY
 from app.core.writer.industry_profiler import IndustryProfiler
 from app.core.writer.prompts.clause_extract import HARD_CONSTRAINT_USER
 from app.core.writer.prompts.section_compose import get_summarize_prompt
 from app.core.writer.section_composer import SectionComposer
-from app.core.writer.fixed_template_contract import FIXED_TEMPLATE_SNAPSHOT_KEY
-from app.services.writing.material_service import MaterialService
 from app.models.writing_binding import BindingStatus
 from app.models.writing_outline_node import OutlineNodeStatus, OutlineNodeType
+from app.services.writing.material_service import MaterialService
 from scripts.seed_llm_registry import _WRITING_NODES
 
 

@@ -25,7 +25,7 @@ from app.core.retriever.evidence_pipeline.lexical_retriever import (
 from app.core.retriever.evidence_pipeline.query_planner import plan_retrieval_channels
 from app.core.retriever.evidence_pipeline.rrf import fuse_channel_rankings
 from app.core.retriever.evidence_ranker import apply_low_info_penalty, rerank_results_by_query
-from app.core.retriever.semantic_retriever import SemanticRetriever
+from app.core.retriever.semantic_retriever import SearchResult, SemanticRetriever
 
 
 async def _collect_dense_hits(

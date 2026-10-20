@@ -6,6 +6,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.scoring
+
 from types import SimpleNamespace
 
 from app.core.extractor.scoring.item_group_relation import (

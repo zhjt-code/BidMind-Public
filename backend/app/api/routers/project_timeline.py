@@ -8,18 +8,17 @@
 - 入口供 ErrorLog 详情页/三大业务 Result 页跳转使用
 """
 
-from typing import Optional, List
 from datetime import datetime
+from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import PaginationParams, get_pagination, require_admin
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.common import ApiResponse
-from app.api.dependencies import require_admin, get_pagination, PaginationParams
 from app.services.project_timeline_service import get_project_timeline
-
 
 router = APIRouter(prefix="/admin/projects", tags=["项目时间线"])
 

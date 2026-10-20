@@ -8,10 +8,10 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from app.models.project import ProjectStatus
-from app.models.vector_job_state import VectorJobState, VectorJobStatus
 from app.core.tasks import cleanup_task, update_heartbeat
 from app.core.tasks.writing_extract_task import get_writing_extract_task_name
+from app.models.project import ProjectStatus
+from app.models.vector_job_state import VectorJobState, VectorJobStatus
 from app.services.liveness.document_processing_reconciler import (
     DocumentProcessReconciliationResult,
 )

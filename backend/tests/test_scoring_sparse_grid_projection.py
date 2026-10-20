@@ -12,7 +12,6 @@ import pytest
 from app.core.extractor.scoring.scoring_table_parser import _infer_volume_heading
 from app.core.parser.scoring_sparse_assembly_gate import apply_sparse_projection
 from app.core.parser.scoring_sparse_grid_projection import (
-    SparseGridProjectionSchema,
     decide_sparse_grid_action,
     discover_sparse_scoring_projection,
 )

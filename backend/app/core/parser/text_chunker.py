@@ -5,9 +5,9 @@
 
 from dataclasses import dataclass, field
 from typing import Optional
-from loguru import logger
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from loguru import logger
 
 
 @dataclass

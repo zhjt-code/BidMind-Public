@@ -11,7 +11,6 @@ from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_serializer, model_validator
 
-
 # ==================== LLM 提取输出 Schema ====================
 
 class ExtractedClause(BaseModel):

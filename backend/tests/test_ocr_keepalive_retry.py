@@ -18,11 +18,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import httpx
 import pytest
 
-from app.core.parser import ocr_engine
 from app.core.parser.ocr_engine import (
     _CLIENT_KEEPALIVE_EXPIRY_SEC,
-    _post_predict_with_stale_retry,
     OcrEngine,
+    _post_predict_with_stale_retry,
 )
 
 

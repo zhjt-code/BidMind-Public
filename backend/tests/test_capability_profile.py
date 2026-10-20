@@ -12,19 +12,11 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Optional
 from unittest.mock import patch
 
 import pytest
 
-from app.core.ai_capabilities import (
-    ModelCapabilityProfile,
-    ObservedCapability,
-    effective_capability,
-    effective_profile_summary,
-    merge_probe_reports,
-    resolve_tristate,
-)
 from app.core.ai.capability_router import (
     CallRequirements,
     build_requirements,
@@ -35,8 +27,15 @@ from app.core.ai.thinking_params import (
     build_thinking_extra_body,
     seed_allowed,
 )
+from app.core.ai_capabilities import (
+    ModelCapabilityProfile,
+    ObservedCapability,
+    effective_capability,
+    effective_profile_summary,
+    merge_probe_reports,
+    resolve_tristate,
+)
 from app.core.ai_settings import ModelConfigItem
-
 
 # ---------- 三态解析 ----------
 

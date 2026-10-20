@@ -3,7 +3,7 @@
 不做: 不做规则计算、不写回 priority、不承担审计写入
 """
 
-from sqlalchemy import Column, DateTime, Integer, String, Index
+from sqlalchemy import Column, DateTime, Index, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import BaseModel

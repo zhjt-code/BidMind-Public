@@ -1,7 +1,8 @@
 """标书编写 -- 渲染配置模型"""
 
-from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey, JSON
+from sqlalchemy import JSON, Column, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
+
 from app.models.base import BaseModel
 
 

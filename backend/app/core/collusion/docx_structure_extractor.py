@@ -24,7 +24,6 @@ from typing import Any
 
 from loguru import logger
 
-
 _EMU_PER_MM = 36000  # python-docx: Length in EMU；1 mm = 36000 EMU
 
 # pdfplumber 单位为 PostScript point (1/72 inch)；1 inch = 25.4 mm → 1 pt ≈ 0.3528 mm

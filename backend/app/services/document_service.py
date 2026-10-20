@@ -4,14 +4,19 @@
 """
 
 import os
-import re
 import shutil
 from pathlib import Path
 from typing import Optional
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.bid_envelope import (
+    envelope_is_complete,
+    envelope_mode_conflict,
+    load_bid_envelope,
+)
 from app.core.config import settings
 from app.core.convert.office_to_pdf import (
     ALLOWED_UPLOAD_SUFFIXES,
@@ -19,24 +24,18 @@ from app.core.convert.office_to_pdf import (
     office_convert_siblings,
     suffix_of,
 )
-from app.core.bid_envelope import (
-    envelope_is_complete,
-    envelope_mode_conflict,
-    load_bid_envelope,
-)
 from app.core.filename import sanitize_filename as _shared_sanitize_filename
-from app.models.document import Document, DocumentType
-from app.models.project import Project, ProjectStatus, ProjectType
-from app.core.parser import PdfParser, ChunkPlanner
+from app.core.parser import ChunkPlanner, PdfParser
 from app.core.parser.image_extractor import (
-    generate_image_annotations,
-    extract_context_for_images,
-    insert_annotation_near_anchor,
     build_natural_evidence_chunk,
+    extract_context_for_images,
+    generate_image_annotations,
+    insert_annotation_near_anchor,
 )
 from app.core.vectorizer import VectorIndexer
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus, ProjectType
 from app.schemas.document import ProcessingResult
-
 
 _RUNNING_STATUSES = frozenset({
     ProjectStatus.EXTRACTING,

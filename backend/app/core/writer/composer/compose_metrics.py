@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from prometheus_client import Counter, Histogram, REGISTRY
+from prometheus_client import REGISTRY, Counter, Histogram
 
 from app.core.observability.registry import MetricSpec, get_metrics_registry
 

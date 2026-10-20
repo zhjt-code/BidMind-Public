@@ -7,8 +7,8 @@ from types import SimpleNamespace
 from app.core.writer.material_matcher import MaterialMatcher
 from app.core.writer.material_tagger import MaterialTagger
 from app.core.writer.outline_generator import OutlineGenerator
-from app.core.writer.prompts.material_tag import get_material_tag_prompt
 from app.core.writer.prompts.chapter_profile import get_chapter_profile_prompt
+from app.core.writer.prompts.material_tag import get_material_tag_prompt
 from scripts.seed_llm_registry import _WRITING_NODES, PARAM_DEFS
 
 
@@ -316,6 +316,7 @@ async def test_supplement_missing_profiles_swallows_llm_failure() -> None:
 def test_log_volume_profile_coverage_escalates_severe_shortage(caplog) -> None:
     """: 补救后仍缺漏 >50% 必须升级 ERROR 日志便于运维感知。"""
     import logging
+
     from loguru import logger as _loguru_logger
 
     handler_id = _loguru_logger.add(

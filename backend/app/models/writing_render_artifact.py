@@ -1,6 +1,6 @@
 """标书编写 -- 渲染产物与一致性缓存模型"""
 
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, DateTime, LargeBinary
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, LargeBinary, Text
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel

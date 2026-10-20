@@ -7,7 +7,6 @@
 """
 from __future__ import annotations
 
-import asyncio
 from types import SimpleNamespace
 
 import pytest
@@ -117,8 +116,7 @@ def _channel_env(monkeypatch, *, tail, rescue_input, client):
  默认复判桩与既有夹具语义对齐: 候选总分≈100 判 green(等价旧'闭合即终点'),
  专项测试可覆写为按分组差额判 amber。
  """
-    from app.core.ai import ai_factory
-    from app.core.ai import prompt_registry
+    from app.core.ai import ai_factory, prompt_registry
     from app.core.extractor.scoring.vlm import rescue_input_builder, rescue_rounds
 
     async def _fake_build(**kwargs):
@@ -498,11 +496,11 @@ class TestVerdictEndpoint:
     def test_authoritative_expected_gates_150_scale_document(self):
         """审查V2核心负例: 150分制文档传入权威基准后, "漏提凑满100"必须判
         not_closed(封堵静默转绿); 完整150则 COMPLETE。"""
-        from app.core.extractor.scoring.vlm.candidate_gates import (
-            check_business_closure,
-        )
         from app.core.extractor.scoring.scoring_scope_contracts import (
             ScoringValidationKind,
+        )
+        from app.core.extractor.scoring.vlm.candidate_gates import (
+            check_business_closure,
         )
         from app.schemas.requirement import ExtractedScoringItem
 
@@ -560,11 +558,11 @@ class TestVerdictEndpoint:
     def test_multi_lot_candidates_with_lots_reach_complete(self):
         """双标段候选各自闭合100分且带 lot 时, 闭合裁判必须判 COMPLETE
  (修复后 doc2481 的期望终态)。"""
-        from app.core.extractor.scoring.vlm.candidate_gates import (
-            check_business_closure,
-        )
         from app.core.extractor.scoring.scoring_scope_contracts import (
             ScoringValidationKind,
+        )
+        from app.core.extractor.scoring.vlm.candidate_gates import (
+            check_business_closure,
         )
         from app.schemas.requirement import ExtractedScoringItem
 

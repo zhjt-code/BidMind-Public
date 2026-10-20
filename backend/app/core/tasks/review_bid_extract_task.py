@@ -20,7 +20,10 @@ async def run_review_bid_extract_task(project_id: int) -> None:
     """仅执行投标响应提取并落库。"""
 
     from app.core.ai import release_project_binding
-    from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled, raise_if_project_cancelled
+    from app.core.arq_runtime import (
+        ProjectCancelledError,
+        is_project_cancelled,
+    )
     from app.core.config import get_review_concurrency
     from app.core.extractor.bid_extractor import get_bid_extractor
     from app.core.tasks import update_heartbeat

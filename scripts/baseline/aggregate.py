@@ -61,12 +61,10 @@ def format_week_report(
     notes = notes or []
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
 
-    guard_metrics = {k: v for k, v in snapshot.items() if k.startswith("guard_")}
     json_repair = snapshot.get("json_repair", {}) or snapshot.get("json_repair_total", {})
     empty_return = snapshot.get("empty_return", {}) or snapshot.get("empty_return_total", {})
     fallback = snapshot.get("fallback_trigger", {}) or snapshot.get("fallback_trigger_total", {})
     llm_calls = snapshot.get("llm_calls", {}) or snapshot.get("llm_calls_total", {})
-    llm_latency = snapshot.get("llm_latency_seconds", {})
 
     lines = [
         f"# B0.6 基线周报 - Week {week_num}",

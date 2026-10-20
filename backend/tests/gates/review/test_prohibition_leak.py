@@ -20,7 +20,6 @@ from app.core.ai.reviewer_parts.evidence_policy import (
     should_search_independently,
 )
 
-
 _PRICE_REQ = (
     "严禁在技术标、商务标中出现任何价格相关内容（总价、单价、清单价等），"
     "具体价格必须单独编制报价文件放入第二信封，否则废标。"

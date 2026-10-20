@@ -15,9 +15,7 @@ from app.core.extractor.scoring.scheme_reader.anchor_verifier import (
     verify_scheme_map_anchors,
 )
 from app.core.extractor.scoring.scheme_reader.contracts import (
-    SchemeDecl,
     SchemeMap,
-    SchemeVolumeDecl,
     SignalAnchor,
     SpanAssignment,
 )

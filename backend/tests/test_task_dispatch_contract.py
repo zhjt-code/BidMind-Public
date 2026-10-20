@@ -13,8 +13,8 @@
 from __future__ import annotations
 
 import asyncio
-from contextlib import asynccontextmanager
 import sys
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 from unittest.mock import AsyncMock, patch
@@ -23,16 +23,16 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from app.core.arq_runtime import ArqDispatchResult
 from app.core.tasks import (
     TASK_STAGE_QUEUED,
+    cleanup_task,
     clear_collusion_cache,
     dispatch_background_job,
     get_task_heartbeat,
     read_collusion_stall_snapshot,
     write_collusion_stall_snapshot,
-    cleanup_task,
 )
-from app.core.arq_runtime import ArqDispatchResult
 
 
 @asynccontextmanager
@@ -537,8 +537,8 @@ def test_writing_compose_single_task_exposes_expected_api() -> None:
 
 def test_writing_image_llm_jobs_are_llm_resource() -> None:
     """图片 VL / 分类子任务必须进入 LLM 资源队列, 不得占用 process worker。"""
-    from app.core.tasks.resource_policy import resource_type_for_function
     from app.core.tasks.document_image_llm_task import DOCUMENT_IMAGE_VL_JOB
+    from app.core.tasks.resource_policy import resource_type_for_function
     from app.core.tasks.writing_image_llm_task import (
         WRITING_IMAGE_CLASSIFY_JOB,
         WRITING_IMAGE_VL_JOB,
@@ -553,6 +553,8 @@ def test_writing_image_llm_task_exposes_expected_contract() -> None:
     """图片 LLM 子任务模块必须暴露稳定 job 名与结果 key。"""
     from app.core.tasks.document_image_llm_task import (
         DOCUMENT_IMAGE_VL_JOB,
+    )
+    from app.core.tasks.document_image_llm_task import (
         result_key as document_image_result_key,
     )
     from app.core.tasks.writing_image_llm_task import (

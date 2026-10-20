@@ -1,13 +1,13 @@
 """数据库连接测试脚本"""
 
 import asyncio
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 
-from sqlalchemy import text
 from app.core.database import engine
+from sqlalchemy import text
 
 
 async def test_connection():

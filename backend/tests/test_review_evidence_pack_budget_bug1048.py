@@ -12,12 +12,13 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import asyncio
 import os
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
+
+from tests.synthetic_data import synthetic_text
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
@@ -26,7 +27,6 @@ from app.core.ai.reviewer_parts.evidence_pack_budget import (
     SECTION_IMAGE,
     SECTION_INDEPENDENT,
     SECTION_KNOWLEDGE,
-    SECTION_LEDGER,
     SECTION_PROHIBITION,
     SECTION_RAW,
     EvidenceItem,
@@ -39,7 +39,6 @@ from app.core.ai.reviewer_parts.pair_review import build_review_prompt
 from app.core.config import settings
 from app.core.retriever.evidence_coverage import EvidenceFacet
 from app.core.review_contracts import ReviewEvidenceBundle
-
 
 # ---------------------------------------------------------------------------
 # 夹具: 两个不同实体的同形态场景（形态覆盖，非案例专用）

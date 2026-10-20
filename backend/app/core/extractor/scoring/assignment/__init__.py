@@ -8,6 +8,8 @@
 from __future__ import annotations
 
 from app.core.extractor.scoring.assignment.contracts import (
+    VALID_ASSIGNMENT_STATUSES,
+    VALID_FACT_TYPES,
     Assignment,
     AssignmentStatus,
     CandidateFact,
@@ -17,8 +19,6 @@ from app.core.extractor.scoring.assignment.contracts import (
     InvariantCheck,
     InvariantReport,
     SourceChannel,
-    VALID_ASSIGNMENT_STATUSES,
-    VALID_FACT_TYPES,
     make_physical_key,
 )
 

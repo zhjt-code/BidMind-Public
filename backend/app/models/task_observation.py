@@ -13,6 +13,7 @@ Phase 2 核心: 把 Project.status / update_heartbeat(内存+Redis) / VectorJobS
 from __future__ import annotations
 
 import enum
+
 from sqlalchemy import (
     Column,
     DateTime,

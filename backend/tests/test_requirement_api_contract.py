@@ -82,6 +82,7 @@ def test_requirement_update_score_weight_zero_rejected():
     """score_weight <= 0 应被验证拒绝（评分项满分不得为零或负数）。"""
     import pytest
     from pydantic import ValidationError
+
     from app.schemas.requirement import RequirementUpdate
     with pytest.raises(ValidationError):
         RequirementUpdate(score_weight=0.0)

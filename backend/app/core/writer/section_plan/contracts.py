@@ -13,10 +13,10 @@ from pydantic import BaseModel, ConfigDict, Field, PositiveInt, field_validator,
 
 from app.core.writer.visuals.ir_contracts import (
     MAX_FLOWCHART_NODES,
-    MAX_GANTT_PHASES,
     MAX_GANTT_PHASE_DURATION_DAYS,
-    MAX_LAYERS,
+    MAX_GANTT_PHASES,
     MAX_LAYER_ITEMS,
+    MAX_LAYERS,
     MAX_NETWORK_EDGES,
     MAX_NETWORK_NODES,
     MAX_ORG_UNITS,
@@ -28,7 +28,6 @@ from app.core.writer.visuals.ir_contracts import (
     MIN_FLOWCHART_NODES,
     MIN_GANTT_PHASES,
 )
-
 
 PlanItemId = Annotated[
     str,

@@ -13,7 +13,6 @@
 
 from __future__ import annotations
 
-from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -25,7 +24,6 @@ from app.core.writer.composer.length_control import (
     count_plain_text,
     ensure_section_length,
 )
-
 
 # ---------------------------------------------------------------------------
 # 1. count_plain_text: HTML / 占位符 / 空白剥离

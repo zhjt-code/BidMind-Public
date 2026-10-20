@@ -2,12 +2,12 @@ from types import SimpleNamespace
 
 import pytest
 
+from app.core.writer.outline_scope.contracts import CATCHALL_EXTRACT_TOPIC
 from app.core.writer.outline_scope.extractor import (
     extract_scope_titles,
     parse_scope_title_payload,
     render_scope_text,
 )
-from app.core.writer.outline_scope.contracts import CATCHALL_EXTRACT_TOPIC
 from app.core.writer.prompts.outline_scope import get_scope_title_prompt
 
 

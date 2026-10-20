@@ -18,14 +18,15 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock
 from types import SimpleNamespace
+from unittest.mock import MagicMock
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from app.core.log_sink import _extract_origin_frame, DbLogSink  # noqa: E402
+from app.core.log_sink import DbLogSink, _extract_origin_frame  # noqa: E402
 from app.core.observability.log_aggregation import (  # noqa: E402
-    LogAggregator, build_aggregation_key,
+    LogAggregator,
+    build_aggregation_key,
 )
 from app.core.observability.traffic_class import (  # noqa: E402
     TRAFFIC_CLASS_ADMIN_TEST,
@@ -35,7 +36,6 @@ from app.core.observability.traffic_class import (  # noqa: E402
     resolve_query_traffic_class,
     resolve_traffic_class,
 )
-
 
 # ── _extract_origin_frame: 三个核心场景 ──────────────────────────
 

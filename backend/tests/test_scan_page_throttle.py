@@ -11,9 +11,10 @@
 
 import asyncio
 import os
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 from dataclasses import dataclass, field
+from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 os.environ.setdefault(
     "DATABASE_URL",
@@ -191,6 +192,7 @@ class TestTimeoutInstanceEviction:
     async def test_timeout_marks_instance_unhealthy(self):
         """TimeoutException 应将 OCR 实例标记为不健康"""
         import httpx
+
         from app.core.parser.ocr_engine import OcrEngine
 
         engine = OcrEngine(

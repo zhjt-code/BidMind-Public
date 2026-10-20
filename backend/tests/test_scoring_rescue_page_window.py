@@ -15,15 +15,17 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.scoring_table_parser import (  # noqa: E402
     parse_scoring_table,
-)
-from app.core.extractor.scoring.vlm.rescue_input_builder import (  # noqa: E402
-    collect_rescue_pages,
 )
 from app.core.extractor.scoring.vlm.candidate_contract import (  # noqa: E402
     VlmScoringItemDraft,
     to_extracted_items,
+)
+from app.core.extractor.scoring.vlm.rescue_input_builder import (  # noqa: E402
+    collect_rescue_pages,
 )
 from app.core.extractor.scoring.vlm.scoring_page_locator import (  # noqa: E402
     locate_scoring_pages,
@@ -32,8 +34,6 @@ from app.core.extractor.scoring.volume_labeling import (  # noqa: E402
     volume_from_explicit_bid_label,
     volume_from_score_standard_marker,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

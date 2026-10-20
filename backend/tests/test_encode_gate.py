@@ -440,6 +440,7 @@ def reset_encode_gate_state():
       避免前批 stall 的 thread 堵住后批 submit（否则测不到"同批降批重试"）
     """
     import concurrent.futures
+
     from app.core.vectorizer import encode_gate
 
     # 重置控制器
@@ -1121,7 +1122,6 @@ async def test_cpu_main_path_logs_warning_when_real_gpu_failure(
     """ 防御 (反向): EMBEDDING_DEVICE=auto/cuda 时, GPU stall/oom
  仍必须打 WARNING (确保我们没把 fallback 日志全消音)。
  """
-    import logging as _logging
 
     from app.core.vectorizer import encode_gate
 
@@ -2706,6 +2706,7 @@ async def test_gpu_queued_timeout_does_not_declare_device_fault(
 ):
     """执行器队列未开始就算墙钟超时, 也不得判设备故障; grace 内完成保持 GPU。"""
     import concurrent.futures
+
     from app.core.vectorizer import encode_gate
 
     _pin_stall_timeout(monkeypatch, 0.15)

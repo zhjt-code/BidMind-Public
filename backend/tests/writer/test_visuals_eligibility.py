@@ -1,8 +1,8 @@
 """: 图示资格闸门不得用画像 rejects 子串误杀。"""
 
 from app.core.writer.visuals.eligibility_policy import (
-    filter_visual_intents,
     _is_visual_allowed,
+    filter_visual_intents,
 )
 
 

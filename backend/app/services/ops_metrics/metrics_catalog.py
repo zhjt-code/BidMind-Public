@@ -26,8 +26,8 @@ async def list_metrics_catalog(
     若 DB 中尚未持久化 (首次启动), 回退读取内存 MetricsRegistry。
     返回 ApiResponse.data 字典: {items, total}。
     """
-    from app.models.metric_catalog import MetricCatalog
     from app.core.observability.registry import get_metrics_registry
+    from app.models.metric_catalog import MetricCatalog
 
     items: list[dict[str, Any]] = []
     try:

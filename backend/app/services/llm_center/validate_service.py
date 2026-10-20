@@ -24,14 +24,12 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.llm_template_version import LlmTemplateVersion
-from app.models.llm_param_def import LlmParamDef
 from app.models.llm_node import LlmNode
 from app.models.llm_node_edge import LlmNodeEdge
-from app.schemas.llm_center import ValidationResult, CheckItem
-
+from app.models.llm_param_def import LlmParamDef
+from app.models.llm_template_version import LlmTemplateVersion
+from app.schemas.llm_center import CheckItem, ValidationResult
 from app.services.llm_center._helpers import _get_node_or_raise
-
 
 _PLACEHOLDER_RE = re.compile(r'\{(\w+)\}')
 
@@ -109,7 +107,7 @@ class ValidateService:
         active_versions = (await self.db.execute(
             select(LlmTemplateVersion).where(
                 LlmTemplateVersion.node_id == node.id,
-                LlmTemplateVersion.is_active == True,
+                LlmTemplateVersion.is_active.is_(True),
             )
         )).scalars().all()
         active_ph_by_role: dict[str, set[str]] = {}
@@ -152,12 +150,11 @@ class ValidateService:
         required_params = (await self.db.execute(
             select(LlmParamDef).where(
                 LlmParamDef.node_id == node.id,
-                LlmParamDef.is_required == True,
+                LlmParamDef.is_required.is_(True),
                 LlmParamDef.direction == "input",
                 LlmParamDef.status == "active",
             )
         )).scalars().all()
-        missing_source = [p.param_key for p in required_params if p.source_type == "manual" and not p.default_value]
         checks.append(CheckItem(
             check_type="required_source", passed=True,
             message=f"必填参数来源检查通过 ({len(required_params)} 个必填参数)",

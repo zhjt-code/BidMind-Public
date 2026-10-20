@@ -20,7 +20,6 @@ from app.core.document_qa.region_text import (
     KIND_FURNITURE,
     KIND_TABLE,
 )
-
 from tests.document_qa.conftest import make_line, make_model, make_region, with_regions
 
 _ROW_PITCH = 0.03

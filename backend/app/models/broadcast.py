@@ -13,15 +13,17 @@ import enum
 from typing import TYPE_CHECKING
 
 from sqlalchemy import (
-    Column,
-    String,
-    Text,
-    Integer,
     Boolean,
+    Column,
     DateTime,
     ForeignKey,
     Index,
+    Integer,
+    String,
+    Text,
     UniqueConstraint,
+)
+from sqlalchemy import (
     Enum as SQLEnum,
 )
 from sqlalchemy.orm import relationship
@@ -29,7 +31,7 @@ from sqlalchemy.orm import relationship
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.user import User
+    pass
 
 
 class BroadcastLevel(str, enum.Enum):

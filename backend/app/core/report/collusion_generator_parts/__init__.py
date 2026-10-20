@@ -27,11 +27,11 @@
 """
 
 from app.core.report.collusion_generator_parts import (  # noqa: F401
-    cover_builder,
-    pair_section,
-    group_section,
-    global_findings,
     conclusion_summary,
+    cover_builder,
+    global_findings,
+    group_section,
+    pair_section,
 )
 
 __all__ = [

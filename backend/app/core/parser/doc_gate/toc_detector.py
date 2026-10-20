@@ -4,8 +4,8 @@
 不做: 不读取PDF、不做OCR、不修改共享TocParser的目录导航语义。
 """
 
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 
 from app.core.parser.pdf_parser import ParsedPage
 from app.core.parser.toc_parser import TocEntry, TocParser

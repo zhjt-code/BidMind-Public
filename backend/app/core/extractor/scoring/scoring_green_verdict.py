@@ -420,7 +420,6 @@ async def resolve_document_trigger_context(
     from app.core.extractor.scoring.ledger.extractor_bridge import (
         observe_scoring_ledger_shadow,
     )
-
     from app.models.document import Document
 
     signals = (

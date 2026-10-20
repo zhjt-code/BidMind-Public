@@ -4,7 +4,6 @@ from app.core.ai.gates.base import GateVerdict
 from app.core.contracts.failure_state import FailureState
 from app.core.contracts.failure_state_determiner import FailureStateDeterminer
 
-
 det = FailureStateDeterminer()
 
 

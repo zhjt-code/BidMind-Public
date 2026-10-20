@@ -10,6 +10,8 @@ import re
 
 from app.core.extractor.scoring.score_total_row_policy import (
     TOTAL_ROW_TERMS,
+)
+from app.core.extractor.scoring.score_total_row_policy import (
     is_total_row_strict as _is_total_row_strict,
 )
 

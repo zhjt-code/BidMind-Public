@@ -10,7 +10,6 @@ from dataclasses import dataclass
 
 from app.schemas.writing import BidDirectoryItem, BidDirectorySpec
 
-
 # ─── 编号行识别正则（行首，优先匹配较长模式，避免前缀截断） ────────────────────
 # 分支优先级说明：
 #   连字符层级 1-1/2-1-1 > 点号层级 1.1 > 数字+顿号/点号 > 纯数字+空格

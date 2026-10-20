@@ -23,8 +23,8 @@ from app.core.document_qa.contracts import (
     QaCertainty,
     QaSeverity,
 )
-from app.core.document_qa.verify.evidence_pack import build_batches, confirmed_by_measurement
 from app.core.document_qa.verify.contracts import coerce_page_verify_result
+from app.core.document_qa.verify.evidence_pack import build_batches, confirmed_by_measurement
 from app.core.document_qa.verify.finding_verifier import (
     apply_verdicts,
     normalize_confidence,

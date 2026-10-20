@@ -8,46 +8,45 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import quote
 
-from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, status, Request
-from fastapi.responses import Response, FileResponse
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile, status
+from fastapi.responses import FileResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
-from loguru import logger
 
+from app.api.dependencies import get_current_user, handle_service_error, project_log_context
 from app.core.config import settings
 from app.core.database import get_db
+from app.core.exceptions import ServiceError
 from app.core.filename import build_export_filename
 from app.core.rate_limit import limiter
 from app.models.user import User
-from app.api.dependencies import get_current_user, handle_service_error, project_log_context
-from app.core.exceptions import ServiceError
-from app.services.retry_service import RetryService
-from app.services.writing_service import WritingService
 from app.schemas.writing import (
+    ClauseCoverageResponse,
+    ConsistencyIssue,
+    MaterialBatchStatusResponse,
+    OutlineNodeResponse,
+    OutlineNodeUpdate,
+    OutlineReorderRequest,
+    SectionDraftResponse,
+    SectionDraftUpdate,
+    WritingBindingConfirmRequest,
+    WritingBindingResponse,
+    WritingBindingUpdate,
+    WritingClauseConfirmRequest,
     WritingClauseCreate,
     WritingClauseResponse,
+    WritingClauseUpdate,
+    WritingMaterialResponse,
+    WritingMaterialTitleBatchUpdateRequest,
+    WritingMaterialTitleBatchUpdateResponse,
+    WritingMaterialTitleUpdateRequest,
+    WritingMaterialUpdateRequest,
     WritingProjectStatusResponse,
     WritingRetryRequest,
     WritingRetryStateResponse,
     WritingRetryTriggerResponse,
-    WritingClauseUpdate,
-    WritingClauseConfirmRequest,
-    OutlineNodeResponse,
-    OutlineNodeUpdate,
-    OutlineReorderRequest,
-    WritingMaterialResponse,
-    WritingMaterialUpdateRequest,
-    WritingMaterialTitleUpdateRequest,
-    WritingMaterialTitleBatchUpdateRequest,
-    WritingMaterialTitleBatchUpdateResponse,
-    MaterialBatchStatusResponse,
-    WritingBindingResponse,
-    WritingBindingUpdate,
-    WritingBindingConfirmRequest,
-    SectionDraftResponse,
-    SectionDraftUpdate,
-    ConsistencyIssue,
-    ClauseCoverageResponse,
 )
+from app.services.retry_service import RetryService
+from app.services.writing_service import WritingService
 
 router = APIRouter(
     prefix="/writing/projects/{project_id}",
@@ -528,8 +527,9 @@ async def list_node_images(
     再从 WritingMaterialImage 查询每个素材的图片记录。
     """
     from sqlalchemy import select as _sel
+
+    from app.models.writing_binding import BindingType, WritingBinding
     from app.models.writing_material_image import WritingMaterialImage
-    from app.models.writing_binding import WritingBinding, BindingType
 
     await _svc(db)._get_project_or_raise(project_id, current_user)
 
@@ -578,9 +578,11 @@ async def get_material_image(
     验证图片所属素材归属于当前项目。
     """
     from pathlib import Path
+
     from sqlalchemy import select as _sel
-    from app.models.writing_material_image import WritingMaterialImage
+
     from app.models.writing_material import WritingMaterial
+    from app.models.writing_material_image import WritingMaterialImage
 
     await _svc(db)._get_project_or_raise(project_id, current_user)
 
@@ -882,7 +884,7 @@ async def trigger_render(
     try:
         retry_svc = RetryService(db)
         task_name = f"writing_render_{project_id}"
-        run = await retry_svc.begin_attempt(
+        await retry_svc.begin_attempt(
             project_id=project_id,
             node_key=RetryService.NODE_WRITING_RENDER,
             user_id=getattr(current_user, "id", None),

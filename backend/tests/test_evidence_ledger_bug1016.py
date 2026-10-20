@@ -5,7 +5,6 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 from types import SimpleNamespace
 from unittest.mock import MagicMock
@@ -23,6 +22,7 @@ from app.core.ai.reviewer_parts.evidence_prefetch import attach_ledger_evidence
 from app.core.ai.reviewer_parts.pair_review import build_review_prompt
 from app.core.retriever.evidence_coverage import EvidenceFacet, build_evidence_facets
 from app.core.review_contracts import ReviewEvidenceBundle
+from tests.synthetic_data import synthetic_text
 
 
 def _bundle(**overrides) -> ReviewEvidenceBundle:

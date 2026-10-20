@@ -1,9 +1,11 @@
 from tests.synthetic_data import synthetic_text
+
 """投标审查 + 标书编写证据闸门单元测试 (推广)"""
 import os
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://x:x@localhost/x")
 
-from types import SimpleNamespace
+
 from app.core.writer.clause_extractor import ClauseExtractor
 from app.schemas.writing import ExtractedClause
 
@@ -208,6 +210,7 @@ def test_claim_response_skip_compliant():
 def test_writing_clause_update_accepts_raw_text_and_source_page():
     """writer 编辑契约: 必须允许补录 raw_text 和 source_page"""
     import pytest
+
     from app.schemas.writing import WritingClauseUpdate
 
     update = WritingClauseUpdate(
@@ -328,6 +331,7 @@ def test_verify_batch_clauses_writes_page_range():
 def test_writing_clause_create_accepts_page_range_only():
     """writer 创建契约: 只提供 source_page_start/end 也应视为可溯源"""
     import pytest
+
     from app.schemas.writing import WritingClauseCreate
 
     # 仅提供页范围 (无 raw_text, 无 source_page)

@@ -4,7 +4,7 @@
 """
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 
 async def ingest_frontend_metric_events(
@@ -16,10 +16,9 @@ async def ingest_frontend_metric_events(
     只接受已在 MetricsRegistry 登记的指标名 (front-end 层); 未登记的静默丢弃 (web_ 前缀
     会触发首次自动登记)。返回 {accepted, dropped} 统计。
     """
-    from app.core.observability.registry import get_metrics_registry
-    from app.core.observability.storage import record_sample
     from app.core.observability.instrument import _build_prom_metric  # type: ignore[attr-defined]
-    from app.core.observability.registry import MetricSource, MetricSpec
+    from app.core.observability.registry import MetricSource, MetricSpec, get_metrics_registry
+    from app.core.observability.storage import record_sample
 
     reg = get_metrics_registry()
     accepted = 0

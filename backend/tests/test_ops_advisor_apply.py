@@ -16,7 +16,6 @@ from app.core.ai_settings import (
     load_ai_settings,
 )
 from app.core.config import settings
-from app.services.ops_advisor.priority_apply_service import fingerprint_priority
 from app.services.ops_advisor.weekly_reliability_report import resolve_week_start
 
 _CST = ZoneInfo("Asia/Shanghai")

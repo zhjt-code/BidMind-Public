@@ -1,20 +1,20 @@
 """图片提取模块测试"""
 
-import pytest
-from pathlib import Path
-from unittest.mock import MagicMock, patch
 import sys
+from pathlib import Path
+
+import pytest
 
 # 添加项目路径
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.parser.image_extractor import (
-    ImageExtractor,
     ExtractedImage,
-    generate_image_annotations,
+    ImageExtractor,
     extract_context_for_images,
+    generate_image_annotations,
 )
-from app.core.parser.pdf_parser import PdfParser, ParsedPage, ParsedDocument
+from app.core.parser.pdf_parser import ParsedDocument, ParsedPage, PdfParser
 
 
 class TestExtractedImage:

@@ -44,8 +44,8 @@ async def run_vectorize_stage(
     Returns: 成功落库的 chunks 数量(供主编排器日志)
     """
     from app.core.config import settings
-    from app.core.tasks.cancellation import make_project_cancel_check
     from app.core.tasks import process_task as ptm
+    from app.core.tasks.cancellation import make_project_cancel_check
     from app.core.vectorizer import VectorIndexer
     from app.core.vectorizer.job_state import upsert_vector_job_state
     from app.models.vector_job_state import VectorJobStatus

@@ -19,13 +19,13 @@ from loguru import logger
 from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.extractor.scoring.operational_assessment import stamp_clause_assessment_flags
 from app.core.extractor.scoring.scoring_extractor import (
     ScoringExtractor,
     normalize_score_weight,
 )
 from app.core.extractor.scoring.verdict_probe_store import stamp_document_verdict_probe
 from app.core.writer.scoring_constants import SCORING_AUTHORITY_SOURCE
-from app.core.extractor.scoring.operational_assessment import stamp_clause_assessment_flags
 from app.models.chunk import Chunk
 from app.models.writing_clause import WritingClause, WritingClauseLayer
 from app.schemas.requirement import ExtractedScoringItem

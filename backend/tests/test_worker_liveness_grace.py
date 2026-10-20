@@ -22,12 +22,12 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.tasks import inspect_task_liveness  # noqa: E402
-from app.core.tasks.lifecycle.liveness_evidence import (  # noqa: E402
-    has_confirmed_pending_arq_job,
-)
 from app.core.tasks.lifecycle import (  # noqa: E402
     WORKER_MISSING_KEY_PREFIX,
     is_worker_confirmed_missing,
+)
+from app.core.tasks.lifecycle.liveness_evidence import (  # noqa: E402
+    has_confirmed_pending_arq_job,
 )
 
 

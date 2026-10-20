@@ -28,7 +28,6 @@ from loguru import logger
 
 from app.core.config import settings
 
-
 ARQ_WORKER_ALIVE_KEY_PREFIX = "bidmind:arq_worker:alive:"
 ARQ_WORKER_SCAN_MATCH = f"{ARQ_WORKER_ALIVE_KEY_PREFIX}*"
 

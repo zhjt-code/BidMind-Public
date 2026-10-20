@@ -6,7 +6,6 @@ from app.core.document_qa.checks.reference_check import check_reference
 from app.core.document_qa.checks.structure_check import check_structure
 from app.core.document_qa.contracts import QaBlock, QaHeading, QaPage, QaSpan
 from app.core.document_qa.heading_detector import detect_headings
-
 from tests.document_qa.conftest import make_model
 
 _BODY = "本节给出实施方案、人员分工与进度安排，确保按期完成各项研究任务。"

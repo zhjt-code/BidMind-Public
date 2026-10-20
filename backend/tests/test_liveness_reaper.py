@@ -30,7 +30,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.models.project import ProjectStatus, ProjectType  # noqa: E402
 
-
 # ============================================================================
 # Fake DB & 公用桩
 # ============================================================================
@@ -557,8 +556,8 @@ async def test_reconcile_document_processing_completed_race(monkeypatch):
 @pytest.mark.asyncio
 async def test_reconcile_document_processing_max_recovery_exceeded(monkeypatch, tmp_path):
     """recovery_count >= MAX_RECOVERY → 项目转 FAILED + job_state 落 FAILED 终态 + 不再恢复。"""
-    from app.services.liveness import document_processing_reconciler as dpr
     from app.models.vector_job_state import VectorJobStatus
+    from app.services.liveness import document_processing_reconciler as dpr
 
     # 后恢复前会校验源文件, 给 fake 文档一个真实存在的文件
     source_pdf = tmp_path / "tender_14.pdf"

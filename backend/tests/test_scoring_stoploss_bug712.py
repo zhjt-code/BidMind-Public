@@ -2,11 +2,11 @@
 
 import re
 
-from app.core.config import Settings
-from app.core.scoring_full_candidate_config import ScoringFullCandidateSettings
-from app.core.extractor.scoring.volume_parser import parse_flat_volume_composition
-
 import pytest
+
+from app.core.config import Settings
+from app.core.extractor.scoring.volume_parser import parse_flat_volume_composition
+from app.core.scoring_full_candidate_config import ScoringFullCandidateSettings
 
 pytestmark = pytest.mark.scoring
 

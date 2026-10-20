@@ -20,7 +20,6 @@ if TYPE_CHECKING:
     from app.core.parser.image_extractor import ExtractedImage
     from app.core.writer.material_content_extractor import ParseResult
     from app.models.writing_material import WritingMaterial
-
     from app.services.writing.material_batch.heartbeat import MaterialBatchHeartbeat
 
 

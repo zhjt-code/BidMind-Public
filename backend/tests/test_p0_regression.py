@@ -2,13 +2,17 @@
 
 用 trial data 文件夹中的实际文件名验证分类和决议逻辑。
 """
-import sys
 import json
+import sys
+
 sys.path.insert(0, ".")
 
 from app.core.writer.filename_classifier import classify_by_filename
-from app.core.writer.label_resolver import resolve_material_label, LabelResolution
-from app.core.writer.image_subtype_contract import normalize_business_subtype, validate_business_subtype
+from app.core.writer.image_subtype_contract import (
+    normalize_business_subtype,
+    validate_business_subtype,
+)
+from app.core.writer.label_resolver import resolve_material_label
 from app.models.writing_material_image import ImageType
 
 
@@ -81,7 +85,7 @@ def case_label_resolver_matched():
     )
     ok = r.resolved_label == "公司简介" and r.conflict_status == "matched"
     print(f"  [{('PASS' if ok else 'FAIL')}] resolved={r.resolved_label}, conflict={r.conflict_status}")
-    print(f"  Expected: resolved=公司简介, conflict=matched\n")
+    print("  Expected: resolved=公司简介, conflict=matched\n")
     return ok
 
 
@@ -109,7 +113,7 @@ def case_label_resolver_no_signal():
     )
     ok = r.resolved_label is None and r.conflict_status is None and r.source is None
     print(f"  [{('PASS' if ok else 'FAIL')}] resolved={r.resolved_label}, conflict={r.conflict_status}")
-    print(f"  Expected: all None\n")
+    print("  Expected: all None\n")
     return ok
 
 
@@ -146,7 +150,7 @@ def case_label_resolver_identity_refinement():
     )
     ok = r.content_label == "身份证" and r.conflict_status == "conflicted"
     print(f"  [{('PASS' if ok else 'FAIL')}] content_label={r.content_label}, resolved={r.resolved_label}, conflict={r.conflict_status}")
-    print(f"  Expected: content_label=身份证, conflict=conflicted (法人身份证 != 身份证)\n")
+    print("  Expected: content_label=身份证, conflict=conflicted (法人身份证 != 身份证)\n")
     return ok
 
 

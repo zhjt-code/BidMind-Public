@@ -6,6 +6,7 @@ os.environ.setdefault(
 )
 
 from app.core.ai.reviewer import ReviewOrchestrator
+from app.core.matcher.requirement_matcher import MatchedPair
 from app.core.review_contracts import (
     ReviewEvidenceBundle,
     ReviewSummaryItem,
@@ -15,7 +16,6 @@ from app.core.review_contracts import (
 )
 from app.models.bid_response import BidResponse, EvidenceType
 from app.models.requirement import Requirement, RequirementCategory
-from app.core.matcher.requirement_matcher import MatchedPair
 from app.schemas.requirement import RequirementResponse
 
 

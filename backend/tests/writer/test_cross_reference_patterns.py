@@ -10,8 +10,8 @@ os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
 )
 
-from app.core.writer.consistency_checker import _CROSS_REF_PATTERN
 from app.core.ai.gates.writer.cross_reference import _REF_PATTERN
+from app.core.writer.consistency_checker import _CROSS_REF_PATTERN
 
 
 def _any_group_non_empty(match) -> bool:

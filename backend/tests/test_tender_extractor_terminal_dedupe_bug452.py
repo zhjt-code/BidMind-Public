@@ -14,12 +14,11 @@
 
 from __future__ import annotations
 
+import importlib.util
 import os
-from pathlib import Path
 import sys
 import types
-import importlib.util
-
+from pathlib import Path
 
 os.environ.setdefault(
     "DATABASE_URL",

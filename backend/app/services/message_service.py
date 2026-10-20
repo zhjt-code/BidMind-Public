@@ -5,11 +5,11 @@
 
 from typing import Optional
 
-from sqlalchemy.ext.asyncio import AsyncSession
 from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.message import Message, MessageType
 from app.models.feedback import Feedback, FeedbackType
+from app.models.message import Message, MessageType
 
 FEEDBACK_TYPE_LABELS: dict[str, str] = {
     FeedbackType.BUG.value: "Bug报告",

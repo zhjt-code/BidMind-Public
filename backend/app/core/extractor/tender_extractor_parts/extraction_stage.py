@@ -30,16 +30,25 @@ from typing import TYPE_CHECKING, Any
 from loguru import logger
 from pydantic import ValidationError
 
-from app.core.contracts.degradation_signal import DegradationSignal
 from app.core.ai.llm_errors import EmptyLLMResponseError
 from app.core.ai.prompts.tender_extract import get_tender_extract_prompt
 from app.core.config import settings
-from app.core.extractor.section_context import classify_section_phase
+from app.core.contracts.degradation_signal import DegradationSignal
 from app.core.extractor.relevance_resolver import resolve_review_relevance
+from app.core.extractor.section_context import classify_section_phase
 from app.core.extractor.tender_extractor_parts import (
     category_inference,
     chunk_extraction_cache,
 )
+from app.core.extractor.tender_extractor_parts.extraction_units import (
+    prepend_lead_context,
+)
+from app.core.extractor.tender_extractor_parts.protected_premerge import (
+    compress_low_risk_duplicate_requirements,
+)
+from app.models.chunk import Chunk
+from app.schemas.requirement import ExtractedRequirement
+
 from .chunk_budget_policy import (
     CHUNK_EXTRACT_TOKEN_CEILING,
     ChunkJsonErrorKind,
@@ -48,14 +57,6 @@ from .chunk_budget_policy import (
     initial_chunk_max_tokens,
     pop_lossy_repair_signals,
 )
-from app.core.extractor.tender_extractor_parts.protected_premerge import (
-    compress_low_risk_duplicate_requirements,
-)
-from app.core.extractor.tender_extractor_parts.extraction_units import (
-    prepend_lead_context,
-)
-from app.models.chunk import Chunk
-from app.schemas.requirement import ExtractedRequirement
 
 if TYPE_CHECKING:
     from app.core.extractor.tender_extractor import TenderExtractor

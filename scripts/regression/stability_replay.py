@@ -21,10 +21,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
-
 
 Flow = Literal["investigate", "collusion", "writer", "all"]
 
@@ -319,9 +318,9 @@ def emit_metrics_to_prometheus(m: StabilityMetrics) -> None:
     try:
         from backend.app.core.observability.metrics import (
             stability_conclusion_rate,
-            stability_failure_state_rate,
             stability_evidence_jaccard,
             stability_explanation_drift_rate,
+            stability_failure_state_rate,
         )
         labels = dict(flow=m.flow, project_id=str(m.project_id or "unknown"))
         stability_conclusion_rate.labels(**labels).set(m.conclusion_rate)

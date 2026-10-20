@@ -56,10 +56,10 @@ class MatchService:
             project_id
         )
 
-        from app.core.tasks import create_background_task, is_task_active
+        from app.core.tasks import is_task_active
         from app.core.tasks.writing_match_task import (
-            run_writing_match_task,
             get_writing_match_task_name,
+            run_writing_match_task,
         )
 
         task_name = get_writing_match_task_name(project_id)
@@ -73,7 +73,6 @@ class MatchService:
         await ensure_writing_billing_hold(self.db, project, project.owner_id)
 
         from app.core.tasks import dispatch_background_job
-
         from app.services.retry_service import RetryService
 
         retry_svc = RetryService(self.db)

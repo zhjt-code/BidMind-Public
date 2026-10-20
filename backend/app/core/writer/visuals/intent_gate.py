@@ -11,8 +11,8 @@ from typing import Any
 from app.core.writer.visuals.construction_pack import normalize_zone_names
 from app.core.writer.visuals.intent_templates import layered_template_layers
 from app.core.writer.visuals.ir_contracts import (
-    MAX_LAYERS,
     MAX_LAYER_ITEMS,
+    MAX_LAYERS,
     MAX_NETWORK_EDGES,
     MAX_NETWORK_NODES,
     MAX_ORG_UNITS,

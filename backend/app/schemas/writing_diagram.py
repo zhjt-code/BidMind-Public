@@ -8,12 +8,11 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 from app.core.writer.visuals.ir_contracts import (
     DIAGRAM_TYPES,
-    DiagramStyle,
     MAX_FLOWCHART_NODES,
-    MAX_GANTT_PHASES,
     MAX_GANTT_PHASE_DURATION_DAYS,
-    MAX_LAYERS,
+    MAX_GANTT_PHASES,
     MAX_LAYER_ITEMS,
+    MAX_LAYERS,
     MAX_NETWORK_EDGES,
     MAX_NETWORK_NODES,
     MAX_ORG_UNITS,
@@ -24,6 +23,7 @@ from app.core.writer.visuals.ir_contracts import (
     MAX_ZONES,
     MIN_FLOWCHART_NODES,
     MIN_GANTT_PHASES,
+    DiagramStyle,
 )
 
 DiagramType = Literal[

@@ -10,10 +10,10 @@
 
 import json
 import re
-from typing import Generic, TypeVar, Optional, Any
-from pydantic import BaseModel, ValidationError
-from loguru import logger
+from typing import Any, Generic, Optional, TypeVar
 
+from loguru import logger
+from pydantic import BaseModel, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -63,7 +63,7 @@ class ValidationException(Exception):
         hints = ["\n\n[校验错误，请修正以下问题:]"]
         
         for error in self.errors:
-            loc = " -> ".join(str(l) for l in error.get("loc", []))
+            loc = " -> ".join(str(part) for part in error.get("loc", []))
             msg = error.get("msg", "")
             hints.append(f"- {loc}: {msg}")
         
@@ -225,7 +225,7 @@ class OutputValidator(Generic[T]):
             Optional[str]: 修正建议
         """
         err_type = error.get("type", "")
-        loc = " -> ".join(str(l) for l in error.get("loc", []))
+        loc = " -> ".join(str(part) for part in error.get("loc", []))
         
         # 类型错误
         if err_type == "string_type":

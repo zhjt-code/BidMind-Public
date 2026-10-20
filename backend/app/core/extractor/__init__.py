@@ -11,13 +11,13 @@
                （AI自动执行，无需人工确认）
 """
 
-from app.core.extractor.tender_extractor import (
-    TenderExtractor,
-    get_tender_extractor,
-)
 from app.core.extractor.bid_extractor import (
     BidExtractor,
     get_bid_extractor,
+)
+from app.core.extractor.tender_extractor import (
+    TenderExtractor,
+    get_tender_extractor,
 )
 
 __all__ = [

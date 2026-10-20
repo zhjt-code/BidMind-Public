@@ -24,27 +24,25 @@ import 路径零变化。
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.collusion.prompts import build_similar_chunks_text
-from app.models.document import Document
-
 import json
 from typing import Optional
 
 from loguru import logger
 
 from app.core.collusion.analyzer_parts.constants import (
-    _DIM_KEYS,
     _DECISION_ENGINE_VERSION,
+    _DIM_KEYS,
     _RISK_RANK_LOCAL,
 )
 from app.core.collusion.analyzer_parts.findings import (
     _EVIDENCE_LEVEL_ORDER,
     _normalize_compare_result,
 )
-from app.models.collusion_result import CollusionResult
 
+# 补全 import 修复
+from app.core.collusion.prompts import build_similar_chunks_text
+from app.models.collusion_result import CollusionResult
+from app.models.document import Document
 
 _GLOBAL_FINDING_TYPE_PRIORITY = {
     "personnel_overlap": 0,   # D1 一级证据

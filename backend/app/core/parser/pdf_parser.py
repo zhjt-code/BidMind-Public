@@ -4,22 +4,23 @@
 使用PyMuPDF(fitz)提取PDF中的图片信息。
 """
 
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Optional
+
 import fitz
 import pdfplumber
-from pathlib import Path
-from dataclasses import dataclass, field
-from typing import Optional
 from loguru import logger
 
 from app.core.config import settings
-from app.core.parser.table_extractor import TableExtractor, ExtractedTable
-from app.core.parser.image_extractor import ImageExtractor, ExtractedImage
+from app.core.parser.image_extractor import ExtractedImage, ImageExtractor
 from app.core.parser.page_chrome_policy import (
     PageChromePolicy,
     crop_pdfplumber_page,
     filter_page_images,
     learn_page_chrome,
 )
+from app.core.parser.table_extractor import ExtractedTable, TableExtractor
 from app.core.parser.watermark_policy import WatermarkPolicy, learn_watermark_policy
 
 
@@ -328,6 +329,7 @@ class PdfParser:
             if settings.PARSER_SCRIPT_LIFT_ENABLED:
                 try:
                     from pdfplumber.utils import extract_text
+
                     from app.core.parser.script_char_lifter import lift_page_script_chars
 
                     lifted_chars = lift_page_script_chars(list(page.chars or []))

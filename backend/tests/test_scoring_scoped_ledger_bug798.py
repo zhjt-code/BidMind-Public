@@ -20,6 +20,7 @@
 from __future__ import annotations
 
 import os
+
 import pytest
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
@@ -44,8 +45,8 @@ from app.core.extractor.scoring.ledger.scoped_contracts import (  # noqa: E402
     DEFAULT_SCOPE,
     SINGLE_SCOPE,
     UNASSIGNED_LOT,
-    ScopeIdentity,
     ScopedReport,
+    ScopeIdentity,
 )
 from app.core.extractor.scoring.scoring_facts import ScoringScopeKey  # noqa: E402
 from app.services.scoring_ledger_report_service import _serialize_report  # noqa: E402
@@ -1376,6 +1377,7 @@ class TestGetTypeHintsO5:
         """ScopedReport 已移至 contracts.py，LedgerReport.scope_reports 直接引用，
         get_type_hints 不再报 NameError: name 'ScopedReport' is not defined。"""
         import typing
+
         from app.core.extractor.scoring.ledger.contracts import LedgerReport
         hints = typing.get_type_hints(LedgerReport)
         assert "scope_reports" in hints, "LedgerReport 应含 scope_reports 字段"
@@ -1387,9 +1389,9 @@ class TestGetTypeHintsO5:
 
     def test_scoped_report_importable_from_contracts(self):
         """ScopedReport 可直接从 contracts 导入（无需经过 scoped_contracts）。"""
-        from app.core.extractor.scoring.ledger.contracts import ScopedReport
-        from app.core.extractor.scoring.ledger.contracts import LedgerReport
         import typing
+
+        from app.core.extractor.scoring.ledger.contracts import LedgerReport, ScopedReport
         hints = typing.get_type_hints(LedgerReport)
         tuple_type = hints["scope_reports"]
         # scope_reports 的类型注解内含 ScopedReport，不报 NameError
@@ -1545,10 +1547,10 @@ class TestScopedLedgerRequestDataclass:
 
     def test_import_and_create(self):
         """ScopedLedgerRequest 可从 scoped_reconciliation 正常导入并实例化。"""
+        from app.core.extractor.scoring.ledger.contracts import LedgerItemEntry
         from app.core.extractor.scoring.ledger.scoped_reconciliation import (
             ScopedLedgerRequest,
         )
-        from app.core.extractor.scoring.ledger.contracts import LedgerItemEntry
         req = ScopedLedgerRequest(
             pages=((1, "技术评分"),),
             chunk_scopes=((None, None),),
@@ -1562,10 +1564,11 @@ class TestScopedLedgerRequestDataclass:
 
     def test_is_frozen(self):
         """ScopedLedgerRequest 是 frozen dataclass，不允许修改属性。"""
+        import dataclasses
+
         from app.core.extractor.scoring.ledger.scoped_reconciliation import (
             ScopedLedgerRequest,
         )
-        import dataclasses
         req = ScopedLedgerRequest(
             pages=(), chunk_scopes=(), grids=(), grid_scopes=(),
             entries_with_rules=(),
@@ -1584,7 +1587,8 @@ class TestScopeFilteringModule:
     def test_single_scope_always_belongs(self):
         """is_single_scope=True 时，所有 chunk 归属。"""
         from app.core.extractor.scoring.ledger.scope_filtering import (
-            ScopeFilterContext, chunk_belongs_to_scope,
+            ScopeFilterContext,
+            chunk_belongs_to_scope,
         )
         ctx = ScopeFilterContext(
             target_scope=("__single__", "__single__"),
@@ -1598,7 +1602,8 @@ class TestScopeFilteringModule:
     def test_named_lot_exact_match(self):
         """具名 lot 精确匹配时归属。"""
         from app.core.extractor.scoring.ledger.scope_filtering import (
-            ScopeFilterContext, chunk_belongs_to_scope,
+            ScopeFilterContext,
+            chunk_belongs_to_scope,
         )
         ctx = ScopeFilterContext(
             target_scope=("方案A", "采购包1"),
@@ -1613,7 +1618,8 @@ class TestScopeFilteringModule:
     def test_different_lot_not_belong(self):
         """不同 lot 的 chunk 不归属。"""
         from app.core.extractor.scoring.ledger.scope_filtering import (
-            ScopeFilterContext, chunk_belongs_to_scope,
+            ScopeFilterContext,
+            chunk_belongs_to_scope,
         )
         ctx = ScopeFilterContext(
             target_scope=("方案A", "采购包1"),
@@ -1627,7 +1633,8 @@ class TestScopeFilteringModule:
     def test_ambiguous_scheme_generates_diagnostic(self):
         """同 lot 多 scheme 时，无 scheme chunk 歧义排除并生成诊断。"""
         from app.core.extractor.scoring.ledger.scope_filtering import (
-            ScopeFilterContext, chunk_belongs_to_scope,
+            ScopeFilterContext,
+            chunk_belongs_to_scope,
         )
         ctx = ScopeFilterContext(
             target_scope=("方案A", "采购包1"),
@@ -1652,7 +1659,9 @@ class TestScopeIdNoInternalSentinel:
     def test_unassigned_lot_scope_id_shows_scheme(self):
         """__unassigned__ lot → scope_id 返回 scheme（不暴露 __unassigned__）。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            ScopedReport, BasisLevel, LedgerStatus,
+            BasisLevel,
+            LedgerStatus,
+            ScopedReport,
         )
         sr = ScopedReport(
             scope=("方案A", "__unassigned__"),
@@ -1669,7 +1678,9 @@ class TestScopeIdNoInternalSentinel:
     def test_single_lot_scope_id_shows_scheme(self):
         """__single__ lot → scope_id 返回 scheme（不暴露 __single__）。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            ScopedReport, BasisLevel, LedgerStatus,
+            BasisLevel,
+            LedgerStatus,
+            ScopedReport,
         )
         sr = ScopedReport(
             scope=("方案B", "__single__"),
@@ -1686,7 +1697,9 @@ class TestScopeIdNoInternalSentinel:
     def test_named_lot_scope_id_shows_lot(self):
         """具名 lot → scope_id 返回 lot（正常路径，无内部哨兵）。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            ScopedReport, BasisLevel, LedgerStatus,
+            BasisLevel,
+            LedgerStatus,
+            ScopedReport,
         )
         sr = ScopedReport(
             scope=("方案A", "采购包1"),
@@ -1703,7 +1716,9 @@ class TestScopeIdNoInternalSentinel:
     def test_multi_scheme_same_lot_display_id_no_sentinel(self):
         """同 lot 多 scheme 时，scope_display_id 为 'scheme·lot'，不含内部哨兵。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            ScopedReport, BasisLevel, LedgerStatus,
+            BasisLevel,
+            LedgerStatus,
+            ScopedReport,
         )
         sr = ScopedReport(
             scope=("方案A", "采购包1"),
@@ -1756,8 +1771,8 @@ class TestResolveLotFromContent:
 
     def test_parser_and_declaration_scope_consistent_via_content(self):
         """parser._extract_lot_from_markdown 与 resolve_chunk_lot 对同内容结果一致。"""
-        from app.core.extractor.scoring.scoring_table_parser import _extract_lot_from_markdown
         from app.core.extractor.scoring.ledger.declaration_scope import resolve_chunk_lot
+        from app.core.extractor.scoring.scoring_table_parser import _extract_lot_from_markdown
         content = "[评分表 第1页 · 技术评分包]\n详细规则..."
         via_parser = _extract_lot_from_markdown(content)
         via_scope = resolve_chunk_lot(content, None)
@@ -1795,7 +1810,10 @@ class TestApplicabilityThresholdSingleSource:
     def test_unlabeled_exactly_at_tolerance_is_applicable(self):
         """unlabeled_sum == LEDGER_TOLERANCE 时 applicability = 'applicable'（不超出）。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            LEDGER_TOLERANCE, BasisLevel, LedgerReport, LedgerStatus,
+            LEDGER_TOLERANCE,
+            BasisLevel,
+            LedgerReport,
+            LedgerStatus,
         )
         from app.core.extractor.scoring.ledger.scoped_aggregation import determine_applicability
         report = LedgerReport(
@@ -1815,7 +1833,10 @@ class TestApplicabilityThresholdSingleSource:
     def test_unlabeled_just_over_tolerance_is_unresolved(self):
         """unlabeled_sum 稍大于 LEDGER_TOLERANCE → 'unresolved'。"""
         from app.core.extractor.scoring.ledger.contracts import (
-            LEDGER_TOLERANCE, BasisLevel, LedgerReport, LedgerStatus,
+            LEDGER_TOLERANCE,
+            BasisLevel,
+            LedgerReport,
+            LedgerStatus,
         )
         from app.core.extractor.scoring.ledger.scoped_aggregation import determine_applicability
         report = LedgerReport(

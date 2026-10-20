@@ -30,7 +30,6 @@ from app.core.observability.algorithms import ewma as ewma_algo
 from app.core.observability.algorithms import mann_kendall as mk_algo
 from app.core.observability.algorithms import ratio as ratio_algo
 
-
 ALGO_MAP = {
     "ratio": ratio_algo.evaluate,
     "abs": abs_algo.evaluate,

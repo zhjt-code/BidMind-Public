@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 
+from app.api.routers.collusion import _load_or_build_project_summary, _sanitize_collusion_results
 from app.core.collusion.analyzer import (
     _apply_profile_confidence_to_candidate_scores,
     _build_failed_pair_result,
@@ -9,7 +10,6 @@ from app.core.collusion.analyzer import (
 )
 from app.core.collusion.graph_cluster import build_collusion_graph
 from app.core.collusion.prompts import build_industry_signal_context
-from app.api.routers.collusion import _load_or_build_project_summary, _sanitize_collusion_results
 from app.schemas.collusion import CollusionPairResult, CollusionResults, CoverageStats
 
 

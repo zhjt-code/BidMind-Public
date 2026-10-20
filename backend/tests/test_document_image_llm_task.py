@@ -12,6 +12,7 @@ os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
 )
 
+from app.core.arq_runtime import ProjectCancelledError
 from app.core.tasks.document_image_llm_task import (
     DOCUMENT_IMAGE_VL_JOB,
     FullPageVlRequest,
@@ -22,7 +23,6 @@ from app.core.tasks.document_image_llm_task import (
     recognize_images_with_document_llm_subtasks,
     run_document_image_vl_batch,
 )
-from app.core.arq_runtime import ProjectCancelledError
 
 
 @dataclass

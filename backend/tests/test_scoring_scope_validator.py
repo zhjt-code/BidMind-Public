@@ -20,9 +20,9 @@ from app.core.extractor.scoring.scoring_facts import (  # noqa: E402
     build_scoring_fact_set,
 )
 from app.core.extractor.scoring.scoring_scope_validator import (  # noqa: E402
+    ScopeIdentity,
     ScoringScopeExpectation,
     ScoringScopeValidation,
-    ScopeIdentity,
     ScoringValidationKind,
     validate_scoring_fact_set,
 )
@@ -129,7 +129,11 @@ class TestNonGapFailedScopesEmpty:
 
     def test_scope_conflict_has_empty_failed_scopes(self):
         """SCOPE_CONFLICT（显式 UNASSIGNED_LOT）→ kind==SCOPE_CONFLICT 且 failed_scopes==()。"""
-        from app.core.extractor.scoring.scoring_facts import ScoringFact, ScoringFactSet, ScoringScopeKey
+        from app.core.extractor.scoring.scoring_facts import (
+            ScoringFact,
+            ScoringFactSet,
+            ScoringScopeKey,
+        )
         unassigned_fact = ScoringFact(
             fact_key="ua_fact",
             scope=ScoringScopeKey(

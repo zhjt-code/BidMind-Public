@@ -79,6 +79,7 @@ async def call_llm_review(
     # 通过 reviewer 主模块命名空间访问 get_registry，
     # 以兼容 `patch("app.core.ai.reviewer.get_registry")` 测试契约。
     import json as _json
+
     from app.core.ai import reviewer as _reviewer_module
     from app.core.ai.reviewer import _get_review_prompts
 

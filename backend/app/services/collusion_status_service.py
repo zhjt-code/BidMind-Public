@@ -30,10 +30,10 @@ from loguru import logger
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.exceptions import ForbiddenError
-from app.core.permissions import check_project_permission
 from app.core.collusion.dimension_keys import COLLUSION_DIM_KEYS
 from app.core.config import settings
+from app.core.exceptions import ForbiddenError
+from app.core.permissions import check_project_permission
 from app.core.tasks import (
     HEARTBEAT_TIMEOUT,
     MAX_RECOVERY,
@@ -72,11 +72,17 @@ from app.schemas.collusion import (
 )
 from app.services.collusion_summary_service import (
     infer_decision_state,
+)
+from app.services.collusion_summary_service import (
     load_or_build_project_summary as summary_load_or_build_project_summary,
 )
 from app.services.collusion_view_service import (
     build_finding_items as view_build_finding_items,
+)
+from app.services.collusion_view_service import (
     sanitize_collusion_results as view_sanitize_collusion_results,
+)
+from app.services.collusion_view_service import (
     step_status,
 )
 from app.services.flow_retry_service import (

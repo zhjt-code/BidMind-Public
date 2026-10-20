@@ -7,6 +7,13 @@ from __future__ import annotations
 
 from rapidfuzz import fuzz
 
+from app.core.document_qa.author_spans import (
+    GridRow,
+    grid_rows,
+    outline_nodes,
+    prose_spans,
+    role_page_texts,
+)
 from app.core.document_qa.contracts import (
     CheckerOutcome,
     CheckerStatus,
@@ -20,7 +27,6 @@ from app.core.document_qa.contracts import (
     normalize_for_hash,
     paragraph_hash,
 )
-from app.core.document_qa.author_spans import GridRow, grid_rows, outline_nodes, prose_spans, role_page_texts
 
 CODE = "duplicate"
 

@@ -4,20 +4,20 @@
 """
 
 from typing import NoReturn, Optional
-from fastapi import Path, Query, Depends, HTTPException, Request, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.ext.asyncio import AsyncSession
+
+from fastapi import Depends, HTTPException, Query, Request, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.common import PaginationParams
 from app.core.database import get_db
-from app.core.security import decode_token
 from app.core.exceptions import ForbiddenError, ServiceError
-from app.core.middleware import set_log_user_id, set_log_project_id
+from app.core.middleware import set_log_project_id, set_log_user_id
 from app.core.permissions import check_project_permission as _check_project_permission_core
-from app.models.user import User, UserRole
+from app.core.security import decode_token
 from app.models.project import Project
-
+from app.models.user import User, UserRole
+from app.schemas.common import PaginationParams
 
 # HTTP Bearer 认证方案
 security = HTTPBearer(auto_error=False)

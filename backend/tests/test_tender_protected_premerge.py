@@ -1,6 +1,6 @@
-from app.schemas.requirement import ExtractedRequirement
-
 import pytest
+
+from app.schemas.requirement import ExtractedRequirement
 
 pytestmark = pytest.mark.scoring
 

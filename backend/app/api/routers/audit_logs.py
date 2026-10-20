@@ -3,17 +3,17 @@
 提供管理员查看、统计、批量删除审计日志的 API。
 """
 
-from typing import Optional, List
 from datetime import datetime
+from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, Field, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import PaginationParams, get_pagination, require_admin
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.common import ApiResponse
-from app.api.dependencies import require_admin, get_pagination, PaginationParams
 from app.services.audit_service import AuditService
 
 

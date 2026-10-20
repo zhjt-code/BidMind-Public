@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from typing import Tuple
 
-
 FIXED_TEMPLATE_RECOGNIZE_SYSTEM = """你是招标文件固定模板识别专家。
 
 任务: 从给定招标文件文本中识别所有"固定模板"。

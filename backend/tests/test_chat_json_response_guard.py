@@ -24,7 +24,6 @@ from app.core.config import settings
 from app.core.extractor.bid_extractor import BidExtractor
 from app.core.retriever.semantic_retriever import SearchResult
 
-
 # ===== Part 1: require_dict_response 单元测试 =====
 
 class TestRequireDictResponse:

@@ -20,7 +20,6 @@ from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 from app.core.collusion.d3_algorithmic import compute_d3_algorithmic
 from app.core.collusion.dimension_keys import COLLUSION_DIM_KEYS  # noqa: F401 (防 A6 复发)
 
-
 _HIGH_THRESHOLD = 0.7
 
 

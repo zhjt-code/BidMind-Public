@@ -17,7 +17,6 @@ from __future__ import annotations
 
 from typing import Optional
 
-
 # ---------------------------------------------------------------------------
 # 行业画像 status -> 用户态说明（与 industry_profiler.py 四种 status 一一映射）
 # 与 synthesis_helpers._build_profile_quality_flags 文案保持同源语义，但更聚焦

@@ -1,3 +1,5 @@
+# Compatibility facade: reviewer helpers retain module-level patch targets.
+# ruff: noqa: F401
 """AI审查流程编排器
 
 执行招标要求与投标响应的逐项对比审查。
@@ -14,27 +16,26 @@ import hashlib
 import re
 from collections import defaultdict
 from typing import Any, Callable, Optional
-from loguru import logger
-from sqlalchemy import select, delete
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
 
-from app.models.review_result import ReviewResult, ComplianceLevel, RiskLevel
-from app.models.project import Project
-from app.models.requirement import Requirement
-from app.models.bid_response import BidResponse
-from app.models.review_fact import ReviewFact, ReviewFactLink, ReviewFactJudgement
-from app.core.ai.ai_factory import get_review_client, LLMClient
+from loguru import logger
+from sqlalchemy import delete, select
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.ai.ai_factory import LLMClient, get_review_client
 from app.core.ai.critic.flows import FLOW_INVESTIGATE
 from app.core.ai.llm_retry_resume import LlmRetryResumeState
-from app.core.ai.retry_tracker import LLMRetryTracker
-from app.core.config import settings, get_ai_mode
+from app.core.ai.prompt_registry import get_registry
 from app.core.ai.prompts.review import (
-    REVIEW_SYSTEM_PROMPT as _CODE_REVIEW_SYSTEM,
-    REVIEW_PROMPT as _CODE_REVIEW_PROMPT,
     NO_RESPONSE_PROMPT as _CODE_NO_RESPONSE_PROMPT,
 )
-from app.core.ai.prompt_registry import get_registry
+from app.core.ai.prompts.review import (
+    REVIEW_PROMPT as _CODE_REVIEW_PROMPT,
+)
+from app.core.ai.prompts.review import (
+    REVIEW_SYSTEM_PROMPT as _CODE_REVIEW_SYSTEM,
+)
+from app.core.ai.retry_tracker import LLMRetryTracker
 from app.core.ai.reviewer_parts import (
     consistency_postcheck,
     cove_judge,
@@ -46,6 +47,12 @@ from app.core.ai.reviewer_parts import (
 )
 from app.core.ai.reviewer_parts.evidence_pack_budget import EvidenceItem
 from app.core.ai.reviewer_parts.result_builder import is_failure_result
+from app.core.config import get_ai_mode, settings
+from app.models.bid_response import BidResponse
+from app.models.project import Project
+from app.models.requirement import Requirement
+from app.models.review_fact import ReviewFact, ReviewFactJudgement, ReviewFactLink
+from app.models.review_result import ComplianceLevel, ReviewResult, RiskLevel
 
 
 def _get_review_prompts() -> tuple[str, str, str]:
@@ -57,6 +64,12 @@ def _get_review_prompts() -> tuple[str, str, str]:
     user_tpl = review.user_template or _CODE_REVIEW_PROMPT
     no_resp_tpl = no_resp.user_template or _CODE_NO_RESPONSE_PROMPT
     return system, user_tpl, no_resp_tpl
+from app.core.ai.validators import (
+    OutputValidator,
+    ValidationException,
+    get_review_result_validator,
+)
+from app.core.matcher.requirement_matcher import MatchedPair
 from app.core.review_contracts import (
     CrossEvidence,
     ReviewEvidenceBundle,
@@ -65,14 +78,7 @@ from app.core.review_contracts import (
     parse_json_list,
     parse_page_numbers,
 )
-from app.core.matcher.requirement_matcher import MatchedPair
 from app.schemas.review import ExtractedReviewResult
-from app.core.ai.validators import (
-    OutputValidator,
-    ValidationException,
-    get_review_result_validator,
-)
-
 
 # 符合程度映射
 COMPLIANCE_LEVEL_MAP = {
@@ -222,8 +228,6 @@ class ReviewOrchestrator:
         original_total = len(matched_pairs)
         
         results: list[ReviewResult] = []
-        batch_size = max(settings.REVIEW_BATCH_SIZE, 1)
-        pending_count = 0
         
         # 跳过已有审查结果
         if skip_existing and save_to_db:
@@ -924,6 +928,7 @@ class ReviewOrchestrator:
  长事务持连接到任务结束, 配合并发任务的 Phase1/3 短借, 容易突破连接池。
  """
         from sqlalchemy import select
+
         from app.core.database import async_session_factory
         async with async_session_factory() as session:
             result = await session.execute(

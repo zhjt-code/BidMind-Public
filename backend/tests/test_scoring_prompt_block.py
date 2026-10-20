@@ -19,10 +19,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from app.core.extractor.scoring.scoring_prompt_block import (
-    build_scoring_context,
-    build_query_extension,
-)
 from app.core.ai.prompts.scoring_extract import (  # noqa: E402
     SCORING_EXTRACT_SYSTEM,
     SCORING_EXTRACT_USER,
@@ -30,6 +26,10 @@ from app.core.ai.prompts.scoring_extract import (  # noqa: E402
 from app.core.ai.prompts.scoring_repair import (  # noqa: E402
     SCORING_REPAIR_SYSTEM,
     SCORING_REPAIR_USER,
+)
+from app.core.extractor.scoring.scoring_prompt_block import (
+    build_query_extension,
+    build_scoring_context,
 )
 
 pytestmark = pytest.mark.scoring

@@ -32,6 +32,7 @@ from difflib import SequenceMatcher
 from typing import Any
 
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
+
 # S.2.7: 复用维度 key 真相源，避免 d4_pricing / d4_price 错别字复发
 from app.core.collusion.dimension_keys import COLLUSION_DIM_KEYS as _DIM_KEYS
 from app.core.collusion.paired_evidence_identity import (

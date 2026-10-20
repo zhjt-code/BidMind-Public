@@ -3,6 +3,6 @@
 提供基于向量相似度的语义检索功能。
 """
 
-from app.core.retriever.semantic_retriever import SemanticRetriever, SearchResult
+from app.core.retriever.semantic_retriever import SearchResult, SemanticRetriever
 
 __all__ = ["SemanticRetriever", "SearchResult"]

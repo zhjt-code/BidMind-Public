@@ -17,8 +17,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-import pytest
-
 from app.core.collusion.graph_cluster import (
     CollusionCluster,
     enrich_clusters_with_global_findings,

@@ -15,8 +15,6 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import pytest
-
 from app.core.ai.reviewer import ReviewOrchestrator
 from app.core.extractor.tools.amount_parser import AmountVerdict
 from app.core.extractor.tools.date_range_checker import DateRangeVerdict

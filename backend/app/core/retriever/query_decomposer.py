@@ -10,8 +10,8 @@
 """
 
 import re
-from loguru import logger
 
+from loguru import logger
 
 MAX_SUB_QUERIES = 20
 

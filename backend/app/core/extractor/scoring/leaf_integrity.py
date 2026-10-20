@@ -24,10 +24,10 @@ from app.core.extractor.scoring.leaf_inventory import (
 )
 from app.core.extractor.scoring.ledger.contracts import (
     DEFAULT_TOTAL_ASSUMPTION,
+    SCORE_MATCH_TOLERANCE,
     LeafIntegrityEvidence,
     LedgerItemEntry,
     LedgerReport,
-    SCORE_MATCH_TOLERANCE,
 )
 from app.core.extractor.scoring.score_column_semantics import (
     parse_adjustment_score,

@@ -9,15 +9,15 @@
 import asyncio
 
 from loguru import logger
-from sqlalchemy import select, delete
+from sqlalchemy import delete, select
 
 from app.core.database import async_session_factory
+from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
 from app.models.project import Project, ProjectStatus, ProjectType
+from app.models.writing_binding import WritingBinding
 from app.models.writing_outline_node import OutlineNodeStatus, WritingOutlineNode
 from app.models.writing_section_draft import WritingSectionDraft
-from app.models.writing_binding import WritingBinding
-from app.core.observability.task_observation import observe_task, TaskFlow
-from app.core.observability.milestone import milestone
 
 
 def get_writing_outline_task_name(project_id: int) -> str:
@@ -33,8 +33,12 @@ async def run_writing_outline_task(project_id: int, explicit_retry: bool = False
     Args:
         project_id: 项目 ID
     """
+    from app.core.arq_runtime import (
+        ProjectCancelledError,
+        is_project_cancelled,
+        raise_if_project_cancelled,
+    )
     from app.core.tasks import update_heartbeat
-    from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled, raise_if_project_cancelled
 
     task_name = get_writing_outline_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化")

@@ -30,11 +30,10 @@ from typing import Any
 
 from app.core.collusion.analyzer_parts.constants import _DIM_MAP
 from app.core.collusion.analyzer_parts.findings import (
-    _build_evidences_for_pair,
     _HOLLOW_EVIDENCE_PATTERNS,
+    _build_evidences_for_pair,
 )
 from app.schemas.collusion import sanitize_quote
-
 
 _SIGNAL_LEVEL = "unknown"
 _MIN_SUBSTANCE_CHARS = 4

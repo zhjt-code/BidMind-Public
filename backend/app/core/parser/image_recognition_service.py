@@ -16,8 +16,8 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.parser.image_extractor import ExtractedImage
 from app.core.parser.image_analyzer import analyze_images, probe_vl_availability
+from app.core.parser.image_extractor import ExtractedImage
 from app.core.parser.ocr_engine import OcrEngine
 
 
@@ -95,8 +95,8 @@ def get_vl_deps(
     """
     try:
         from app.core.ai import get_vision_client
-        from app.core.ai_settings import load_ai_settings
         from app.core.ai.ai_factory import get_vision_dispatcher
+        from app.core.ai_settings import load_ai_settings
         from app.core.ai_settings_purpose_ready import purpose_has_models
         from app.core.parser.adaptive_concurrency import AdaptiveConcurrency
 

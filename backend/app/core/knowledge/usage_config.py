@@ -19,7 +19,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.project import Project
 
-
 _VALID_FLOWS: frozenset[str] = frozenset({"bid_review", "collusion_check", "bid_writing"})
 _DEFAULT_POLICIES: dict[str, str] = {
     "bid_review": "auxiliary_only",

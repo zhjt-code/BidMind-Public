@@ -11,9 +11,8 @@ from io import BytesIO
 import pytest
 from docx import Document
 
-from app.core.xml_compat import sanitize_xml_compatible_text
 from app.core.writer.doc_renderer import DocRenderer
-
+from app.core.xml_compat import sanitize_xml_compatible_text
 
 _XML_ERROR = "XML compatible"
 

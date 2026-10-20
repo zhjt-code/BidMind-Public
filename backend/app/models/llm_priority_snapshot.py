@@ -3,7 +3,7 @@
 不做: 不直接修改 ai_settings、不做规则计算
 """
 
-from sqlalchemy import Column, Integer, String, Index
+from sqlalchemy import Column, Index, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import BaseModel

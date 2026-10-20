@@ -20,7 +20,6 @@ import pytest
 
 from app.services.writing.material_batch.heartbeat import MaterialBatchHeartbeat
 
-
 # ---------------------------------------------------------------------------
 # 1. MaterialBatchHeartbeat 字节级契约
 # ---------------------------------------------------------------------------

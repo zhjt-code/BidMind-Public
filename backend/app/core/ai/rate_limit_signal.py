@@ -6,12 +6,12 @@
 
 from __future__ import annotations
 
+import random
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from enum import Enum
-import random
-import re
 from typing import Any, Mapping, Optional
 
 from app.core.config import settings

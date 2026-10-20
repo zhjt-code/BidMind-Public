@@ -1,11 +1,12 @@
 """: 落库闸门接入提取主路径, 审查证据不足跳过 LLM。"""
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import os
 from contextlib import asynccontextmanager
 from types import SimpleNamespace
+
+from tests.synthetic_data import synthetic_text
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 

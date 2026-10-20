@@ -3,13 +3,18 @@
 从PDF页面中提取表格数据，保持结构完整。
 """
 
-import pdfplumber
 from dataclasses import dataclass
-from typing import Optional, Any
+from typing import Any, Optional
+
+import pdfplumber
 from loguru import logger
 
 from app.core.config import settings
-from app.core.parser.script_char_lifter import chars_in_bbox, lift_page_script_chars, text_from_chars
+from app.core.parser.script_char_lifter import (
+    chars_in_bbox,
+    lift_page_script_chars,
+    text_from_chars,
+)
 from app.core.parser.table_linearizer import join_cell_lines_cjk_aware
 
 

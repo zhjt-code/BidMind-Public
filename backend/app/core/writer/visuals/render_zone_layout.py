@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from matplotlib.patches import FancyBboxPatch
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
 
 from app.core.writer.visuals.construction_pack import ZONE_LAYOUT_CAPTION_SUFFIX
 from app.core.writer.visuals.ir_contracts import ZoneLayoutIR

@@ -23,7 +23,6 @@ from typing import Callable, Optional
 
 from app.core.writer.progress_contract import get_stage_weight_range
 
-
 # 提取子 stage 到聚合 key。三层旧心跳仍可聚合；单次过正文用 extracting_clauses。
 _LAYER_STAGE_TO_KEY: dict[str, str] = {
     "extracting_hard_constraint": "hard_constraint",

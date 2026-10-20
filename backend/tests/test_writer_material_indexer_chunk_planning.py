@@ -1,11 +1,11 @@
 """写标素材分块规划契约测试。"""
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import sys
 from pathlib import Path
 
+from tests.synthetic_data import synthetic_text
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 

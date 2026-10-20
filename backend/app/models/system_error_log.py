@@ -3,8 +3,7 @@
 捕获 WARNING 及以上级别的日志,供管理员在 Web 界面查看和定位系统错误。
 """
 
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime
-from sqlalchemy.sql import func
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
 
 from app.models.base import BaseModel
 

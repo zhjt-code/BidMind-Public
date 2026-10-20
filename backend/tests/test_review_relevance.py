@@ -18,15 +18,14 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 os.environ.setdefault("LOG_LEVEL", "DEBUG")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from app.core.extractor.relevance_resolver import resolve_review_relevance  # noqa: E402
 from app.core.extractor.section_context import classify_section_phase  # noqa: E402
 from app.core.extractor.tools.noise_classifier import (  # noqa: E402
     classify_noise_relevance,
     detect_template_placeholder,
 )
-from app.core.extractor.relevance_resolver import resolve_review_relevance  # noqa: E402
 from app.models.requirement import Requirement, RequirementCategory  # noqa: E402
 from app.services.requirement_grouping import group_requirements_for_display  # noqa: E402
-
 
 # ---------------------------------------------------------------------------
 # contract_classifier (问题二: 合同文本隔离)

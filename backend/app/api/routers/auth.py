@@ -3,33 +3,32 @@
 提供用户登录、注册、令牌刷新等认证接口。
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Request
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, Depends, Request
 from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.dependencies import get_current_user, handle_service_error
 from app.core.config import settings
 from app.core.database import get_db
+from app.core.exceptions import ServiceError
 from app.core.rate_limit import limiter
 from app.models.user import User
 from app.schemas.auth import (
+    ForgotPasswordRequest,
+    PasswordChange,
+    ResendVerificationRequest,
+    ResetPasswordRequest,
+    Token,
+    TokenRefresh,
     UserCreate,
     UserLogin,
     UserResponse,
     UserUpdate,
-    Token,
-    TokenRefresh,
-    PasswordChange,
     VerifyEmailRequest,
-    ResendVerificationRequest,
-    ForgotPasswordRequest,
-    ResetPasswordRequest,
 )
 from app.schemas.common import ApiResponse
-from app.api.dependencies import get_current_user, handle_service_error
 from app.services.auth_service import AuthService
-from app.core.exceptions import ServiceError
 from app.services.user_welcome_service import UserWelcomeService
-
 
 router = APIRouter(prefix="/auth", tags=["认证"])
 

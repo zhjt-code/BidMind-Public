@@ -28,7 +28,6 @@ from app.core.document_qa.contracts import (
 from app.core.document_qa.region_text import KIND_BODY, KIND_CAPTION, KIND_TABLE, KIND_TITLE
 from app.core.document_qa.verify.evidence_pack import confirmed_by_measurement
 from app.core.document_qa.verify.finding_verifier import apply_verdicts
-
 from tests.document_qa.conftest import make_line, make_model, make_region, with_regions
 
 

@@ -12,10 +12,9 @@
 """
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from typing import Any, Literal
-
-import logging
 
 from app.core.extractor.tools.amount_parser import AmountVerdict
 from app.core.extractor.tools.date_range_checker import DateRangeVerdict

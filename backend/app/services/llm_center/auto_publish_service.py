@@ -11,7 +11,6 @@ from typing import Any, Protocol
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
 _DEPLOY_CHANGE_NOTE = "部署后自动同步校验并发布代码注册源"
 
 

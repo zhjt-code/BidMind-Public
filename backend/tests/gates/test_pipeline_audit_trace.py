@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 from app.core.ai.gates.pipeline import GatePipeline
 
@@ -44,8 +42,8 @@ class TestAuditTraceInjection:
         monkeypatch.setattr(settings, "GATE_AUDIT_TRACE_ENABLED", True)
 
         # 模拟一个有 contextvar 的调用链
-        from app.core.ai.prompt_registry import current_node_key
         from app.core.ai.determinism import current_project_id
+        from app.core.ai.prompt_registry import current_node_key
 
         tok_nk = current_node_key.set("bid_review.review_item")
         tok_pid = current_project_id.set(101)

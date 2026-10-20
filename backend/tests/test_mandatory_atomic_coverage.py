@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.scoring
+
 import os
 import sys
 from pathlib import Path

@@ -10,7 +10,6 @@ from __future__ import annotations
 import os
 import sys
 import types
-from dataclasses import dataclass
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -20,10 +19,9 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.extractor.scoring.scoring_full_candidate_context import (  # noqa: E402
-    ScoringScopeEvidenceBundle,
+    ScoringChunkScopeTrace,
     ScoringScopeEvidenceRequest,
     ScoringScopeEvidenceUnit,
-    ScoringChunkScopeTrace,
     build_scoring_chunk_scope_trace,
     build_scoring_scope_evidence,
 )

@@ -17,7 +17,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.observability.registry import MetricSpec, get_metrics_registry
 
-
 # 默认扫描的包 (lifespan 启动时触发 import 即可让装饰器登记)
 DEFAULT_SCAN_PACKAGES: list[str] = [
     "app.api.routers",

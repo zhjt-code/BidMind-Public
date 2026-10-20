@@ -1,4 +1,5 @@
 from tests.synthetic_data import synthetic_text
+
 """OcrEngine 单元测试
 
 覆盖: 本地模式(初始化/单图/批量/异常) + HTTP sidecar 模式(成功/超时/错误)。
@@ -7,9 +8,10 @@ PaddleOCR 实际推理和 HTTP 调用通过 Mock 隔离。
 
 import asyncio
 import os
-import pytest
 from contextlib import asynccontextmanager
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
@@ -752,6 +754,6 @@ class TestOcrEnginePool:
         mock_client_good.post = AsyncMock(return_value=mock_response)
         engine._pool_clients[1] = mock_client_good
 
-        result = await engine._http_predict("fake_b64")
+        await engine._http_predict("fake_b64")
         assert engine._pool_healthy[0] is False
         assert engine._pool_healthy[1] is True

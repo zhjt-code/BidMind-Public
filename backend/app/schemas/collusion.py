@@ -5,8 +5,16 @@
 
 import re
 from datetime import datetime
-from typing import Optional, List, Any, Literal
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_serializer, model_validator
+from typing import Any, List, Literal, Optional
+
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_serializer,
+    model_validator,
+)
 
 from app.models.collusion_result import CollusionRiskLevel
 

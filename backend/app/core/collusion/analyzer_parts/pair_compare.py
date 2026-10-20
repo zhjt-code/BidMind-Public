@@ -18,36 +18,24 @@ Task 8 Step 7：从 CollusionAnalyzer 主类迁出 S3 核心比对 5 个方法�
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.ai.prompt_registry import resolve_user_template
-from app.core.collusion.analyzer_parts.extraction_validation import _build_chunk_text_blob
-from app.core.collusion.analyzer_parts.extraction_validation import _extract_docx_structure_from_info
-from app.core.collusion.analyzer_parts.synthesis_helpers import _build_failed_pair_result
-from app.core.collusion.analyzer_parts.synthesis_helpers import _build_pair_facts_context
-from app.core.collusion.analyzer_parts.synthesis_helpers import _merge_group_results
-from app.core.collusion.analyzer_parts.synthesis_helpers import _result_to_dict
-from app.schemas.collusion import build_pair_id
-
 import asyncio
 from typing import Optional
 
 from loguru import logger
 
-from app.core.config import (
-    settings,
-    get_collusion_compare_timeout,
-)
-from app.core.database import async_session_factory
-from app.core.collusion.analyzer_parts.constants import (
-    _DIM_KEYS,
-)
+# 补全 import 修复
+from app.core.ai.prompt_registry import resolve_user_template
 from app.core.collusion.analyzer_parts.algorithmic import (
     _algorithm_compare,
     _inject_d8_from_metadata,
 )
+from app.core.collusion.analyzer_parts.constants import (
+    _DIM_KEYS,
+)
 from app.core.collusion.analyzer_parts.extraction_validation import (
     _build_chunk_fallback_context,
+    _build_chunk_text_blob,
+    _extract_docx_structure_from_info,
     _format_extraction,
     _infer_doc_subtype,
     _is_empty_extraction,
@@ -56,6 +44,12 @@ from app.core.collusion.analyzer_parts.findings import (
     _consistency_check,
     _finalize_pair_contract,
     _normalize_compare_result,
+)
+from app.core.collusion.analyzer_parts.synthesis_helpers import (
+    _build_failed_pair_result,
+    _build_pair_facts_context,
+    _merge_group_results,
+    _result_to_dict,
 )
 from app.core.collusion.knowledge_base import (
     build_dynamic_normal_similarity_hint,
@@ -66,8 +60,13 @@ from app.core.collusion.prompts import (
     build_tender_context,
 )
 from app.core.collusion.rules.pair_gate import enforce_pair_scenario_ledger
+from app.core.config import (
+    get_collusion_compare_timeout,
+    settings,
+)
+from app.core.database import async_session_factory
 from app.models.document import Document
-from app.schemas.collusion import LLMCompareResult
+from app.schemas.collusion import LLMCompareResult, build_pair_id
 
 
 def _entity_spec(info: dict, doc: Document):

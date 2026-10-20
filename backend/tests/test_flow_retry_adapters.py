@@ -6,8 +6,8 @@ from types import SimpleNamespace
 import pytest
 
 from app.api.routers.collusion import _collusion_retry_payload
-from app.models.vector_job_state import VectorJobStatus
 from app.models.project import ProjectStatus
+from app.models.vector_job_state import VectorJobStatus
 from app.services.flow_retry_service import (
     COLLUSION_FLOW_CONFIG,
     COLLUSION_RETRY_SPECS,

@@ -19,11 +19,9 @@ from __future__ import annotations
 
 import asyncio
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
-from unittest.mock import patch, AsyncMock
-
-import pytest
+from unittest.mock import AsyncMock, patch
 
 os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"

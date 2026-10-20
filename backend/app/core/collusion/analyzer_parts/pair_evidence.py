@@ -15,15 +15,11 @@ Task 8 Step 8：从 CollusionAnalyzer 主类迁出 S3 证据相关 5 个方法�
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.ai.critic.flows import FLOW_COLLUSION
-
 from loguru import logger
 from sqlalchemy import select
 
-from app.core.config import settings
-from app.core.database import async_session_factory
+# 补全 import 修复
+from app.core.ai.critic.flows import FLOW_COLLUSION
 from app.core.collusion.analyzer_parts.constants import _DIM_KEYS, _DIM_MAP
 from app.core.collusion.analyzer_parts.findings import (
     _build_evidences_for_pair,
@@ -36,6 +32,8 @@ from app.core.collusion.paired_evidence_identity import (
     doc_id_for_quote_key,
     iter_side_quote_searches,
 )
+from app.core.config import settings
+from app.core.database import async_session_factory
 from app.models.chunk import Chunk
 from app.schemas.collusion import sanitize_quote
 
@@ -269,7 +267,7 @@ async def maybe_run_cove_judge_collusion(
     # CoVe: HIGH 触发
     if _risk == "high":
         try:
-            from app.core.ai.critic.cove import should_use_cove, run_cove
+            from app.core.ai.critic.cove import run_cove, should_use_cove
             if should_use_cove(self._project_id):
                 from app.core.ai.ai_factory import get_judge_client
                 _client = get_judge_client(

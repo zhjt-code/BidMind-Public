@@ -24,9 +24,9 @@ async def run_writing_clause_vectorize_task(project_id: int) -> None:
     失败抛出异常。本函数在异常时写 stage=failed 心跳，只有无异常且
     返回 0 时才视为完成。
     """
+    from app.core.arq_runtime import is_project_cancelled
     from app.core.tasks import update_heartbeat
     from app.services.writing_service import WritingService
-    from app.core.arq_runtime import is_project_cancelled
 
     task_name = get_writing_clause_vectorize_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="0%|初始化")

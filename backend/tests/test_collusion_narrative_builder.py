@@ -14,17 +14,14 @@
 
 from __future__ import annotations
 
-import pytest
-
 from app.core.collusion.narrative_builder import (
+    _describe_coverage_brief,
+    _describe_industry_profile_state,
+    _describe_pair_degradations,
+    _describe_tender_context,
     build_factual_explanation,
     build_factual_explanation_items,
-    _describe_coverage_brief,
-    _describe_pair_degradations,
-    _describe_industry_profile_state,
-    _describe_tender_context,
 )
-
 
 # ---------------------------------------------------------------------------
 # 工具：构造可控的输入字典

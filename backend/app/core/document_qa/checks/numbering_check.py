@@ -14,13 +14,6 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Optional
 
-from app.core.document_qa.region_text import (
-    KIND_FURNITURE,
-    layout_pages,
-    page_texts,
-    region_lines,
-)
-from app.core.document_qa.text_shapes import is_index_or_leader_line
 from app.core.document_qa.contracts import (
     CheckerOutcome,
     CheckerStatus,
@@ -34,6 +27,13 @@ from app.core.document_qa.contracts import (
     normalize_for_hash,
     paragraph_hash,
 )
+from app.core.document_qa.region_text import (
+    KIND_FURNITURE,
+    layout_pages,
+    page_texts,
+    region_lines,
+)
+from app.core.document_qa.text_shapes import is_index_or_leader_line
 
 CODE = "numbering"
 

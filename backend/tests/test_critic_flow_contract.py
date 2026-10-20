@@ -24,7 +24,6 @@ from app.core.ai.critic.prompts.judge_templates import (
 from app.core.ai.prompt_registry import FLOW_NODE_KEYS
 from scripts.seed_llm_registry import ALL_NODES, PARAM_DEFS
 
-
 JUDGE_NODE_KEYS = {
     "judge.review",
     "judge.generic",

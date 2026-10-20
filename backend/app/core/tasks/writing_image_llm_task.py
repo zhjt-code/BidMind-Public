@@ -17,8 +17,8 @@ from typing import Any, Optional
 
 from loguru import logger
 
-from app.core.config import settings
 from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled
+from app.core.config import settings
 from app.core.parser.image_extractor import ExtractedImage
 
 WRITING_IMAGE_VL_JOB = "writing_image_vl_job"

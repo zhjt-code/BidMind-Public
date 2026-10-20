@@ -2,11 +2,11 @@
 
 from sqlalchemy import (
     Column,
-    String,
-    Integer,
-    ForeignKey,
-    Text,
     Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
     UniqueConstraint,
 )
 from sqlalchemy.orm import relationship

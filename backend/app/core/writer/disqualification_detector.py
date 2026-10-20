@@ -22,7 +22,6 @@ from __future__ import annotations
 import re
 from typing import Any, Iterable
 
-
 _NEGATION_KEYWORDS = ("不得", "禁止", "严禁", "不允许", "不可")
 
 # 肯定情态词/谓语, 投标方如果以这些表述 + 与约束相同动作, 就可能违反

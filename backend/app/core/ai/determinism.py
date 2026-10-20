@@ -18,7 +18,6 @@ import contextvars
 import hashlib
 from typing import Optional
 
-
 _SEED_UPPER_BOUND = 2**31 - 1  # int32 max, 符合 OpenAI/DeepSeek/Qwen 约定
 
 # S.3.1: 由 ProjectBoundDispatcher 在每次 dispatch 入口 set；CloudClient._resolve_seed 读取

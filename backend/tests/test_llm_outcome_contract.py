@@ -14,7 +14,7 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Optional
+from typing import Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -190,8 +190,8 @@ def test_matched_pair_treats_failed_extraction_as_unconfirmed() -> None:
         is_unconfirmed_response_content,
     )
     from app.core.matcher.requirement_matcher import MatchedPair
-    from app.models.requirement import Requirement
     from app.models.bid_response import BidResponse
+    from app.models.requirement import Requirement
 
     req = Requirement(id=1, project_id=1, category="qualification", description="资质要求")
     failed = BidResponse(
@@ -213,8 +213,8 @@ def test_reviewer_short_circuits_failed_extraction_to_manual_review() -> None:
     """审查侧对提取失败项直接产出人工复核结论, 不调用 LLM"""
     from app.core.ai.reviewer_parts.pair_review import review_single_pair
     from app.core.matcher.requirement_matcher import MatchedPair
-    from app.models.requirement import Requirement
     from app.models.bid_response import BidResponse
+    from app.models.requirement import Requirement
 
     req = Requirement(
         id=7, project_id=1, category="qualification",

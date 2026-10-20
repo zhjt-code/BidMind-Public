@@ -1,12 +1,12 @@
 from types import SimpleNamespace
 
+from app.core.writer.material_matcher import MaterialMatcher
 from app.core.writer.numbering import (
     compute_chapter_numbers,
     format_number_for_depth,
     strip_existing_number,
     strip_existing_number_strict,
 )
-from app.core.writer.material_matcher import MaterialMatcher
 from app.core.writer.section_composer import SectionComposer
 from app.core.writer.section_structure import (
     detect_numbering_depth,

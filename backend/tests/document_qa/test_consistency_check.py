@@ -1,7 +1,6 @@
 """实体一致性: 金额冲突 + 工期冲突(同机制两实体) + 归一化后同值不报"""
 
 from app.core.document_qa.checks.consistency_check import check_consistency
-
 from tests.document_qa.conftest import make_model
 
 

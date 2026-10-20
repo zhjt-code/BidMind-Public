@@ -5,29 +5,35 @@
 """
 
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-from loguru import logger
 
-from app.core.database import get_db
-from app.models.user import User
-from app.schemas.project import (
-    ProjectCreate,
-    ProjectUpdate,
-    ProjectResponse,
-    ProjectListResponse,
-    BatchDeleteRequest,
-    ProjectRunModeUpdate,
+from fastapi import APIRouter, Depends, Query, status
+from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.dependencies import (
+    PaginationParams,
+    get_current_user,
+    get_pagination,
+    handle_service_error,
+    project_log_context,
 )
+from app.core.database import get_db
+from app.core.exceptions import ServiceError
+from app.models.user import User
 from app.schemas.common import ApiResponse
-from app.api.dependencies import get_pagination, PaginationParams, get_current_user, handle_service_error, project_log_context
-from app.services.project_service import ProjectService
+from app.schemas.project import (
+    BatchDeleteRequest,
+    ProjectCreate,
+    ProjectListResponse,
+    ProjectResponse,
+    ProjectRunModeUpdate,
+    ProjectUpdate,
+)
+from app.schemas.project_dashboard import ProjectDashboardResponse
 from app.services.express_flow.run_mode import ProjectRunMode
 from app.services.express_flow.run_mode_service import RunModeService
-from app.core.exceptions import ServiceError
-from app.schemas.project_dashboard import ProjectDashboardResponse
 from app.services.project_dashboard_service import ProjectDashboardService
-
+from app.services.project_service import ProjectService
 
 router = APIRouter(prefix="/projects", dependencies=[Depends(project_log_context)])
 

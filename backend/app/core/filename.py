@@ -10,7 +10,6 @@ import os
 import re
 from pathlib import Path
 
-
 _WINDOWS_RESERVED = frozenset({
     "CON", "PRN", "AUX", "NUL",
     *(f"COM{i}" for i in range(1, 10)),

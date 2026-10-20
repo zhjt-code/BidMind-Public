@@ -10,7 +10,6 @@ import re
 from html import escape
 from typing import Any
 
-
 _TEXT_MATERIAL_TYPES = {"text", "old_bid_section", "template_fragment"}
 _SUPPLEMENT_TITLE_KEYWORDS = ("公司简介", "企业简介", "其他资料", "资料索引", "评分资料")
 _SUPPLEMENT_TEMPLATE_MARKERS = ("格式自定", "自行编制", "投标人认为需要补充")

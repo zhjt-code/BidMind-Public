@@ -13,10 +13,10 @@ from __future__ import annotations
 import asyncio
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from sqlalchemy import Column, MetaData, String, Table
-from sqlalchemy.dialects import postgresql
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from app.core.retriever.material_inventory import MaterialFact, persist_material_facts

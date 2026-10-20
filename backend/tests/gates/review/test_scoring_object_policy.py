@@ -10,6 +10,10 @@
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.scoring
+
 from types import SimpleNamespace
 
 from app.core.ai.gates.base import GateContext
@@ -34,7 +38,6 @@ from app.core.ai.prompts.review import (
     REVIEW_SYSTEM_PROMPT,
 )
 from app.core.ai.reviewer_parts.scoring_rubric import scoring_supplement
-
 
 _PRICE_RESTATEMENT = (
     "投标人在投标文件第2页的评标索引表中完整复述并确认接受上述价格分计算规则，"

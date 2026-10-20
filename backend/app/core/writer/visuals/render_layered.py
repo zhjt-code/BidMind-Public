@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from matplotlib.patches import FancyBboxPatch
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
 
 from app.core.writer.visuals.ir_contracts import LayeredIR
 from app.core.writer.visuals.render_common import DPI, font_kwargs, wrap_label

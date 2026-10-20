@@ -3,18 +3,22 @@
 用 trial data 文件夹中的实际素材文件名,
 端到端验证: 文件名分类 -> 标签决议 -> 匹配器门禁 -> 结构化字段白名单 -> 渲染器收口
 """
-import sys
-import json
 import inspect
+import json
+import sys
+
 sys.path.insert(0, ".")
 
-from app.core.writer.filename_classifier import classify_by_filename
-from app.core.writer.label_resolver import resolve_material_label, LabelResolution
-from app.core.writer.image_subtype_contract import normalize_business_subtype, validate_business_subtype
-from app.core.writer.section_composer import SectionComposer
 from app.core.writer.doc_renderer import DocRenderer
-from app.models.writing_material_image import ImageType
+from app.core.writer.filename_classifier import classify_by_filename
+from app.core.writer.image_subtype_contract import (
+    normalize_business_subtype,
+    validate_business_subtype,
+)
+from app.core.writer.label_resolver import resolve_material_label
+from app.core.writer.section_composer import SectionComposer
 from app.models.writing_material import DocumentBusinessType
+from app.models.writing_material_image import ImageType
 
 
 class MockImage:

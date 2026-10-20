@@ -10,7 +10,7 @@
 - deep：二次深搜命中
 """
 
-from sqlalchemy import Column, Float, ForeignKey, Index, Integer, JSON, String, Text
+from sqlalchemy import JSON, Column, Float, ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel

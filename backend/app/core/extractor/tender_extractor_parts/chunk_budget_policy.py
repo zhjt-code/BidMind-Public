@@ -13,7 +13,6 @@ from app.core.contracts.degradation_signal import (
     drain_signals,
 )
 
-
 CHUNK_EXTRACT_INITIAL_MAX_TOKENS = 2000
 RESCUE_INITIAL_MAX_TOKENS = 4000
 CHUNK_EXTRACT_TOKEN_CEILING = 8192

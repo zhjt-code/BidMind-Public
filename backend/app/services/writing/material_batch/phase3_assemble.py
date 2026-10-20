@@ -17,7 +17,7 @@
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from loguru import logger
 
@@ -28,7 +28,6 @@ if TYPE_CHECKING:
         MaterialContentExtractor,
         ParseResult,
     )
-
     from app.services.writing.material_batch.heartbeat import MaterialBatchHeartbeat
     from app.services.writing.material_service import MaterialService
 

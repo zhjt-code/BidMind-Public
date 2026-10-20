@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 # 章节标题强信号：出现在 section_path 即判定为合同区段
 _CONTRACT_TITLE_KEYWORDS: tuple[str, ...] = (
     "合同条款",

@@ -24,7 +24,6 @@ from app.models.system_error_log import SystemErrorLog
 from app.models.task_observation import TaskObservation, TaskOutcome, TaskPhase
 from app.models.user import User
 
-
 _VALID_LEVELS = {"WARNING", "ERROR", "CRITICAL"}
 
 

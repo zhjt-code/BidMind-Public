@@ -19,8 +19,8 @@ from app.core.database import (
     is_dead_connection_error,
     with_db_reconnect,
 )
-from app.models.document import Document, DocumentType
-from app.models.project import Project, ProjectStatus, ProjectType
+from app.core.observability.milestone import milestone
+from app.core.observability.task_observation import TaskFlow, observe_task
 from app.core.writer.clause_extract_progress import (
     build_writing_extract_progress_callback,
 )
@@ -30,8 +30,8 @@ from app.core.writer.progress_contract import (
     get_stage_start_pct,
     get_stage_weight_range,
 )
-from app.core.observability.task_observation import observe_task, TaskFlow
-from app.core.observability.milestone import milestone
+from app.models.document import Document, DocumentType
+from app.models.project import Project, ProjectStatus, ProjectType
 
 T = TypeVar("T")
 
@@ -56,8 +56,12 @@ async def run_writing_extract_task(
     Args:
         project_id: 项目 ID
     """
+    from app.core.arq_runtime import (
+        ProjectCancelledError,
+        is_project_cancelled,
+        raise_if_project_cancelled,
+    )
     from app.core.tasks import update_heartbeat
-    from app.core.arq_runtime import ProjectCancelledError, is_project_cancelled, raise_if_project_cancelled
 
     task_name = get_writing_extract_task_name(project_id)
     update_heartbeat(task_name, stage="starting", progress="初始化中")
@@ -115,8 +119,8 @@ async def run_writing_extract_task(
 
             # 3. 更新状态为 EXTRACTING + 清理旧提取数据(支持重跑)
             project.status = ProjectStatus.EXTRACTING
-            from app.models.writing_render_profile import WritingRenderProfile
             from app.models.writing_clause import WritingClause
+            from app.models.writing_render_profile import WritingRenderProfile
 
             old_rp = None
             if not explicit_retry:

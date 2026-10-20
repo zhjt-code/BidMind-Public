@@ -13,8 +13,8 @@
 """
 
 from app.core.matcher.requirement_matcher import (
-    RequirementMatcher,
     MatchedPair,
+    RequirementMatcher,
     get_requirement_matcher,
 )
 

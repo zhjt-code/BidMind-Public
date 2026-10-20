@@ -22,7 +22,6 @@ from unittest.mock import MagicMock, call, patch
 
 from app.core.ai.llm_outcome import LlmOutcome
 
-
 # ---------------------------------------------------------------------------
 # 共享测试基础设施
 # ---------------------------------------------------------------------------

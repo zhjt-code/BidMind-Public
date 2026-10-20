@@ -17,7 +17,6 @@ import re
 
 from loguru import logger
 
-
 # 用于 metrics 计数的完整套话清单（保持向后兼容）
 AI_PHRASES = [
     "综上所述", "切实保障", "高度重视", "全面提升", "高效协同",
@@ -124,7 +123,7 @@ class DeAIFilter:
             avg = sum(lengths) / len(lengths)
             if avg == 0:
                 continue
-            max_deviation = max(abs(l - avg) / avg for l in lengths)
+            max_deviation = max(abs(length - avg) / avg for length in lengths)
             if max_deviation < _RHYTHM_TOLERANCE:
                 marks.append(
                     f"段落{i + 1}-{i + _RHYTHM_WINDOW}: "

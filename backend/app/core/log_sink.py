@@ -12,18 +12,18 @@
 """
 
 import sys
-import time
 import threading
+import time
 import traceback as tb_module
 from typing import Optional
 
 from sqlalchemy import text as sa_text
 
-from app.models.system_error_log import SystemErrorLog
-from app.models.log_suppression_rule import LogSuppressionRule
 from app.core.message_fingerprint import compute_fingerprint
 from app.core.observability.log_aggregation import LogAggregator
 from app.core.observability.traffic_class import resolve_traffic_class
+from app.models.log_suppression_rule import LogSuppressionRule
+from app.models.system_error_log import SystemErrorLog
 
 
 def _extract_origin_frame(exc) -> tuple[Optional[str], Optional[str], Optional[int], Optional[str]]:
@@ -93,6 +93,7 @@ def _create_sync_session_factory():
     """创建独立的同步 session 工厂,仅供 log sink 使用"""
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
+
     from app.core.config import settings
 
     sync_url = settings.DATABASE_URL.replace("+asyncpg", "+psycopg2", 1)

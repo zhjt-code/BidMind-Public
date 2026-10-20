@@ -9,14 +9,13 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import re
+from dataclasses import dataclass, field
 
-from app.core.parser.pdf_parser import ParsedDocument
 from app.core.parser.page_coordinates import resolve_toc_page_coordinates
+from app.core.parser.pdf_parser import ParsedDocument
 from app.core.parser.toc_parser import TocEntry, TocParser
 from app.core.writer.filename_classifier import classify_by_text_signal
-
 
 _HEADING_PATTERNS = [
     re.compile(r"^[一二三四五六七八九十]+[、.]\s*(.{2,30})\s*$"),

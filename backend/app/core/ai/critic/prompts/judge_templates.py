@@ -26,7 +26,6 @@ from app.core.ai.critic.flows import (
     resolve_judge_template_flow,
 )
 
-
 # ──────────────────────────────────────────────────────────────
 # Generic fallback (保持与 P1.2 前通用 prompt 等价)
 # ──────────────────────────────────────────────────────────────

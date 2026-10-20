@@ -25,7 +25,6 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-
 # 各 kind 的阈值比例 (> 阈值判定为严重), 规模过小时不判定为严重
 _DEFAULT_RATIO_THRESHOLD: dict[str, float] = {
     "material_tag_failed": 0.20,

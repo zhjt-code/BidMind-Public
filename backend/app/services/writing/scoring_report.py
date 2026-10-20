@@ -14,13 +14,13 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from app.core.extractor.scoring.score_totals import (
-    ScoringTotalsEntry,
-    build_totals_report_payload,
-)
 from app.core.extractor.scoring.operational_assessment import (
     attach_suspected_assessment_payload,
     is_suspected_assessment_meta,
+)
+from app.core.extractor.scoring.score_totals import (
+    ScoringTotalsEntry,
+    build_totals_report_payload,
 )
 from app.core.writer.scoring_constants import SCORING_AUTHORITY_SOURCE
 from app.models.writing_clause import WritingClause

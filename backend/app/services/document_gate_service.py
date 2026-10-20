@@ -5,12 +5,11 @@
 """
 
 import asyncio
+from pathlib import Path
 from typing import Optional
 
 from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from pathlib import Path
 
 from app.core.config import settings
 from app.core.parser.doc_gate import (

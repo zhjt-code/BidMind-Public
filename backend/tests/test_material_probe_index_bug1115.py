@@ -4,9 +4,10 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import os
+
+from tests.synthetic_data import synthetic_text
 
 os.environ.setdefault(
     "DATABASE_URL",
@@ -21,10 +22,10 @@ from app.core.retriever.material_inventory import (
     scan_hits_into_facts,
 )
 from app.core.retriever.material_key import (
+    _CONTAINS_STRONG_MIN,
     MATCH_NONE,
     MATCH_STRONG,
     MATCH_WEAK,
-    _CONTAINS_STRONG_MIN,
     canonical_material_key,
     match_key_in_compact,
     match_material_in_text,

@@ -3,15 +3,15 @@
 提供服务健康状态检查端点。
 """
 
-from fastapi import APIRouter, Depends
-from fastapi.responses import JSONResponse
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel
 from typing import Optional
 
-from app.core.database import get_db
+from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.database import get_db
 
 router = APIRouter()
 

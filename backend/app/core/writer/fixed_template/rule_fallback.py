@@ -36,7 +36,6 @@ from app.core.writer.fixed_template.titles import (
     infer_fixed_template_key,
 )
 
-
 _RULE_FALLBACK_CONFIDENCE = 0.55
 _MIN_TEMPLATE_CHARS = 50
 _TITLE_LINE_MAX_LEN = 40

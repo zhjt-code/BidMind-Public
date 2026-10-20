@@ -31,7 +31,7 @@ from typing import Any, Optional, Sequence
 
 from rapidfuzz import fuzz
 
-from app.core.ai.critic.flows import CriticFlow, FLOW_GENERIC
+from app.core.ai.critic.flows import FLOW_GENERIC, CriticFlow
 from app.core.ai.input_budget import clip_text_keep_ends
 from app.core.ai.input_guard import retry_on_input_too_long_400
 from app.core.config import settings
@@ -122,8 +122,8 @@ async def run_cove(
             比 ``chunks`` 提供更丰富的上下文，会被渲染进问题 prompt。
     """
     from app.core.ai.critic.prompts.cove_templates import (
-        TEMPLATES_BY_TRIGGER,
         ANSWER_RESPONSE_FORMAT,
+        TEMPLATES_BY_TRIGGER,
     )
 
     questions = TEMPLATES_BY_TRIGGER.get(trigger)

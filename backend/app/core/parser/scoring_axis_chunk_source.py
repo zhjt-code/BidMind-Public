@@ -22,7 +22,6 @@ from app.core.parser.lot_boundary_locator import lot_for_page
 if TYPE_CHECKING:
     from app.core.parser.chunk_planner import ChunkPlanner
     from app.core.parser.pdf_parser import ParsedDocument
-    from app.core.parser.text_chunker import TextChunk
 
 
 @dataclass(frozen=True)

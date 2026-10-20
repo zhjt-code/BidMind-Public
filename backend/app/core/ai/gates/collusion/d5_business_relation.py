@@ -6,8 +6,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 
 _EMPTY_VALUES = {"", "无", "不适用", "N/A", "/", "-", "null", "none"}

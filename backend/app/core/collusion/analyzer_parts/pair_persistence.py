@@ -20,33 +20,34 @@ Task 8 Step 8：从 CollusionAnalyzer 主类迁出 S3 持久化 6 个方法。
 
 from __future__ import annotations
 
-
-# 补全 import 修复
-from app.core.collusion.analyzer_parts.findings import _extract_structured_findings
-from app.core.collusion.analyzer_parts.dimension_signals import (
-    synthesize_dimension_signal_findings,
-)
-from app.core.collusion.normalizers import is_nearby_phone
-from app.core.collusion.normalizers import is_same_address_building
-from app.core.database import async_session_factory
-from app.models.document import Document
-
 from typing import Optional
 
 from loguru import logger
 from sqlalchemy import select
 
-from app.models.collusion_result import CollusionResult
 from app.core.collusion.analyzer_parts.algorithmic import (
     build_skipped_pair_baseline,
 )
-from app.core.collusion.analyzer_parts.findings import _normalize_compare_result
+from app.core.collusion.analyzer_parts.dimension_signals import (
+    synthesize_dimension_signal_findings,
+)
+
+# 补全 import 修复
+from app.core.collusion.analyzer_parts.findings import (
+    _extract_structured_findings,
+    _normalize_compare_result,
+)
 from app.core.collusion.normalizers import (
     is_credit_code_related,
+    is_nearby_phone,
+    is_same_address_building,
     normalize_cert_code,
     normalize_id_tail,
     normalize_phone,
 )
+from app.core.database import async_session_factory
+from app.models.collusion_result import CollusionResult
+from app.models.document import Document
 from app.schemas.collusion import is_valid_person_name
 
 

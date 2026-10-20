@@ -1,12 +1,12 @@
-from tests.synthetic_data import synthetic_text
-from types import SimpleNamespace
 from pathlib import Path
+from types import SimpleNamespace
 
 from docx import Document
 from docx.shared import Mm, Pt
 
 from app.core.writer.bid_format_defaults import merge_with_profile
 from app.core.writer.doc_renderer import DocRenderer
+from tests.synthetic_data import synthetic_text
 
 
 def test_apply_styles_creates_distinct_bm_heading_styles() -> None:
@@ -357,8 +357,9 @@ def test_insert_figure_images_marks_pending_when_image_not_in_section_pool() -> 
 
 
 def test_insert_figure_images_blocks_duplicate_exclusive_image_across_sections(monkeypatch) -> None:
-    from docx.text.run import Run
     from pathlib import Path
+
+    from docx.text.run import Run
 
     monkeypatch.setattr(Path, "exists", lambda self: True)
     monkeypatch.setattr(Run, "add_picture", lambda self, path, width=None: None)
@@ -404,10 +405,11 @@ def test_insert_figure_images_blocks_duplicate_exclusive_image_across_sections(m
 
 def test_insert_figure_images_centers_image_and_clears_body_indent(monkeypatch) -> None:
     """: 素材图段落须居中并清零首行缩进，避免 BM_BODY 缩进导致右偏。"""
+    from pathlib import Path
+
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.shared import Pt as DocxPt
     from docx.text.run import Run
-    from pathlib import Path
 
     monkeypatch.setattr(Path, "exists", lambda self: True)
     monkeypatch.setattr(Run, "add_picture", lambda self, path, width=None: None)
@@ -449,8 +451,9 @@ def test_insert_figure_images_centers_image_and_clears_body_indent(monkeypatch) 
 
 
 def test_insert_figure_images_allows_later_placeholder_after_first_image_missing(monkeypatch) -> None:
-    from docx.text.run import Run
     from pathlib import Path
+
+    from docx.text.run import Run
 
     monkeypatch.setattr(Path, "exists", lambda self: self.name != "missing.jpg")
     monkeypatch.setattr(Run, "add_picture", lambda self, path, width=None: None)
@@ -499,8 +502,9 @@ def test_insert_figure_images_allows_later_placeholder_after_first_image_missing
 
 
 def test_insert_figure_images_renders_identity_cards_as_two_column_block(monkeypatch) -> None:
-    from docx.text.run import Run
     from pathlib import Path
+
+    from docx.text.run import Run
 
     from app.models.writing_material_image import ImageType
 
@@ -605,7 +609,7 @@ def test_insert_figure_images_renders_identity_cards_as_two_column_block(monkeyp
 
 
 def test_normalize_line_spacing_preserves_valid_range() -> None:
-    from app.core.writer.bid_format_defaults import normalize_line_spacing, LINE_SPACING
+    from app.core.writer.bid_format_defaults import normalize_line_spacing
     assert normalize_line_spacing(1.0) == 1.0
     assert normalize_line_spacing(1.5) == 1.5
     assert normalize_line_spacing(2.0) == 2.0
@@ -613,7 +617,7 @@ def test_normalize_line_spacing_preserves_valid_range() -> None:
 
 
 def test_normalize_line_spacing_rejects_out_of_range() -> None:
-    from app.core.writer.bid_format_defaults import normalize_line_spacing, LINE_SPACING
+    from app.core.writer.bid_format_defaults import LINE_SPACING, normalize_line_spacing
     assert normalize_line_spacing(22) == LINE_SPACING
     assert normalize_line_spacing(22.0) == LINE_SPACING
     assert normalize_line_spacing(0) == LINE_SPACING
@@ -624,7 +628,7 @@ def test_normalize_line_spacing_rejects_out_of_range() -> None:
 
 
 def test_normalize_line_spacing_handles_none_and_garbage() -> None:
-    from app.core.writer.bid_format_defaults import normalize_line_spacing, LINE_SPACING
+    from app.core.writer.bid_format_defaults import LINE_SPACING, normalize_line_spacing
     assert normalize_line_spacing(None) == LINE_SPACING
     assert normalize_line_spacing("abc") == LINE_SPACING
     assert normalize_line_spacing("") == LINE_SPACING
@@ -765,8 +769,9 @@ def test_html_to_docx_standard_table_still_works() -> None:
 
 def test_normalize_table_html_splits_multi_thead_tbody() -> None:
     """多组 thead/tbody 拆成多张 table。"""
-    from app.core.writer.doc_renderer import _normalize_table_html_for_docx
     from bs4 import BeautifulSoup
+
+    from app.core.writer.doc_renderer import _normalize_table_html_for_docx
 
     html = (
         "<table>"
@@ -784,8 +789,9 @@ def test_normalize_table_html_splits_multi_thead_tbody() -> None:
 
 def test_normalize_table_html_pads_columns() -> None:
     """tbody 列数超过 thead 时，thead 行被补齐。"""
-    from app.core.writer.doc_renderer import _normalize_table_html_for_docx
     from bs4 import BeautifulSoup
+
+    from app.core.writer.doc_renderer import _normalize_table_html_for_docx
 
     html = (
         "<table>"

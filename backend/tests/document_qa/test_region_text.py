@@ -21,7 +21,6 @@ from app.core.document_qa.region_text import (
     table_rows,
 )
 from app.core.document_qa.text_layer_watermark import strip_text_layer_watermark
-
 from tests.document_qa.conftest import make_line, make_model, make_region, with_regions
 
 

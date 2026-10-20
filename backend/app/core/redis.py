@@ -4,7 +4,7 @@ import asyncio
 from typing import Optional
 
 import redis as sync_redis
-from arq.connections import RedisSettings, ArqRedis, create_pool
+from arq.connections import ArqRedis, RedisSettings, create_pool
 from loguru import logger
 
 from app.core.config import settings

@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import re
 
-
 _FIELD_KEYWORDS = (
     "投标人", "法定代表人", "委托代理人", "授权代表", "项目名称",
     "项目编号", "招标人", "金额", "报价", "工期", "服务期",

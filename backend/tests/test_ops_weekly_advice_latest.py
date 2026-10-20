@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 import pytest
 from sqlalchemy import delete
 
+from app.models.llm_weekly_advice import LlmWeeklyAdvice
+
 _TARGET = "bug986_vision"
 _NODE = "bug986.node_key"
 _OLD_WEEK = datetime(2099, 1, 5, tzinfo=timezone.utc)
@@ -20,8 +22,7 @@ def _row(
     rule_id: str,
     scope: str = "purpose",
     target: str = _TARGET,
-) -> "LlmWeeklyAdvice":
-    from app.models.llm_weekly_advice import LlmWeeklyAdvice
+) -> LlmWeeklyAdvice:
 
     return LlmWeeklyAdvice(
         week_start=week_start,

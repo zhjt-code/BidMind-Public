@@ -3,12 +3,13 @@
 BidMind AI Lite 后端服务主入口。
 """
 
-import asyncio
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, HTTPException
+
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from loguru import logger
+
 
 # Windows 兼容性补丁: starlette Config._read_file 不指定 encoding,
 # Windows 默认 GBK 解码 UTF-8 含中文字符的 .env 文件会失败。
@@ -27,24 +28,26 @@ def _starlette_config_read_file_utf8(self, file_name) -> dict[str, str]:
 
 
 from starlette.config import Config as _StarletteConfig
+
 _StarletteConfig._read_file = _starlette_config_read_file_utf8
 
-from slowapi import _rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
-from app.core.rate_limit import limiter
-from prometheus_fastapi_instrumentator import Instrumentator
 import sys
 
-from app.core.config import settings
-from app.core.database import init_db, close_db
+from prometheus_fastapi_instrumentator import Instrumentator
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+
 from app.core.ai_settings import init_ai_settings
+from app.core.config import settings
+from app.core.database import close_db, init_db
 from app.core.middleware import (
     RequestIdMiddleware,
-    get_request_id,
-    get_log_user_id,
-    get_log_project_id,
     get_incident_id,
+    get_log_project_id,
+    get_log_user_id,
+    get_request_id,
 )
+from app.core.rate_limit import limiter
 
 # CPU 预算前置应用: routers import 会传递性触发 torch / sentence_transformers,
 # 必须在此之前把 OMP/MKL/ORT 线程上限写入环境变量, 否则 PyTorch OMP 池已建好,
@@ -60,7 +63,34 @@ except Exception as _cpu_budget_exc:  # noqa: BLE001
         f"CPU 预算环境变量应用失败 (退化为系统默认): {_cpu_budget_exc}"
     )
 
-from app.api.routers import projects, health, files, search, requirements, reviews, document_qa, auth, users, presence, collusion, feedback, audit_logs, prompt_versions, error_logs, writing, writing_diagrams, writing_outline, knowledge_base, llm_center, messages, admin_broadcasts, admin_ops, project_timeline, ops_project_logs, llm_advisor
+from app.api.routers import (
+    admin_broadcasts,
+    admin_ops,
+    audit_logs,
+    auth,
+    collusion,
+    document_qa,
+    error_logs,
+    feedback,
+    files,
+    health,
+    knowledge_base,
+    llm_advisor,
+    llm_center,
+    messages,
+    ops_project_logs,
+    presence,
+    project_timeline,
+    projects,
+    prompt_versions,
+    requirements,
+    reviews,
+    search,
+    users,
+    writing,
+    writing_diagrams,
+    writing_outline,
+)
 from app.api.routers import settings as settings_router
 
 
@@ -99,6 +129,7 @@ else:
 logger.configure(patcher=_log_patcher)
 
 from app.core.log_sink import db_log_sink  # noqa: E402
+
 logger.add(db_log_sink, level="WARNING", format="{message}")
 
 
@@ -153,7 +184,7 @@ async def lifespan(app: FastAPI):
     # MetricsRegistry: 扫描业务 package 触发 @instrument 装饰器登记, 同步到 metric_catalog
     try:
         from app.core.database import AsyncSessionLocal
-        from app.core.observability.scanner import scan_packages, upsert_catalog, publish_invalidate
+        from app.core.observability.scanner import publish_invalidate, scan_packages, upsert_catalog
         reg_size = scan_packages()
         async with AsyncSessionLocal() as db:
             stats = await upsert_catalog(db)
@@ -190,8 +221,8 @@ async def lifespan(app: FastAPI):
 
     # 错误日志指纹自动重算 (算法版本变化时触发, 非阻塞)
     try:
-        from app.services.error_log_service import ErrorLogService
         from app.core.database import AsyncSessionLocal
+        from app.services.error_log_service import ErrorLogService
         async with AsyncSessionLocal() as db:
             await ErrorLogService.auto_recompute_if_needed(db)
     except Exception as e:

@@ -14,6 +14,7 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "sqlite+aiosqlite:///")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
 from sqlalchemy import create_engine, select  # noqa: E402
 from sqlalchemy.orm import Session  # noqa: E402
 
@@ -22,8 +23,6 @@ from app.models.requirement import (  # noqa: E402
     RequirementCategory,
     non_manual_scoring_metadata_filter,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from app.core.ai_settings import (
     PRIORITY_BACKUP,
     PRIORITY_NORMAL,
@@ -11,8 +9,8 @@ from app.core.ai_settings import (
     PRIORITY_SECOND,
 )
 from app.services.ops_advisor.priority_advice_rules import (
-    ConfigReliabilityStats,
     MIN_SAMPLE_ATTEMPTS,
+    ConfigReliabilityStats,
     build_purpose_advice,
 )
 from app.services.ops_advisor.priority_apply_service import fingerprint_priority

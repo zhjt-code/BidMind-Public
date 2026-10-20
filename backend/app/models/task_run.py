@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import enum
-from datetime import datetime, timezone
 from collections.abc import Sequence
+from datetime import datetime, timezone
 
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint
 

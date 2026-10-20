@@ -20,11 +20,10 @@ os.environ.setdefault(
     "DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test"
 )
 
-from app.core.tasks.process import parse_stage as parse_stage_module  # noqa: E402
-from app.core.tasks import process_task as ptm  # noqa: E402
 from app.core.observability import task_observation as obs_module  # noqa: E402
+from app.core.tasks import process_task as ptm  # noqa: E402
+from app.core.tasks.process import parse_stage as parse_stage_module  # noqa: E402
 from app.models.task_observation import TaskFlow, TaskPhase  # noqa: E402
-
 
 # ============================================================================
 # B: 解析超时熔断

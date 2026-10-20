@@ -1,6 +1,7 @@
 """CrossDimensionHintGate 单元测试（B3.4）。"""
 
 import pytest
+
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.collusion.cross_dimension_hint import CrossDimensionHintGate
 

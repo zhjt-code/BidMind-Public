@@ -7,11 +7,11 @@
 """
 from __future__ import annotations
 
+import pytest
+
 from app.core.extractor.scoring.ledger.extractor_bridge import (
     observe_scoring_ledger_shadow,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

@@ -107,8 +107,8 @@ def test_create_response_with_empty_search_results():
 
 def test_page_anchor_verify_gate_detects_llm_hallucinated_pages():
     """3. Fix-02 关键新能力：LLM 编造的页码不在真实检索命中页集内 → Gate enforce_patch。"""
-    from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
     from app.core.ai.gates.base import GateContext
+    from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
 
     class FakeExtracted:
         risk_level = "none"
@@ -140,8 +140,8 @@ def test_page_anchor_verify_gate_detects_llm_hallucinated_pages():
 
 def test_page_anchor_verify_gate_passes_on_valid_pages():
     """3b. 所有 source_pages 都在真实命中集内 -> pass。"""
-    from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
     from app.core.ai.gates.base import GateContext
+    from app.core.ai.gates.review.page_anchor_verify import PageAnchorVerifyGate
 
     class FakeExtracted:
         risk_level = "none"
@@ -238,9 +238,10 @@ def test_review_prompt_removes_merge_verdict_sections():
 
 def test_extracted_review_result_rejects_comma_separated_requirement_id():
     """Fix-04: 即使 LLM 违抗 Prompt 输出逗号分隔 requirement_id，schema 仍拒绝。"""
-    from app.schemas.review import ExtractedReviewResult
-    from pydantic import ValidationError
     import pytest as _pytest
+    from pydantic import ValidationError
+
+    from app.schemas.review import ExtractedReviewResult
 
     payload = {
         "requirement_id": "1,2,3",  # 非法：新 Prompt 明令禁止
@@ -260,8 +261,9 @@ def test_extracted_review_result_rejects_comma_separated_requirement_id():
 def test_build_review_result_item_includes_retrieval_chunks():
     """Fix-06 / 问题 3: API 结果项包含 retrieval_chunks 字段（空列表 or 真实命中）。"""
     from types import SimpleNamespace
-    from app.services.review_service import _build_review_result_item
+
     from app.models.review_result import ComplianceLevel, RiskLevel
+    from app.services.review_service import _build_review_result_item
 
     rr = SimpleNamespace(
         id=1, project_id=1, requirement_id=1, bid_response_id=7,
@@ -298,7 +300,8 @@ def test_call_llm_review_consumes_prompt_registry_params():
     """Fix-07 / 问题 4: _call_llm_review 的 temperature/max_tokens 从 PromptRegistry 读取。"""
     import asyncio
     from types import SimpleNamespace
-    from unittest.mock import patch, AsyncMock
+    from unittest.mock import AsyncMock, patch
+
     from app.core.ai.reviewer import ReviewOrchestrator
 
     captured_kwargs: dict = {}
@@ -346,6 +349,7 @@ def test_call_llm_review_consumes_prompt_registry_params():
 def test_project_bound_dispatcher_accepts_node_key_kwarg():
     """Fix-07: ProjectBoundDispatcher.chat/chat_json 增 node_key 可选入参，不破坏老调用方。"""
     import inspect
+
     from app.core.ai.ai_factory import ProjectBoundDispatcher
 
     for method_name in ("chat", "chat_json"):
@@ -384,7 +388,7 @@ def test_cross_evidence_to_prompt_line_includes_source_metadata():
 
 def test_review_evidence_bundle_has_cross_category_injection_flag():
     """Fix-08: ReviewEvidenceBundle.has_cross_category_injection 正确反映跨证据注入状态。"""
-    from app.core.review_contracts import ReviewEvidenceBundle, CrossEvidence
+    from app.core.review_contracts import CrossEvidence, ReviewEvidenceBundle
 
     empty = ReviewEvidenceBundle(
         response_content="", source_pages=[], completeness=None,
@@ -441,8 +445,9 @@ def test_retry_tracker_gate_replay_fields_whitelist_is_sane():
 def test_retry_gate_replay_overrides_stale_consistency_flag_via_whitelist():
     """Fix-09: 模拟 retry_result 经 Gate 产出 consistency_flag=None,
     existing 有陈旧 'cross_conflict'，覆盖后必须变为 None（Gate 结论优先）。"""
-    from app.core.ai.reviewer import ReviewOrchestrator
     from types import SimpleNamespace
+
+    from app.core.ai.reviewer import ReviewOrchestrator
 
     # 模拟 ReviewResult 列（子集）
     columns = [
@@ -497,6 +502,7 @@ def test_retry_gate_replay_overrides_stale_consistency_flag_via_whitelist():
 def test_check_extraction_quality_returns_structured_warning():
     """Fix-10 / 问题 10: _check_extraction_quality 返回结构化 {has_issue, reasons, raw_warnings}。"""
     from types import SimpleNamespace
+
     from app.services.review_service import ReviewService
 
     # 场景1: 无告警

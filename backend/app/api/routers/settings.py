@@ -13,14 +13,30 @@ API:
 - POST   /settings/ai/test                     测试连接
 """
 
-from typing import Optional, Literal
+from typing import Literal, Optional
 from urllib.parse import urlparse
-from fastapi import APIRouter, HTTPException, status, Depends, Query, Path
-from pydantic import BaseModel, Field, field_validator
-from loguru import logger
 
-from app.models.user import User
+from fastapi import APIRouter, Depends, HTTPException, Path, Query
+from loguru import logger
+from pydantic import BaseModel, Field, field_validator
+
 from app.api.dependencies import require_admin
+from app.core.ai import get_llm_client
+from app.core.ai_settings import (
+    ApiKeyItem,
+    ModelConfigItem,
+    add_config,
+    delete_config,
+    detect_config_type,
+    duplicate_config,
+    load_ai_settings,
+    set_model_id,
+    set_pool_ids,
+    set_pool_priority,
+    update_config,
+)
+from app.models.user import User
+from app.schemas.common import ApiResponse
 
 # ==================== 安全配置 ====================
 
@@ -36,14 +52,6 @@ def validate_api_base_url(url: str) -> str:
             raise ValueError("云端 API 必须使用 HTTPS 协议")
     return url
 
-
-from app.core.ai import get_llm_client
-from app.core.ai_settings import (
-    load_ai_settings, set_model_id, set_pool_ids, set_pool_priority,
-    add_config, update_config, delete_config, duplicate_config,
-    ModelConfigItem, ApiKeyItem, detect_config_type,
-)
-from app.schemas.common import ApiResponse
 
 router = APIRouter(prefix="/settings")
 PurposePath = Literal["vision", "review", "judge", "extract", "scoring"]
@@ -538,9 +546,9 @@ async def test_ai_connection(
     P0-B: 按用途执行真实健康探测——vision 池发送真实小图并要求非空描述,
     review/judge 池要求非空文本正文; 空响应/截断/内容过滤均判失败。
     """
+    from app.core.ai.attempt_recorder import current_traffic_class
     from app.core.ai.cloud_client import CloudClient
     from app.core.ai.health_probe import run_primary_probe
-    from app.core.ai.attempt_recorder import current_traffic_class
 
     # P0-A: 管理员连接测试不计入生产可靠性统计(请求级 task 结束即失效, 无需 reset)
     current_traffic_class.set("admin_test")
@@ -667,10 +675,10 @@ async def get_dispatcher_status(
 ) -> ApiResponse:
     """获取 AI 调度器运行状态（仅管理员）"""
     from app.core.ai.ai_factory import (
+        get_extract_dispatcher,
+        get_judge_dispatcher,
         get_review_dispatcher,
         get_vision_dispatcher,
-        get_judge_dispatcher,
-        get_extract_dispatcher,
     )
     review = get_review_dispatcher()
     vision = get_vision_dispatcher()

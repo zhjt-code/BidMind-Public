@@ -15,29 +15,26 @@ Task 8 Step 9：从 CollusionAnalyzer 主类迁出群组相关 6 个方法。
 
 from __future__ import annotations
 
+import json
+from typing import Any, Optional
+
+from loguru import logger
+from sqlalchemy import delete, select
 
 # 补全 import 修复
 from app.core.ai.prompt_registry import resolve_user_template
-from app.core.collusion.global_features import GlobalFeatureResult
-from app.core.database import async_session_factory
-from app.models.collusion_result import CollusionResult
-from typing import Optional
-
-import json
-from typing import Any
-
-from loguru import logger
-from sqlalchemy import select, delete
-
-from app.core.config import get_collusion_group_timeout
 from app.core.collusion.analyzer_parts.synthesis_helpers import (
     _format_group_evidence_for_llm,
 )
 from app.core.collusion.evidence_fusion import EvidenceFusionEngine
 from app.core.collusion.feature_flags import use_fused_evidence_to_llm
+from app.core.collusion.global_features import GlobalFeatureResult
 from app.core.collusion.graph_cluster import CollusionCluster
 from app.core.collusion.prompts import COLLUSION_GROUP_ANALYSIS_PROMPT
+from app.core.config import get_collusion_group_timeout
+from app.core.database import async_session_factory
 from app.models.collusion_group import CollusionGroup
+from app.models.collusion_result import CollusionResult
 from app.schemas.collusion import LLMGroupAnalysisResult
 
 

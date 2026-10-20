@@ -10,6 +10,8 @@ import inspect
 
 import pytest
 
+pytestmark = pytest.mark.scoring
+
 from app.core.config import settings
 from app.core.writer.extract_prefetch import (
     ExtractPrefetchTasks,

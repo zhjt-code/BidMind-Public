@@ -17,13 +17,13 @@
 
 from __future__ import annotations
 
+import importlib.util
 import inspect
 import os
 import sys
 import types
 from pathlib import Path
 
-import importlib.util
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))

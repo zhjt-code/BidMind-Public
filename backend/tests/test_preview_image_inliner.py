@@ -1,4 +1,5 @@
 from tests.synthetic_data import synthetic_text
+
 """预览图片内联防御测试
 
 锁定: 预览图片渲染必须与 Word 渲染 (DocRenderer._insert_figure_images)

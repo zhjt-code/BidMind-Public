@@ -98,7 +98,6 @@ def test_apply_env_thread_limits_writes_env(monkeypatch):
         apply_env_thread_limits,
         reset_cpu_budget,
     )
-    from app.core.runtime import cpu_budget as cb
 
     monkeypatch.delenv("OMP_NUM_THREADS", raising=False)
     monkeypatch.delenv("MKL_NUM_THREADS", raising=False)

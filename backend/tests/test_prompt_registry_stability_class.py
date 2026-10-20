@@ -5,10 +5,10 @@ from __future__ import annotations
 import pytest
 
 from app.core.ai.prompt_registry import (
-    _derive_stability_class,
-    _apply_stability_class_temperature,
     PromptRegistry,
     ResolvedPrompt,
+    _apply_stability_class_temperature,
+    _derive_stability_class,
 )
 
 

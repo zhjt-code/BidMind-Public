@@ -5,12 +5,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
 import time
+from datetime import datetime, timedelta, timezone
 from typing import Iterable
 
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
@@ -18,11 +18,10 @@ from app.models.collusion_result import CollusionResult
 from app.models.document import Document, DocumentType
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.requirement import Requirement, RequirementCategory
-from app.models.review_result import ComplianceLevel, ReviewResult, RiskLevel
+from app.models.review_result import ComplianceLevel, ReviewResult
 from app.models.task_observation import TaskObservation
 from app.models.task_run import TaskRun
 from app.models.writing_render_artifact import WritingRenderArtifact
-
 
 _TS = str(int(time.time()))[-6:]
 

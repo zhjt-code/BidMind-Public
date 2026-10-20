@@ -11,7 +11,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import os
 from contextlib import asynccontextmanager
 from types import SimpleNamespace
@@ -25,7 +24,6 @@ from app.core.parser.image_extractor import ExtractedImage  # noqa: E402
 from app.core.tasks import process_task as process_task_module  # noqa: E402
 from app.models.document import DocumentType  # noqa: E402
 from app.models.project import ProjectType  # noqa: E402
-
 
 # ============================================================================
 # 共享 Fixture 桩

@@ -20,7 +20,6 @@ from app.core.document_qa.model_builder import (
     is_image_only_page,
 )
 from app.core.document_qa.region_text import build_page_regions, layout_content_pages
-
 from tests.document_qa.conftest import make_model
 
 

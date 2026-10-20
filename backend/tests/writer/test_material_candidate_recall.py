@@ -10,11 +10,11 @@
 import numpy as np
 import pytest
 
+from app.core.writer.material_matching.candidate_recall import recall_candidates
 from app.core.writer.material_matching.contracts import (
     ChapterDemandProfile,
     MaterialSemanticProfile,
 )
-from app.core.writer.material_matching.candidate_recall import recall_candidates
 
 
 def _mat(**kwargs) -> MaterialSemanticProfile:

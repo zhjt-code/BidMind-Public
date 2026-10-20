@@ -18,11 +18,7 @@
 
 from __future__ import annotations
 
-import asyncio
-from unittest.mock import AsyncMock, MagicMock
-
 import pytest
-
 
 # =============================================================================
 # 契约 1: 模块级符号导出契约
@@ -108,8 +104,9 @@ class TestCollusionAnalyzerInstanceFields:
     """
 
     def test_init_creates_all_required_fields(self):
-        from app.core.collusion.analyzer import CollusionAnalyzer
         import inspect
+
+        from app.core.collusion.analyzer import CollusionAnalyzer
 
         src = inspect.getsource(CollusionAnalyzer.__init__)
         required_fields = [
@@ -151,8 +148,9 @@ class TestCollusionAnalyzerInstanceFields:
  这要求 _save_extraction 实现体必须留在主类（不能仅是 thin forwarder），
  否则 inspect.getsource 拿不到原始 'subcontractors_info' / 'subcontractors' 字符串。
  """
-        from app.core.collusion.analyzer import CollusionAnalyzer
         import inspect
+
+        from app.core.collusion.analyzer import CollusionAnalyzer
 
         src = inspect.getsource(CollusionAnalyzer._save_extraction)
         assert '"subcontractors_info"' in src or "'subcontractors_info'" in src
@@ -171,8 +169,9 @@ class TestRunOrchestrationSequence:
 
         实际跑 run() 需要完整 fixture，本用例改为读源码确认调用顺序锚点。
         """
-        from app.core.collusion.analyzer import CollusionAnalyzer
         import inspect
+
+        from app.core.collusion.analyzer import CollusionAnalyzer
 
         src = inspect.getsource(CollusionAnalyzer.run)
 
@@ -382,8 +381,9 @@ class TestThinForwarderKeywordOnlyArgs:
     """
 
     def test_run_multi_route_extraction_forwards_kwargs(self):
-        from unittest.mock import AsyncMock, MagicMock, patch
         import asyncio
+        from unittest.mock import AsyncMock, MagicMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)
@@ -404,8 +404,9 @@ class TestThinForwarderKeywordOnlyArgs:
             )
 
     def test_extract_route_payload_forwards_kwargs(self):
-        from unittest.mock import AsyncMock, MagicMock, patch
         import asyncio
+        from unittest.mock import AsyncMock, MagicMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)
@@ -425,6 +426,7 @@ class TestThinForwarderKeywordOnlyArgs:
 
     def test_build_collusion_metadata_info_forwards_kwargs(self):
         from unittest.mock import MagicMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)
@@ -439,8 +441,9 @@ class TestThinForwarderKeywordOnlyArgs:
 
     def test_llm_compare_forwards_mode_kwarg(self):
         """_llm_compare 是 positional 7 个 + kwonly 1 个（mode）的混合签名"""
-        from unittest.mock import AsyncMock, MagicMock, patch
         import asyncio
+        from unittest.mock import AsyncMock, MagicMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)
@@ -460,8 +463,9 @@ class TestThinForwarderKeywordOnlyArgs:
             )
 
     def test_retrieve_dimension_context_forwards_kwargs(self):
-        from unittest.mock import AsyncMock, patch
         import asyncio
+        from unittest.mock import AsyncMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)
@@ -483,6 +487,7 @@ class TestThinForwarderKeywordOnlyArgs:
 
     def test_get_algorithm_hits_forwards_include_d4(self):
         from unittest.mock import MagicMock, patch
+
         from app.core.collusion.analyzer import CollusionAnalyzer
 
         analyzer = object.__new__(CollusionAnalyzer)

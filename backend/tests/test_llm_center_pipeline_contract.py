@@ -14,7 +14,6 @@ F. audit_log 调用点（10 个 action 字面量保留）+ category="llm_center"
 from __future__ import annotations
 
 import inspect
-from typing import get_type_hints
 from unittest.mock import MagicMock
 
 import pytest
@@ -24,7 +23,6 @@ from app.services.llm_center_service import (
     LlmCenterService,
     _broadcast_invalidate,
 )
-
 
 # ---------------------------------------------------------------------------
 # A. 模块级符号导出（拆分后 llm_center_service.py 必须保留这些符号）
@@ -82,13 +80,13 @@ class TestServiceInit:
         - 拆分完成（Step 9）：7 个 sub-service 全部存在
         - 每个已迁出的 sub-service 必须持有 .db == service.db 引用（避免 DB 上下文漂移）
         """
-        from app.services.llm_center.topology_service import FlowTopologyService
-        from app.services.llm_center.node_detail_service import NodeDetailService
+        from app.services.llm_center.batch_service import BatchService
         from app.services.llm_center.draft_service import DraftService
+        from app.services.llm_center.node_detail_service import NodeDetailService
+        from app.services.llm_center.topology_service import FlowTopologyService
+        from app.services.llm_center.trace_service import TraceService
         from app.services.llm_center.validate_service import ValidateService
         from app.services.llm_center.version_service import VersionService
-        from app.services.llm_center.trace_service import TraceService
-        from app.services.llm_center.batch_service import BatchService
 
         fake_db = MagicMock()
         service = LlmCenterService(db=fake_db)

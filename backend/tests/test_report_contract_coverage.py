@@ -6,9 +6,10 @@
 
 登记口径(value): report=仅PDF报告 / frontend=仅结果页 / both=两端 / exempt=内部或开关控制无需展示。
 """
-from app.core.report.generator import ReportGenerator
+import pytest
+
 from app.core.report.collusion_generator import CollusionReportGenerator
-from app.schemas.review import ReviewResultResponse, ReviewSummaryResponse
+from app.core.report.generator import ReportGenerator
 from app.schemas.collusion import (
     AttentionItem,
     CollusionPairResult,
@@ -16,8 +17,7 @@ from app.schemas.collusion import (
     EvidenceChunk,
     FindingItem,
 )
-
-import pytest
+from app.schemas.review import ReviewResultResponse, ReviewSummaryResponse
 
 pytestmark = pytest.mark.scoring
 
@@ -39,10 +39,13 @@ REVIEW_RESULT_REGISTERED = {
     "main_requirement_id": "both", "subject_scope": "both",
     "evidence_relation": "both", "reconcile_note": "both",
     "source_pages": "both", "source_page_numbers": "both",
+    "source_document_id": "frontend", "source_parts": "frontend",
+    "source_page_locations": "both", "source_page_excerpts": "frontend",
     "requirement_source_page": "both", "requirement_source_pages": "both",
     "requirement_keywords": "frontend", "requirement_sub_requirements": "both",
     "requirement_merged_count": "frontend",
     "response_completeness": "both", "response_missing_elements": "both",
+    "pending_judgment": "both",
     "response_linked_to": "frontend", "response_evidence_anchor": "both",
     "relevance_score": "both", "relevance_note": "both",
     "requirement_kind": "both", "max_score": "both", "is_key_review": "both",

@@ -43,13 +43,13 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import AsyncSessionLocal
-from app.models.task_run import TaskRun, TaskRunStatus, span_already_covered
 from app.models.task_observation import (
     TaskFlow,
     TaskObservation,
     TaskOutcome,
     TaskPhase,
 )
+from app.models.task_run import TaskRun, TaskRunStatus, span_already_covered
 
 
 async def record_task_observation(

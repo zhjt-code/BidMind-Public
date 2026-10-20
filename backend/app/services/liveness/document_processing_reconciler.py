@@ -21,10 +21,10 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.arq_runtime import can_use_arq
 from app.core.config import settings
 from app.core.observability.metrics import arq_job_lost_total, arq_job_retry_total
 from app.core.redis import get_redis_pool
-from app.core.arq_runtime import can_use_arq
 from app.core.tasks import (
     MAX_RECOVERY,
     cancel_task,

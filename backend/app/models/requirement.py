@@ -1,9 +1,11 @@
 """招标要求模型"""
 
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Enum, Text, JSON, or_
+import enum
+
+from sqlalchemy import JSON, Column, Enum, Float, ForeignKey, Integer, String, Text, or_
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.elements import ColumnElement
-import enum
+
 from app.models.base import BaseModel
 
 

@@ -19,13 +19,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest  # noqa: E402
 
+from app.api.dependencies import project_log_context  # noqa: E402
 from app.core.middleware import (  # noqa: E402
     _project_id_ctx,
     get_log_project_id,
     set_log_project_id,
 )
-from app.api.dependencies import project_log_context  # noqa: E402
-
 
 # ── ContextVar 基础行为 ──────────────────────────────────────────
 
@@ -120,8 +119,9 @@ async def test_observe_task_decorator_contextualizes_project_id(monkeypatch) -> 
     通过 monkeypatch 拦截 record_task_observation 避免触碰 DB,
     并在被装饰函数内部触发一条 ERROR 日志, 检查日志的 extra.project_id。
     """
-    from app.core.observability.task_observation import observe_task, TaskFlow
     from loguru import logger
+
+    from app.core.observability.task_observation import TaskFlow, observe_task
 
     # 拦截 record_task_observation 避免 DB 访问
     async def _noop_record(**kwargs):
@@ -158,8 +158,9 @@ async def test_observe_task_decorator_contextualizes_project_id(monkeypatch) -> 
 @pytest.mark.asyncio
 async def test_observe_task_decorator_handles_missing_project_id(monkeypatch) -> None:
     """被装饰函数未传 project_id 时, 装饰器仍能正常运行, project_id 应为 None。"""
-    from app.core.observability.task_observation import observe_task, TaskFlow
     from loguru import logger
+
+    from app.core.observability.task_observation import TaskFlow, observe_task
 
     async def _noop_record(**kwargs):
         return None

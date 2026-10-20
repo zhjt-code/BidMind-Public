@@ -6,7 +6,6 @@
 
 from typing import Optional
 
-
 # PostgreSQL INTEGER (int4) 上限; 超过则不可下推到 INTEGER 列比较, 否则触发 DataError。
 PG_INT32_MAX = 2_147_483_647
 

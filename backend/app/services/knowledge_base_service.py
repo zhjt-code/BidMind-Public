@@ -6,7 +6,7 @@ import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from loguru import logger
 from sqlalchemy import delete, select, text
@@ -39,6 +39,8 @@ from app.models.writing_material import (
 from app.models.writing_material_chunk import WritingMaterialChunk
 from app.schemas.knowledge_base import KnowledgeChunkReference
 
+if TYPE_CHECKING:
+    from app.core.knowledge.usage_config import ProjectKnowledgeUsage
 
 _IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff"}
 _ALLOWED_SUFFIXES = {".pdf", ".docx", ".xlsx", ".txt", ".md", *_IMAGE_SUFFIXES}
@@ -830,7 +832,7 @@ class KnowledgeService:
         *,
         project_id: int,
         current_user: User,
-    ) -> "ProjectKnowledgeUsage":  # type: ignore[name-defined]
+    ) -> ProjectKnowledgeUsage:
         """读取项目级知识库使用配置（带项目权限校验）。"""
         from app.core.knowledge.usage_config import (
             ProjectKnowledgeUsage,
@@ -854,14 +856,13 @@ class KnowledgeService:
         flow: Optional[str],
         selected_kb_document_ids: list[int],
         usage_policy: Optional[str] = None,
-    ) -> "ProjectKnowledgeUsage":  # type: ignore[name-defined]
+    ) -> ProjectKnowledgeUsage:
         """更新项目级知识库使用配置。
 
         校验所选资料属于当前用户、未停用、已索引、适用所选 flow，
         过滤后的有效 IDs 才会写入；空 IDs 自动按"未启用"清空配置。
         """
         from app.core.knowledge.usage_config import (
-            ProjectKnowledgeUsage,
             build_usage_payload,
             parse_usage_config,
         )

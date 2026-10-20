@@ -5,7 +5,6 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import pytest
 
@@ -17,6 +16,7 @@ from app.core.collusion.normalizers import (
     is_same_address_building,
     nearby_phone_kind,
 )
+from tests.synthetic_data import synthetic_text
 
 
 class TestCreditCodeKind:

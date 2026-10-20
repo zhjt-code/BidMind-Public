@@ -15,6 +15,7 @@ from typing import Any, Callable, Optional
 from loguru import logger
 
 from app.core.config import settings
+from app.core.writer.composer import skip_policy
 from app.core.writer.composer.compose_cache import ComposeTaskCache
 from app.core.writer.composer.compose_metrics import (
     planning_mode_label,
@@ -35,7 +36,6 @@ from app.core.writer.composer.plan_prefetch import (
     cancel_plan_prefetch,
     start_section_plan_prefetch,
 )
-from app.core.writer.composer import skip_policy
 from app.core.writer.numbering import compute_chapter_numbers
 from app.models.writing_outline_node import OutlineNodeType
 

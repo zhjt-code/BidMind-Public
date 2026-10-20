@@ -1,3 +1,5 @@
+# Compatibility facade: composer helpers and tests use module-level patch targets.
+# ruff: noqa: F401
 """章节内容生成编排器
 
 三分法路由:
@@ -12,8 +14,8 @@ import asyncio
 import json
 import re
 import time
-from dataclasses import dataclass
 from collections import defaultdict
+from dataclasses import dataclass
 from html import escape
 from typing import Any, Callable, Optional
 
@@ -21,9 +23,10 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.critic.flows import FLOW_WRITER
 from app.core.ai.input_guard import retry_on_input_too_long_400
+from app.core.ai.prompt_registry import call_with_fallback
 from app.core.config import settings
 from app.core.observability.instrument import instrument as _observability_instrument
 from app.core.writer.composer import (
@@ -43,17 +46,20 @@ from app.core.writer.numbering import (
     get_sub_numbering_hint,
     strip_existing_number,
 )
+from app.core.writer.prompts.section_compose import (
+    get_data_fill_prompt as _code_data_fill,
+)
+from app.core.writer.prompts.section_compose import (
+    get_free_writing_prompt as _code_free_writing,
+)
+from app.core.writer.prompts.section_compose import (
+    get_summarize_prompt as _code_summarize,
+)
 from app.core.writer.section_structure import normalize_section_html
+
 # L-7: 真实定义迁至 text_budget；保留 _shrink_semantic_text 同名符号，
 # composer/free_writing_route 与 data_fill_route 以函数级 import 消费（monkeypatch 契约）。
 from app.core.writer.text_budget import shrink_semantic_text as _shrink_semantic_text
-from app.core.writer.prompts.section_compose import (
-    get_data_fill_prompt as _code_data_fill,
-    get_free_writing_prompt as _code_free_writing,
-    get_summarize_prompt as _code_summarize,
-)
-from app.core.ai.prompt_registry import call_with_fallback
-
 
 # NOTE: 以下 wrapper 直接走 prompt_registry.call_with_fallback, 通过
 # inspect.signature 自动把位置参数映射成命名参数后再 format, 避免 Registry 命中
@@ -72,26 +78,27 @@ def get_free_writing_prompt(*a, **kw):
 
 def get_summarize_prompt(*a, **kw):
     return call_with_fallback("writing.section_summary", _code_summarize, *a, **kw)
-from app.models.writing_binding import WritingBinding, BindingType, BindingStatus
+from app.core.writer.image_node_affinity import filter_images_for_node
+from app.models.writing_binding import BindingStatus, BindingType, WritingBinding
 from app.models.writing_clause import WritingClause, WritingClauseLayer
 from app.models.writing_material import WritingMaterial
 from app.models.writing_material_chunk import WritingMaterialChunk
-from app.core.writer.image_node_affinity import filter_images_for_node
 from app.models.writing_material_image import (
-    WritingMaterialImage, STRUCTURABLE_IMAGE_TYPES,
+    STRUCTURABLE_IMAGE_TYPES,
+    WritingMaterialImage,
 )
 from app.models.writing_outline_node import (
-    WritingOutlineNode,
-    OutlineNodeType,
     OutlineNodeStatus,
+    OutlineNodeType,
+    WritingOutlineNode,
 )
-from app.models.writing_section_draft import WritingSectionDraft, DraftStatus
+from app.models.writing_section_draft import DraftStatus, WritingSectionDraft
 
 ProgressCallback = Callable[..., None]
 
 # B2.5: DeAIFilter metrics-only (不修改内容，仅统计 AI 套话数量)
-from app.core.writer.de_ai_filter import DeAIFilter
 from app.core.observability.metrics import ai_phrase_count_total
+from app.core.writer.de_ai_filter import DeAIFilter
 
 _de_ai_filter = DeAIFilter()
 

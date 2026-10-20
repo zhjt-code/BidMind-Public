@@ -1,11 +1,11 @@
 """TenderExtractor 精度闸门与反思双通道测试"""
 
+import importlib.util
 import json
 import os
-from pathlib import Path
 import sys
 import types
-import importlib.util
+from pathlib import Path
 
 import pytest
 

@@ -16,17 +16,9 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai import get_review_client, LLMClient
+from app.core.ai import LLMClient, get_review_client
 from app.core.ai.input_guard import retry_on_input_too_long_400
-from app.core.writer.numbering import strip_existing_number
-from app.core.writer.fixed_template import infer_fixed_template_key
-from app.core.writer.fixed_template.titles import custom_template_key
-from app.core.writer.directory_spec_context import is_usable_directory_spec
-from app.core.writer.locator_volume import (
-    dedup_catchall_among_siblings,
-    filter_locator_toc_items,
-    should_omit_volume_wrapper,
-)
+from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
 from app.core.writer.chapter_profiling.batching import (
     compute_coverage,
     split_leaves_into_batches,
@@ -36,20 +28,45 @@ from app.core.writer.chapter_profiling.quality import (
     assess_profile_data,
     is_matchable,
 )
+from app.core.writer.directory_spec_context import is_usable_directory_spec
+from app.core.writer.fixed_template import infer_fixed_template_key
+from app.core.writer.fixed_template.titles import custom_template_key
 from app.core.writer.industry_profile_view import (
     PURPOSE_CHAPTER_PROFILE,
     build_profile_excerpt,
 )
-from app.core.writer.scoring_volume_affinity import volume_category_from_metadata
-from app.core.writer.text_budget import make_priority_shrink_reducer
+from app.core.writer.locator_volume import (
+    dedup_catchall_among_siblings,
+    filter_locator_toc_items,
+    should_omit_volume_wrapper,
+)
+from app.core.writer.numbering import strip_existing_number
 from app.core.writer.outline_scope import attach_scope_titles_to_outline
 from app.core.writer.prompts.outline_generate import (
     get_outline_generate_prompt as _code_outline,
+)
+from app.core.writer.prompts.outline_generate import (
     get_section_fill_prompt as _code_section_fill,
+)
+from app.core.writer.prompts.outline_generate import (
     get_skeleton_enrich_prompt as _code_skeleton_enrich,
 )
-from app.core.ai.prompt_registry import call_with_fallback, resolve_runtime_params
-
+from app.core.writer.scoring_volume_affinity import volume_category_from_metadata
+from app.core.writer.text_budget import make_priority_shrink_reducer
+from app.models.writing_clause import WritingClause
+from app.models.writing_material import WritingMaterial
+from app.models.writing_outline_node import (
+    OutlineNodeStatus,
+    OutlineNodeType,
+    WritingOutlineNode,
+)
+from app.schemas.writing import (
+    BidDirectoryItem,
+    BidDirectorySpec,
+    BidStructureAnalysis,
+    MaterialChecklistItem,
+    OutlineNodeGenerated,
+)
 
 # NOTE: 以下 wrapper 直接走 prompt_registry.call_with_fallback,
 # 见 section_composer 同名注释。
@@ -68,20 +85,6 @@ def get_skeleton_enrich_prompt(*a, **kw):
 # 章节画像 prompt 的行业画像预算。实测画像正文 1781~4331 字符且评标关注点位于
 # 1610 字符之后，原头部截断会整段丢弃该节，改由视图层按优先级选段。
 _CHAPTER_PROFILE_INDUSTRY_CHARS = 1500
-from app.models.writing_clause import WritingClause
-from app.models.writing_material import WritingMaterial
-from app.models.writing_outline_node import (
-    WritingOutlineNode,
-    OutlineNodeType,
-    OutlineNodeStatus,
-)
-from app.schemas.writing import (
-    BidDirectoryItem,
-    BidDirectorySpec,
-    BidStructureAnalysis,
-    OutlineNodeGenerated,
-    MaterialChecklistItem,
-)
 
 _DEFAULT_TOTAL_BUDGET = 30000
 _DATA_FILL_WORD_COUNT = 500
@@ -1377,6 +1380,7 @@ class OutlineGenerator:
             int: 成功生成画像的节点数量
         """
         from collections import Counter as _Counter
+
         from app.core.writer.prompts.chapter_profile import get_chapter_profile_prompt
 
         result = await self.db.execute(

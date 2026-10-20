@@ -5,8 +5,8 @@
 """
 
 from app.core.extractor.section_context.contract_classifier import (
-    classify_section_phase,
     SectionPhase,
+    classify_section_phase,
 )
 
 __all__ = ["classify_section_phase", "SectionPhase"]

@@ -5,9 +5,8 @@
 
 from types import SimpleNamespace
 
-from app.schemas.writing import BidDirectoryItem, OutlineNodeGenerated
 from app.core.writer.outline_generator import OutlineGenerator
-
+from app.schemas.writing import BidDirectoryItem, OutlineNodeGenerated
 
 # ==================== BidDirectoryItem.order 归一化 ====================
 

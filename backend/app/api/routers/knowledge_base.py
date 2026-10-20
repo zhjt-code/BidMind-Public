@@ -3,7 +3,7 @@
 from datetime import date
 from typing import Optional
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, status, Request
+from fastapi import APIRouter, Depends, File, Form, Request, UploadFile, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.dependencies import get_current_user, handle_service_error
@@ -33,7 +33,6 @@ from app.schemas.knowledge_base import (
     ProjectKnowledgeUsageUpdate,
 )
 from app.services.knowledge_base_service import KnowledgeService
-
 
 router = APIRouter(prefix="/knowledge-base", tags=["知识库"])
 

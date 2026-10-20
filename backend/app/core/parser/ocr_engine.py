@@ -264,7 +264,6 @@ class OcrEngine:
                 continue
             self._pool_last_health[i] = now
             try:
-                import httpx
                 client = self._get_pool_client(i)
                 resp = await client.get("/health", timeout=_HEALTH_CHECK_TIMEOUT)
                 if resp.status_code == 200:
@@ -373,7 +372,6 @@ class OcrEngine:
         flow_id: str = "default",
     ) -> OcrResult:
         """通过 HTTP 调用 OCR sidecar 服务（支持多实例池轮询）"""
-        import httpx
 
         await self._try_recover_unhealthy()
 

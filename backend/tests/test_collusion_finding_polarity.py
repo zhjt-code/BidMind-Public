@@ -5,7 +5,6 @@ from app.core.collusion.finding_polarity import (
     is_negative_finding,
 )
 
-
 # ── 真阳性：必须命中 ─────────────────────────────────────────────────────────
 
 def test_negative_explicit_no_collusion_pattern() -> None:

@@ -11,7 +11,6 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 TEXT_SUFFIXES = {
     ".css", ".html", ".ini", ".js", ".json", ".jsonl", ".md", ".mjs",

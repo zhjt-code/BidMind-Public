@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.parser.pdf_structure_analyzer import PdfStructureAnalyzer, PdfSection
+from app.core.parser.pdf_structure_analyzer import PdfSection, PdfStructureAnalyzer
 from app.core.writer.filename_classifier import classify_by_text_signal
 from app.core.writer.material_content_extractor import (
     MaterialContentExtractor,
@@ -17,7 +17,6 @@ from app.models.writing_material import (
     SplitReviewStatus,
     WritingMaterial,
 )
-
 
 _MIN_SPLIT_CONFIDENCE = 0.55
 _NEEDS_REVIEW_CONFIDENCE = 0.7

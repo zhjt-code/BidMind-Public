@@ -6,10 +6,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 from typing import Any
-
 
 _TOC_DOTTED_LINE_RE = re.compile(r"[\.·…—\-]{2,}\s*\d{1,4}\s*$")
 _CN_SECTION_PREFIX_RE = re.compile(r"^[一二三四五六七八九十]+[、.．]\s*")

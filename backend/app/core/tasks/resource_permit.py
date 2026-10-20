@@ -16,7 +16,6 @@ from loguru import logger
 from app.core.config import settings
 from app.core.tasks.resource_policy import ResourceType, max_jobs_for_resource
 
-
 _RESOURCE_KEY_PREFIX = "bidmind:worker:resource:"
 _FALLBACK_RESOURCE = "fallback"
 _OWNER_SEGMENT_PLACEHOLDER = "none"

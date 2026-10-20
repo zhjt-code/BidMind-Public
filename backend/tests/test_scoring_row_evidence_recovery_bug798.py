@@ -25,7 +25,6 @@ if str(_BACKEND) not in sys.path:
     sys.path.insert(0, str(_BACKEND))
 
 from app.core.extractor.scoring.scoring_row_evidence_recovery import (  # noqa: E402
-    RecoveredRowScore,
     RowRecoveryContext,
     attempt_row_recovery,
     recover_explicit_row_score,

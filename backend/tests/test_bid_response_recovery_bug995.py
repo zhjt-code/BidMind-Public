@@ -13,8 +13,6 @@ from __future__ import annotations
 import os
 from contextlib import asynccontextmanager
 
-import pytest
-
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:5432/test")
 
 from app.core.extractor import bid_response_recovery as recovery_mod
@@ -25,7 +23,6 @@ from app.core.extractor.bid_response_recovery import (
 )
 from app.core.extractor.extraction_failure import ExtractionFailedSignal
 from app.core.retriever.evidence_coverage import (
-    EvidenceFacet,
     FacetCoverage,
 )
 from app.core.retriever.semantic_retriever import SearchResult

@@ -144,7 +144,7 @@ class TestScoringMarkerIntegrity:
 
         assert not missing, (
             "以下测试文件属评分域但未贴 scoring marker，"
-            f"将被 `-m scoring` 入口漏掉（同类）:\n "
+            "将被 `-m scoring` 入口漏掉（同类）:\n "
             + "\n  ".join(missing)
         )
 

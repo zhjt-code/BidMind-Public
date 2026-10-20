@@ -6,7 +6,6 @@ import pytest
 
 from app.core.document_qa.analyzer import analyze_document
 from app.core.tasks.process import document_qa_stage
-
 from tests.document_qa.conftest import make_model
 
 

@@ -1,11 +1,12 @@
 from tests.synthetic_data import synthetic_text
+
 """串标侧 5 道 Gate 单元测试（B3.3）。
 
 每 Gate ≥ 6 条：主路径 / 边界 / applies=False / patch 结果。
 """
 
-import copy
-import pytest
+
+
 from app.core.ai.gates.base import GateContext
 from app.core.ai.gates.collusion.d1_personnel_claim import D1PersonnelClaimGate
 from app.core.ai.gates.collusion.d2_company_claim import D2CompanyClaimGate
@@ -322,7 +323,7 @@ class TestFindingPageQuoteVerifyGate:
             page_sets={1: {5, 6}, 2: {10, 11}},
         )
         ctx = GateContext(flow="collusion", stage="post_llm", target=target, evidence=ev)
-        v = self.gate.evaluate(ctx)
+        self.gate.evaluate(ctx)
         f = target["d1_personnel"]["findings"][0]
         assert f["page_a_verified"] is True
         assert f["page_b_verified"] is True

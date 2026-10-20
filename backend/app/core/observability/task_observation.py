@@ -17,8 +17,7 @@ from typing import Any, Callable, Optional
 
 from loguru import logger
 
-from app.models.task_observation import TaskFlow, TaskPhase, TaskOutcome
-
+from app.models.task_observation import TaskFlow, TaskOutcome, TaskPhase
 
 __all__ = [
     "TaskFlow",

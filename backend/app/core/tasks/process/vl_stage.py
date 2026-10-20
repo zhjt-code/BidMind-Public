@@ -48,12 +48,12 @@ async def run_vl_stage(
     # 函数内 import: 兼容外部测试 monkeypatch + 防循环依赖
     from app.core.ai_settings import load_ai_settings
     from app.core.arq_runtime import ProjectCancelledError, raise_if_project_cancelled
-    from app.core.tasks.cancellation import rethrow_project_cancelled
     from app.core.config import settings
     from app.core.parser.adaptive_concurrency import AdaptiveConcurrency
     from app.core.parser.page_image_evidence import bind_full_page_visual_content
     from app.core.parser.page_renderer import is_scan_heavy_page
     from app.core.tasks import process_task as ptm
+    from app.core.tasks.cancellation import rethrow_project_cancelled
     from app.core.tasks.document_image_llm_task import (
         FullPageVlRequest,
         analyze_full_pages_with_document_llm_subtasks,
@@ -341,6 +341,7 @@ async def run_vl_stage(
                 _check_project_cancelled()
                 import base64 as _b64
                 import io
+
                 import numpy as np
                 from PIL import Image
                 png_bytes = _b64.b64decode(page_b64)

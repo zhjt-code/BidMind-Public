@@ -10,7 +10,6 @@ from typing import Any
 from app.core.ai.gates.base import Gate, GateContext, GateVerdict
 from app.core.ai.gates.review.claim_response_consistency import _comment_has_denial
 from app.core.ai.reviewer_parts.existence_finalizer import (
-    REBUTTAL_MARKERS,
     collect_existence_conflicts,
 )
 from app.core.retriever.evidence_coverage import build_evidence_facets

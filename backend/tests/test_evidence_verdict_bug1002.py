@@ -8,7 +8,6 @@ os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://test:test@localhost:
 
 from types import SimpleNamespace
 
-from app.core.extractor.extraction_failure import EXTRACTION_FAILED_CONTENT
 from app.core.extractor.evidence_verdict import (
     EVIDENCE_INSUFFICIENT_CONTENT,
     HIT_UNCONFIRMED_HEADER,
@@ -24,6 +23,7 @@ from app.core.extractor.evidence_verdict import (
     pack_has_substantial_hits,
     user_facing_response_text,
 )
+from app.core.extractor.extraction_failure import EXTRACTION_FAILED_CONTENT
 from app.core.matcher.requirement_matcher import MatchedPair
 
 

@@ -12,10 +12,8 @@
 
 from __future__ import annotations
 
-import asyncio
 import json
 import os
-from dataclasses import dataclass, field
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -25,7 +23,10 @@ os.environ.setdefault(
 )
 
 from app.core.observability.degradation_aggregator import (
-    clear_aggregator, get_aggregator, set_aggregator_for_task, set_denominator,
+    clear_aggregator,
+    get_aggregator,
+    set_aggregator_for_task,
+    set_denominator,
 )
 
 
@@ -68,8 +69,8 @@ class TestScenarioPNormal:
 
     @pytest.mark.asyncio
     async def test_tag_batch_no_failure(self):
-        from app.core.writer.material_tagger import MaterialTagger
         from app.core.ai.retry_tracker import LLMRetryTracker
+        from app.core.writer.material_tagger import MaterialTagger
 
         llm = AsyncMock()
         llm.chat_json = AsyncMock(return_value={
@@ -103,8 +104,8 @@ class TestScenarioPStress:
 
     @pytest.mark.asyncio
     async def test_half_failure_triggers_severe_degradation(self):
-        from app.core.writer.material_tagger import MaterialTagger
         from app.core.ai.retry_tracker import LLMRetryTracker
+        from app.core.writer.material_tagger import MaterialTagger
 
         call_idx = {"n": 0}
 

@@ -14,6 +14,8 @@ from pathlib import Path
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.embedded_score_parser import (  # noqa: E402
     parse_embedded_score_table,
 )
@@ -26,8 +28,6 @@ from app.core.extractor.scoring.score_column_semantics import (  # noqa: E402
 )
 from app.core.extractor.scoring.score_totals import verify_score_totals  # noqa: E402
 from app.schemas.requirement import ExtractedScoringItem  # noqa: E402
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

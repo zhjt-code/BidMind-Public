@@ -69,7 +69,7 @@ def run_writer_post_llm_gate(
     失败时返回空列表 (行为与原先相同 — fail-safe)。
     """
     try:
-        from app.core.ai.gates import should_use_gate_pipeline, build_pipeline_for
+        from app.core.ai.gates import build_pipeline_for, should_use_gate_pipeline
         from app.core.ai.gates.base import GateContext
     except Exception:
         return []
@@ -200,7 +200,7 @@ async def maybe_run_writer_cove(
  作为人工复核标记。
  """
     try:
-        from app.core.ai.critic.cove import should_use_cove, run_cove
+        from app.core.ai.critic.cove import run_cove, should_use_cove
     except Exception:
         return None
 
@@ -269,7 +269,7 @@ async def maybe_run_writer_cove(
         if _result.should_escalate:
             patch["failure_state"] = "needs_review"
 
-        reason_parts = [f"trigger=writer_commitment", f"outcome={outcome}"]
+        reason_parts = ["trigger=writer_commitment", f"outcome={outcome}"]
         if _result.reason:
             reason_parts.append(f"reason={_result.reason}")
         reason = "; ".join(reason_parts)[:200]

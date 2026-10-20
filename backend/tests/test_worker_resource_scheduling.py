@@ -11,6 +11,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from app.core.tasks.orchestrator import guard_writing_material_process
 from app.core.tasks.resource_permit import (
     _orphan_grace_seconds,
     _owner_age_seconds,
@@ -24,13 +25,11 @@ from app.core.tasks.resource_permit import (
     release_resource_owner,
     release_resource_permit,
 )
-from app.core.tasks.orchestrator import guard_writing_material_process
 from app.core.tasks.resource_policy import (
     policy_for_function,
     resource_type_for_function,
 )
 from app.models.project import ProjectStatus
-
 
 _INFLIGHT_KEY_SUFFIX = ":inflight"
 _OWNERS_KEY_SUFFIX = ":owners"

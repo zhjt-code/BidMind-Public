@@ -36,7 +36,6 @@ from app.core.ai.validators import OutputValidator
 from app.core.extractor.bid_extractor import BidExtractor
 from app.schemas.review import ExtractedReviewResult
 
-
 # ---------------------------------------------------------------------------
 # R2 测试点 1: REVIEW_PROMPT 输出 JSON 示例段已移除 8 个代码兜底字段
 # ---------------------------------------------------------------------------

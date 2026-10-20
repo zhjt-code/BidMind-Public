@@ -29,8 +29,8 @@ from app.core.ai.attempt_recorder import (
     get_attempt_recorder,
 )
 from app.core.ai.cloud_client import CloudClient, LlmContentValidationError
-from app.core.ai.llm_outcome import LlmOutcome, classify_exception
 from app.core.ai.llm_errors import EmptyLLMResponseError
+from app.core.ai.llm_outcome import LlmOutcome, classify_exception
 
 
 @pytest.fixture(autouse=True)

@@ -5,7 +5,7 @@ monkeypatch 放开注册/登录限流, 并拦截重置邮件发送以取出令�
 """
 
 import time
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 from fastapi.testclient import TestClient
 

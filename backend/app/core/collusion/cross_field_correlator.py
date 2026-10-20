@@ -32,7 +32,6 @@ from app.core.collusion.identifier_index import (
 )
 from app.schemas.collusion import is_valid_person_name
 
-
 # ── 误报抑制 ──
 
 _STOPWORD_PERSONS: Final[frozenset[str]] = frozenset({

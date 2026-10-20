@@ -106,7 +106,7 @@ def test_batch_validate_with_failure(
         import pytest
         pytest.skip("无满足条件的可编辑节点")
 
-    detail = client.get(
+    client.get(
         f"{_API_PREFIX}/nodes/{nk}", headers=admin_headers,
     ).json()
     flow_key = None
@@ -162,7 +162,7 @@ def test_batch_validate_publish_partial_failure_no_auto_publish(
         import pytest
         pytest.skip("无满足条件的可编辑节点")
 
-    detail = client.get(
+    client.get(
         f"{_API_PREFIX}/nodes/{nk}", headers=admin_headers,
     ).json()
     flow_key = None

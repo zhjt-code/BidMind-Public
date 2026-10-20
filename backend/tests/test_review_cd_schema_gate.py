@@ -20,12 +20,12 @@ import json
 from typing import Any, Optional
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from app.core.ai.reviewer_parts.scoring_rubric import (
     expects_rule_assessments,
     scoring_supplement,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

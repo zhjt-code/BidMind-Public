@@ -23,7 +23,6 @@ from app.core.tasks.fairness.deferred_requeue import (
 )
 from app.core.tasks.fairness.project_admission import (
     claim_project_share,
-    holders_key,
     refresh_project_share,
     release_project_share,
     waiting_key,
@@ -235,7 +234,7 @@ async def test_live_holder_is_never_reclaimed_while_heartbeat_is_fresh() -> None
 
     redis = _FakeRedis()
     assert await _claim(redis, 101, "job-long", _T0) is True
-    field = f"101|job-long"
+    field = "101|job-long"
 
     for step in range(1, 6):
         now = _T0 + step * 800

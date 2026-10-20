@@ -57,10 +57,10 @@ async def _ensure(project_id: int) -> str:
     from app.core.database import async_session_factory
     from app.core.tasks.document_qa_job import enqueue_document_qa
     from app.core.tasks.process.document_qa_finalize import (
+        _load_snapshot,
         decide_envelope_finalize,
         docs_needing_qa_backfill,
         maybe_finalize_document_qa_envelope,
-        _load_snapshot,
     )
     from app.core.tasks.process.document_qa_stage import document_qa_inflight
     from app.models.document_qa import DocumentQaRun

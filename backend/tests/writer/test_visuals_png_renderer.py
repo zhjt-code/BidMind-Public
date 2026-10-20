@@ -94,7 +94,11 @@ def _flowchart_ir_n(node_count: int):
 
 def test_flowchart_wraps_after_six_nodes() -> None:
     from app.core.writer.visuals.png_renderer import _layout_flowchart
-    from app.core.writer.visuals.render_geometry import Box, path_hits_box_interior, route_between_boxes
+    from app.core.writer.visuals.render_geometry import (
+        Box,
+        path_hits_box_interior,
+        route_between_boxes,
+    )
 
     centers_six, *_rest = _layout_flowchart(6)
     assert all(x == 5.0 for x, _y in centers_six)

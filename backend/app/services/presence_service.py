@@ -11,7 +11,6 @@ from loguru import logger
 from app.core.config import settings
 from app.core.redis import get_redis_pool
 
-
 PRESENCE_ONLINE_USERS_KEY = "presence:online_users"
 
 

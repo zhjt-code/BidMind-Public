@@ -13,11 +13,11 @@ from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.collusion.analyzer_parts.constants import _DIMENSION_RETRIEVAL
+from app.core.retriever.evidence_pipeline.contracts import RetrievalPlan, RetrievalQuery
 from app.core.retriever.evidence_pipeline.entity_retriever import search_entity_chunks
 from app.core.retriever.evidence_pipeline.lexical_retriever import (
     search_lexical_in_document,
 )
-from app.core.retriever.evidence_pipeline.contracts import RetrievalPlan, RetrievalQuery
 from app.core.retriever.semantic_retriever import SearchResult, SemanticRetriever
 
 _DEFAULT_CHANNELS: tuple[str, ...] = ("dense", "lexical", "image")

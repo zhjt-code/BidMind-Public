@@ -14,7 +14,6 @@ from app.core.writer.fixed_template.titles import (
     normalize_template_title,
 )
 
-
 _ISOLATED_CURRENCY_PATTERN = re.compile(r"^\s*(?:0\s*[¥￥$]?|[¥￥$])\s*$")
 _ISOLATED_NUMBER_PATTERN = re.compile(r"^\s*\d{1,3}\s*$")
 _LIST_NUMBER_PATTERN = re.compile(r"^\s*(\d{1,2})\s*$")

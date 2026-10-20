@@ -40,6 +40,7 @@ import time
 from typing import Any, Callable, Optional
 
 from loguru import logger
+from prometheus_client import REGISTRY as _PROM_REGISTRY
 from prometheus_client import Counter, Gauge, Histogram
 
 from app.core.observability.registry import (
@@ -72,7 +73,6 @@ _PROM_LABEL_ALLOWLIST: set[str] = {
 }
 
 # 为避免 Prometheus 同名重复注册报错, 用 registry._names_to_collectors
-from prometheus_client import REGISTRY as _PROM_REGISTRY
 
 
 def _existing_prom(name: str) -> Optional[Any]:

@@ -17,14 +17,14 @@ from typing import Optional
 
 from loguru import logger
 
-from app.core.writer.image_node_affinity import (
-    filter_images_for_node,
-    is_exclusive_image,
-)
 from app.core.writer.identity_image_layout import (
     IdentityImageLayout,
     IdentityImageSlot,
     build_identity_image_layout,
+)
+from app.core.writer.image_node_affinity import (
+    filter_images_for_node,
+    is_exclusive_image,
 )
 from app.models.writing_material_image import ImageType, WritingMaterialImage
 

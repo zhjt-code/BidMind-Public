@@ -22,7 +22,6 @@ from app.services.project_timeline_service import (  # noqa: E402
     _serialize_ts,
 )
 
-
 # ── _build_summary: 四类事件统计 ───────────────────────────────────
 
 

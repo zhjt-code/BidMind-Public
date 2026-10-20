@@ -1,8 +1,9 @@
 """标书编写 -- 素材分块模型(含向量)"""
 
-from sqlalchemy import Column, Integer, ForeignKey, Text, String, UniqueConstraint
-from sqlalchemy.orm import relationship, backref
 from pgvector.sqlalchemy import Vector
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy.orm import backref, relationship
+
 from app.models.base import BaseModel
 
 

@@ -31,10 +31,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from app.core.tasks.lifecycle.liveness_evidence import (
-    DEFAULT_QUEUE_PENDING_MAX_SEC,
     has_confirmed_pending_arq_job,
 )
-
 
 # ─────────────────────── 工具函数 ───────────────────────
 

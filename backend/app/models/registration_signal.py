@@ -1,6 +1,7 @@
 """注册风控信号模型"""
 
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
+
 from app.models.base import BaseModel
 
 

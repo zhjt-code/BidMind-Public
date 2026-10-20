@@ -5,14 +5,25 @@
 """
 
 from typing import TYPE_CHECKING
-from sqlalchemy import Column, DateTime, Float, Integer, ForeignKey, JSON, SmallInteger, String, Text, UniqueConstraint
+
+from sqlalchemy import (
+    JSON,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    SmallInteger,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from app.models.project import Project
-    from app.models.document import Document
+    pass
 
 
 class CollusionExtraction(BaseModel):

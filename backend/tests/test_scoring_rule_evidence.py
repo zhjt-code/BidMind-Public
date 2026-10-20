@@ -1,11 +1,11 @@
 """评分规则列窄回填防御测试。"""
+import pytest
+
 from app.core.extractor.scoring.scoring_rule_evidence import (
     backfill_rules_from_payload_roles,
     backfill_rules_from_role_grid,
 )
 from app.schemas.requirement import ExtractedScoringItem
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

@@ -15,6 +15,8 @@ from types import SimpleNamespace
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import pytest
+
 from app.core.extractor.scoring.scheme_segmentation import (  # noqa: E402
     SchemeSegmenter,
     scheme_display_label,
@@ -24,8 +26,6 @@ from app.core.extractor.scoring.score_totals import (  # noqa: E402
     ScoringTotalsEntry,
     build_totals_report_payload,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

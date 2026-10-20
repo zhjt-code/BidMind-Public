@@ -12,7 +12,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-
 # 图结构限值（单一事实源）: SectionPlan 闸门与 IR 编译器共享，
 # 保证"闸门放行的意图, 编译器必然可消费"。
 MIN_FLOWCHART_NODES = 3

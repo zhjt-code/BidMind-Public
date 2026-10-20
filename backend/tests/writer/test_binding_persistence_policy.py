@@ -18,7 +18,7 @@ from app.core.writer.material_matching.binding_persistence import (
     persist_rematched_bindings,
     prepare_binding_rematch,
 )
-from app.models.writing_binding import BindingStatus, BindingType
+from app.models.writing_binding import BindingType
 
 
 def _compile_where(stmt) -> str:

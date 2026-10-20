@@ -7,21 +7,22 @@
 """
 
 from __future__ import annotations
-from tests.synthetic_data import synthetic_text
 
 import os
 import sys
 from pathlib import Path
 
+from tests.synthetic_data import synthetic_text
+
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://user:pass@localhost:5432/testdb")
 sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent))
 
+import pytest
+
 from app.core.parser.scoring_chunk_sources import (  # noqa: E402
     has_multi_template_scheme_signal,
 )
-
-import pytest
 
 pytestmark = pytest.mark.scoring
 

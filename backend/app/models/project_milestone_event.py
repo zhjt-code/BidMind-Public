@@ -15,7 +15,7 @@
 - occurred_at: 事件发生时间 (与 created_at 不同: created_at 是入库时间)
 """
 
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
 
 from app.models.base import BaseModel

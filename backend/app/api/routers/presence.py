@@ -8,7 +8,6 @@ from app.schemas.common import ApiResponse
 from app.schemas.presence import PresenceHeartbeatResponse
 from app.services.presence_service import PresenceService
 
-
 router = APIRouter(prefix="/presence", tags=["在线用户状态"])
 
 

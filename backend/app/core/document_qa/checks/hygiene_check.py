@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import re
 
+from app.core.document_qa.author_spans import grid_line_texts, prose_spans
 from app.core.document_qa.contracts import (
     CheckerOutcome,
     CheckerStatus,
@@ -18,8 +19,6 @@ from app.core.document_qa.contracts import (
     QaCertainty,
     QaSeverity,
 )
-
-from app.core.document_qa.author_spans import grid_line_texts, prose_spans
 from app.core.document_qa.evidence_geom import PAGE_BBOX
 
 CODE = "hygiene"
