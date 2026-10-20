@@ -3,12 +3,12 @@
 -r requirements.txt
 
 # 测试框架
-pytest==8.3.4
-pytest-asyncio==0.24.0
-pytest-cov==6.0.0
+pytest==9.1.1
+pytest-asyncio==1.4.0
+pytest-cov==7.1.0
 httpx==0.28.1
 
 # 开发工具
-black==24.10.0
-ruff==0.8.4
-pyflakes==3.4.0  # test_no_undefined_names_in_submodules 静态扫描依赖，缺失时该护栏空转（BUG-969）
+black==26.10.1
+ruff==0.17.1
+pyflakes==4.0.3  # test_no_undefined_names_in_submodules 静态扫描依赖，缺失时该护栏空转（BUG-969）
