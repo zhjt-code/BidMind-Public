@@ -38,7 +38,7 @@ test('project list filters are built under the authenticated workspace', () => {
 })
 
 test('application shell mounts authenticated workspace under app path', () => {
-  assert.match(appSource, /path=\"app\" element=\{<ProjectListPage \/>/)
+  assert.match(appSource, /path="app" element=\{<ProjectListPage \/>/)
   assert.match(appSource, /if \(isAuthenticated\) return <Navigate to=\{APP_HOME\} replace \/>/)
   assert.match(protectedRouteSource, /<Navigate to=\{APP_HOME\} replace \/>/)
 })
@@ -51,6 +51,6 @@ test('workspace navigation does not point authenticated users back to public roo
   assert.match(registerSource, /navigate\(APP_HOME, \{ replace: true \}\)/)
 
   for (const source of workspaceReturnSources) {
-    assert.doesNotMatch(source, /navigate\(['\"]\/['\"]\)/)
+    assert.doesNotMatch(source, /navigate\(['"]\/['"]\)/)
   }
 })

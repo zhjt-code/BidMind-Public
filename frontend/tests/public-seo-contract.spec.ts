@@ -23,5 +23,5 @@ test('seo metadata covers all three core capabilities without unsupported promis
   assert.match(indexHtml, /投标审查/)
   assert.match(indexHtml, /串标/)
   assert.doesNotMatch(indexHtml, /数据不出域/)
-  assert.doesNotMatch(indexHtml, /\"price\"\\s*:\\s*\"0\"/)
+  assert.doesNotMatch(indexHtml, /"price"\\s*:\\s*"0"/)
 })

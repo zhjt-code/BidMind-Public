@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
+import { URL } from 'node:url'
 
 const headerSource = readFileSync(new URL('../src/components/Header.tsx', import.meta.url), 'utf8')
 const logoSource = readFileSync(new URL('../src/components/Logo.tsx', import.meta.url), 'utf8')

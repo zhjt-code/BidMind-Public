@@ -64,7 +64,7 @@ export function normalizeLocationLabel(
   let page: number | null = null
   let endPage: number | null = null
 
-  const rangeMatch = raw.match(/(\d+)\s*[\-~–至到]\s*(\d+)/)
+  const rangeMatch = raw.match(/(\d+)\s*[-~–至到]\s*(\d+)/)
   if (rangeMatch) {
     const a = parseInt(rangeMatch[1], 10)
     const b = parseInt(rangeMatch[2], 10)
@@ -82,7 +82,7 @@ export function normalizeLocationLabel(
   let extra = raw
   if (page != null) {
     const matched = endPage != null
-      ? extra.match(/(\d+)\s*[\-~–至到]\s*(\d+)/)
+      ? extra.match(/(\d+)\s*[-~–至到]\s*(\d+)/)
       : extra.match(/\d+/)
     if (matched && matched.index != null) {
       extra = extra.slice(0, matched.index) + extra.slice(matched.index + matched[0].length)
@@ -91,8 +91,8 @@ export function normalizeLocationLabel(
   extra = extra
     .replace(/^\s*(?:第|page|p\.?|页码|位置)\s*[:：]?\s*/i, '')
     .replace(/^\s*页\s*/, '')
-    .replace(/^[\s,，;；·\-—:：、]+/, '')
-    .replace(/[\s,，;；·\-—:：、]+$/, '')
+    .replace(/^[\s,，;；·—:：、-]+/, '')
+    .replace(/[\s,，;；·—:：、-]+$/, '')
     .trim()
 
   if (page != null) {

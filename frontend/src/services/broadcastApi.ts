@@ -47,7 +47,7 @@ export interface BroadcastCreatePayload {
   ends_at?: string | null
 }
 
-export interface BroadcastUpdatePayload extends Partial<BroadcastCreatePayload> {}
+export type BroadcastUpdatePayload = Partial<BroadcastCreatePayload>
 
 export const broadcastService = {
   list: async (page = 1, pageSize = 20): Promise<{ items: BroadcastResponse[]; total: number; page: number; pageSize: number }> => {

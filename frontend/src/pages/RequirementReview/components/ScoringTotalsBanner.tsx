@@ -388,17 +388,17 @@ export const ScoringTotalsBanner: React.FC<ScoringTotalsBannerProps> = ({
             )}
           </>
         )}
-/* : 账本通过态区块已删除——它与主结论完全重复(两者都在陈述"提取N分、
+        {/* 账本通过态区块已删除——它与主结论完全重复(两者都在陈述"提取N分、
  校验通过"), 且 ledgerReconciledOk 是 isOk 的子条件, 通过时主结论必然已用
  "已成功提取…并完成分值校验"表达。ledgerReconciledOk 变量保留, 仅参与
  ledgerNeedsReview 判定, 不再独立渲染。 */}
-/* Task7: scope 级别对账面板（多包模式 globalComparisonAllowed=false）。
+        {/* Task7: scope 级别对账面板（多包模式 globalComparisonAllowed=false）。
  globalComparisonAllowed=true 时组件内部返回 null，零影响单包流程。 */}
         <ScopedScoringReportPanel
           scopes={ledgerReport?.scopeReports ?? []}
           globalComparisonAllowed={globalComparisonAllowed}
         />
-/* : verdict 为权威 green 时本地账本复核块让位，绿色容器内不得出现琥珀告警。
+        {/* verdict 为权威 green 时本地账本复核块让位，绿色容器内不得出现琥珀告警。
  verdict 缺失时 !isOk 恒为真（effectiveLedgerNeedsReview 蕴含本地非通过），行为不变。 */}
         {!isOk && effectiveLedgerNeedsReview && ledgerReport && (
           // 去术语化: "账本对账/声明基准/低置信"等内部术语改为用户语言,
@@ -426,7 +426,7 @@ export const ScoringTotalsBanner: React.FC<ScoringTotalsBannerProps> = ({
                     ))}
                   </ul>
                 )}
-/* 去重: 标题已按 multi_scheme 主因表述时不再复述, 且任何
+                {/* 去重: 标题已按 multi_scheme 主因表述时不再复述, 且任何
  情况下都不回显后端原始判据串(内含 Σ=200>101 这类内部量)。 */}
                 {multiSchemeText && (
                   <p className="text-sm font-medium text-amber-900">{multiSchemeText}</p>
@@ -439,7 +439,7 @@ export const ScoringTotalsBanner: React.FC<ScoringTotalsBannerProps> = ({
             )}
           </div>
         )}
-/* 第3层 提醒: 结论自洽、仅存在需对照原文确认的信息缺口。
+        {/* 第3层 提醒: 结论自洽、仅存在需对照原文确认的信息缺口。
  : 不放圆形图标——主结论图标已表达整体状态, 再放一个圆形 Info
  会与之视觉重复; 蓝色底本身已足够与琥珀警告区分。 */}
         {notices.length > 0 && (
@@ -454,7 +454,7 @@ export const ScoringTotalsBanner: React.FC<ScoringTotalsBannerProps> = ({
             ))}
           </div>
         )}
-/* 第4层 详情折叠: 仅 report.diagnostics——含"已识别构成：价格 30.0 分
+        {/* 第4层 详情折叠: 仅 report.diagnostics——含"已识别构成：价格 30.0 分
  （第34页）"这类页码定位, 可据此核对原文。逻辑表编号/错误码/基准分级/账本
  diagnostics 等实现细节不进展示层。无诊断时整块不渲染。 */}
         {legacyDiagnosticsVisible && (

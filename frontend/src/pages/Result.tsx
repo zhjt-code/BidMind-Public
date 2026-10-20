@@ -563,8 +563,8 @@ const ResultPage: React.FC = () => {
               />
             </ResizableLeftPane>
 
-/* 中栏: 精简结果列表（默认 30%，右缘可拖）— 评分项视图与普通视图共用卡片列表，
- 评分项视图下列表已按权威卷序排列，分值以卡片徽标呈现 */}
+            {/* 中栏: 精简结果列表（默认 30%，右缘可拖）— 评分项视图与普通视图共用卡片列表，
+             评分项视图下列表已按权威卷序排列，分值以卡片徽标呈现 */}
             <ResizableMiddlePane defaultWidthPercent={RESULT_MIDDLE_PANE_DEFAULT_PERCENT}>
               <ScrollArea className="flex-1 min-h-0">
                 <div className="divide-y">

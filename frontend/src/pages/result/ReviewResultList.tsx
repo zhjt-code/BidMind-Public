@@ -129,8 +129,8 @@ const ResultRow: React.FC<ResultRowProps> = ({ result, selected, onSelect, isChi
             >
               {getComplianceDisplayLabel(result, complianceLevelLabels)}
             </Badge>
-/* 卷徽标已移除: 左栏卷导航与列表卷序已表达分组归属, 卡片再标一遍属层间
- 重复（去重铁律）。卷信息缺失时的可见性由左栏"其他"桶承担。 */}
+            {/* 卷徽标已移除: 左栏卷导航与列表卷序已表达分组归属, 卡片再标一遍属层间
+             重复（去重铁律）。卷信息缺失时的可见性由左栏"其他"桶承担。 */}
             <Badge
               variant="outline"
               title={categoryTitle}

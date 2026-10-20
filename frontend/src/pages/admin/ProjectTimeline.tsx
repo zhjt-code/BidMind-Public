@@ -127,8 +127,7 @@ const TASK_LABELS: Record<string, string> = {
   writing_clause_vectorize: '约束向量化',
 }
 
-const LEVEL_OPTIONS = ['ALL', 'ERROR_ONLY', 'INCLUDE_WARNING'] as const
-type LevelMode = typeof LEVEL_OPTIONS[number]
+type LevelMode = 'ALL' | 'ERROR_ONLY' | 'INCLUDE_WARNING'
 
 // ==================== 子组件 ====================
 

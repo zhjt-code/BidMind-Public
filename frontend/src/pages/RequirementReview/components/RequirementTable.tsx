@@ -198,9 +198,9 @@ export const RequirementTable: React.FC<RequirementTableProps> = ({
             >
               编辑
             </Button>
-/* 评分项铁律: 评分项/重点评审项必须参与审查, 不提供降级操作。
- 色彩: indigo 为"全集/中性动作"色相, 不与编辑(蓝)/删除(红)/
- 评分项徽标(amber)/分类色板(blue/cyan/amber/violet/emerald/slate)冲突 */}
+            {/* 评分项铁律: 评分项/重点评审项必须参与审查, 不提供降级操作。
+             色彩: indigo 为"全集/中性动作"色相, 不与编辑(蓝)/删除(红)/
+             评分项徽标(amber)/分类色板(blue/cyan/amber/violet/emerald/slate)冲突 */}
             {req.requirementKind !== 'scoring_item' && !req.isKeyReview && (
               <Button
                 variant="link"

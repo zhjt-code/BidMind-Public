@@ -8,7 +8,6 @@ function readSource(relativePath: string): string {
 
 const publicHomeSource = readSource('../src/content/publicHome.ts')
 const trustSource = readSource('../src/components/public/TrustAndDataBoundary.tsx')
-const headerSource = readSource('../src/components/Header.tsx')
 const siteSource = readSource('../src/config/site.ts')
 const dialogSource = readSource('../src/components/OpenWechatContact.tsx')
 const cardSource = readSource('../src/components/WechatQrCard.tsx')
