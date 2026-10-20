@@ -1,0 +1,101 @@
+{
+  "id": "collusion_extract_sample",
+  "description": "串标提取示例：比较关键结构化字段的离线回归结果",
+  "purpose": "collusion_extract",
+  "input": {
+    "documents": [
+      "bid_a.pdf",
+      "bid_b.pdf"
+    ]
+  },
+  "expected_output": {
+    "collusion_extract": {
+      "documents": [
+        {
+          "document_id": "bid_a",
+          "company_name": "<ORG_23>",
+          "legal_representative": "<PERSON_1>",
+          "contact_phone": "<PHONE_0001>",
+          "registered_address": "南山区科技园1号楼801",
+          "unified_social_credit_code": "<CREDIT_CODE_4567>",
+          "total_price": "1020000元",
+          "person_names": [
+            "<PERSON_1>",
+            "<PERSON_2>"
+          ],
+          "certificate_numbers": [
+            "粤建安B(2020)0001"
+          ],
+          "past_projects": [
+            "某市政道路改造工程"
+          ]
+        },
+        {
+          "document_id": "bid_b",
+          "company_name": "<ORG_3>",
+          "legal_representative": "<PERSON_3>",
+          "contact_phone": "<PHONE_0002>",
+          "registered_address": "南山区科技园1号楼901",
+          "unified_social_credit_code": "<CREDIT_CODE_4567>",
+          "total_price": "1050000元",
+          "person_names": [
+            "<PERSON_3>",
+            "<PERSON_7>"
+          ],
+          "certificate_numbers": [
+            "粤建安B(2020)0002"
+          ],
+          "past_projects": [
+            "某园区道路改造工程"
+          ]
+        }
+      ]
+    }
+  },
+  "actual_output": {
+    "collusion_extract": {
+      "documents": [
+        {
+          "document_id": "bid_a",
+          "company_name": "<ORG_23>",
+          "legal_representative": "<PERSON_1>",
+          "contact_phone": "<PHONE_0001>",
+          "registered_address": "南山区科技园1号楼801",
+          "unified_social_credit_code": "<CREDIT_CODE_4567>",
+          "total_price": "1020000元",
+          "person_names": [
+            "<PERSON_1>"
+          ],
+          "certificate_numbers": [
+            "粤建安B(2020)0001"
+          ],
+          "past_projects": [
+            "某市政道路改造工程"
+          ]
+        },
+        {
+          "document_id": "bid_b",
+          "company_name": "<ORG_3>",
+          "legal_representative": "<PERSON_3>",
+          "contact_phone": "<PHONE_0002>",
+          "registered_address": "南山区科技园1号楼901",
+          "unified_social_credit_code": "<CREDIT_CODE_4567>",
+          "total_price": "1050000元",
+          "person_names": [
+            "<PERSON_3>",
+            "<PERSON_7>"
+          ],
+          "certificate_numbers": [
+            "粤建安B(2020)0002"
+          ],
+          "past_projects": []
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "串标离线评测样例",
+    "annotator": "system",
+    "date": "2026-04-09"
+  }
+}

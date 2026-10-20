@@ -1,0 +1,19 @@
+# 正文段落字体/字号离群(版式检查)
+# 机制: 直方图主样式为基线, 正文块内连续非主流 span 超阈值即报
+# 改阈值只改配置, 不改判定链; 标题/图注小字由检查器豁免, 不按实体分闸
+min_body_chars: 40
+outlier_span_chars: 24
+max_findings: 6
+small_size_delta: 1.5
+# 颜色/左缩进/页边距与字体字号同一离群链。改阈值只改这里。
+color_min_chars: 24
+indent_delta: 0.06
+indent_min_chars: 24
+# 再往右是居中标题或页码, 不是段落缩进
+indent_max_x0: 0.24
+margin_delta_pt: 18
+
+# 质检范围: 文件自带文字不超过该字数, 且页上有图片或版面框出页眉页脚页码以外的区域,
+# 视为扫描件/图片/文字转曲页, 不做内容检查、不判空白页、目录指向时不判缺失
+page_scope:
+  max_text_chars: 5

@@ -1,0 +1,36 @@
+{
+  "construction": {
+    "standardized_domains": [
+      "安全生产",
+      "质量保证",
+      "文明施工",
+      "环境保护"
+    ],
+    "common_qualification_types": [
+      "施工总承包资质",
+      "安全生产许可证"
+    ]
+  },
+  "itService": {
+    "standardized_domains": [
+      "运维服务流程",
+      "信息安全保障",
+      "应急响应"
+    ],
+    "common_qualification_types": [
+      "软件能力认证",
+      "信息安全管理认证"
+    ]
+  },
+  "equipmentProcurement": {
+    "standardized_domains": [
+      "供货组织",
+      "安装调试",
+      "售后服务"
+    ],
+    "common_qualification_types": [
+      "制造商授权",
+      "质量体系认证"
+    ]
+  }
+}

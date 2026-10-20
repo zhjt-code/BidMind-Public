@@ -1,0 +1,21 @@
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+markers = [
+    "scoring: 消费评分提取链（extractor.scoring / parser.scoring_* / 评分 service）的测试。回归入口统一用 -m scoring，禁止用 -k \"scoring\" 词面过滤（：词面过滤静默漏选约 210 个用例）。归属由 test_scoring_marker_integrity.py 机械校验。",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [
+    "migrations_alembic",
+    "migrations_legacy",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E402"]

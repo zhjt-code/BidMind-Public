@@ -1,0 +1,25 @@
+# 模板残留/占位符/乱码模式(文档卫生检查)
+# 机制: 正则模式库 + Unicode 类别; 新增残留形态只加配置
+placeholder_patterns:
+  - pattern: "[X×]{3,}"
+    label: "占位符 XXX"
+  - pattern: "【\\s*(?:待补充|待填写|待完善|待定|待录入)[^】]{0,20}】"
+    label: "待补充占位(括注)"
+  - pattern: "(?:待补充|待填写|待完善|待录入)"
+    label: "待补充占位"
+  - pattern: "(?:请输入|请填写|此处填写|此处插入|插入图片)"
+    label: "模板提示语残留"
+  - pattern: "\\b(?:TODO|TBD|FIXME)\\b"
+    label: "英文占位标记"
+  - pattern: "20[0-9]?X{1,2}年"
+    label: "年份占位"
+# 确定性错词。只加词条, 不在代码里写具体词。
+typos:
+  - wrong: "既时"
+    right: "即时"
+  - wrong: "做为"
+    right: "作为"
+garbled:
+  chars: ["\uFFFD", "□"]
+  min_run: 2
+  label: "疑似乱码/缺字符号"

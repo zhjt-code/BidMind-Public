@@ -1,0 +1,63 @@
+{
+  "n_items": 32,
+  "char_len": 200,
+  "results": [
+    {
+      "concurrency": 1,
+      "n_models": 1,
+      "serial_avg_ms": 14503.7,
+      "wall_time_ms": 14387.1,
+      "avg_inner_ms": 14387.0,
+      "ideal_serial_ms": 14503.7,
+      "speedup": 1.01,
+      "efficiency_pct": 100.8,
+      "scheme": "shared_session"
+    },
+    {
+      "concurrency": 2,
+      "n_models": 1,
+      "serial_avg_ms": 13915.2,
+      "wall_time_ms": 25167.3,
+      "avg_inner_ms": 25096.8,
+      "ideal_serial_ms": 27830.5,
+      "speedup": 1.11,
+      "efficiency_pct": 55.3,
+      "scheme": "shared_session"
+    },
+    {
+      "concurrency": 4,
+      "n_models": 1,
+      "serial_avg_ms": 14876.2,
+      "wall_time_ms": 47821.9,
+      "avg_inner_ms": 47565.2,
+      "ideal_serial_ms": 59504.8,
+      "speedup": 1.24,
+      "efficiency_pct": 31.1,
+      "scheme": "shared_session"
+    },
+    {
+      "concurrency": 2,
+      "n_models": 2,
+      "serial_avg_ms": 15330.1,
+      "wall_time_ms": 26664.1,
+      "avg_inner_ms": 26462.1,
+      "ideal_serial_ms": 30660.3,
+      "speedup": 1.15,
+      "efficiency_pct": 57.5,
+      "scheme": "independent_pool"
+    },
+    {
+      "concurrency": 4,
+      "n_models": 4,
+      "serial_avg_ms": 14891.1,
+      "wall_time_ms": 44181.3,
+      "avg_inner_ms": 42111.5,
+      "ideal_serial_ms": 59564.5,
+      "speedup": 1.35,
+      "efficiency_pct": 33.7,
+      "scheme": "independent_pool"
+    }
+  ],
+  "platform": "win32",
+  "intra_op_env": "4"
+}

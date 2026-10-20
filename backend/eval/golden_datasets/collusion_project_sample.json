@@ -1,0 +1,47 @@
+{
+  "id": "collusion_project_sample",
+  "description": "串标项目级结果示例：比较项目结论和嫌疑群组",
+  "purpose": "collusion_project",
+  "input": {
+    "project_id": 501
+  },
+  "expected_output": {
+    "collusion_project": {
+      "project_decision": "suspicious_found",
+      "project_risk_level": "high",
+      "overall_risk": "high",
+      "review_required": true,
+      "suspected_groups": [
+        {
+          "document_ids": [
+            101,
+            102
+          ],
+          "risk_level": "high"
+        }
+      ]
+    }
+  },
+  "actual_output": {
+    "collusion_project": {
+      "project_decision": "suspicious_found",
+      "project_risk_level": "high",
+      "overall_risk": "high",
+      "review_required": true,
+      "suspected_groups": [
+        {
+          "document_ids": [
+            101,
+            102
+          ],
+          "risk_level": "medium"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "串标项目级离线评测样例",
+    "annotator": "system",
+    "date": "2026-04-09"
+  }
+}

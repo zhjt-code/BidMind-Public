@@ -1,0 +1,7 @@
+id: real_anonymized_v1
+flow: writer
+level: 1
+source: real_anonymized_contract
+sample_set_digest: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+privacy: no_source_text
+notes: "No project names, source text, material content, filenames, or expert free text are stored in this fixture."

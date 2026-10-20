@@ -1,0 +1,14 @@
+{
+  "pythonVersion": "3.13",
+  "venvPath": "..",
+  "venv": ".venv",
+  "include": [
+    "app",
+    "tests",
+    "migrations"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "**/*.pyc"
+  ]
+}

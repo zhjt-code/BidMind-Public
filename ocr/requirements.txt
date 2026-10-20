@@ -1,0 +1,11 @@
+# OCR Sidecar 服务依赖
+# paddlepaddle-gpu 通过 Dockerfile 中 --index-url 单独安装
+# paddleocr 3.7.0 起支持 PP-OCRv6（连带升级 paddlex 至 3.7.x，对 paddlepaddle 无硬约束）；
+# Dockerfile 仍锁 paddlepaddle-gpu==3.2.0，规避 paddlepaddle 3.3.x 的 oneDNN/PIR bug。
+paddleocr==3.7.0
+# PP-StructureV3 需要 paddlex 的 ocr 扩展；只装 paddleocr 时产线创建会报 DependencyError。
+paddlex[ocr]==3.7.2
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.17
+loguru==0.7.3

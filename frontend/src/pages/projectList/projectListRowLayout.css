@@ -1,0 +1,55 @@
+/* 列轨由 projectListGridTemplate 写到 inline style。这里只按列表容器宽度切换「成行 / 成列」。 */
+.project-list-shell {
+  container-type: inline-size;
+  container-name: project-list;
+}
+
+.project-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-list-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+}
+
+.project-list-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.project-list-head,
+.project-list-update-same {
+  display: none;
+}
+
+/* 管理员列加进度轨后，56rem 会把「项目名称」压成一字一行。64rem 才够名称横排。 */
+@container project-list (min-width: 64rem) {
+  .project-list-grid,
+  .project-list-head {
+    display: grid;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0;
+  }
+
+  .project-list-meta,
+  .project-list-actions {
+    display: contents;
+  }
+
+  .project-list-update-same {
+    display: inline;
+  }
+
+  .project-list-mobile-only {
+    display: none;
+  }
+}

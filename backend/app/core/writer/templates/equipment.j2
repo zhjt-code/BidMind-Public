@@ -1,0 +1,19 @@
+{# 设备表模板 (B5.7) — 输入: items: list[dict], title: str #}
+<table>
+<thead>
+<tr><th>序号</th><th>设备名称</th><th>规格型号</th><th>数量</th><th>生产厂家</th><th>购置日期</th><th>当前状态</th></tr>
+</thead>
+<tbody>
+{% for item in items %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ item.equipment_name | default("", true) }}</td>
+<td>{{ item.specification | default("", true) }}</td>
+<td>{{ item.quantity | default("", true) }}</td>
+<td>{{ item.manufacturer | default("", true) }}</td>
+<td>{{ item.purchase_date | default("", true) }}</td>
+<td>{{ item.status | default("", true) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

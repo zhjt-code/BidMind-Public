@@ -1,0 +1,154 @@
+{
+  "legal_rep_missing": {
+    "a": {
+      "company_info": {
+        "company_name": "<ORG_6>",
+        "legal_representative": null,
+        "unified_social_credit_code": null,
+        "contact_phone": null,
+        "registered_address": null,
+        "bank_account": null
+      },
+      "personnel_list": [],
+      "price_info": null,
+      "technical_highlights": [],
+      "qualifications": [],
+      "past_projects": [],
+      "subcontractors": [],
+      "metadata_info": {}
+    },
+    "b": {
+      "company_info": {
+        "company_name": "<ORG_11>",
+        "legal_representative": "<PERSON_FIXTURE_1>",
+        "unified_social_credit_code": "<CREDIT_CODE_4Q7B>",
+        "contact_phone": "<PHONE_6655>",
+        "registered_address": "天津市滨海新区开发大道88号",
+        "bank_account": "12345678901234567890"
+      },
+      "personnel_list": [],
+      "price_info": null,
+      "technical_highlights": [],
+      "qualifications": [],
+      "past_projects": [],
+      "subcontractors": [],
+      "metadata_info": {}
+    }
+  },
+  "cert_missing": {
+    "a": {
+      "company_info": {
+        "company_name": "<ORG_1>",
+        "legal_representative": "<PERSON_FIXTURE_2>",
+        "unified_social_credit_code": "<CREDIT_CODE_3Q5C>",
+        "contact_phone": "<PHONE_2100>",
+        "registered_address": "上海市闵行区虹梅路2388号",
+        "bank_account": "20010012345678900001"
+      },
+      "personnel_list": [
+        {
+          "name": "<PERSON_FIXTURE_3>",
+          "role": "施工负责人",
+          "id_number": null,
+          "certificate_numbers": []
+        }
+      ],
+      "price_info": null,
+      "technical_highlights": [],
+      "qualifications": [],
+      "past_projects": [],
+      "subcontractors": [],
+      "metadata_info": {}
+    },
+    "b": {
+      "company_info": {
+        "company_name": "<ORG_14>",
+        "legal_representative": "<PERSON_FIXTURE_4>",
+        "unified_social_credit_code": "<CREDIT_CODE_5P2F>",
+        "contact_phone": "<PHONE_5432>",
+        "registered_address": "广州市天河区珠江新城花城大道88号",
+        "bank_account": "98765432101234567890"
+      },
+      "personnel_list": [
+        {
+          "name": "<PERSON_FIXTURE_5>",
+          "role": "质量检测员",
+          "id_number": "<IDENTITY_1234>",
+          "certificate_numbers": ["建安-2024-001", "安全-B-20240001"]
+        }
+      ],
+      "price_info": null,
+      "technical_highlights": [],
+      "qualifications": [],
+      "past_projects": [],
+      "subcontractors": [],
+      "metadata_info": {}
+    }
+  },
+  "complete": {
+    "a": {
+      "company_info": {
+        "company_name": "<ORG_8>",
+        "legal_representative": "<PERSON_FIXTURE_6>",
+        "unified_social_credit_code": "<CREDIT_CODE_2Q3B>",
+        "contact_phone": "<PHONE_4321>",
+        "registered_address": "北京市朝阳区望京中环南路9号",
+        "bank_account": "11223344556677889900"
+      },
+      "personnel_list": [
+        {
+          "name": "<PERSON_FIXTURE_7>",
+          "role": "质量检测员",
+          "id_number": "<IDENTITY_2345>",
+          "certificate_numbers": ["建安-2023-8899"]
+        }
+      ],
+      "price_info": {
+        "total_price": "1580万元"
+      },
+      "technical_highlights": ["技术方案优化降本，采用绿色工艺"],
+      "qualifications": ["建筑施工总承包一级"],
+      "past_projects": ["北京CBD工程项目"],
+      "subcontractors": [],
+      "metadata_info": {
+        "author": "<PERSON_FIXTURE_6>",
+        "creator_tool": "Microsoft Word 2021",
+        "producer": "Adobe PDF",
+        "creation_date": "2026-08-01",
+        "mod_date": "2026-08-15"
+      }
+    },
+    "b": {
+      "company_info": {
+        "company_name": "<ORG_20>",
+        "legal_representative": "<PERSON_FIXTURE_8>",
+        "unified_social_credit_code": "<CREDIT_CODE_8J9K>",
+        "contact_phone": "<PHONE_4455>",
+        "registered_address": "深圳市南山区科技园科苑路88号",
+        "bank_account": "00998877665544332211"
+      },
+      "personnel_list": [
+        {
+          "name": "<PERSON_FIXTURE_9>",
+          "role": "质量检测员",
+          "id_number": "<IDENTITY_0987>",
+          "certificate_numbers": ["建安-2022-5566"]
+        }
+      ],
+      "price_info": {
+        "total_price": "1620万元"
+      },
+      "technical_highlights": ["绿色施工工艺，节能减排"],
+      "qualifications": ["市政公用工程施工总承包一级"],
+      "past_projects": ["深圳科技园建设项目"],
+      "subcontractors": [],
+      "metadata_info": {
+        "author": "<PERSON_FIXTURE_8>",
+        "creator_tool": "WPS Office 2023",
+        "producer": "WPS PDF",
+        "creation_date": "2026-08-02",
+        "mod_date": "2026-08-16"
+      }
+    }
+  }
+}
