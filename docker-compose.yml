@@ -57,7 +57,7 @@ services:
 
   # Redis (任务队列 + 心跳持久化)
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: bidmind-redis
     ports:
       - "6379:6379"
