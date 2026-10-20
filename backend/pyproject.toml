@@ -19,3 +19,11 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["E402"]
+# These modules deliberately import after setup or wrapper definitions to preserve
+# startup initialization, circular-import boundaries, and compatibility exports.
+"app/main.py" = ["E402"]
+"app/core/ai/__init__.py" = ["E402"]
+"app/core/ai/reviewer.py" = ["E402"]
+"app/core/collusion/analyzer.py" = ["E402"]
+"app/core/writer/material_matcher.py" = ["E402"]
+"app/core/writer/section_composer.py" = ["E402"]
