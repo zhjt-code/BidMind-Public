@@ -92,7 +92,7 @@ def test_org_name_group_suffix_second_entity(qa_rules):
     """同形态第二实体: 集团 vs 集团公司 归一化后不报。"""
     model = make_model(body_texts={
         2: "投标人名称：某某集团",
-        8: "投标人名称：<ORG_17>",
+        8: "投标人名称：某某集团公司",
     })
     outcome = check_consistency(model, qa_rules)
     assert not [f for f in outcome.findings if "投标人" in f.title]

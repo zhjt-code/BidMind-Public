@@ -327,7 +327,8 @@ def test_sanitize_collusion_results_resolves_pair_id_before_stripping() -> None:
 
     _sanitize_collusion_results(results)
 
-    assert "" not in results.synthesis_summary
+    assert "（）" not in results.synthesis_summary
+    assert "()" not in results.synthesis_summary
     assert "pair_id" not in results.synthesis_summary
     assert "597:598" not in results.synthesis_summary
     assert "甲公司×乙公司" in results.synthesis_summary

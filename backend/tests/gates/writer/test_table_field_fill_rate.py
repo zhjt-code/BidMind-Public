@@ -24,36 +24,36 @@ def _ctx(content: str, node_type: str = "data_fill") -> GateContext:
 
 class TestExtractTdTexts:
     def test_basic_table(self):
-        html = '<table><tr><td><PERSON_A></td><td>工程师</td></tr></table>'
-        assert _extract_td_texts(html) == ['<PERSON_A>', "工程师"]
+        html = '<table><tr><td>人员甲</td><td>工程师</td></tr></table>'
+        assert _extract_td_texts(html) == ["人员甲", "工程师"]
 
     def test_empty_td(self):
-        html = '<tr><td><PERSON_A></td><td></td></tr>'
-        assert _extract_td_texts(html) == ['<PERSON_A>', ""]
+        html = '<tr><td>人员甲</td><td></td></tr>'
+        assert _extract_td_texts(html) == ["人员甲", ""]
 
     def test_no_table_returns_empty(self):
         assert _extract_td_texts("纯段落文字，没有表格。") == []
 
     def test_nested_tags_stripped(self):
-        html = '<td><b><PERSON_A></b></td>'
+        html = '<td><b>人员甲</b></td>'
         # 实际 regex 会按最外层 td 抽，再去除内部 <b>
-        assert _extract_td_texts(html) == ['<PERSON_A>']
+        assert _extract_td_texts(html) == ["人员甲"]
 
 
 class TestComputeFillRate:
     def test_all_filled(self):
-        html = '<tr><td><PERSON_A></td><td>工程师</td></tr>'
+        html = '<tr><td>人员甲</td><td>工程师</td></tr>'
         rate, non_empty, total = _compute_fill_rate(html)
         assert rate == 1.0 and non_empty == 2 and total == 2
 
     def test_half_empty(self):
-        # 4 td, 序号 1/2 被过滤（纯数字），<PERSON_1>(非空)、""(空)
+        # 4 td, 序号 1/2 被过滤（纯数字），人员甲(非空)、""(空)
         html = (
-            '<tr><td>1</td><td><PERSON_A></td><td></td></tr>'
-            + '<tr><td>2</td><td><PERSON_B></td><td>工程师</td></tr>'
+            '<tr><td>1</td><td>人员甲</td><td></td></tr>'
+            + '<tr><td>2</td><td>人员乙</td><td>工程师</td></tr>'
         )
         rate, non_empty, total = _compute_fill_rate(html)
-        # 过滤掉 2 个纯数字序号，剩 4 个有语义 td：<PERSON_1>/""/<PERSON_2>/工程师 → 3/4
+        # 过滤掉 2 个纯数字序号，剩 4 个有语义 td：人员甲/""/人员乙/工程师 → 3/4
         assert total == 4
         assert non_empty == 3
         assert rate == 0.75
@@ -87,7 +87,7 @@ class TestTableFieldFillRateGate:
         assert self.gate.applies(ctx) is False
 
     def test_pass_full_fill(self):
-        html = '<tr><td><PERSON_A></td><td>工程师</td><td>10 年</td></tr>'
+        html = '<tr><td>人员甲</td><td>工程师</td><td>10 年</td></tr>'
         v = self.gate.evaluate(_ctx(html))
         assert v.verdict == "pass"
         assert v.trace["fill_rate"] == 1.0
@@ -100,7 +100,7 @@ class TestTableFieldFillRateGate:
     def test_warn_low_fill_rate(self):
         """4 个语义 td 只填 1 → 25%，低于默认 80% 阈值。"""
         html = (
-            '<tr><td>1</td><td><PERSON_A></td><td></td><td></td></tr>'
+            '<tr><td>1</td><td>人员甲</td><td></td><td></td></tr>'
             + "<tr><td>2</td><td></td><td></td><td></td></tr>"
         )
         v = self.gate.evaluate(_ctx(html))

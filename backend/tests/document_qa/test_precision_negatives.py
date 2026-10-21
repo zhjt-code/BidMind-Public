@@ -81,8 +81,8 @@ def _precision_model() -> DocumentModel:
         f"{_BODY}\n"
     )
     p6 = (
-        "投标人名称：<ORG_7>（公章）\n"
-        "投标人名称：<ORG_7>日\n"
+        "投标人名称：某某集团（公章）\n"
+        "投标人名称：某某集团日\n"
     )
     p7 = (
         "一、质量承诺\n"

@@ -95,8 +95,8 @@ def side_has_subject(
     text = "".join(
         content for pn, content in chunks
         if pn == page_num and content
-    )
-    return any(token in text for token in tokens)
+    ).casefold()
+    return any(token.casefold() in text for token in tokens)
 
 
 def retract_dim_if_all_unverified(dim: object) -> bool:

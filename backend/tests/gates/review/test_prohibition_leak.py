@@ -145,12 +145,12 @@ def test_scan_identity_hits_tech_bid_company_not_echo_or_qualify() -> None:
             {
                 "page": 2,
                 "section": "技术标/施工组织",
-                "content": "我公司<ORG_10>承诺按期完工。",
+                "content": "我公司<ORG_10>有限公司承诺按期完工。",
             },
             {
                 "page": 6,
                 "section": "资格证明",
-                "content": "营业执照：<ORG_10>",
+                "content": "营业执照：<ORG_10>有限公司",
             },
             {
                 "page": 1,
