@@ -69,8 +69,7 @@ jobs:
       - run: python -m unittest discover -s tests -p test_dependabot_policy.py -v
       - working-directory: backend
         run: python -m alembic upgrade head
-      - working-directory: backend
-        run: python -m pytest -q
+      - run: python -m pytest -q backend/tests
 
   frontend:
     runs-on: ubuntu-latest

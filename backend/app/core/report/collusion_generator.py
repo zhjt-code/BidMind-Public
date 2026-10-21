@@ -8,6 +8,7 @@
 """
 
 import re
+from datetime import datetime  # noqa: F401 - legacy report contract patches this symbol
 from io import BytesIO
 from typing import Callable, Optional
 from xml.sax.saxutils import escape as xml_escape

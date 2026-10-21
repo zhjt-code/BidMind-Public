@@ -30,7 +30,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.exceptions import NotFoundError, ServiceError
 from app.core.permissions import check_project_permission
-from app.core.tasks import inspect_task_liveness, is_task_active
+from app.core.tasks import (  # noqa: F401 - compatibility patch target
+    create_background_task,
+    inspect_task_liveness,
+    is_task_active,
+)
 from app.core.tasks.writing_extract_task import (
     get_writing_extract_task_name,
     run_writing_extract_task,

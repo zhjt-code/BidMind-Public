@@ -30,6 +30,7 @@ from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.database import async_session_factory  # noqa: F401 - monkeypatch contract
 from app.core.observability.task_observation import TaskFlow, observe_task, record_stage
 from app.models.document import Document, DocumentType
 from app.models.project import Project, ProjectType

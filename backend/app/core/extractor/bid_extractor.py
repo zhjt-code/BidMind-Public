@@ -61,6 +61,7 @@ from app.core.observability.guard_instrument import guard_observe
 from app.core.retriever.context_reassembler import ContextReassembler
 from app.core.retriever.evidence_coverage import (
     build_evidence_facets,
+    evaluate_facet_coverage,  # noqa: F401 - legacy test patch target
 )
 from app.core.retriever.evidence_pipeline.assemble_package import assemble_evidence_package
 from app.core.retriever.evidence_pipeline.contracts import RetrievalQuery
@@ -637,8 +638,6 @@ class BidExtractor:
         )
         results = list(package.results)
         from app.core.parser.toc_parser import TocParser, deserialize_toc_map
-        from app.core.retriever.evidence_coverage import evaluate_facet_coverage
-
         coverage = package.coverage or evaluate_facet_coverage(facets, results)
         toc_map = deserialize_toc_map(getattr(doc, "toc_map", None)) if doc else {}
         parser = TocParser()
