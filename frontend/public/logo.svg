@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="doc-grad" x1="6" y1="12" x2="30" y2="42" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1890ff"/>
+      <stop offset="1" stop-color="#0958d9"/>
+    </linearGradient>
+    <linearGradient id="spark-grad" x1="24" y1="8" x2="45" y2="28" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#36cfc9"/>
+      <stop offset="1" stop-color="#1890ff"/>
+    </linearGradient>
+  </defs>
+  <path d="M 10 12 L 20 12 L 30 22 L 30 38 A 4 4 0 0 1 26 42 L 10 42 A 4 4 0 0 1 6 38 L 6 16 A 4 4 0 0 1 10 12 Z" fill="url(#doc-grad)"/>
+  <path d="M 20 12 L 20 20 A 2 2 0 0 0 22 22 L 30 22 Z" fill="#ffffff" fill-opacity="0.3"/>
+  <path d="M 12 26 L 18 26" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 12 32 L 24 32" stroke="#ffffff" strokeWidth="2.5" stroke-linecap="round"/>
+  <path d="M 12 38 L 20 38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 34 8 C 34 13.5 38.5 18 44 18 C 38.5 18 34 22.5 34 28 C 34 22.5 29.5 18 24 18 C 29.5 18 34 13.5 34 8 Z" fill="url(#spark-grad)" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 40 3 C 40 5.8 42.2 8 45 8 C 42.2 8 40 10.2 40 13 C 40 10.2 37.8 8 35 8 C 37.8 8 40 5.8 40 3 Z" fill="url(#spark-grad)" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

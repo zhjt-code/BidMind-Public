@@ -1,0 +1,18 @@
+{# 资质表模板 (B5.7) — 输入: items: list[dict], title: str #}
+<table>
+<thead>
+<tr><th>序号</th><th>资质名称</th><th>资质等级</th><th>证书编号</th><th>发证机关</th><th>有效期至</th></tr>
+</thead>
+<tbody>
+{% for item in items %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ item.cert_name | default("", true) }}</td>
+<td>{{ item.cert_level | default("", true) }}</td>
+<td>{{ item.cert_number | default("", true) }}</td>
+<td>{{ item.issuer | default("", true) }}</td>
+<td>{{ item.valid_until | default("", true) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

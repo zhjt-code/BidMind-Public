@@ -1,0 +1,36 @@
+{
+  "id": "sample_01",
+  "description": "示例测试用例 - 请替换为真实标注数据",
+  "purpose": "tender_extract",
+  "input": {
+    "chunks": [
+      "3.1 资质要求：投标人须具有建筑工程施工总承包壹级及以上资质。",
+      "3.2 业绩要求：投标人近三年（2023-2025年）须完成至少2个合同金额不低于500万元的类似工程项目。",
+      "3.3 人员要求：项目经理须具有一级建造师注册证书（建筑工程专业），且近三年无不良记录。"
+    ]
+  },
+  "expected_output": {
+    "requirements": [
+      {
+        "category": "QUAL",
+        "description": "投标人须具有建筑工程施工总承包壹级及以上资质",
+        "is_mandatory": true
+      },
+      {
+        "category": "PERF",
+        "description": "投标人近三年须完成至少2个合同金额不低于500万元的类似工程项目",
+        "is_mandatory": false
+      },
+      {
+        "category": "STAFF",
+        "description": "项目经理须具有一级建造师注册证书（建筑工程专业），且近三年无不良记录",
+        "is_mandatory": true
+      }
+    ]
+  },
+  "metadata": {
+    "source": "示例招标文件",
+    "annotator": "system",
+    "date": "2026-03-18"
+  }
+}

@@ -1,0 +1,51 @@
+# ========================================
+# BidMind AI Lite - Backend Docker Ignore
+# 构建Docker镜像时排除的文件
+# ========================================
+
+# 环境配置（服务器有独立的.env）
+.env
+.env.example
+.env.*
+
+# 测试代码（生产环境不需要）
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# 一次性迁移脚本
+migrate_*.py
+
+# 开发工具脚本
+scripts/reinstall_deps.ps1
+
+# 文档
+README.md
+*.md
+
+# 本地存储数据（服务器有独立挂载）
+storage/
+
+# 宿主机预下载的 torch wheel（禁止打进 build context，否则 context 近 800MB）
+wheels/
+
+# IDE配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore

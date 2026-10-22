@@ -1,0 +1,18 @@
+{# 业绩表模板 (B5.7) — 输入: items: list[dict], title: str #}
+<table>
+<thead>
+<tr><th>序号</th><th>项目名称</th><th>合同金额(万元)</th><th>合同签订日期</th><th>项目业主</th><th>项目状态</th></tr>
+</thead>
+<tbody>
+{% for item in items %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ item.project_name | default("", true) }}</td>
+<td>{{ item.contract_amount | default("", true) }}</td>
+<td>{{ item.contract_date | default("", true) }}</td>
+<td>{{ item.owner | default("", true) }}</td>
+<td>{{ item.status | default("", true) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

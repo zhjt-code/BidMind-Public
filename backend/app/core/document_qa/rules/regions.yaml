@@ -1,0 +1,13 @@
+# 版面标签 -> 质检区域身份
+# 机制: 检查器按身份取数(见 region_text), 版面服务新增或更换标签只改本配置;
+#       未列出的标签按正文处理并计入 run features 的 unknown_region_labels
+# 标签来源: PP-DocLayout_plus-L 20 类; ppstructure 回滚模式与 PP-DocLayout-L 的别名一并列出
+kinds:
+  title: [doc_title, paragraph_title, title, content_title, abstract_title]
+  body: [text, abstract, reference, reference_content, footnote, aside_text, algorithm, vertical_text]
+  table: [table]
+  caption: [figure_title, table_title, chart_title]
+  furniture: [header, footer, number, header_image, footer_image]
+  toc: [content]
+  formula: [formula, formula_number, display_formula, inline_formula]
+  visual: [image, chart, seal]

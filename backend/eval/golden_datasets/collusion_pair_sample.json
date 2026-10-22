@@ -1,0 +1,63 @@
+{
+  "id": "collusion_pair_sample",
+  "description": "串标单对结果示例：比较风险、决策状态和命中维度",
+  "purpose": "collusion_pair",
+  "input": {
+    "pair_ids": [
+      "101:102",
+      "103:104"
+    ]
+  },
+  "expected_output": {
+    "collusion_pair": {
+      "pairs": [
+        {
+          "pair_id": "101:102",
+          "overall_risk": "high",
+          "risk_level": "high",
+          "decision_state": "decidable",
+          "review_state": "completed",
+          "hit_dimensions": [
+            "D1",
+            "D4"
+          ]
+        },
+        {
+          "pair_id": "103:104",
+          "overall_risk": "inconclusive",
+          "decision_state": "needs_review",
+          "review_state": "failed",
+          "hit_dimensions": []
+        }
+      ]
+    }
+  },
+  "actual_output": {
+    "collusion_pair": {
+      "pairs": [
+        {
+          "pair_id": "101:102",
+          "overall_risk": "high",
+          "risk_level": "high",
+          "decision_state": "decidable",
+          "review_state": "completed",
+          "hit_dimensions": [
+            "D1"
+          ]
+        },
+        {
+          "pair_id": "103:104",
+          "overall_risk": "inconclusive",
+          "decision_state": "needs_review",
+          "review_state": "failed",
+          "hit_dimensions": []
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "source": "串标单对离线评测样例",
+    "annotator": "system",
+    "date": "2026-04-09"
+  }
+}

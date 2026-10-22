@@ -1,0 +1,385 @@
+# ========================================
+# BidMind AI Lite - 生产环境 Docker Compose
+# 使用方法:
+#   docker compose -f docker-compose.prod.yml --env-file .env up -d
+# ========================================
+
+# OCR sidecar 公共模板（5 实例共享，通过 YAML 锚点引用）
+x-ocr-common: &ocr-common
+  build:
+    context: ./ocr
+    dockerfile: Dockerfile
+    args:
+      REGISTRY: ${REGISTRY:-}
+  restart: unless-stopped
+  environment:
+    - OCR_LANG=ch
+    # 显式锁定 PP-OCRv6_small：仅传 ocr_version 不保证加载 small 变体（与 v5 同理），
+    # 必须显式指定 det/rec 模型名（见 ocr/main.py use_explicit_models 分支）。
+    # 切回 PP-OCRv5_server：将下方三行改回 PP-OCRv5 / PP-OCRv5_server_det / PP-OCRv5_server_rec 并按需回退实例数。
+    - OCR_VERSION=PP-OCRv6
+    - OCR_DET_MODEL_NAME=PP-OCRv6_small_det
+    - OCR_REC_MODEL_NAME=PP-OCRv6_small_rec
+    - OCR_CONFIDENCE_THRESHOLD=0.75
+    - OCR_MIN_TEXT_LENGTH=20
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 60s
+  networks:
+    - bidmind-network
+
+# ARQ worker 公共环境变量（三类 worker 共享；单个 worker 可通过 YAML merge 精确覆盖）
+x-worker-common-env: &worker-common-env
+  DATABASE_URL: "${DATABASE_URL}"
+  JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
+  ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+  EMBEDDING_MODEL: "/app/models/bge-m3"
+  EMBEDDING_DEVICE: "auto"
+  AI_MODE: "${AI_MODE:-local}"
+  AI_SETTINGS_KEY: "${AI_SETTINGS_KEY:-}"
+  REDIS_HOST: "redis"
+  # Worker 内部也会投递子任务（如 Process -> LLM/VL），必须同步开启 ARQ
+  VECTOR_PREFER_ARQ: "${VECTOR_PREFER_ARQ:-true}"
+  # 专用 worker 拓扑必须启用资源队列，否则 backend 会投递到默认队列而无人消费
+  WORKER_RESOURCE_QUEUES_ENABLED: "${WORKER_RESOURCE_QUEUES_ENABLED:-true}"
+  WORKER_RESOURCE_PERMIT_ENABLED: "${WORKER_RESOURCE_PERMIT_ENABLED:-true}"
+  # ARQ 心跳窗口, 保持与 backend 一致
+  ARQ_WORKER_HEARTBEAT_TTL: "${ARQ_WORKER_HEARTBEAT_TTL:-180}"
+  ARQ_WORKER_HEARTBEAT_INTERVAL: "${ARQ_WORKER_HEARTBEAT_INTERVAL:-15}"
+  ARQ_WORKER_FRESHNESS_WINDOW: "${ARQ_WORKER_FRESHNESS_WINDOW:-180}"
+  WORKER_DEFAULT_MAX_JOBS: "${WORKER_DEFAULT_MAX_JOBS:-5}"
+  WORKER_PROCESS_MAX_JOBS: "${WORKER_PROCESS_MAX_JOBS:-5}"
+  WORKER_LLM_MAX_JOBS: "${WORKER_LLM_MAX_JOBS:-5}"
+  WORKER_REPORT_MAX_JOBS: "${WORKER_REPORT_MAX_JOBS:-3}"
+  WORKER_MAINTENANCE_MAX_JOBS: "${WORKER_MAINTENANCE_MAX_JOBS:-1}"
+# 生产禁止 API 进程执行重任务; 仅开发本机无 worker 时在 .env 置 true
+  BACKGROUND_FALLBACK_ENABLED: "${BACKGROUND_FALLBACK_ENABLED:-false}"
+  BACKGROUND_FALLBACK_MAX_JOBS: "${BACKGROUND_FALLBACK_MAX_JOBS:-1}"
+  LOG_LEVEL: "INFO"
+  # OCR 实例池（5 实例轮询 + 健康检查 + 自动摘除/恢复）
+  # 当前 PP-OCRv6_small（rec 模型仅约 20MB）远轻于 v5_server，云端实测可扩至 5 实例。
+# 历史警示：v5_server 单实例峰值约 6-7GB，3 实例 + bge-m3 双份（约 6.6GB）曾达 98%（22.5/23GB）濒临 OOM；
+  # v6_small 扩容后仍须以 nvidia-smi 实测复核，逼近上限则通过 .env 收窄本行。
+  OCR_SERVICE_URLS: "${OCR_SERVICE_URLS:-http://ocr-1:9000,http://ocr-2:9000,http://ocr-3:9000,http://ocr-4:9000,http://ocr-5:9000}"
+  # 版面分析 CPU 池: 云端 3 实例。STRUCTURE_CPUS 为单实例配额, 三者合计不超过 floor(nproc*0.8)。
+  DOCUMENT_QA_STRUCTURE_URLS: "${DOCUMENT_QA_STRUCTURE_URLS:-http://structure-1:9000,http://structure-2:9000,http://structure-3:9000}"
+  OCR_HTTP_TIMEOUT: "${OCR_HTTP_TIMEOUT:-120}"
+  OCR_HTTP_MAX_CONCURRENCY: "${OCR_HTTP_MAX_CONCURRENCY:-1}"
+  OCR_QUEUE_WARN_MS: "${OCR_QUEUE_WARN_MS:-5000}"
+  OCR_CONTENDED_MAX_SHARE_RATIO: "${OCR_CONTENDED_MAX_SHARE_RATIO:-0.6}"
+  # GPU AIMD batch_size 上限与升档步长；水位门控优先级最高，按实测灰度调优
+  VECTOR_GPU_AIMD_MAX_BS: "${VECTOR_GPU_AIMD_MAX_BS:-64}"
+  VECTOR_GPU_AIMD_INCREASE_STEP: "${VECTOR_GPU_AIMD_INCREASE_STEP:-4}"
+  VECTOR_GPU_AIMD_WATERMARK_ENABLED: "${VECTOR_GPU_AIMD_WATERMARK_ENABLED:-true}"
+  VECTOR_GPU_AIMD_MAX_USED_RATIO: "${VECTOR_GPU_AIMD_MAX_USED_RATIO:-0.90}"
+  VECTOR_GPU_AIMD_WATERMARK_ON_SNAPSHOT_MISSING: "${VECTOR_GPU_AIMD_WATERMARK_ON_SNAPSHOT_MISSING:-allow}"
+  # Office → PDF（Gotenberg LibreOffice sidecar）
+  OFFICE_CONVERT_URL: "${OFFICE_CONVERT_URL:-http://gotenberg:3000}"
+  OFFICE_CONVERT_TIMEOUT_SEC: "${OFFICE_CONVERT_TIMEOUT_SEC:-300}"
+
+# 后端镜像公共 build（backend + 三类 worker 必须共用，避免 torch 源漂移）
+x-backend-build: &backend-build
+  context: ./backend
+  dockerfile: Dockerfile
+  args:
+    # 可选镜像加速前缀；默认使用 Docker Hub 官方镜像
+    REGISTRY: ${REGISTRY:-}
+    # 可选的私有/内网 wheel 目录；默认留空时使用 TORCH_INDEX_URL。
+    TORCH_FIND_LINKS: ${TORCH_FIND_LINKS:-}
+
+# ARQ worker 公共模板（三类 worker 共享同一后端镜像和运行时配置）
+x-worker-common: &worker-common
+  build: *backend-build
+  restart: unless-stopped
+  environment: *worker-common-env
+  volumes:
+    - ./models/bge-m3:/app/models/bge-m3:ro
+    - ./storage:/app/storage
+    - ./keys:/app/backend/keys:ro
+  depends_on:
+    redis:
+      condition: service_healthy
+    backend:
+      condition: service_healthy
+  networks:
+    - bidmind-network
+  # Worker 复用 backend 镜像但启动 arq 而非 uvicorn, 8000 端口不监听,
+  # 因此必须显式覆盖镜像层 HEALTHCHECK(curl localhost:8000/health), 否则
+  # 容器长期处于 (unhealthy) 假阳性, 影响 docker compose 级联编排与运维监控。
+  # 探测策略: 扫描 /proc/*/cmdline 寻找 'WorkerSettings' 字符串, 判断 arq 主进程是否存活。
+  # ARQ "worker 是否在干活" 的细粒度心跳由业务层 worker_health_service
+  # 通过 Redis (bidmind:arq_worker:alive:*) 单独观测, 不依赖 docker healthcheck。
+  # 用 grep + /proc 而非 pgrep, 避免在 backend Dockerfile 引入 procps 包。
+  healthcheck:
+    test: ["CMD-SHELL", "grep -aq 'WorkerSettings' /proc/[0-9]*/cmdline 2>/dev/null || exit 1"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 60s
+
+services:
+  backend:
+    build: *backend-build
+    container_name: bidmind-backend
+    restart: unless-stopped
+    environment:
+      # 数据库配置（必填）
+      - DATABASE_URL=${DATABASE_URL}
+      # 生产安全边界（关闭公开 API 文档并启用生产校验）
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+      # JWT配置（必填）
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      # 管理员配置（必填，首次初始化用）
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      # 向量模型配置
+      - EMBEDDING_MODEL=/app/models/bge-m3
+      - EMBEDDING_DEVICE=auto
+      # AI模式初始值（首次启动生效，后续通过UI设置页面管理）
+      - AI_MODE=${AI_MODE:-local}
+      # AI密钥加密主密钥（建议配置，否则重启后新保存的模型密钥需重新配置）
+      - AI_SETTINGS_KEY=${AI_SETTINGS_KEY:-}
+      # 计费 / 支付开关（默认关闭，核心功能可先上线）
+      # 邮箱验证 / 反多账号（默认关闭；开启前需先配好 SMTP）
+      - EMAIL_VERIFICATION_ENABLED=${EMAIL_VERIFICATION_ENABLED:-false}
+      - EMAIL_VERIFY_TOKEN_TTL_HOURS=${EMAIL_VERIFY_TOKEN_TTL_HOURS:-24}
+      - FRONTEND_BASE_URL=${FRONTEND_BASE_URL:-}
+      - DISPOSABLE_EMAIL_EXTRA=${DISPOSABLE_EMAIL_EXTRA:-}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-465}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME:-BidMind}
+      - SMTP_USE_SSL=${SMTP_USE_SSL:-true}
+      - SMTP_USE_TLS=${SMTP_USE_TLS:-false}
+      # 支付渠道配置（--env-file 只用于变量替换，不会自动注入容器）
+      # Redis (任务队列)
+      - REDIS_HOST=redis
+      # ARQ 开关: 三条件生效 (开关=true + Redis 可用 + worker alive 心跳新鲜)
+      # 默认 false 保持 asyncio; 生产灰度时改为 true, 并确保 worker 服务健康
+      - VECTOR_PREFER_ARQ=${VECTOR_PREFER_ARQ:-true}
+      - ARQ_WORKER_HEARTBEAT_TTL=${ARQ_WORKER_HEARTBEAT_TTL:-180}
+      - ARQ_WORKER_HEARTBEAT_INTERVAL=${ARQ_WORKER_HEARTBEAT_INTERVAL:-15}
+      - ARQ_WORKER_FRESHNESS_WINDOW=${ARQ_WORKER_FRESHNESS_WINDOW:-180}
+      - ARQ_JOB_HEARTBEAT_TIMEOUT=${ARQ_JOB_HEARTBEAT_TIMEOUT:-180}
+      # 专用 worker 拓扑必须启用资源队列
+      - WORKER_RESOURCE_QUEUES_ENABLED=${WORKER_RESOURCE_QUEUES_ENABLED:-true}
+# 生产禁止 API 进程执行重任务; 仅开发本机无 worker 时置 true
+      - BACKGROUND_FALLBACK_ENABLED=${BACKGROUND_FALLBACK_ENABLED:-false}
+      # 日志级别
+      - LOG_LEVEL=INFO
+      # 令牌过期时间
+      - ACCESS_TOKEN_EXPIRE_MINUTES=480
+      # OCR 实例池（默认 5 实例轮询 + 健康检查 + 自动摘除/恢复）
+      # 当前 PP-OCRv6_small（rec 模型仅约 20MB）远轻于 v5_server，云端实测可扩至 5 实例。
+# 历史警示：v5_server 3 实例 + bge-m3 双份曾达 98% 显存濒临 OOM；v6_small 扩容后须 nvidia-smi 实测复核。
+      - OCR_SERVICE_URLS=${OCR_SERVICE_URLS:-http://ocr-1:9000,http://ocr-2:9000,http://ocr-3:9000,http://ocr-4:9000,http://ocr-5:9000}
+      - DOCUMENT_QA_STRUCTURE_URLS=${DOCUMENT_QA_STRUCTURE_URLS:-http://structure-1:9000,http://structure-2:9000,http://structure-3:9000}
+      # OCR sidecar 客户端背压配置（单实例 Paddle 默认串行，并发上限随实例数自动缩放）
+      - OCR_HTTP_TIMEOUT=${OCR_HTTP_TIMEOUT:-120}
+      - OCR_HTTP_MAX_CONCURRENCY=${OCR_HTTP_MAX_CONCURRENCY:-1}
+      - OCR_QUEUE_WARN_MS=${OCR_QUEUE_WARN_MS:-5000}
+      - OCR_CONTENDED_MAX_SHARE_RATIO=${OCR_CONTENDED_MAX_SHARE_RATIO:-0.6}
+      # GPU AIMD batch_size 上限与升档步长；水位门控优先级最高，按实测灰度调优
+      - VECTOR_GPU_AIMD_MAX_BS=${VECTOR_GPU_AIMD_MAX_BS:-64}
+      - VECTOR_GPU_AIMD_INCREASE_STEP=${VECTOR_GPU_AIMD_INCREASE_STEP:-4}
+      - VECTOR_GPU_AIMD_WATERMARK_ENABLED=${VECTOR_GPU_AIMD_WATERMARK_ENABLED:-true}
+      - VECTOR_GPU_AIMD_MAX_USED_RATIO=${VECTOR_GPU_AIMD_MAX_USED_RATIO:-0.90}
+      - VECTOR_GPU_AIMD_WATERMARK_ON_SNAPSHOT_MISSING=${VECTOR_GPU_AIMD_WATERMARK_ON_SNAPSHOT_MISSING:-allow}
+      # Office → PDF（Gotenberg LibreOffice sidecar）
+      - OFFICE_CONVERT_URL=${OFFICE_CONVERT_URL:-http://gotenberg:3000}
+      - OFFICE_CONVERT_TIMEOUT_SEC=${OFFICE_CONVERT_TIMEOUT_SEC:-300}
+    volumes:
+      # 向量模型（只读挂载）
+      - ./models/bge-m3:/app/models/bge-m3:ro
+      # 存储目录（含 ai_settings.json、uploads、chunks）
+      - ./storage:/app/storage
+      # 支付密钥和证书（宿主机 /opt/bidmind/keys -> 容器 /app/backend/keys）
+      - ./keys:/app/backend/keys:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # 单卡场景优先保证 OCR sidecar 稳定；如显存紧张，可将 EMBEDDING_DEVICE 改为 cpu
+    networks:
+      - bidmind-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  redis:
+    image: ${REGISTRY:-}redis:7-alpine
+    container_name: bidmind-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bidmind-network
+
+  worker-process:
+    <<: *worker-common
+    container_name: bidmind-worker-process
+    command: ["arq", "app.worker.ProcessWorkerSettings"]
+    environment:
+      <<: *worker-common-env
+      ENVIRONMENT: "${ENVIRONMENT:-production}"
+      MODEL_PRELOAD_ENABLED: "${MODEL_PRELOAD_ENABLED:-true}"
+      MODEL_PRELOAD_BLOCK_READY: "${MODEL_PRELOAD_BLOCK_READY:-true}"
+      MODEL_PRELOAD_OCR: "${MODEL_PRELOAD_OCR:-true}"
+      MODEL_PRELOAD_EMBEDDING: "${MODEL_PRELOAD_EMBEDDING:-true}"
+      MODEL_PRELOAD_TIMEOUT_SEC: "${MODEL_PRELOAD_TIMEOUT_SEC:-180}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # 文档解析、素材处理、约束/文档向量化等 CPU/向量重任务
+
+  worker-llm:
+    <<: *worker-common
+    container_name: bidmind-worker-llm
+    command: ["arq", "app.worker.LlmWorkerSettings"]
+    environment:
+      <<: *worker-common-env
+# 显式 pytorch，避免 CPU 回退路径上 auto 盲选无效 ONNX
+      EMBEDDING_BACKEND: "pytorch"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    # 审查检索/提取/串标/写标匹配等 LLM worker 上的向量化走 GPU（与 worker-process 共享同一张卡）
+    # 显存不足时可把 EMBEDDING_DEVICE 改回 cpu 并去掉本段 GPU reservation
+
+  worker-maintenance:
+    <<: *worker-common
+    container_name: bidmind-worker-maintenance
+    command: ["arq", "app.worker.MaintenanceWorkerSettings"]
+    # 指标 flush / 回归 runner 等低并发维护任务
+
+  # OCR 实例池: 默认 5 个独立 sidecar 共享同一 GPU，backend 自动轮询 + 健康检查
+  # 当前 PP-OCRv6_small（rec 模型仅约 20MB）远轻于 v5_server，云端实测可扩至 5 实例。
+# 历史警示：v5_server 3 实例 + bge-m3 双份曾达 98% 显存濒临 OOM；
+  # v6_small 扩容后须以 nvidia-smi 实测复核，逼近上限则停止多余实例并通过 .env 收窄 OCR_SERVICE_URLS。
+  ocr-1:
+    <<: *ocr-common
+    container_name: bidmind-ocr-1
+
+  ocr-2:
+    <<: *ocr-common
+    container_name: bidmind-ocr-2
+
+  ocr-3:
+    <<: *ocr-common
+    container_name: bidmind-ocr-3
+
+  ocr-4:
+    <<: *ocr-common
+    container_name: bidmind-ocr-4
+
+  ocr-5:
+    <<: *ocr-common
+    container_name: bidmind-ocr-5
+
+  # 版面分析 CPU 池: 仅云端 3 实例, 不申请 GPU。本地 compose 只定义 structure-1。
+  # 与 OCR 分镜像: CPU 轮子在加载期不依赖 libcuda.so.1。三实例共用同一镜像标签。
+  structure-1: &structure-cpu
+    <<: *ocr-common
+    image: bidmind-structure:cpu
+    container_name: bidmind-structure-1
+    build:
+      context: ./ocr
+      dockerfile: Dockerfile
+      args:
+        REGISTRY: ${REGISTRY:-}
+        PADDLE_PACKAGE: paddlepaddle==3.2.0
+        PADDLE_INDEX_URL: https://www.paddlepaddle.org.cn/packages/stable/cpu/
+    environment:
+      - OCR_PIPELINE=structure
+      - STRUCTURE_DEVICE=cpu
+# 只做版面检测, 标题文字由后端取文本层或标题小图 OCR; 回滚置 ppstructure
+      - STRUCTURE_ENGINE=${STRUCTURE_ENGINE:-layout}
+# 原生异常带出 C++ 报错栈, 否则只剩 std::exception
+      - FLAGS_call_stack_level=2
+    deploy:
+      resources:
+        limits:
+          cpus: "${STRUCTURE_CPUS:-4}"
+
+  structure-2:
+    <<: *structure-cpu
+    container_name: bidmind-structure-2
+
+  structure-3:
+    <<: *structure-cpu
+    container_name: bidmind-structure-3
+
+  gotenberg:
+    image: ${REGISTRY:-}gotenberg/gotenberg:8-libreoffice
+    container_name: bidmind-gotenberg
+    restart: unless-stopped
+    environment:
+      - LIBREOFFICE_RESTART_AFTER=10
+      - API_TIMEOUT=180s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - bidmind-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        REGISTRY: ${REGISTRY:-}
+    container_name: bidmind-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./nginx:/etc/nginx/ssl:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - bidmind-network
+
+volumes:
+  redis_data:
+
+networks:
+  bidmind-network:
+    driver: bridge
+

@@ -1,0 +1,135 @@
+version: '3.8'
+
+# OCR 实例池公共模板（GPU 模式，与云端 prod 对齐）
+# GPU 故障时 backend 自动摘除实例 → VL 兜底 → Docker 重启后自动恢复
+x-ocr-dev: &ocr-dev
+  build:
+    context: ./ocr
+    dockerfile: Dockerfile
+    args:
+      PADDLE_PACKAGE: paddlepaddle-gpu==3.2.0
+      PADDLE_INDEX_URL: https://www.paddlepaddle.org.cn/packages/stable/cu118/
+  environment:
+    - OCR_LANG=ch
+    # 显式锁定 PP-OCRv6_small：仅传 ocr_version 不保证加载 small 变体（与 v5 同理），
+    # 必须显式指定 det/rec 模型名（见 ocr/main.py use_explicit_models 分支）。
+    # 切回 PP-OCRv4：删除下方 OCR_DET/REC_MODEL_NAME 两行并将 OCR_VERSION 改回 PP-OCRv4。
+    - OCR_VERSION=PP-OCRv6
+    - OCR_DET_MODEL_NAME=PP-OCRv6_small_det
+    - OCR_REC_MODEL_NAME=PP-OCRv6_small_rec
+    - OCR_CONFIDENCE_THRESHOLD=0.75
+    - OCR_MIN_TEXT_LENGTH=20
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 60s
+  restart: unless-stopped
+
+services:
+  # PostgreSQL + PGVector 数据库
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bidmind-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-bidmind_lite}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis (任务队列 + 心跳持久化)
+  redis:
+    image: redis:7-alpine
+    container_name: bidmind-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # OCR 实例池（3 实例轮询；镜像本身已声明 NVIDIA GPU 设备需求）
+  ocr-1:
+    <<: *ocr-dev
+    container_name: bidmind-ocr-1
+    ports:
+      - "9000:9000"
+
+  ocr-2:
+    <<: *ocr-dev
+    container_name: bidmind-ocr-2
+    ports:
+      - "9001:9000"
+
+  ocr-3:
+    <<: *ocr-dev
+    container_name: bidmind-ocr-3
+    ports:
+      - "9002:9000"
+
+  # 版面分析: 本地最多 1 个实例, CPU, 不占 GPU。
+  # STRUCTURE_CPUS 设为 floor(逻辑核数*0.8)。容器内按 cgroup 配额对齐线程数。
+  # 与 OCR 分镜像: CPU 轮子在加载期不依赖 libcuda.so.1。
+  structure-1:
+    <<: *ocr-dev
+    image: bidmind-structure:cpu
+    container_name: bidmind-structure-1
+    build:
+      context: ./ocr
+      dockerfile: Dockerfile
+      args:
+        PADDLE_PACKAGE: paddlepaddle==3.2.0
+        PADDLE_INDEX_URL: https://www.paddlepaddle.org.cn/packages/stable/cpu/
+    environment:
+      - OCR_PIPELINE=structure
+      - STRUCTURE_DEVICE=cpu
+      - STRUCTURE_ENGINE=${STRUCTURE_ENGINE:-layout}
+      - FLAGS_call_stack_level=2
+    ports:
+      - "9010:9000"
+    deploy:
+      resources:
+        limits:
+          cpus: "${STRUCTURE_CPUS:-4}"
+
+  # Office → PDF（避免与 Vite 默认的 3000 端口冲突）
+  gotenberg:
+    image: gotenberg/gotenberg:8-libreoffice
+    container_name: bidmind-gotenberg
+    ports:
+      - "3100:3000"
+    environment:
+      API_TIMEOUT: "180s"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  postgres_data:
+  redis_data:

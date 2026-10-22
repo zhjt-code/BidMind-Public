@@ -1,0 +1,30 @@
+# 标题准入否决与可重启编号句式
+# 机制: 句式只产生候选, 否决按形态(目录/清单/扫描标签/计量)而不是实体词
+# 计量否决: 标题整词等于单位, 或数字粘连单位(82万元/6台); 新增单位词只改本列表
+unit_titles:
+  - "元"
+  - "万元"
+  - "人"
+  - "台"
+  - "套"
+  - "年"
+  - "月"
+  - "日"
+  - "%"
+  - "个"
+scan_label_max_chars: 160
+# 大纲节点参与空章节/层级跳跃; 清单节点只给可重启编号, 不关大纲区间
+outline_kinds:
+  - unit
+  - decimal
+  - cn_digit
+  - attachment
+  - top_space
+  - top_digit
+list_kinds:
+  - paren
+restartable_kinds:
+  - cn_digit
+  - paren
+  - top_digit
+  - top_space

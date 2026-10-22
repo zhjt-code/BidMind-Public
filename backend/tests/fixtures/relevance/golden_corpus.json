@@ -1,0 +1,106 @@
+{
+  "description": "可评审性判定 golden 语料（由公开招标规则片段去标识化整理）。llm 字段为按证据载体轴标注的期望 LLM 判定（作为合成输入），expected_relevance 为合成后的最终评审意义。新增误判样本时追加 case 并在 test_relevance_golden_corpus.py 回归。",
+  "project": 0,
+  "cases": [
+    {
+      "id": "qualification_post_review_mixed_nonmandatory",
+      "note": "资格后审程序+信息库调取（程序外壳），非否决时规则地板折叠",
+      "category": "QUAL",
+      "description": "资格审查方式为资格后审，在开标后（2024年04月29日）由评标委员会进行审核；资料从内蒙古自治区公共资源交易主体信息库中调取信息，并与开标情况及投标文件中提供的资料相结合进行审查。",
+      "is_mandatory": false,
+      "llm": { "relevance": "procedural", "locus": "procedure", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "qualification_post_review_mixed_mandatory_kernel",
+      "note": "混合条款含内容内核（资料不齐全为无效投标）且为否决项：内容性例外防误杀，保持 actionable",
+      "category": "QUAL",
+      "description": "资格审查方式为资格后审，由评标委员会进行审核；资料不齐全或未按要求提供的为无效投标。",
+      "is_mandatory": true,
+      "llm": { "relevance": "procedural", "locus": "procedure", "is_scoring": false, "max_score": null },
+      "expected_relevance": "actionable"
+    },
+    {
+      "id": "behavioral_ban_gua_kao",
+      "note": "挂靠/转包/虚报业绩/代为投标/行贿（行为载体+否决），双确认折叠为风险告知",
+      "category": "COMM",
+      "description": "禁止挂靠、转包、虚报业绩、虚假承诺、代为投标、以他人名义投标、串通投标、以行贿手段谋取中标等弄虚作假方式投标，一经发现，其中标无效并列入诚信黑名单，同时负责赔偿招标人全部损失。",
+      "is_mandatory": true,
+      "llm": { "relevance": "procedural", "locus": "behavior", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "site_survey_risk_notice",
+      "note": "现场查勘风险告知（行为/告知载体）",
+      "category": "TECH",
+      "description": "承包人现场查勘要求：承包人应对基于发包人提交的基础资料所做出的解释和推断负责；提交投标文件视为已对施工现场及周围环境进行了踏勘，并已充分了解评估施工现场及周围环境对工程可能产生的影响，自愿承担相应风险与责任。",
+      "is_mandatory": false,
+      "llm": { "relevance": "procedural", "locus": "behavior", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "tender_scope_notice",
+      "note": "招标范围叙述（单方告知载体）",
+      "category": "TECH",
+      "description": "招标范围：本项目高标准农田前期规划设计、采购、施工、竣工验收及缺陷修复等EPC总承包，含新增耕地及占补平衡工作。标段划分：25标段（明仁苏木博勒梯嘎查等，8604亩）、26标段（明仁苏木明仁嘎查等，8956亩）。",
+      "is_mandatory": false,
+      "llm": { "relevance": "informational", "locus": "notice", "is_scoring": false, "max_score": null },
+      "expected_relevance": "informational"
+    },
+    {
+      "id": "duration_commitment_reviewable",
+      "note": "工期235日历天是可评审承诺项（投标函/进度计划可核验），必须保留主列表",
+      "category": "COMM",
+      "description": "工期要求：235日历天。计划开工日期：2024年05月10日，计划竣工日期：2024年12月31日。其中设计周期为合同签订之日起30日历天（以通过市局评审为准）。",
+      "is_mandatory": false,
+      "llm": { "relevance": "actionable", "locus": "bid_content", "is_scoring": false, "max_score": null },
+      "expected_relevance": "actionable"
+    },
+    {
+      "id": "subcontract_performance_notice",
+      "note": "分包履约期报批告知（履约载体）",
+      "category": "COMM",
+      "description": "分包管理要求：分包前须提前请示建设单位同意，并履行国家相关规定执行。",
+      "is_mandatory": false,
+      "llm": { "relevance": "procedural", "locus": "performance", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "collusion_ban_cross_file",
+      "note": "串标围标禁令（行为载体+否决），双确认折叠；该类风险由串标审查功能覆盖",
+      "category": "COMM",
+      "description": "禁止串通投标、围标要求：不同投标人的投标文件不得出现可被认定为串标、围标的情况。",
+      "is_mandatory": true,
+      "llm": { "relevance": "procedural", "locus": "behavior", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "collusion_bribery_ban",
+      "note": "串通/行贿/弄虚作假禁令（行为载体+否决），双确认折叠",
+      "category": "COMM",
+      "description": "投标人不得相互串通投标或与招标人串通投标，不得向招标人或评标委员会成员行贿谋取中标，不得以他人名义投标或以其他方式弄虚作假骗取中标；不得以任何方式干扰、影响评标工作。",
+      "is_mandatory": true,
+      "llm": { "relevance": "procedural", "locus": "behavior", "is_scoring": false, "max_score": null },
+      "expected_relevance": "procedural"
+    },
+    {
+      "id": "contract_template_placeholder",
+      "note": "含未填占位符的合同模板工期条款（告知载体+占位符确定性规则）",
+      "category": "COMM",
+      "description": "工期要求：需按约定开始准备工作，发包人可在计划开始工作之日起84日后发出开始工作通知，竣工日期需按约定执行。因承包人原因导致工期延误的误期赔偿：每延误1日赔偿金额为合同价格的[具体比例]%或人民币[具体金额]，累计最高赔偿金额为合同价格的[具体比例]%或人民币[具体金额]。",
+      "is_mandatory": false,
+      "llm": { "relevance": "informational", "locus": "notice", "is_scoring": false, "max_score": null },
+      "expected_relevance": "informational"
+    },
+    {
+      "id": "scoring_item_iron_rule",
+      "note": "评分项铁律：含分档得分的条款即使 LLM 误判载体也必须 actionable+重点",
+      "category": "TECH",
+      "description": "工期评分：工期90天内完成得6分，90-120天得3分，120天以上得1分。",
+      "is_mandatory": false,
+      "llm": { "relevance": "procedural", "locus": "procedure", "is_scoring": true, "max_score": 6 },
+      "expected_relevance": "actionable",
+      "expected_is_key_review": true
+    }
+  ]
+}

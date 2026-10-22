@@ -1,0 +1,96 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.egg-info/
+dist/
+build/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+*.tmp
+uploads/
+outputs/
+storage/
+backend/storage/
+backend/test_images_output/
+backend/keys/
+
+# Frontend build artifacts
+frontend/.vite/
+frontend/tsconfig.tsbuildinfo
+frontend/tsconfig.node.tsbuildinfo
+frontend/vite.config.d.ts
+frontend/vite-plugin-pdfjs-assets.d.ts
+frontend/test-results/
+frontend/playwright-report/
+.playwright-mcp/
+
+# AI Models (large files) - 仅忽略根目录下的模型文件夹
+/models/
+/ai_models/
+*.onnx
+*.bin
+*.safetensors
+
+# Database
+*.db
+*.sqlite3
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Temporary test/debug scripts (see project.mdc 6.5)
+scratch/
+tmp_test_*
+tests/*.mjs
+
+# Cursor: 默认忽略用户私有内容, 但规则与命令目录纳入版本管理
+.cursor/*
+!.cursor/rules/
+!.cursor/commands/
+.docs/*
+
+# 本地联调大体积素材(不纳入版本库,需自备)
+trial_data/*
+trial data/
+
+# 本机安装的 Agent Skill, 不纳入版本库
+.agents/
+skills-lock.json
+
+# 单机部署留在本机，不入库
+/launcher/
+/deploy/windows/
+/docker-compose.windows.yml
+/docker-compose.windows-gpu.yml

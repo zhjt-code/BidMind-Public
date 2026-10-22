@@ -1,0 +1,406 @@
+{
+  "dimension": "d1_personnel",
+  "version": "2026-09-11",
+  "rules": [
+    {
+      "rule_id": "D1-001",
+      "dimension": "d1_personnel",
+      "name": "不同投标文件项目经理为同一人",
+      "evidence_levels": ["first"],
+      "default_level": "first",
+      "standalone_conclusive": true,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]],
+        "b": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": ["D1-008", "D5-003"],
+      "priority": "P0",
+      "ledger_gate": true
+    },
+    {
+      "rule_id": "D1-002",
+      "dimension": "d1_personnel",
+      "name": "不同投标文件技术负责人为同一人",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]],
+        "b": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": ["D1-008", "D5-004"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-003",
+      "dimension": "d1_personnel",
+      "name": "不同投标文件项目负责人为同一人",
+      "evidence_levels": ["first"],
+      "default_level": "first",
+      "standalone_conclusive": true,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]],
+        "b": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": ["D1-001"],
+      "priority": "P0",
+      "ledger_gate": true
+    },
+    {
+      "rule_id": "D1-004",
+      "dimension": "d1_personnel",
+      "name": "不同投标文件安全负责人为同一人",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]],
+        "b": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": ["D5-005"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-005",
+      "dimension": "d1_personnel",
+      "name": "不同投标文件质量负责人为同一人",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]],
+        "b": ["personnel_names", "personnel_roles", ["personnel_certs", "personnel_id_tails"]]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": [],
+      "priority": "P1",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-006",
+      "dimension": "d1_personnel",
+      "name": "项目管理团队存在多人重复",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "computed",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles"],
+        "b": ["personnel_names", "personnel_roles"]
+      },
+      "fact_key_template": "identifier:person_set:{value}",
+      "cross_rules": ["D1-007"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-007",
+      "dimension": "d1_personnel",
+      "name": "多家核心项目班子整体高度重合",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "computed",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_roles"],
+        "b": ["personnel_names", "personnel_roles"]
+      },
+      "fact_key_template": "identifier:person_set:{value}",
+      "cross_rules": ["D1-006"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-008",
+      "dimension": "d1_personnel",
+      "name": "同一注册人员证书被多家投标人使用",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第3项（不同投标人的投标文件载明的项目管理成员为同一人）",
+      "required_facts": {
+        "a": ["personnel_names", "personnel_certs"],
+        "b": ["personnel_names", "personnel_certs"]
+      },
+      "fact_key_template": "identifier:person_cert:{value}",
+      "cross_rules": ["D1-001", "D5-001"],
+      "priority": "P0",
+      "ledger_gate": true
+    },
+    {
+      "rule_id": "D1-009",
+      "dimension": "d1_personnel",
+      "name": "授权委托代理人为同一人",
+      "evidence_levels": ["first"],
+      "default_level": "first",
+      "standalone_conclusive": true,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["authorized_rep_name"],
+        "b": ["authorized_rep_name"]
+      },
+      "fact_key_template": "identifier:authorized_rep:{value}",
+      "cross_rules": ["D1-013", "D1-015"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-010",
+      "dimension": "d1_personnel",
+      "name": "投标联系人为同一人",
+      "evidence_levels": ["first", "second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["contact_person_name"],
+        "b": ["contact_person_name"]
+      },
+      "fact_key_template": "identifier:contact_person:{value}",
+      "cross_rules": ["D1-014"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-011",
+      "dimension": "d1_personnel",
+      "name": "不同联系人姓名但手机号相同",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["contact_person_phone"],
+        "b": ["contact_person_phone"]
+      },
+      "fact_key_template": "identifier:phone:{value}",
+      "cross_rules": ["D1-014", "D2-001"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-012",
+      "dimension": "d1_personnel",
+      "name": "不同联系人姓名但邮箱相同",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["contact_person_email"],
+        "b": ["contact_person_email"]
+      },
+      "fact_key_template": "identifier:email:{value}",
+      "cross_rules": ["D2-003"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-013",
+      "dimension": "d1_personnel",
+      "name": "授权代理人身份证号相同",
+      "evidence_levels": ["first"],
+      "default_level": "first",
+      "standalone_conclusive": true,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["authorized_rep_id_tail"],
+        "b": ["authorized_rep_id_tail"]
+      },
+      "fact_key_template": "identifier:id_tail:{value}",
+      "cross_rules": ["D1-009"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-014",
+      "dimension": "d1_personnel",
+      "name": "联系人手机号与另一投标人项目成员手机号相同",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["contact_person_phone"],
+        "b": ["personnel_phones"]
+      },
+      "fact_key_template": "identifier:phone:{value}",
+      "cross_rules": ["D1-011"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-015",
+      "dimension": "d1_personnel",
+      "name": "一方授权代理人出现在另一方人员表",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第2项（不同投标人委托同一单位或者个人办理投标事宜）",
+      "required_facts": {
+        "a": ["authorized_rep_name"],
+        "b": ["personnel_names"]
+      },
+      "fact_key_template": "identifier:person:{value}",
+      "cross_rules": ["D1-009"],
+      "priority": "P1",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-016",
+      "dimension": "d1_personnel",
+      "name": "一方法定代表人或签字人出现在另一方核心人员中",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "identifier_join",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第34条（单位负责人为同一人或者存在控股、管理关系的不同单位不得参加同一标段投标）",
+      "required_facts": {
+        "a": ["legal_representative"],
+        "b": ["personnel_names"]
+      },
+      "fact_key_template": "identifier:person:{value}",
+      "cross_rules": ["D2-021"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-017",
+      "dimension": "d1_personnel",
+      "name": "不同投标人手写签名字形高度一致",
+      "evidence_levels": ["second", "third"],
+      "default_level": "third",
+      "standalone_conclusive": false,
+      "detection_method": "manual",
+      "feasibility": "manual",
+      "template_exclusion_required": false,
+      "legal_reference": null,
+      "required_facts": {
+        "a": ["signature_images"],
+        "b": ["signature_images"]
+      },
+      "fact_key_template": "asset:signature_shape:{value}",
+      "cross_rules": ["D1-018"],
+      "priority": "P1",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-018",
+      "dimension": "d1_personnel",
+      "name": "同一签名图片被复制到不同投标人文件",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "asset_hash",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第1项（不同投标人的投标文件由同一单位或者个人编制）",
+      "required_facts": {
+        "a": ["signature_images"],
+        "b": ["signature_images"]
+      },
+      "fact_key_template": "asset:sha256:{value}",
+      "cross_rules": ["D1-019", "D1-020", "D6-030"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-019",
+      "dimension": "d1_personnel",
+      "name": "不同姓名对应完全相同的签名图片",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "asset_hash",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第1项（不同投标人的投标文件由同一单位或者个人编制）",
+      "required_facts": {
+        "a": ["signature_images", "personnel_names"],
+        "b": ["signature_images", "personnel_names"]
+      },
+      "fact_key_template": "asset:sha256:{value}",
+      "cross_rules": ["D1-018"],
+      "priority": "P0",
+      "ledger_gate": false
+    },
+    {
+      "rule_id": "D1-020",
+      "dimension": "d1_personnel",
+      "name": "同一人员签名图在多份文件中像素级一致",
+      "evidence_levels": ["second"],
+      "default_level": "second",
+      "standalone_conclusive": false,
+      "detection_method": "asset_hash",
+      "feasibility": "exact",
+      "template_exclusion_required": false,
+      "legal_reference": "《招标投标法实施条例》第40条第1项（不同投标人的投标文件由同一单位或者个人编制）",
+      "required_facts": {
+        "a": ["signature_images"],
+        "b": ["signature_images"]
+      },
+      "fact_key_template": "asset:sha256:{value}",
+      "cross_rules": ["D1-018"],
+      "priority": "P0",
+      "ledger_gate": false
+    }
+  ]
+}

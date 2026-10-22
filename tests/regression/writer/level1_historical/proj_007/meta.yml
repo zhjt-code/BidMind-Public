@@ -1,0 +1,24 @@
+sampling_date: '2026-04-17'
+annotator_prompt_version: v1.0.0
+note: '偏离 #003 场景矩阵合成样本（writer），仅供 Lite 版使用。I-009 跟踪后续校准。'
+project_id: synthetic_wrt_007
+source: synthetic_scenario_matrix
+matrix_version: 1.0.0
+deviation: '#003'
+i009_note: Lite 版合成样本，真实数据可得时需校准（I-009）
+record_count: 1
+annotation_rounds:
+- round: 1
+  temperature: 0.1
+  status: auto_consistency
+- round: 2
+  temperature: 0.3
+  status: auto_consistency
+- round: 3
+  temperature: 0.5
+  status: auto_consistency
+node_type: free_writing
+material_sufficiency: 不足(1-2条)
+cross_ref: 含交叉引用
+veto_risk: 无
+industry: IT服务

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /app
+Disallow: /project/
+Disallow: /settings
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.bidmind-ai.com/sitemap.xml

@@ -1,0 +1,150 @@
+{
+  "version": "2026-09-11",
+  "patterns": [
+    {
+      "pattern_id": "F1",
+      "name": "同源编制指纹",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D3-016", "D3-017", "D3-019", "D3-021", "D3-022", "D3-023"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D6-011", "D6-012", "D6-013", "D6-014", "D6-016", "D6-017", "D6-018", "D6-020"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-007", "D8-013", "D8-033", "D8-036"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-023", "D8-024", "D8-025", "D8-029"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 3,
+      "conclusion_label": "高度疑似多份投标文件具有共同编制来源"
+    },
+    {
+      "pattern_id": "F2",
+      "name": "复制改名型",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D3-001", "D3-002"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D3-040", "D3-041", "D3-042"],
+          "min_hits": 1
+        },
+        {
+          "dimension": "d6_format",
+          "min_level": "third",
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-017", "D8-018", "D8-024", "D8-029"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 3,
+      "conclusion_label": "高度疑似由同一源文件复制后修改形成"
+    },
+    {
+      "pattern_id": "F3",
+      "name": "统一报价型",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D4-003", "D4-004", "D4-009"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D4-017", "D4-018", "D4-019", "D4-020", "D4-021", "D4-022", "D4-023", "D4-024", "D4-025"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D3-001", "D3-013"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-031", "D8-035"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 3,
+      "conclusion_label": "报价文件存在明显协同制作特征"
+    },
+    {
+      "pattern_id": "F4",
+      "name": "人员与资质交叉型",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D1-001", "D1-002", "D1-003", "D1-006", "D1-007"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D5-001", "D5-002", "D5-003", "D5-004"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D5-014", "D5-015", "D5-016", "D5-017", "D5-018"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 2,
+      "conclusion_label": "多家投标主体在人力及资格证明材料上存在高度交叉"
+    },
+    {
+      "pattern_id": "F5",
+      "name": "文件混装型",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D3-040", "D7-001", "D7-009"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D7-005", "D7-006", "D6-029"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D5-008", "D5-009", "D5-010", "D7-002", "D7-004"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 2,
+      "conclusion_label": "命中法定视为串通特征候选，应直接进入最高风险人工复核队列"
+    },
+    {
+      "pattern_id": "F6",
+      "name": "联合数字指纹",
+      "required_rule_groups": [
+        {
+          "rule_ids": ["D8-001", "D8-009"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-010", "D8-034"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-013", "D8-022"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-005", "D8-031", "D8-033"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D6-021", "D6-022", "D8-023"],
+          "min_hits": 1
+        },
+        {
+          "rule_ids": ["D8-025", "D8-026", "D8-027", "D8-029"],
+          "min_hits": 1
+        }
+      ],
+      "min_groups_hit": 4,
+      "conclusion_label": "共同制作环境的解释力显著增强，建议结合原文人工复核"
+    }
+  ]
+}

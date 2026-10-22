@@ -1,0 +1,37 @@
+{
+  "id": "collusion_rule_sample_01",
+  "purpose": "collusion_rule",
+  "note": "占位基线样本，覆盖两对 pair：101:102 因缺失法定代表人字段导致部分规则不可核查，101:103 字段齐备可正常核查；真实语料及更多规则夹具待阶段 B 补充",
+  "expected_output": {
+    "collusion_rule": {
+      "rule_hits": [
+        {"pair_id": "101:103", "rule_id": "D1-001", "level": "first"}
+      ],
+      "ledger": [
+        {"pair_id": "101:102", "rule_id": "D2-021", "status": "not_checkable"},
+        {"pair_id": "101:103", "rule_id": "D2-021", "status": "checkable"},
+        {"pair_id": "101:103", "rule_id": "D5-002", "status": "unimplemented"}
+      ],
+      "gate": [
+        {"pair_id": "101:102", "blocked": true},
+        {"pair_id": "101:103", "blocked": false}
+      ]
+    }
+  },
+  "actual_output": {
+    "collusion_rule": {
+      "rule_hits": [
+        {"pair_id": "101:103", "rule_id": "D1-001", "level": "first"}
+      ],
+      "ledger": [
+        {"pair_id": "101:102", "rule_id": "D2-021", "status": "not_checkable"},
+        {"pair_id": "101:103", "rule_id": "D2-021", "status": "checkable"},
+        {"pair_id": "101:103", "rule_id": "D5-002", "status": "unimplemented"}
+      ],
+      "gate": [
+        {"pair_id": "101:102", "blocked": true},
+        {"pair_id": "101:103", "blocked": false}
+      ]
+    }
+  }
+}

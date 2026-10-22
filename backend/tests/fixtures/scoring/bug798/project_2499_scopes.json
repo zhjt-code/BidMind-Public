@@ -1,0 +1,140 @@
+{
+  "_description": "项目2499：两个采购包各100分（lot=采购包1/采购包2）。当前账本 expected_total=1.0，extracted_total=200.0（扁平账本bug：把所有lot的分值合并为单一账本）。期望：对账时按lot分组，每个lot expected=100。",
+  "chunks": [
+    {
+      "chunk_id": 182994,
+      "page_num": 1,
+      "lot": null,
+      "content_head": "[评分表 第1-1页 · 采购包1]",
+      "content": "[评分表 第1-1页 · 采购包1]\n采购包1综合评标方式：FA=F1×A1+F2×A2+F3×A3=100分(满分时)。价格项(F1×A1)满分为30.0000分。",
+      "grid": [
+        ["分组", "评分因素", "评分内容与标准", "分值"],
+        ["价格部分", "", "", ""],
+        ["", "报价评分", "采购包1综合评标方式：FA=F1×A1+F2×A2+F3×A3=100分(满分时)。价格项(F1×A1)满分为30.0000分", "30分"]
+      ]
+    },
+    {
+      "chunk_id": 183000,
+      "page_num": 3,
+      "lot": "采购包1",
+      "content_head": "[评分表 第3-5页 · 采购包1]",
+      "content": "[评分表 第3-5页 · 采购包1]\n技术项(F2×A2)满分为56.0000分。商务项(F3×A3)满分为14.0000分。",
+      "grid": [
+        ["项目", "分值", "是否客观项", "描述"],
+        ["1、参数响应情况1", "28.00", "是", "技术参数评分"],
+        ["2、参数响应情况2", "20.00", "是", "参数评分"],
+        ["3、产品能力证明1", "2.00", "是", ""],
+        ["4、产品能力证明2", "2.00", "是", ""],
+        ["5、产品能力证明3", "2.00", "是", ""],
+        ["6、产品能力证明4", "2.00", "是", ""],
+        ["7、投标人实力1", "1.00", "否", ""],
+        ["8、投标人实力2", "1.00", "否", ""],
+        ["9、项目负责人", "3.00", "否", ""],
+        ["10、技术负责人", "3.00", "否", ""],
+        ["11、业绩", "1.50", "是", ""],
+        ["12、质保期期限", "1.50", "否", ""],
+        ["13、售后服务方案", "3.00", "否", ""]
+      ]
+    },
+    {
+      "chunk_id": 182996,
+      "page_num": 7,
+      "lot": null,
+      "content_head": "[评分表 第7-7页 · 采购包2]",
+      "content": "[评分表 第7-7页 · 采购包2]\n采购包2综合评标方式：每个投标人的综合得分FA=F1×A1+F2×A2+F3×A3=100分(满分时)。以得分最高的投标人为第一候选人。价格项(F1×A1)满分为10.0000分。请按本采购包的评审要求投标。",
+      "grid": [
+        ["分组", "评分因素", "评分内容与标准", "分值"],
+        ["价格部分", "", "", ""],
+        ["", "报价评分", "采购包2综合评标方式：FA=F1×A1+F2×A2+F3×A3=100分(满分时)。价格项(F1×A1)满分为10.0000分", "10分"]
+      ]
+    },
+    {
+      "chunk_id": 183001,
+      "page_num": 8,
+      "lot": "采购包2",
+      "content_head": "[评分表 第8-13页 · 采购包2]",
+      "content": "[评分表 第8-13页 · 采购包2]\n技术项(F2×A2)满分为66.0000分。商务项(F3×A3)满分为24.0000分。",
+      "grid": [
+        ["项目", "分值", "是否客观项", "描述"],
+        ["1、技术参数响应情况1", "27.00", "是", ""],
+        ["2、技术参数响应情况2", "9.00", "是", ""],
+        ["3、监理工作内容与目标", "3.00", "否", ""],
+        ["4、进度控制", "3.00", "否", ""],
+        ["5、变更控制", "3.00", "否", ""],
+        ["6、投资控制", "3.00", "否", ""],
+        ["7、安全管理", "3.00", "否", ""],
+        ["8、环境与文明施工", "3.00", "否", ""],
+        ["9、档案管理", "3.00", "否", ""],
+        ["10、项目业绩", "3.00", "否", ""],
+        ["11、总监理工程师", "3.00", "否", ""],
+        ["12、项目监理人员", "3.00", "否", ""],
+        ["13、合同服务期限", "1.00", "否", ""],
+        ["14、项目管理机构", "3.00", "否", ""],
+        ["15、驻地办公条件", "3.00", "否", ""],
+        ["16、检测仪器设备", "3.00", "否", ""],
+        ["17、信息化管理", "3.00", "否", ""],
+        ["18、技术报告质量", "3.00", "否", ""],
+        ["19、监理周报", "2.00", "否", ""],
+        ["20、其他商务", "24.00", "否", ""]
+      ]
+    }
+  ],
+  "items": [
+    {"name": "报价评分", "weight": 30.0, "volume_label": "价格部分", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "参数响应情况1", "weight": 28.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "参数响应情况2", "weight": 20.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "产品能力证明1", "weight": 2.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "产品能力证明2", "weight": 2.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "产品能力证明3", "weight": 2.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "产品能力证明4", "weight": 2.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "投标人实力1", "weight": 1.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "投标人实力2", "weight": 1.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "项目负责人", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "技术负责人", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "业绩", "weight": 1.5, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "质保期期限", "weight": 1.5, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "售后服务方案", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包1"},
+    {"name": "报价评分", "weight": 10.0, "volume_label": "价格部分", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "技术参数响应情况1", "weight": 27.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "技术参数响应情况2", "weight": 9.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "监理工作内容与目标", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "进度控制", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "变更控制", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "投资控制", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "安全管理", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "环境与文明施工", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "档案管理", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "项目业绩", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "总监理工程师", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "项目监理人员", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "合同服务期限", "weight": 1.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "项目管理机构", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "驻地办公条件", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "检测仪器设备", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "信息化管理", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "技术报告质量", "weight": 3.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "监理周报", "weight": 2.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"},
+    {"name": "其他商务", "weight": 6.0, "volume_label": "", "scheme": "scheme_1", "lot": "采购包2"}
+  ],
+  "bug_evidence": {
+    "confirmed_run": {
+      "expected_total": 1.0,
+      "extracted_total": 200.0,
+      "total_gap": 199.0,
+      "status": "review_required"
+    },
+    "declaration_trigger": "FA=F1×A1+F2×A2+F3×A3=100分(满分时)",
+    "lot_totals_correct": {
+      "采购包1": 100.0,
+      "采购包2": 100.0
+    }
+  },
+  "expected": {
+    "lot_totals": {
+      "采购包1": 100.0,
+      "采购包2": 100.0
+    },
+    "expected_total_not_flat": true,
+    "no_lot_exceeds_100": true
+  }
+}

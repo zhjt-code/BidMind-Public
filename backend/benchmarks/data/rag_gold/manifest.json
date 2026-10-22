@@ -1,0 +1,207 @@
+{
+  "version": "2026-05-15",
+  "description": "RAG chunking and retrieval gold set for bid document evidence recall.",
+  "scenarios": [
+    {
+      "id": "qualification_certificate_scan",
+      "category": "qualification_certificate",
+      "description": "资质条款与营业执照扫描件跨页提供。",
+      "pages": [
+        {
+          "page_num": 1,
+          "text": "第一章 资格要求\n\n3.2.1 投标人须具备市政公用工程施工总承包一级资质，并提供营业执照副本扫描件。"
+        },
+        {
+          "page_num": 2,
+          "text": "资格证明材料\n本页为营业执照及资质证书复印件。",
+          "images": [
+            {
+              "visual_content": "营业执照扫描件：统一社会信用代码 <CREDIT_CODE_A>，企业名称 <ORG_A>，有效期至 2028-12-31。资质证书：市政公用工程施工总承包一级。",
+              "spatial_context": "营业执照及资质证书复印件"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_qualification",
+          "text": "投标人是否提供市政公用工程施工总承包一级资质和营业执照有效期",
+          "must_phrases": ["市政公用工程施工总承包一级", "<CREDIT_CODE_A>", "2028-12-31"],
+          "expected_pages": [1, 2],
+          "expected_chunk_types": ["image_evidence"]
+        }
+      ]
+    },
+    {
+      "id": "staff_social_security_table",
+      "category": "staff_social_security",
+      "description": "人员社保要求与人员表格证明。",
+      "pages": [
+        {
+          "page_num": 3,
+          "text": "第二章 人员配置\n\n项目经理、技术负责人均须提供身份证、职称证和近六个月社保缴费证明。"
+        },
+        {
+          "page_num": 4,
+          "text": "项目管理人员社保明细表",
+          "tables": [
+            {
+              "table_index": 0,
+              "data": [
+                ["姓名", "岗位", "身份证号", "社保月份", "缴纳单位"],
+                ["<PERSON_1>", "项目经理", "<IDENTITY_1234>", "2025-10至2026-03", "<ORG_A>"],
+                ["<PERSON_2>", "技术负责人", "<IDENTITY_1235>", "2025-10至2026-03", "<ORG_A>"]
+              ]
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_staff_social_security",
+          "text": "项目经理和技术负责人近六个月社保缴费证明",
+          "must_phrases": ["项目经理", "技术负责人", "2025-10至2026-03"],
+          "expected_pages": [3, 4],
+          "expected_chunk_types": ["table_row_with_header"]
+        }
+      ]
+    },
+    {
+      "id": "performance_contract",
+      "category": "performance_contract",
+      "description": "业绩合同金额、日期和甲方信息。",
+      "pages": [
+        {
+          "page_num": 5,
+          "text": "第三章 类似项目业绩\n\n投标人提供城市道路改造工程合同，合同名称为西湖区道路提升项目，甲方为西湖区建设中心，合同金额 1280 万元，签订日期 2024-04-18，已完成竣工验收。"
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_performance",
+          "text": "类似项目业绩合同金额签订日期甲方",
+          "must_phrases": ["西湖区道路提升项目", "1280 万元", "2024-04-18", "西湖区建设中心"],
+          "expected_pages": [5]
+        }
+      ]
+    },
+    {
+      "id": "commercial_scoring_table",
+      "category": "commercial_table",
+      "description": "评分表和商务响应表格。",
+      "pages": [
+        {
+          "page_num": 6,
+          "text": "第四章 商务响应与评分",
+          "tables": [
+            {
+              "table_index": 0,
+              "data": [
+                ["评分项", "满分", "响应内容", "页码"],
+                ["付款条件", "5", "完全响应招标文件付款节点", "88"],
+                ["交付周期", "10", "承诺合同签订后 45 日内完成交付", "89"],
+                ["质保期", "5", "承诺质保期 36 个月", "90"]
+              ]
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_commercial",
+          "text": "商务评分表交付周期质保期付款条件",
+          "must_phrases": ["付款条件", "45 日内完成交付", "质保期 36 个月"],
+          "expected_pages": [6],
+          "expected_chunk_types": ["table_row_with_header"]
+        }
+      ]
+    },
+    {
+      "id": "image_only_certificate",
+      "category": "image_scan",
+      "description": "正文只有附件提示，关键证据来自图片识别。",
+      "pages": [
+        {
+          "page_num": 7,
+          "text": "第五章 信用证明\n详见本页附件扫描件。",
+          "images": [
+            {
+              "visual_content": "信用中国查询截图：<ORG_A>未被列入失信被执行人、重大税收违法失信主体和政府采购严重违法失信行为记录名单。",
+              "spatial_context": "详见本页附件扫描件"
+            }
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_credit_image",
+          "text": "信用中国未被列入失信被执行人和重大税收违法失信主体",
+          "must_phrases": ["信用中国", "未被列入失信被执行人", "重大税收违法失信主体"],
+          "expected_pages": [7],
+          "expected_chunk_types": ["image_evidence"]
+        }
+      ]
+    },
+    {
+      "id": "toc_navigation",
+      "category": "toc_navigation",
+      "description": "目录页指向后续页码，正文证据在目标页。",
+      "pages": [
+        {
+          "page_num": 1,
+          "text": "目录\n一、投标函 ........................ 10\n二、商务响应表 .................... 86\n三、售后服务承诺 .................. 98"
+        },
+        {
+          "page_num": 86,
+          "text": "二、商务响应表\n投标人承诺付款条件、发票开具、合同履约保证金等商务条款均完全响应招标文件要求。"
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_toc",
+          "text": "商务响应表付款条件履约保证金",
+          "must_phrases": ["商务响应表", "履约保证金"],
+          "expected_pages": [86]
+        }
+      ]
+    },
+    {
+      "id": "compound_requirement",
+      "category": "compound_requirement",
+      "description": "复合要求需要多子面共同召回。",
+      "pages": [
+        {
+          "page_num": 8,
+          "text": "第六章 复合资格证明\n\n项目经理、技术负责人、安全负责人均需提供身份证、职称证、劳动合同和社保缴费证明。项目经理<PERSON_1>、技术负责人<PERSON_2>、安全负责人<PERSON_3>的身份证、职称证、劳动合同及社保证明均附后。"
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_compound",
+          "text": "项目经理技术负责人安全负责人身份证职称证劳动合同社保缴费证明",
+          "must_phrases": ["项目经理", "技术负责人", "安全负责人", "身份证", "职称证", "劳动合同", "社保缴费证明"],
+          "expected_pages": [8]
+        }
+      ]
+    },
+    {
+      "id": "long_technical_plan",
+      "category": "long_plan",
+      "description": "长章节方案需要保留章节路径和关键步骤。",
+      "pages": [
+        {
+          "page_num": 9,
+          "text": "第七章 技术实施方案\n\n7.1 总体实施路径\n本项目采用需求调研、深化设计、现场施工、系统联调、试运行和验收移交六阶段实施。需求调研阶段完成现场踏勘和资料收集；深化设计阶段完成施工图深化和材料报审；现场施工阶段完成管线敷设、设备安装和安全文明施工；系统联调阶段完成单机调试、联动调试和性能测试；试运行阶段连续运行不少于 30 日；验收移交阶段提交竣工资料、培训记录和质保承诺。" 
+        }
+      ],
+      "queries": [
+        {
+          "id": "q_long_plan",
+          "text": "技术实施方案六阶段试运行不少于30日验收移交竣工资料",
+          "must_phrases": ["需求调研", "系统联调", "试运行阶段连续运行不少于 30 日", "竣工资料"],
+          "expected_pages": [9]
+        }
+      ]
+    }
+  ]
+}

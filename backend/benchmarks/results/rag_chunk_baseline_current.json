@@ -1,0 +1,521 @@
+{
+  "version": "2026-05-15",
+  "top_k": 5,
+  "profiles": [
+    {
+      "profile": "structured_main",
+      "description": "主文档结构化入口: ParsedPage + table_row_with_header + independent image_evidence",
+      "scenario_scores": [
+        {
+          "scenario_id": "qualification_certificate_scan",
+          "category": "qualification_certificate",
+          "query_scores": [
+            {
+              "query_id": "q_qualification",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                4,
+                3,
+                2,
+                0
+              ],
+              "top_pages": [
+                1,
+                2,
+                2,
+                2,
+                1
+              ],
+              "top_chunk_types": [
+                "clause",
+                "image_evidence",
+                "paragraph",
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "staff_social_security_table",
+          "category": "staff_social_security",
+          "query_scores": [
+            {
+              "query_id": "q_staff_social_security",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                4,
+                3,
+                2,
+                0
+              ],
+              "top_pages": [
+                3,
+                4,
+                4,
+                4,
+                3
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "table_row_with_header",
+                "table_row_with_header",
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "performance_contract",
+          "category": "performance_contract",
+          "query_scores": [
+            {
+              "query_id": "q_performance",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 0.5,
+              "score": 0.95,
+              "top_chunk_indexes": [
+                0,
+                1
+              ],
+              "top_pages": [
+                5,
+                5
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.95
+        },
+        {
+          "scenario_id": "commercial_scoring_table",
+          "category": "commercial_table",
+          "query_scores": [
+            {
+              "query_id": "q_commercial",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                2,
+                3,
+                0
+              ],
+              "top_pages": [
+                6,
+                6,
+                6,
+                6
+              ],
+              "top_chunk_types": [
+                "table_row_with_header",
+                "table_row_with_header",
+                "table_row_with_header",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "image_only_certificate",
+          "category": "image_scan",
+          "query_scores": [
+            {
+              "query_id": "q_credit_image",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                2,
+                1,
+                0
+              ],
+              "top_pages": [
+                7,
+                7,
+                7
+              ],
+              "top_chunk_types": [
+                "image_evidence",
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "toc_navigation",
+          "category": "toc_navigation",
+          "query_scores": [
+            {
+              "query_id": "q_toc",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                0
+              ],
+              "top_pages": [
+                86,
+                1
+              ],
+              "top_chunk_types": [
+                "clause",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "compound_requirement",
+          "category": "compound_requirement",
+          "query_scores": [
+            {
+              "query_id": "q_compound",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                0
+              ],
+              "top_pages": [
+                8,
+                8
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "long_technical_plan",
+          "category": "long_plan",
+          "query_scores": [
+            {
+              "query_id": "q_long_plan",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 0.5,
+              "score": 0.95,
+              "top_chunk_indexes": [
+                0,
+                1
+              ],
+              "top_pages": [
+                9,
+                9
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "clause"
+              ]
+            }
+          ],
+          "score": 0.95
+        }
+      ],
+      "score": 0.9875
+    },
+    {
+      "profile": "tuple_compat",
+      "description": "历史 page_tuple 兼容入口: 仅页文本 + 内联图片证据, 无结构化表格 chunk",
+      "scenario_scores": [
+        {
+          "scenario_id": "qualification_certificate_scan",
+          "category": "qualification_certificate",
+          "query_scores": [
+            {
+              "query_id": "q_qualification",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 0.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 0.85,
+              "top_chunk_indexes": [
+                1,
+                2,
+                0
+              ],
+              "top_pages": [
+                1,
+                2,
+                1
+              ],
+              "top_chunk_types": [
+                "clause",
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.85
+        },
+        {
+          "scenario_id": "staff_social_security_table",
+          "category": "staff_social_security",
+          "query_scores": [
+            {
+              "query_id": "q_staff_social_security",
+              "phrase_recall": 0.6667,
+              "page_recall": 1.0,
+              "type_recall": 0.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 0.7,
+              "top_chunk_indexes": [
+                1,
+                2,
+                0
+              ],
+              "top_pages": [
+                3,
+                4,
+                3
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.7
+        },
+        {
+          "scenario_id": "performance_contract",
+          "category": "performance_contract",
+          "query_scores": [
+            {
+              "query_id": "q_performance",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 0.5,
+              "score": 0.95,
+              "top_chunk_indexes": [
+                0,
+                1
+              ],
+              "top_pages": [
+                5,
+                5
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.95
+        },
+        {
+          "scenario_id": "commercial_scoring_table",
+          "category": "commercial_table",
+          "query_scores": [
+            {
+              "query_id": "q_commercial",
+              "phrase_recall": 0.0,
+              "page_recall": 1.0,
+              "type_recall": 0.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 0.0,
+              "mrr": 0.0,
+              "score": 0.3,
+              "top_chunk_indexes": [
+                0
+              ],
+              "top_pages": [
+                6
+              ],
+              "top_chunk_types": [
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.3
+        },
+        {
+          "scenario_id": "image_only_certificate",
+          "category": "image_scan",
+          "query_scores": [
+            {
+              "query_id": "q_credit_image",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 0.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 0.85,
+              "top_chunk_indexes": [
+                0
+              ],
+              "top_pages": [
+                7
+              ],
+              "top_chunk_types": [
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 0.85
+        },
+        {
+          "scenario_id": "toc_navigation",
+          "category": "toc_navigation",
+          "query_scores": [
+            {
+              "query_id": "q_toc",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                0
+              ],
+              "top_pages": [
+                86,
+                1
+              ],
+              "top_chunk_types": [
+                "clause",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "compound_requirement",
+          "category": "compound_requirement",
+          "query_scores": [
+            {
+              "query_id": "q_compound",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 1.0,
+              "score": 1.0,
+              "top_chunk_indexes": [
+                1,
+                0
+              ],
+              "top_pages": [
+                8,
+                8
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "paragraph"
+              ]
+            }
+          ],
+          "score": 1.0
+        },
+        {
+          "scenario_id": "long_technical_plan",
+          "category": "long_plan",
+          "query_scores": [
+            {
+              "query_id": "q_long_plan",
+              "phrase_recall": 1.0,
+              "page_recall": 1.0,
+              "type_recall": 1.0,
+              "metadata_score": 1.0,
+              "hit_at_k": 1.0,
+              "mrr": 0.5,
+              "score": 0.95,
+              "top_chunk_indexes": [
+                0,
+                1
+              ],
+              "top_pages": [
+                9,
+                9
+              ],
+              "top_chunk_types": [
+                "paragraph",
+                "clause"
+              ]
+            }
+          ],
+          "score": 0.95
+        }
+      ],
+      "score": 0.825
+    }
+  ],
+  "summary": {
+    "structured_main": {
+      "score": 0.9875,
+      "scenario_count": 8
+    },
+    "tuple_compat": {
+      "score": 0.825,
+      "scenario_count": 8
+    }
+  }
+}

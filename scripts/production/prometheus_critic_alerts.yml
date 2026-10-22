@@ -1,0 +1,92 @@
+groups:
+  - name: bidmind-critic-quality
+    rules:
+      - alert: BidMindCoVeDisagreeRateHigh
+        expr: |
+          (
+            sum by (flow) (increase(cove_outcome_total{flow=~"investigate|collusion|writer", outcome="disagree"}[10m]))
+            /
+            clamp_min(sum by (flow) (increase(cove_outcome_total{flow=~"investigate|collusion|writer"}[10m])), 1)
+          ) > 0.20
+          and
+          sum by (flow) (increase(cove_outcome_total{flow=~"investigate|collusion|writer"}[10m])) >= 5
+        for: 10m
+        labels:
+          severity: warning
+          module: critic
+        annotations:
+          summary: "CoVe disagree rate high on {{ $labels.flow }}"
+          description: "CoVe disagree rate exceeded 20% for 10 minutes. Check evidence snippets, quote matching, and trigger thresholds."
+
+      - alert: BidMindJudgeDisagreeRateOutOfBand
+        expr: |
+          (
+            (
+              sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer", verdict="disagree"}[10m]))
+              /
+              clamp_min(sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer"}[10m])), 1)
+            ) < 0.05
+            or
+            (
+              sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer", verdict="disagree"}[10m]))
+              /
+              clamp_min(sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer"}[10m])), 1)
+            ) > 0.15
+          )
+          and
+          sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer"}[10m])) >= 10
+        for: 10m
+        labels:
+          severity: warning
+          module: critic
+        annotations:
+          summary: "Judge disagree rate out of target band on {{ $labels.flow }}"
+          description: "Judge disagree rate is outside [5%, 15%]. Low values may mean Judge is ineffective; high values may mean prompt/model instability."
+
+      - alert: BidMindJudgeInconclusiveRateHigh
+        expr: |
+          (
+            sum by (flow) (increase(judge_inconclusive_total{flow=~"investigate|collusion|writer"}[10m]))
+            /
+            clamp_min(
+              sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer"}[10m]))
+              + sum by (flow) (increase(judge_inconclusive_total{flow=~"investigate|collusion|writer"}[10m])),
+              1
+            )
+          ) > 0.10
+          and
+          (
+            sum by (flow) (increase(judge_outcome_total{flow=~"investigate|collusion|writer"}[10m]))
+            + sum by (flow) (increase(judge_inconclusive_total{flow=~"investigate|collusion|writer"}[10m]))
+          ) >= 10
+        for: 10m
+        labels:
+          severity: warning
+          module: critic
+        annotations:
+          summary: "Judge inconclusive rate high on {{ $labels.flow }}"
+          description: "Judge inconclusive rate exceeded 10%. Check judge pool availability, schema support, and provider errors."
+
+  - name: bidmind-gate-quality
+    rules:
+      - alert: BidMindWriterGateRejectBurst
+        expr: |
+          sum(increase(writer_gate_reject_total[5m])) > 20
+        for: 5m
+        labels:
+          severity: critical
+          module: gate
+        annotations:
+          summary: "Writer Gate reject burst"
+          description: "Writer Gate rejects exceeded 20 in 5 minutes. Check recent writer generation changes and gate severity overrides."
+
+      - alert: BidMindGatePipelineNoSamples
+        expr: |
+          sum(increase(gate_verdict_total{flow=~"investigate|collusion|writer"}[1h])) == 0
+        for: 1h
+        labels:
+          severity: warning
+          module: gate
+        annotations:
+          summary: "No Gate Pipeline samples in the last hour"
+          description: "No gate verdict samples were observed for one hour. If business traffic exists, check Gate Pipeline wiring and Prometheus scraping."

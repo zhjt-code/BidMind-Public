@@ -1,0 +1,55 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    groups:
+      frontend-production:
+        dependency-type: production
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      frontend-development:
+        dependency-type: development
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: pip
+    directory: /backend
+    schedule:
+      interval: weekly
+    groups:
+      backend-production:
+        dependency-type: production
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      backend-development:
+        dependency-type: development
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: docker
+    directory: /backend
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ocr
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /nginx
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+

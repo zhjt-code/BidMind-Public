@@ -1,0 +1,95 @@
+{
+  "project_id": 1559,
+  "description": "从真实项目 1559 最小化脱敏抽取的素材匹配测试 fixture，仅保留 id/title/resolved/tags 等结构字段，不含完整文档内容，不可回写生产数据库。",
+  "materials": [
+    {
+      "id": 690,
+      "title": "企业综合实力介绍",
+      "resolved_label": null,
+      "label_conflict": "uncertain",
+      "tags": {
+        "applicable_sections": ["企业概况", "公司简介"],
+        "domain": "company",
+        "_tag_status": "ok"
+      }
+    },
+    {
+      "id": 691,
+      "title": "质量管理体系认证证书",
+      "resolved_label": "资质证书",
+      "label_conflict": "matched",
+      "tags": {
+        "applicable_sections": ["资质证书", "企业资质"],
+        "domain": "cert",
+        "_tag_status": "ok"
+      }
+    },
+    {
+      "id": 692,
+      "title": "项目经理职称证书",
+      "resolved_label": "职称证书",
+      "label_conflict": "matched",
+      "tags": {
+        "applicable_sections": ["人员资质", "技术人员"],
+        "domain": "personnel",
+        "_tag_status": "ok"
+      }
+    }
+  ],
+  "nodes": [
+    {"id": 6473, "title": "资质证书", "embedding_available": false},
+    {"id": 6474, "title": "企业概况", "embedding_available": false},
+    {"id": 6475, "title": "公司简介", "embedding_available": false},
+    {"id": 6476, "title": "荣誉奖项", "embedding_available": false},
+    {"id": 6481, "title": "企业资质认证", "embedding_available": false},
+    {"id": 6485, "title": "人员资质证明", "embedding_available": false},
+    {"id": 6489, "title": "技术人员资质", "embedding_available": false},
+    {"id": 6512, "title": "资质材料汇总", "embedding_available": false}
+  ],
+  "expected_pairs": [
+    {
+      "material_id": 691,
+      "node_id": 6481,
+      "reason": "applicable_sections '企业资质' 匹配节点 '企业资质认证'"
+    },
+    {
+      "material_id": 692,
+      "node_id": 6489,
+      "reason": "applicable_sections '技术人员' 匹配节点 '技术人员资质'"
+    }
+  ],
+  "forbidden_pairs": [
+    {
+      "material_id": 691,
+      "node_id": 6473,
+      "reason": "applicable_sections '资质证书' 与节点标题完全重合导致错误匹配，不应绑定到过宽泛节点"
+    },
+    {
+      "material_id": 691,
+      "node_id": 6512,
+      "reason": "applicable_sections '资质证书' 与 '资质材料汇总' 关键词重叠，属错误宽泛匹配"
+    },
+    {
+      "material_id": 692,
+      "node_id": 6485,
+      "reason": "applicable_sections '人员资质' 与 '人员资质证明' 完全包含，导致多余绑定"
+    },
+    {
+      "material_id": 690,
+      "node_id": 6476,
+      "reason": "企业综合实力介绍不应匹配荣誉奖项节点（向量兜底误召回守卫）"
+    }
+  ],
+  "manual_candidates": [
+    {
+      "material_id": 690,
+      "node_id": 6474,
+      "note": "manual_candidate - 企业概况节点应由人工确认"
+    },
+    {
+      "material_id": 690,
+      "node_id": 6475,
+      "note": "manual_candidate - 公司简介节点应由人工确认"
+    }
+  ]
+}
