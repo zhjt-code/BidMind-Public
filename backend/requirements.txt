@@ -68,7 +68,8 @@ PyYAML==6.0.3
 
 # 安全加固
 slowapi==0.1.10
-prometheus-fastapi-instrumentator==7.0.2
+# Match FastAPI included-router handling and its Starlette dependency.
+prometheus-fastapi-instrumentator==8.1.0
 
 # 认证相关
 python-jose[cryptography]==3.5.0
