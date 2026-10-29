@@ -47,11 +47,7 @@ const RADAR_SERIES_COLOR = '#9056D8'
 const RADAR_SERIES_ACTIVE_COLOR = '#6C40A2'
 const RADAR_RADIAL_LINE_COLOR = '#E3D5F5'
 
-const RADAR_GRID_TICKS = RADAR_GRID_RINGS.map((ring, index) => ({
-  value: ring.score,
-  coordinate: ring.radius,
-  index,
-}))
+const RADAR_GRID_TICKS = RADAR_GRID_RINGS.map(ring => ring.score)
 
 interface RiskLevelGaugeProps {
   riskLevel: string | undefined

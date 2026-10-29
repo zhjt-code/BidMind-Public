@@ -46,11 +46,7 @@ const REVIEW_RADAR_GRID_RINGS = [
   { score: 100, radius: 80, stroke: 'hsl(0, 85%, 78%)' },
 ] as const
 
-const REVIEW_RADAR_GRID_TICKS = REVIEW_RADAR_GRID_RINGS.map((ring, index) => ({
-  value: ring.score,
-  coordinate: ring.radius,
-  index,
-}))
+const REVIEW_RADAR_GRID_TICKS = REVIEW_RADAR_GRID_RINGS.map(ring => ring.score)
 
 const FOCUS_STYLE: Record<ReviewFocusTone, {
   wrap: string
