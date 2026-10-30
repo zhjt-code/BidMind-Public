@@ -17,7 +17,7 @@ export const LogoIcon: React.FC<LogoIconProps> = ({ size = 32, className = '' })
     alt=""
     width={Math.round(size * 1.442)}
     height={size}
-    className={`flex-shrink-0 object-contain ${className}`.trim()}
+    className={`shrink-0 object-contain ${className}`.trim()}
     style={{ height: size, width: 'auto' }}
     decoding="async"
   />
@@ -34,7 +34,7 @@ const LogoWordmark: React.FC<LogoWordmarkProps> = ({ height, className = '' }) =
     alt="岚墨 AI"
     width={Math.round(height * WORDMARK_ASPECT)}
     height={height}
-    className={`flex-shrink-0 object-contain ${className}`.trim()}
+    className={`shrink-0 object-contain ${className}`.trim()}
     style={{ height, width: 'auto' }}
     decoding="async"
   />

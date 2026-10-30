@@ -152,7 +152,7 @@ const ResultDetail: React.FC<ResultDetailProps> = ({
                 <Badge variant="destructive">存在冲突</Badge>
               )}
             </div>
-            <div className="text-right flex-shrink-0">
+            <div className="text-right shrink-0">
               <div className="flex items-center justify-end gap-1.5">
                 <span className="text-[10px] text-gray-400">符合度</span>
                 <span
@@ -245,7 +245,7 @@ const ResultDetail: React.FC<ResultDetailProps> = ({
                       key={group.partKey ?? 'integral'}
                       className="flex items-center gap-1 flex-wrap"
                     >
-                      <span className="flex-shrink-0">{group.label}:</span>
+                      <span className="shrink-0">{group.label}:</span>
                       {group.locations.map((location, i) => (
                         <SourcePageBadge
                           key={`${location.documentId}-${location.page}-${i}`}
@@ -384,7 +384,7 @@ const DebugField: React.FC<{ label: string; value?: string | null }> = ({ label,
   if (!value) return null
   return (
     <div className="flex text-xs">
-      <span className="text-gray-400 w-20 flex-shrink-0">{label}</span>
+      <span className="text-gray-400 w-20 shrink-0">{label}</span>
       <span className="text-gray-600 font-mono">{value}</span>
     </div>
   )
@@ -449,23 +449,23 @@ const RelatedFactPanel: React.FC<RelatedFactPanelProps> = ({ current, siblings, 
             >
               <Badge
                 variant={isPendingJudgment(s) ? 'outline' : getComplianceBadgeVariant(s.complianceLevel)}
-                className={`text-[10px] px-1.5 py-0 flex-shrink-0 ${
+                className={`text-[10px] px-1.5 py-0 shrink-0 ${
                   isPendingJudgment(s) ? PENDING_JUDGMENT_BADGE_CLASS : ''
                 }`}
                 title={isPendingJudgment(s) ? PENDING_JUDGMENT_TOOLTIP : undefined}
               >
                 {getComplianceDisplayLabel(s, complianceLevelLabels)}
               </Badge>
-              <Badge variant="outline" className="text-[10px] px-1.5 py-0 flex-shrink-0">
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 shrink-0">
                 {getCategoryLabel(s.category)}
               </Badge>
               {s.consistencyFlag === 'cross_conflict' && (
-                <Badge variant="destructive" className="text-[10px] px-1.5 py-0 flex-shrink-0">冲突</Badge>
+                <Badge variant="destructive" className="text-[10px] px-1.5 py-0 shrink-0">冲突</Badge>
               )}
               <span className="text-xs text-gray-700 truncate flex-1 min-w-0">
                 {(s.requirementDescription || s.requirementSummary || '').slice(0, 60)}
               </span>
-              <span className="text-[10px] text-gray-400 flex-shrink-0">{s.score}</span>
+              <span className="text-[10px] text-gray-400 shrink-0">{s.score}</span>
             </button>
           ))}
         </div>

@@ -539,7 +539,7 @@ const RequirementReviewPage: React.FC = () => {
   // 首次提取被余额阻断且尚无清单：整页替换为完成语义门禁卡，不渲染红色错误面板
   if (extractGate.blocked && requirements.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow p-8">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-8">
         <BalanceGateCard
           layout="center"
           semantic="completed"
@@ -713,7 +713,7 @@ const RequirementReviewPage: React.FC = () => {
       {(() => {
         if (requirements.length === 0) {
           return (
-            <div className="bg-white rounded-lg shadow">
+            <div className="bg-white rounded-lg shadow-sm">
               <EmptyState
                 variant="document"
                 title={
@@ -792,7 +792,7 @@ const RequirementReviewPage: React.FC = () => {
 
         return (
           <>
-            <div id="requirement-review-table-card" className="bg-white rounded-lg shadow scroll-mt-4">
+            <div id="requirement-review-table-card" className="bg-white rounded-lg shadow-sm scroll-mt-4">
               <RequirementFilterBar
                 totalCount={actionableRequirements.length}
                 mandatoryCount={mandatoryCount}

@@ -97,7 +97,7 @@ export const BackToTop: React.FC<BackToTopProps> = ({
               'group fixed right-6 z-40 h-12 w-12 rounded-full p-0',
               resolveBackToTopBottomClass(feedbackFabVisible),
               'bg-white text-muted-foreground border border-border',
-              'shadow-lg shadow-gray-900/[0.06]',
+              'shadow-lg shadow-gray-900/6',
               'hover:bg-white hover:text-primary hover:border-primary/40',
               'hover:shadow-xl hover:shadow-primary/15',
               'motion-safe:hover:scale-105 motion-safe:active:scale-95',

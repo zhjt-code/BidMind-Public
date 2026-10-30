@@ -151,7 +151,7 @@ const HERO_DEMO_TONES: Record<PublicCapabilityKey, HeroDemoTone> = {
     scanLine: 'bg-[#08A6A6]',
     stackLabel: 'text-teal-700',
     currentPanel: 'border-teal-100',
-    completedFrame: 'border-teal-100 shadow-sm',
+    completedFrame: 'border-teal-100 shadow-xs',
     activeIcon: 'border-teal-500 bg-teal-500 text-white',
     evidencePill: 'border-teal-100 bg-teal-50 text-teal-700',
   },
@@ -162,7 +162,7 @@ const HERO_DEMO_TONES: Record<PublicCapabilityKey, HeroDemoTone> = {
     scanLine: 'bg-[#635BFF]',
     stackLabel: 'text-indigo-700',
     currentPanel: 'border-indigo-100',
-    completedFrame: 'border-indigo-100 shadow-sm',
+    completedFrame: 'border-indigo-100 shadow-xs',
     activeIcon: 'border-[#635BFF] bg-[#635BFF] text-white',
     evidencePill: 'border-indigo-100 bg-indigo-50 text-indigo-700',
   },
@@ -173,7 +173,7 @@ const HERO_DEMO_TONES: Record<PublicCapabilityKey, HeroDemoTone> = {
     scanLine: 'bg-[#9056D8]',
     stackLabel: 'text-[#6C40A2]',
     currentPanel: 'border-[#E3D5F5]',
-    completedFrame: 'border-[#E3D5F5] shadow-sm',
+    completedFrame: 'border-[#E3D5F5] shadow-xs',
     activeIcon: 'border-[#9056D8] bg-[#9056D8] text-white',
     evidencePill: 'border-[#E3D5F5] bg-[#F6F1FC] text-[#6C40A2]',
   },
@@ -318,7 +318,7 @@ const HeroAiDemo: React.FC = () => {
             })}
           </div>
 
-          <div className="relative mt-4 h-[13.75rem]">
+          <div className="relative mt-4 h-55">
             <p className="absolute inset-x-0 top-0 text-xs font-semibold text-slate-500">已识别</p>
             {revealedFrames.map((frame, index) => {
               if (index > STACK_CARD_MAX_DEPTH) return null
@@ -326,7 +326,7 @@ const HeroAiDemo: React.FC = () => {
               return (
                 <div
                   key={frame.title}
-                  className={`hero-demo-stack-card absolute inset-x-0 top-6 h-[4.75rem] rounded-xl border bg-white p-3 shadow-sm ${activeTone.currentPanel}`}
+                  className={`hero-demo-stack-card absolute inset-x-0 top-6 h-19 rounded-xl border bg-white p-3 shadow-xs ${activeTone.currentPanel}`}
                   style={{
                     transform: `translateY(${index * STACK_CARD_OFFSET_PX}px)`,
                     zIndex: index + 1,

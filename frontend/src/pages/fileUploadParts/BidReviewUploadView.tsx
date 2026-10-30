@@ -53,13 +53,13 @@ const BidReviewUploadView: React.FC<BidReviewUploadViewProps> = ({
     )}
     {retryPanel}
     {recoveryPanel ? (
-      <div className="bg-white rounded-lg shadow p-6 space-y-6">
+      <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
         {recoveryPanel}
         {actions}
       </div>
     ) : (
       <div className="space-y-6">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <h2 className="text-base font-semibold text-gray-800">招标文件 (PDF/Word)</h2>
             {showInputs ? (
@@ -75,7 +75,7 @@ const BidReviewUploadView: React.FC<BidReviewUploadViewProps> = ({
           </div>
           {tenderSlot}
         </div>
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <h2 className="text-base font-semibold text-gray-800">投标文件 (PDF/Word)</h2>
             {showInputs ? (

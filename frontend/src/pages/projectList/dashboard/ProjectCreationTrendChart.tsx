@@ -33,7 +33,7 @@ const ProjectCreationTrendChart: React.FC<ProjectCreationTrendChartProps> = ({
   }))
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <h3 className="text-sm font-semibold text-gray-900">新建 vs 完成</h3>

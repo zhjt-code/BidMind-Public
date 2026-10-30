@@ -109,14 +109,14 @@ const HeroSection: React.FC = () => {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               to={primaryPath}
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               {primaryLabel}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
             <a
               href="#capabilities"
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               {publicHomeContent.hero.secondaryCta}
             </a>
@@ -138,7 +138,7 @@ const HeroSection: React.FC = () => {
               return (
                 <li
                   key={step.key}
-                  className={`group flex items-center gap-4 rounded-2xl border bg-white/10 p-4 backdrop-blur-sm transition-colors sm:p-5 ${tone.cardBorder}`}
+                  className={`group flex items-center gap-4 rounded-2xl border bg-white/10 p-4 backdrop-blur-xs transition-colors sm:p-5 ${tone.cardBorder}`}
                 >
                   <div className="flex flex-col items-center gap-1">
                     <span className={`text-[2.25rem] font-semibold leading-none ${tone.stepNumber}`}>{step.stepNumber}</span>
@@ -160,7 +160,7 @@ const HeroSection: React.FC = () => {
         {proofItems.map(item => (
           <div
             key={item.label}
-            className={`flex min-h-14 min-w-[9rem] flex-1 items-center gap-2 rounded-xl border px-3 text-sm font-semibold text-[#0A2540] sm:min-w-0 ${item.container}`}
+            className={`flex min-h-14 min-w-36 flex-1 items-center gap-2 rounded-xl border px-3 text-sm font-semibold text-[#0A2540] sm:min-w-0 ${item.container}`}
           >
             <CheckCircle2 className={`h-4 w-4 flex-none ${item.icon}`} aria-hidden="true" />
             {item.label}

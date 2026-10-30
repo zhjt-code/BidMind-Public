@@ -55,7 +55,7 @@ export const BindingRow: React.FC<BindingRowProps> = ({
     >
       <div className="flex-1 min-w-0 pt-0.5">
         <div className="flex items-center gap-1.5">
-          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium flex-shrink-0 ${label.tagClass}`}>
+          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium shrink-0 ${label.tagClass}`}>
             {label.tag}
           </span>
           <Tooltip>
@@ -82,7 +82,7 @@ export const BindingRow: React.FC<BindingRowProps> = ({
           </Tooltip>
         )}
       </div>
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <span className={`text-xs font-mono ${b.confidence >= 0.7 ? 'text-green-600' : 'text-amber-600'}`}>
           {(b.confidence * 100).toFixed(0)}%
         </span>

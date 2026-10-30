@@ -25,7 +25,7 @@ test('审查概览的非头部提示块应随图表折叠隐藏', () => {
 })
 
 test('审查概览卡片应裁剪折叠主体的溢出内容', () => {
-  assert.equal(source.includes('bg-white rounded-lg shadow mb-4 overflow-hidden'), true)
+  assert.equal(source.includes('bg-white rounded-lg shadow-sm mb-4 overflow-hidden'), true)
 })
 
 test('审查概览展开内容区应启用独立纵向滚动', () => {

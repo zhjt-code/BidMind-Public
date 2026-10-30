@@ -192,7 +192,7 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ onPinnedChange }) => {
 
   if (pinned) {
     return (
-      <aside className="w-56 flex-shrink-0 min-h-0 overflow-hidden border-r border-gray-200/80 bg-white">
+      <aside className="w-56 shrink-0 min-h-0 overflow-hidden border-r border-gray-200/80 bg-white">
         <NavBody pinned={pinned} onTogglePin={handleTogglePin} />
       </aside>
     )
@@ -201,7 +201,7 @@ const AdminSideNav: React.FC<AdminSideNavProps> = ({ onPinnedChange }) => {
   return (
     <>
       <div
-        className="relative w-3 flex-shrink-0"
+        className="relative w-3 shrink-0"
         onMouseEnter={showNav}
         onFocus={showNav}
       >

@@ -29,9 +29,9 @@ test('顶栏 Logo 高度放大且不超过 h-16', () => {
 
 test('一级导航选中态保留圆角矩形+阴影，并叠加字重与底线', () => {
   assert.match(headerSource, /rounded-lg/)
-  assert.match(headerSource, /bg-primary\/\[0\.08\]/)
+  assert.match(headerSource, /bg-primary\/8/)
   assert.match(headerSource, /border-primary\/15/)
-  assert.match(headerSource, /shadow-sm/)
+  assert.match(headerSource, /shadow-xs/)
   assert.match(headerSource, /font-semibold text-primary/)
   assert.match(headerSource, /font-medium text-gray-700/)
   assert.match(headerSource, /text-\[15px\]/)

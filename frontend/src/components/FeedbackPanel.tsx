@@ -203,7 +203,7 @@ const FeedbackPanel: React.FC<FeedbackPanelProps> = ({
                   placeholder={PLACEHOLDER_MAP[feedbackType] || PLACEHOLDER_MAP.other}
                   rows={5}
                   maxLength={2000}
-                  className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                  className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg resize-none focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                 />
                 <div className="flex justify-between mt-1">
                   {error && <p className="text-xs text-red-500">{error}</p>}

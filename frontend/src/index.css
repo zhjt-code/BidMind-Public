@@ -1,8 +1,131 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  --color-error: hsl(var(--destructive));
+  --color-error-foreground: hsl(var(--destructive-foreground));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-elevated:
+    0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 0, 0, 0.05);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-indeterminate: indeterminate 1.5s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(400%);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility toaster {
+  --toast-max-width: min(92vw, 56rem);
+
+  & [data-sonner-toast] {
+    width: fit-content !important;
+    min-width: 0 !important;
+    max-width: var(--toast-max-width) !important;
+    height: auto !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
 
 @layer base {
+  /* Preserve v3 form affordances while using v4 Preflight. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 210 20% 20%;
@@ -84,317 +207,336 @@
   }
 }
 
-/* ---- Stripe-inspired 公开首页视觉系统 ---- */
-html:has(.public-shell) {
-  scroll-padding-top: 5.5rem;
-}
-
-.public-shell {
-  --public-ink: #0a2540;
-  --public-primary: #1677ff;
-  --public-violet: #635bff;
-  --public-cyan: #00b8d9;
-  --public-coral: #ff7a59;
-  --public-gold: #ffb84d;
-  --public-surface: #f6f9fc;
-  background: var(--public-surface);
-  color: var(--public-ink);
-}
-
-.page-rail {
-  position: relative;
-  isolation: isolate;
-}
-
-.page-rail::before,
-.page-rail::after {
-  position: absolute;
-  z-index: 20;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  content: "";
-  pointer-events: none;
-  background: rgba(10, 37, 64, 0.08);
-}
-
-.page-rail::before {
-  left: max(1rem, calc(50% - 40rem));
-}
-
-.page-rail::after {
-  right: max(1rem, calc(50% - 40rem));
-}
-
-.stripe-grid-section {
-  background-color: var(--public-surface);
-}
-
-.gradient-text {
-  background: linear-gradient(100deg, var(--public-primary), var(--public-violet) 55%, var(--public-coral));
-  background-clip: text;
-  color: transparent;
-}
-
-/* 深色底专用渐变文字：起始色提亮，避免 #1677ff 在 #0A2540 上对比度不足 */
-.gradient-text-on-dark {
-  background: linear-gradient(100deg, #5fe0d3, #8a82ff 55%, #ffb07a);
-  background-clip: text;
-  color: transparent;
-}
-
-.gradient-hairline-frame {
-  --frame-start: var(--public-cyan);
-  --frame-middle: var(--public-violet);
-  --frame-end: var(--public-coral);
-  border: 1px solid transparent;
-  background:
-    linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(135deg, var(--frame-start), var(--frame-middle), var(--frame-end)) border-box;
-  box-shadow: 0 16px 40px rgba(10, 37, 64, 0.1);
-}
-
-.task-canvas {
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.task-canvas--writing {
-  --frame-start: #08a6a6;
-  --frame-middle: #1677ff;
-  --frame-end: #7a5af8;
-}
-
-.task-canvas--review {
-  --frame-start: #1677ff;
-  --frame-middle: #635bff;
-  --frame-end: #a855f7;
-}
-
-.task-canvas--collusion {
-  --frame-start: #ffb84d;
-  --frame-middle: #ff7a59;
-  --frame-end: #8b5cf6;
-}
-
-.cta-glow::before {
-  position: absolute;
-  z-index: 0;
-  inset: 10% 20%;
-  border-radius: 9999px;
-  content: "";
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(99, 91, 255, 0.1), rgba(0, 184, 217, 0.05) 45%, transparent 72%);
-  filter: blur(28px);
-}
-
-/* 深色底需提高光晕不透明度，否则在 #0A2540 上不可见 */
-.cta-glow--on-dark::before {
-  background: radial-gradient(circle, rgba(138, 130, 255, 0.3), rgba(95, 224, 211, 0.14) 45%, transparent 72%);
-  filter: blur(46px);
-}
-
-/* ---- 公开首页轻量动效与内容出现 ---- */
-.public-reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.45s ease,
-    transform 0.45s ease;
-  will-change: opacity, transform;
-}
-
-.public-reveal--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@keyframes task-panel-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+@layer utilities {
+  /* ---- Stripe-inspired 公开首页视觉系统 ---- */
+  html:has(.public-shell) {
+    scroll-padding-top: 5.5rem;
   }
-  to {
+
+  .public-shell {
+    --public-ink: #0a2540;
+    --public-primary: #1677ff;
+    --public-violet: #635bff;
+    --public-cyan: #00b8d9;
+    --public-coral: #ff7a59;
+    --public-gold: #ffb84d;
+    --public-surface: #f6f9fc;
+    background: var(--public-surface);
+    color: var(--public-ink);
+  }
+
+  .page-rail {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .page-rail::before,
+  .page-rail::after {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    content: '';
+    pointer-events: none;
+    background: rgba(10, 37, 64, 0.08);
+  }
+
+  .page-rail::before {
+    left: max(1rem, calc(50% - 40rem));
+  }
+
+  .page-rail::after {
+    right: max(1rem, calc(50% - 40rem));
+  }
+
+  .stripe-grid-section {
+    background-color: var(--public-surface);
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      100deg,
+      var(--public-primary),
+      var(--public-violet) 55%,
+      var(--public-coral)
+    );
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* 深色底专用渐变文字：起始色提亮，避免 #1677ff 在 #0A2540 上对比度不足 */
+  .gradient-text-on-dark {
+    background: linear-gradient(100deg, #5fe0d3, #8a82ff 55%, #ffb07a);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-hairline-frame {
+    --frame-start: var(--public-cyan);
+    --frame-middle: var(--public-violet);
+    --frame-end: var(--public-coral);
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#fff, #fff) padding-box,
+      linear-gradient(
+          135deg,
+          var(--frame-start),
+          var(--frame-middle),
+          var(--frame-end)
+        )
+        border-box;
+    box-shadow: 0 16px 40px rgba(10, 37, 64, 0.1);
+  }
+
+  .task-canvas {
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .task-canvas--writing {
+    --frame-start: #08a6a6;
+    --frame-middle: #1677ff;
+    --frame-end: #7a5af8;
+  }
+
+  .task-canvas--review {
+    --frame-start: #1677ff;
+    --frame-middle: #635bff;
+    --frame-end: #a855f7;
+  }
+
+  .task-canvas--collusion {
+    --frame-start: #ffb84d;
+    --frame-middle: #ff7a59;
+    --frame-end: #8b5cf6;
+  }
+
+  .cta-glow::before {
+    position: absolute;
+    z-index: 0;
+    inset: 10% 20%;
+    border-radius: 9999px;
+    content: '';
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      rgba(99, 91, 255, 0.1),
+      rgba(0, 184, 217, 0.05) 45%,
+      transparent 72%
+    );
+    filter: blur(28px);
+  }
+
+  /* 深色底需提高光晕不透明度，否则在 #0A2540 上不可见 */
+  .cta-glow--on-dark::before {
+    background: radial-gradient(
+      circle,
+      rgba(138, 130, 255, 0.3),
+      rgba(95, 224, 211, 0.14) 45%,
+      transparent 72%
+    );
+    filter: blur(46px);
+  }
+
+  /* ---- 公开首页轻量动效与内容出现 ---- */
+  .public-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease;
+    will-change: opacity, transform;
+  }
+
+  .public-reveal--visible {
     opacity: 1;
     transform: translateY(0);
   }
-}
 
-.task-panel-motion {
-  animation: task-panel-enter 0.3s ease both;
-}
-
-@keyframes hero-demo-frame-enter {
-  from {
-    opacity: 0.72;
-    transform: translateY(6px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.hero-demo-frame-motion {
-  animation: hero-demo-frame-enter 0.32s ease both;
-}
-
-@keyframes hero-demo-stack-enter {
-  from {
-    opacity: 0;
-  }
-}
-
-.hero-demo-stack-card {
-  animation: hero-demo-stack-enter 0.24s ease backwards;
-}
-
-@keyframes trust-marquee-slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.trust-marquee-track {
-  animation: trust-marquee-slide 36s linear infinite;
-  will-change: transform;
-}
-
-.trust-marquee-viewport:hover .trust-marquee-track,
-.trust-marquee-viewport:focus-within .trust-marquee-track {
-  animation-play-state: paused;
-}
-
-.trust-marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-}
-
-/* 处理中进度条：业务域色 + 白色斜纹，理发店灯柱式滚动 */
-.progress-stripe {
-  --progress-stripe-color: #3b82f6;
-  background-color: var(--progress-stripe-color);
-  background-image: linear-gradient(
-    -45deg,
-    var(--progress-stripe-color) 25%,
-    #ffffff 25%,
-    #ffffff 50%,
-    var(--progress-stripe-color) 50%,
-    var(--progress-stripe-color) 75%,
-    #ffffff 75%
-  );
-  background-size: 1rem 1rem;
-  animation: progress-stripe-slide 0.65s linear infinite;
-}
-
-@keyframes progress-stripe-slide {
-  to {
-    background-position: 1rem 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .progress-stripe {
-    animation: none;
-  }
-
-  .public-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    will-change: auto;
+  @keyframes task-panel-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .task-panel-motion {
-    animation: none;
+    animation: task-panel-enter 0.3s ease both;
+  }
+
+  @keyframes hero-demo-frame-enter {
+    from {
+      opacity: 0.72;
+      transform: translateY(6px) scale(0.99);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .hero-demo-frame-motion {
-    animation: none;
+    animation: hero-demo-frame-enter 0.32s ease both;
+  }
+
+  @keyframes hero-demo-stack-enter {
+    from {
+      opacity: 0;
+    }
   }
 
   .hero-demo-stack-card {
-    animation: none;
-    transition: none;
+    animation: hero-demo-stack-enter 0.24s ease backwards;
+  }
+
+  @keyframes trust-marquee-slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .trust-marquee-track {
-    animation: none;
-    transform: none;
-    will-change: auto;
+    animation: trust-marquee-slide 36s linear infinite;
+    will-change: transform;
   }
 
-}
+  .trust-marquee-viewport:hover .trust-marquee-track,
+  .trust-marquee-viewport:focus-within .trust-marquee-track {
+    animation-play-state: paused;
+  }
 
-/* ---- AuthLayout 左栏渐进降级 ---- */
+  .trust-marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+  }
 
-.auth-left-inner {
-  transition: transform 0.15s ease;
-}
+  /* 处理中进度条：业务域色 + 白色斜纹，理发店灯柱式滚动 */
+  .progress-stripe {
+    --progress-stripe-color: #3b82f6;
+    background-color: var(--progress-stripe-color);
+    background-image: linear-gradient(
+      -45deg,
+      var(--progress-stripe-color) 25%,
+      #ffffff 25%,
+      #ffffff 50%,
+      var(--progress-stripe-color) 50%,
+      var(--progress-stripe-color) 75%,
+      #ffffff 75%
+    );
+    background-size: 1rem 1rem;
+    animation: progress-stripe-slide 0.65s linear infinite;
+  }
 
-@media (max-height: 800px) {
+  @keyframes progress-stripe-slide {
+    to {
+      background-position: 1rem 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-stripe {
+      animation: none;
+    }
+
+    .public-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
+    }
+
+    .task-panel-motion {
+      animation: none;
+    }
+
+    .hero-demo-frame-motion {
+      animation: none;
+    }
+
+    .hero-demo-stack-card {
+      animation: none;
+      transition: none;
+    }
+
+    .trust-marquee-track {
+      animation: none;
+      transform: none;
+      will-change: auto;
+    }
+  }
+
+  /* ---- AuthLayout 左栏渐进降级 ---- */
+
   .auth-left-inner {
-    transform: scale(0.92);
-    transform-origin: top left;
-  }
-}
-
-@media (max-height: 700px) {
-  .auth-showcase-panel {
-    display: none;
-  }
-  .auth-left-inner {
-    transform: none;
-  }
-}
-
-/* ---- Tiptap 运行时编辑器样式（不能放入 Tailwind layer，避免被内容扫描裁剪） ---- */
-.ProseMirror .tableWrapper {
-  overflow-x: auto;
-  margin: 0.75rem 0;
-}
-
-.ProseMirror table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.ProseMirror th,
-.ProseMirror td {
-  border: 1px solid hsl(var(--border));
-  padding: 0.375rem 0.5rem;
-  vertical-align: top;
-}
-
-.ProseMirror th {
-  background: hsl(var(--muted));
-  font-weight: 600;
-}
-
-.ProseMirror .selectedCell {
-  background: hsl(var(--primary) / 0.08);
-  outline: 2px solid hsl(var(--primary) / 0.35);
-  outline-offset: -2px;
-}
-
-/* ---- 全局 Toast 自适应尺寸 ---- */
-@layer components {
-  .toaster {
-    --toast-max-width: min(92vw, 56rem);
+    transition: transform 0.15s ease;
   }
 
-  .toaster [data-sonner-toast] {
-    width: fit-content !important;
-    min-width: 0 !important;
-    max-width: var(--toast-max-width) !important;
-    height: auto !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+  @media (max-height: 800px) {
+    .auth-left-inner {
+      transform: scale(0.92);
+      transform-origin: top left;
+    }
   }
+
+  @media (max-height: 700px) {
+    .auth-showcase-panel {
+      display: none;
+    }
+    .auth-left-inner {
+      transform: none;
+    }
+  }
+
+  /* ---- Tiptap 运行时编辑器样式（不能放入 Tailwind layer，避免被内容扫描裁剪） ---- */
+  .ProseMirror .tableWrapper {
+    overflow-x: auto;
+    margin: 0.75rem 0;
+  }
+
+  .ProseMirror table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .ProseMirror th,
+  .ProseMirror td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.375rem 0.5rem;
+    vertical-align: top;
+  }
+
+  .ProseMirror th {
+    background: hsl(var(--muted));
+    font-weight: 600;
+  }
+
+  .ProseMirror .selectedCell {
+    background: hsl(var(--primary) / 0.08);
+    outline: 2px solid hsl(var(--primary) / 0.35);
+    outline-offset: -2px;
+  }
+
+  /* ---- 全局 Toast 自适应尺寸 ---- */
 }

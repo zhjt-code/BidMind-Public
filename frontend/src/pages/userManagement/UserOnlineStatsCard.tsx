@@ -24,7 +24,7 @@ const UserOnlineStatsCard: React.FC<UserOnlineStatsCardProps> = ({
   const dotClass = stats?.degraded ? 'bg-amber-500' : 'bg-green-500'
 
   return (
-    <div className={`bg-white rounded-lg shadow p-4 ${className}`}>
+    <div className={`bg-white rounded-lg shadow-sm p-4 ${className}`}>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm text-gray-500">当前在线用户数</p>

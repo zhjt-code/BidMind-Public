@@ -57,10 +57,10 @@ export const ErrorChainDialog: React.FC<ErrorChainDialogProps> = ({
                     }`}
                   >
                     <div className="flex items-start gap-2">
-                      <span className="text-xs text-gray-400 font-mono w-8 flex-shrink-0 pt-0.5">
+                      <span className="text-xs text-gray-400 font-mono w-8 shrink-0 pt-0.5">
                         #{item.chain_seq != null ? item.chain_seq : idx}
                       </span>
-                      <ItemIcon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+                      <ItemIcon className={`h-4 w-4 mt-0.5 shrink-0 ${
                         item.level === 'CRITICAL' ? 'text-red-600'
                           : item.level === 'ERROR' ? 'text-red-500' : 'text-amber-500'
                       }`} />
@@ -85,7 +85,7 @@ export const ErrorChainDialog: React.FC<ErrorChainDialogProps> = ({
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-800 break-words">{item.message}</p>
+                        <p className="text-sm text-gray-800 wrap-break-word">{item.message}</p>
                         <div className="flex items-center gap-3 mt-1 text-[11px] text-gray-500 flex-wrap">
                           {item.origin_module ? (
                             <span className="font-mono text-rose-500">

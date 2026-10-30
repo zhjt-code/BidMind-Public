@@ -135,7 +135,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           showSelect ? (
             <input
               type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary flex-shrink-0 cursor-pointer"
+              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary shrink-0 cursor-pointer"
               checked={selected}
               onChange={(e) => {
                 e.stopPropagation()
@@ -148,7 +148,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
 
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/15 bg-primary/[0.08] text-primary shadow-sm">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/15 bg-primary/8 text-primary shadow-xs">
             <TypeIcon projectType={projectType} className="h-[18px] w-[18px] shrink-0" />
           </div>
           <Link to={targetRoute} className="min-w-0 flex-1">

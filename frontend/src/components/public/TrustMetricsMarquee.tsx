@@ -15,10 +15,10 @@ const DEFAULT_METRICS = publicHomeContent.trustMetrics
 const renderMarqueeCard = (metric: TrustMetric, keySuffix: string) => (
   <li
     key={`${metric.key}-${keySuffix}`}
-    className="relative mr-5 flex min-w-[17rem] flex-shrink-0 flex-col justify-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-8 py-7"
+    className="relative mr-5 flex min-w-68 shrink-0 flex-col justify-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/4 px-8 py-7"
   >
-    <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/[0.08] to-transparent" aria-hidden="true" />
-    <span className="relative bg-gradient-to-r from-[#5FE0D3] via-[#8A82FF] to-[#FFB07A] bg-clip-text text-[2.5rem] font-semibold leading-none tracking-tight text-transparent">
+    <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-white/8 to-transparent" aria-hidden="true" />
+    <span className="relative bg-linear-to-r from-[#5FE0D3] via-[#8A82FF] to-[#FFB07A] bg-clip-text text-[2.5rem] font-semibold leading-none tracking-tight text-transparent">
       {metric.value}
     </span>
     <span className="relative h-px w-10 bg-white/20" aria-hidden="true" />
@@ -29,10 +29,10 @@ const renderMarqueeCard = (metric: TrustMetric, keySuffix: string) => (
 const renderMobileCard = (metric: TrustMetric) => (
   <li
     key={metric.key}
-    className="relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5"
+    className="relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-white/10 bg-white/4 px-5 py-5"
   >
-    <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/[0.08] to-transparent" aria-hidden="true" />
-    <span className="relative bg-gradient-to-r from-[#5FE0D3] via-[#8A82FF] to-[#FFB07A] bg-clip-text text-2xl font-semibold leading-none tracking-tight text-transparent">
+    <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-linear-to-b from-white/8 to-transparent" aria-hidden="true" />
+    <span className="relative bg-linear-to-r from-[#5FE0D3] via-[#8A82FF] to-[#FFB07A] bg-clip-text text-2xl font-semibold leading-none tracking-tight text-transparent">
       {metric.value}
     </span>
     <span className="relative text-xs font-medium text-white/70">{metric.label}</span>

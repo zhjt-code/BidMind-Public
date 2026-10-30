@@ -32,7 +32,7 @@ const ACTION_BUTTON_CLASS =
   'p-1 rounded transition-opacity opacity-40 hover:opacity-100 focus-visible:opacity-100'
 
 const SKELETON_LOCK_BUTTON_CLASS =
-  'p-1 rounded border border-blue-200 bg-blue-50 text-blue-600 shadow-sm transition-colors hover:bg-blue-100 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40'
+  'p-1 rounded border border-blue-200 bg-blue-50 text-blue-600 shadow-xs transition-colors hover:bg-blue-100 hover:text-blue-700 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/40'
 
 export type TreeNode = OutlineNode & { children: TreeNode[] }
 
@@ -458,9 +458,9 @@ export const TreeNodeItem: React.FC<TreeNodeItemProps> = ({
               title={effectiveUnlocked ? '已解除锁定' : '解除锁定后可编辑/删除'}
             >
               {effectiveUnlocked ? (
-                <Unlock className="h-3.5 w-3.5 flex-shrink-0 -scale-x-100" />
+                <Unlock className="h-3.5 w-3.5 shrink-0 -scale-x-100" />
               ) : (
-                <Lock className="h-3.5 w-3.5 flex-shrink-0" />
+                <Lock className="h-3.5 w-3.5 shrink-0" />
               )}
             </button>
           )}

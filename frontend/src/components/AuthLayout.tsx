@@ -18,13 +18,13 @@ interface AuthLayoutProps {
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center relative overflow-hidden antialiased">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-200/80 to-slate-300/60 opacity-95 z-0" />
+      <div className="absolute inset-0 bg-linear-to-br from-slate-200/80 to-slate-300/60 opacity-95 z-0" />
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto p-4 md:p-8 lg:p-12 md:grid md:grid-cols-[3fr_minmax(380px,2fr)] md:gap-8 lg:gap-10 md:items-start">
         {/* -------- 左栏：品牌展示 -------- */}
         <section className="hidden md:flex flex-col gap-6 overflow-hidden">
           {/* Logo */}
-          <Link to={PUBLIC_HOME} className="flex-shrink-0 self-start transition-opacity hover:opacity-90" aria-label="返回首页">
+          <Link to={PUBLIC_HOME} className="shrink-0 self-start transition-opacity hover:opacity-90" aria-label="返回首页">
             <Logo size="xl" />
           </Link>
 
@@ -46,7 +46,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                 {/* 核心功能 */}
                 <div className="grid grid-cols-3 gap-3">
                   <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/50 border border-white/60 backdrop-blur-xl shadow-lg">
-                    <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100/80 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100/80 flex items-center justify-center shrink-0">
                       <svg className="w-[18px] h-[18px] text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 20h9" />
                         <path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
@@ -58,7 +58,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/50 border border-white/60 backdrop-blur-xl shadow-lg">
-                    <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100/80 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100/80 flex items-center justify-center shrink-0">
                       <svg className="w-[18px] h-[18px] text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
                         <rect x="9" y="3" width="6" height="4" rx="1" />
@@ -71,7 +71,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/50 border border-white/60 backdrop-blur-xl shadow-lg">
-                    <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100/80 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100/80 flex items-center justify-center shrink-0">
                       <svg className="w-[18px] h-[18px] text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />
                         <path d="M15 2H9a1 1 0 00-1 1v2a1 1 0 001 1h6a1 1 0 001-1V3a1 1 0 00-1-1z" />
@@ -91,7 +91,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                     Deployment &middot; Access &middot; AI Mode
                   </h2>
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-sm">
+                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-xs">
                       <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100/80 flex items-center justify-center">
                         <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -100,7 +100,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                       </div>
                       <p className="text-[11px] font-medium text-slate-600 text-center leading-tight">支持 HTTPS 部署</p>
                     </div>
-                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-sm">
+                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-xs">
                       <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100/80 flex items-center justify-center">
                         <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -109,7 +109,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                       </div>
                       <p className="text-[11px] font-medium text-slate-600 text-center leading-tight">项目访问控制</p>
                     </div>
-                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-sm">
+                    <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/25 border border-slate-200/40 backdrop-blur-xs">
                       <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100/80 flex items-center justify-center">
                         <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M10.73 5.08A10.43 10.43 0 0112 5c7 0 10 7 10 7a13.16 13.16 0 01-1.67 2.68" />
@@ -130,7 +130,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           </div>
 
           {/* 底部 */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <div className="flex items-center justify-between text-xs font-medium">
               <div className="flex items-center gap-1.5 text-slate-600">
                 <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@ const ShowcasePanel: React.FC = () => (
   <div className="rounded-xl bg-white/40 border border-white/50 p-4 backdrop-blur-xl shadow-lg overflow-hidden">
     <div className="grid grid-cols-2 gap-3 relative z-10">
       {/* 总体评分 */}
-      <div className="bg-white/95 rounded-lg p-3 border border-white/60 shadow-sm">
+      <div className="bg-white/95 rounded-lg p-3 border border-white/60 shadow-xs">
         <div className="flex items-center justify-between mb-2.5">
           <span className="text-[11px] text-slate-700 font-semibold">示例评分 Sample Score</span>
           <span className="bg-green-50 p-0.5 rounded-full">
@@ -206,7 +206,7 @@ const ShowcasePanel: React.FC = () => (
       </div>
 
       {/* 风险等级 */}
-      <div className="bg-white/95 rounded-lg p-3 border border-white/60 shadow-sm">
+      <div className="bg-white/95 rounded-lg p-3 border border-white/60 shadow-xs">
         <div className="flex items-center justify-between mb-2.5">
           <span className="text-[11px] text-slate-700 font-semibold">示例风险 Sample Risk</span>
           <span className="bg-blue-50 p-0.5 rounded-full">
@@ -229,14 +229,14 @@ const ShowcasePanel: React.FC = () => (
       </div>
 
       {/* 合规性检查 */}
-      <div className="col-span-2 bg-white/95 rounded-lg p-3 border border-white/60 shadow-sm">
+      <div className="col-span-2 bg-white/95 rounded-lg p-3 border border-white/60 shadow-xs">
         <div className="flex items-center justify-between mb-2">
           <span className="text-[11px] text-slate-700 font-semibold">响应检查 Response Check</span>
           <span className="text-[10px] text-primary font-semibold">示例 Sample</span>
         </div>
         <div className="space-y-1.5">
           <div className="flex items-center gap-2">
-            <svg className="w-3 h-3 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -244,7 +244,7 @@ const ShowcasePanel: React.FC = () => (
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <svg className="w-3 h-3 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -252,7 +252,7 @@ const ShowcasePanel: React.FC = () => (
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <svg className="w-3 h-3 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 text-yellow-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">

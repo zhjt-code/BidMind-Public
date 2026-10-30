@@ -46,17 +46,17 @@ export const TreeNodeSection: React.FC<TreeNodeSectionProps> = ({
         }`}
         style={{ paddingLeft: `${Math.max(12, indent * 4)}px` }}
       >
-        <ChevronDown className={`h-3.5 w-3.5 flex-shrink-0 transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
+        <ChevronDown className={`h-3.5 w-3.5 shrink-0 transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
         <span className={`truncate ${isRoot ? 'font-semibold text-sm' : 'font-medium text-sm text-foreground/80'}`}>
           {node.title}
         </span>
         {node.totalBindings > 0 ? (
-          <Badge variant="secondary" className="text-xs flex-shrink-0">{node.totalBindings} 条</Badge>
+          <Badge variant="secondary" className="text-xs shrink-0">{node.totalBindings} 条</Badge>
         ) : (
-          <span className="text-xs text-muted-foreground flex-shrink-0">暂无绑定</span>
+          <span className="text-xs text-muted-foreground shrink-0">暂无绑定</span>
         )}
         {node.totalSuggested > 0 && (
-          <span className="text-xs text-muted-foreground flex-shrink-0">{node.totalSuggested} 待确认</span>
+          <span className="text-xs text-muted-foreground shrink-0">{node.totalSuggested} 待确认</span>
         )}
       </button>
       {!isCollapsed && (

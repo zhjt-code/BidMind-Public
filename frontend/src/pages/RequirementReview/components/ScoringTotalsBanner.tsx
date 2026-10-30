@@ -342,7 +342,7 @@ export const ScoringTotalsBanner: React.FC<ScoringTotalsBannerProps> = ({
             type="button"
             size="sm"
             onClick={onAddScoringItem}
-            className="bg-amber-600 text-white shadow-sm hover:bg-amber-700"
+            className="bg-amber-600 text-white shadow-xs hover:bg-amber-700"
             title="手动新增一条评分项"
           >
             新增评分项

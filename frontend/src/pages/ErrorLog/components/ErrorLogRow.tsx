@@ -16,7 +16,7 @@ const Detail: React.FC<{ label: string; value?: string | null; mono?: boolean }>
   if (!value) return null
   return (
     <div className="flex items-center gap-2">
-      <span className="text-gray-400 w-16 text-right flex-shrink-0">{label}</span>
+      <span className="text-gray-400 w-16 text-right shrink-0">{label}</span>
       <span className={`text-gray-700 truncate ${mono ? 'font-mono' : ''}`}>{value}</span>
     </div>
   )
@@ -54,7 +54,7 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
         {selectionMode && (
           <input
             type="checkbox"
-            className="h-4 w-4 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer flex-shrink-0"
+            className="h-4 w-4 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer shrink-0"
             checked={selected}
             onChange={() => onToggleSelect(log.id)}
             onClick={e => e.stopPropagation()}
@@ -63,11 +63,11 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
 
         {!selectionMode && (
           expanded
-            ? <ChevronDown className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
-            : <ChevronRight className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+            ? <ChevronDown className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
+            : <ChevronRight className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
         )}
 
-        <LevelIcon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+        <LevelIcon className={`h-4 w-4 mt-0.5 shrink-0 ${
           log.level === 'CRITICAL' ? 'text-red-600' : log.level === 'ERROR' ? 'text-red-500' : 'text-amber-500'
         }`} />
 
@@ -171,13 +171,13 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
                 </div>
                 {log.exception_type && (
                   <div className="flex gap-2">
-                    <span className="text-gray-500 w-16 text-right flex-shrink-0">异常类型</span>
+                    <span className="text-gray-500 w-16 text-right shrink-0">异常类型</span>
                     <span className="text-rose-600 font-mono">{log.exception_type}</span>
                   </div>
                 )}
                 {log.origin_module && (
                   <div className="flex gap-2">
-                    <span className="text-gray-500 w-16 text-right flex-shrink-0">异常位置</span>
+                    <span className="text-gray-500 w-16 text-right shrink-0">异常位置</span>
                     <span className="text-gray-700 font-mono break-all">
                       {log.origin_module}
                       {log.origin_function ? `:${log.origin_function}` : ''}
@@ -187,7 +187,7 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
                 )}
                 {log.incident_id && (
                   <div className="flex gap-2 items-center">
-                    <span className="text-gray-500 w-16 text-right flex-shrink-0">链路ID</span>
+                    <span className="text-gray-500 w-16 text-right shrink-0">链路ID</span>
                     <span className="text-gray-700 font-mono">{log.incident_id}</span>
                     {onOpenChain && (
                       <button
@@ -211,7 +211,7 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
               <Detail label="用户" value={log.username || (log.user_id ? `ID: ${log.user_id}` : null)} />
               {log.project_id ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-400 w-16 text-right flex-shrink-0">项目</span>
+                  <span className="text-gray-400 w-16 text-right shrink-0">项目</span>
                   <span className="text-gray-700 truncate">{log.project_name || `ID: ${log.project_id}`}</span>
                   {onOpenProjectTimeline && (
                     <button
@@ -233,7 +233,7 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
 
             <div>
               <p className="text-xs text-gray-500 mb-1">完整消息</p>
-              <pre className="text-xs bg-gray-900 text-gray-100 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words max-h-32">
+              <pre className="text-xs bg-gray-900 text-gray-100 rounded p-3 overflow-x-auto whitespace-pre-wrap wrap-break-word max-h-32">
                 {log.message}
               </pre>
             </div>
@@ -248,7 +248,7 @@ export const ErrorLogRow: React.FC<ErrorLogRowProps> = ({
             {detail?.traceback && (
               <div>
                 <p className="text-xs text-gray-500 mb-1">堆栈追踪</p>
-                <pre className="text-xs bg-gray-900 text-gray-100 rounded p-3 overflow-x-auto whitespace-pre-wrap break-words max-h-64">
+                <pre className="text-xs bg-gray-900 text-gray-100 rounded p-3 overflow-x-auto whitespace-pre-wrap wrap-break-word max-h-64">
                   {detail.traceback}
                 </pre>
               </div>

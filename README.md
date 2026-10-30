@@ -38,6 +38,7 @@ Copyright (C) 2026 <郑州智蕴信息技术服务有限公司>
 | Docker Desktop（Windows）或 Docker Engine（Linux） | 运行数据库和可选的识别服务 | 命令 `docker compose version` 能打出版本号 |
 | Python 3.13 | 运行后端 | Windows 的 `py -3.13 --version` 或 Linux 的 `python3.13 --version` 显示 3.13 |
 | Node.js 22.13 或更新的 LTS | 运行网页和 TypeScript 契约测试 | `node --version` 显示 v22.13 或更高 |
+| Chrome / Edge 111+ 或 Firefox 128+ | 网页端需要 Tailwind CSS 4 支持的现代 CSS 功能 | 建议使用最新稳定版浏览器 |
 
 Windows 安装 Python 时勾选 “Add python.exe to PATH”。安装 Docker Desktop 后，要等托盘里的 Docker 图标显示正在运行，再做后面的步骤。
 

@@ -70,7 +70,7 @@ const NavItem: React.FC<NavItemProps> = ({ label, count, active, disabled, onCli
       {dotColor && <span className={`inline-block w-2 h-2 rounded-full ${dotColor}`} />}
       {label}
     </span>
-    <Badge variant="secondary" className="ml-2 h-5 min-w-[1.5rem] justify-center text-xs">
+    <Badge variant="secondary" className="ml-2 h-5 min-w-6 justify-center text-xs">
       {count}
     </Badge>
   </button>

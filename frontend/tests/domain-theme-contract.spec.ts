@@ -82,8 +82,8 @@ test('项目列表消费方不再用 violet 充当写标域色，串标改走 ir
 
 test('项目级分段选中态统一蓝底白字，页内分段器保持安静选中', () => {
   assert.match(segmentedSource, /emphasized/)
-  assert.match(segmentedSource, /bg-blue-500 text-white shadow-sm/)
-  assert.match(segmentedSource, /bg-white text-\[#1c2733\] shadow-sm/)
+  assert.match(segmentedSource, /bg-blue-500 text-white shadow-xs/)
+  assert.match(segmentedSource, /bg-white text-\[#1c2733\] shadow-xs/)
   assert.doesNotMatch(segmentedSource, /bg-teal-500 text-white/)
   assert.doesNotMatch(segmentedSource, /bg-orange-500 text-white/)
   assert.doesNotMatch(segmentedSource, /hover:bg-blue-600/)

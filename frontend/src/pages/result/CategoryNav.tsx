@@ -164,7 +164,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({
               title="仅查看评分项，按评分卷分组浏览"
               className={`mt-2 flex items-center justify-between w-full px-2.5 py-1.5 rounded-md text-xs font-bold transition-colors border ${
                 scoringMode
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                  ? 'bg-blue-600 border-blue-600 text-white shadow-xs'
                   : 'bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100 hover:border-blue-400'
               }`}
             >
@@ -293,13 +293,13 @@ const NavItem: React.FC<NavItemProps> = ({
       {dotColor && <span className={`inline-block w-2 h-2 rounded-full ${dotColor}`} />}
       {label}
     </span>
-    <span className="flex items-center flex-shrink-0">
+    <span className="flex items-center shrink-0">
       {suffix && (
         <span className={`text-xs tabular-nums ${disabled ? 'text-gray-300' : 'text-gray-400'}`}>
           {suffix}
         </span>
       )}
-      <Badge variant="secondary" className="ml-2 h-5 min-w-[1.5rem] justify-center text-xs">
+      <Badge variant="secondary" className="ml-2 h-5 min-w-6 justify-center text-xs">
         {count}
       </Badge>
     </span>

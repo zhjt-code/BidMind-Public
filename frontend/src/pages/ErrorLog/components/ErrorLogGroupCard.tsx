@@ -51,7 +51,7 @@ export const ErrorLogGroupCard: React.FC<ErrorLogGroupCardProps> = ({
         {selectionMode && (
           <input
             type="checkbox"
-            className="h-4 w-4 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer flex-shrink-0"
+            className="h-4 w-4 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer shrink-0"
             checked={groupSelected}
             onChange={() => onToggleGroupSelect(group.fingerprint)}
             onClick={e => e.stopPropagation()}
@@ -60,11 +60,11 @@ export const ErrorLogGroupCard: React.FC<ErrorLogGroupCardProps> = ({
 
         {!selectionMode && (
           expanded
-            ? <ChevronDown className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
-            : <ChevronRight className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+            ? <ChevronDown className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
+            : <ChevronRight className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
         )}
 
-        <LevelIcon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+        <LevelIcon className={`h-4 w-4 mt-0.5 shrink-0 ${
           group.level === 'CRITICAL' ? 'text-red-600' : group.level === 'ERROR' ? 'text-red-500' : 'text-amber-500'
         }`} />
 
@@ -105,7 +105,7 @@ export const ErrorLogGroupCard: React.FC<ErrorLogGroupCardProps> = ({
           </div>
         </div>
 
-        <span className="flex-shrink-0 inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-gray-100 text-xs font-semibold text-gray-600">
+        <span className="shrink-0 inline-flex items-center justify-center min-w-[36px] h-6 px-2 rounded-full bg-gray-100 text-xs font-semibold text-gray-600">
           x{group.count}
         </span>
       </div>

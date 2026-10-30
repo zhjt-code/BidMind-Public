@@ -59,7 +59,7 @@ export const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({
               onClick={() => onTypeSelect('bid_writing')}
               className="w-full flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-teal-400 hover:bg-teal-50 transition-colors text-left"
             >
-              <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center shrink-0">
                 <PenTool className="w-5 h-5 text-teal-600" />
               </div>
               <div className="flex-1">
@@ -73,7 +73,7 @@ export const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({
               onClick={() => onTypeSelect('bid_review')}
               className="w-full flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors text-left"
             >
-              <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5 text-blue-600" />
               </div>
               <div className="flex-1">
@@ -87,7 +87,7 @@ export const CreateProjectDialog: React.FC<CreateProjectDialogProps> = ({
               onClick={() => onTypeSelect('collusion_check')}
               className="w-full flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-[#9056D8] hover:bg-[#F6F1FC] transition-colors text-left"
             >
-              <div className="w-10 h-10 rounded-lg bg-[#F6F1FC] flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#F6F1FC] flex items-center justify-center shrink-0">
                 <ShieldAlert className="w-5 h-5 text-[#9056D8]" />
               </div>
               <div className="flex-1">
@@ -164,7 +164,7 @@ export const DuplicateConfirmDialog: React.FC<DuplicateConfirmDialogProps> = ({
           <DialogTitle>存在同名项目</DialogTitle>
         </DialogHeader>
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
           <p className="text-gray-600 text-sm leading-relaxed">
             您已有名为「<span className="font-medium text-gray-900">{duplicateName}</span>」的项目。
             <br />
@@ -246,7 +246,7 @@ export const BatchDeleteConfirmDialog: React.FC<BatchDeleteConfirmDialogProps> =
         </DialogHeader>
         <div className="space-y-3">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
             <p className="text-gray-600 text-sm leading-relaxed">
               {loading ? (
                 <>

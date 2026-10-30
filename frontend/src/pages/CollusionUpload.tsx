@@ -844,23 +844,23 @@ const CollusionUploadPage: React.FC = () => {
   const getFileStatusIcon = (status: UploadedFile['status']) => {
     if (status === 'success') {
       return (
-        <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
       )
     }
     if (status === 'error') {
       return (
-        <svg className="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       )
     }
     if (status === 'uploading' || status === 'processing') {
-      return <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 flex-shrink-0" />
+      return <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 shrink-0" />
     }
     return (
-      <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     )
@@ -926,14 +926,14 @@ const CollusionUploadPage: React.FC = () => {
       {projectStatus === 'completed' && (
         <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <p className="text-sm text-green-800 font-medium">串标分析已完成</p>
           </div>
           <button
             onClick={() => navigate(`/project/${projectId}/collusion/result`)}
-            className="text-sm text-green-700 underline hover:text-green-900 flex-shrink-0 ml-4"
+            className="text-sm text-green-700 underline hover:text-green-900 shrink-0 ml-4"
           >
             查看分析结果
           </button>
@@ -942,12 +942,12 @@ const CollusionUploadPage: React.FC = () => {
       {projectStatus === 'reviewing' && (
         <div className="mb-4 p-4 bg-[#F6F1FC] border border-[#E3D5F5] rounded-lg flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#9056D8] flex-shrink-0" />
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#9056D8] shrink-0" />
             <p className="text-sm text-[#6C40A2] font-medium">串标分析正在进行中</p>
           </div>
           <button
             onClick={() => navigate(`/project/${projectId}/collusion/progress`)}
-            className="text-sm text-[#6C40A2] underline hover:text-[#412761] flex-shrink-0 ml-4"
+            className="text-sm text-[#6C40A2] underline hover:text-[#412761] shrink-0 ml-4"
           >
             查看分析进度
           </button>
@@ -966,7 +966,7 @@ const CollusionUploadPage: React.FC = () => {
           </div>
           <button
             onClick={() => navigate(`/project/${projectId}/collusion/result`)}
-            className="text-sm text-red-700 underline hover:text-red-900 flex-shrink-0"
+            className="text-sm text-red-700 underline hover:text-red-900 shrink-0"
           >
             查看失败结果
           </button>
@@ -1000,7 +1000,7 @@ const CollusionUploadPage: React.FC = () => {
       <div className="max-w-2xl mx-auto">
       <div className="space-y-6">
         {/* 招标文件区（可选） */}
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-semibold text-gray-800">招标文件 (PDF/Word)</h2>
@@ -1025,10 +1025,10 @@ const CollusionUploadPage: React.FC = () => {
             }`}>
               <div className="flex items-start gap-3">
                 {existingTender.parsed === 1
-                  ? <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  ? <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                   : existingTender.parsed === -1
-                  ? <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                  : <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                  ? <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  : <svg className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 }
                 <div className="flex-1 min-w-0">
                   <TruncatedHoverText text={existingTender.filename} className="block font-medium text-gray-800 text-sm truncate" />
@@ -1054,7 +1054,7 @@ const CollusionUploadPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setExistingTender(null)}
-                  className="text-xs text-blue-600 hover:text-blue-800 flex-shrink-0"
+                  className="text-xs text-blue-600 hover:text-blue-800 shrink-0"
                   disabled={isUploading}
                 >
                   更换
@@ -1083,7 +1083,7 @@ const CollusionUploadPage: React.FC = () => {
                 {tenderFile.status === 'pending' && (
                   <button
                     onClick={() => setTenderFile(null)}
-                    className="text-xs text-gray-400 hover:text-red-500 flex-shrink-0"
+                    className="text-xs text-gray-400 hover:text-red-500 shrink-0"
                     disabled={isUploading}
                   >
                     移除
@@ -1128,7 +1128,7 @@ const CollusionUploadPage: React.FC = () => {
         </div>
 
         {/* 投标文件区（必选，2-15份） */}
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-semibold text-gray-800">投标文件 (PDF/Word)</h2>
@@ -1157,10 +1157,10 @@ const CollusionUploadPage: React.FC = () => {
                       : 'bg-blue-50 border-blue-200'
                     }`}>
                       {doc.parsed === 1
-                        ? <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                        ? <svg className="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                         : doc.parsed === -1
-                        ? <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                        : <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 flex-shrink-0 mt-0.5" />
+                        ? <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        : <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 shrink-0 mt-0.5" />
                       }
                       <div className="flex-1 min-w-0">
                         <TruncatedHoverText text={doc.filename} className="block text-sm text-gray-800 truncate" />
@@ -1205,7 +1205,7 @@ const CollusionUploadPage: React.FC = () => {
                       {f.status === 'pending' && (
                         <button
                           onClick={() => removeBidFile(f.key)}
-                          className="text-xs text-gray-400 hover:text-red-500 flex-shrink-0"
+                          className="text-xs text-gray-400 hover:text-red-500 shrink-0"
                           disabled={isUploading}
                         >
                           移除

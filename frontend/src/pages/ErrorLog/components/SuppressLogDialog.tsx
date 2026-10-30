@@ -32,15 +32,15 @@ export const SuppressLogDialog: React.FC<SuppressLogDialogProps> = ({
           <div className="space-y-4">
             <div className="bg-gray-50 rounded-lg p-3 space-y-2 text-xs">
               <div className="flex gap-2">
-                <span className="text-gray-400 w-16 text-right flex-shrink-0">匹配模块</span>
+                <span className="text-gray-400 w-16 text-right shrink-0">匹配模块</span>
                 <span className="text-gray-700 font-mono">{target.module || '-'}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-gray-400 w-16 text-right flex-shrink-0">消息前缀</span>
+                <span className="text-gray-400 w-16 text-right shrink-0">消息前缀</span>
                 <span className="text-gray-700 break-all">{(target.message || '').slice(0, 200)}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-gray-400 w-16 text-right flex-shrink-0">级别</span>
+                <span className="text-gray-400 w-16 text-right shrink-0">级别</span>
                 <span className="text-gray-700">{target.level}</span>
               </div>
             </div>

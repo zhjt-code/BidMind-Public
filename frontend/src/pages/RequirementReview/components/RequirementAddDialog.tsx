@@ -100,7 +100,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
               onClick={() => onModeChange('requirement')}
               className={`rounded-md px-3 py-2 font-medium ${
                 mode === 'requirement'
-                  ? 'bg-white text-gray-900 shadow-sm'
+                  ? 'bg-white text-gray-900 shadow-xs'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -111,7 +111,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
               onClick={() => onModeChange('scoring_item')}
               className={`rounded-md px-3 py-2 font-medium ${
                 mode === 'scoring_item'
-                  ? 'bg-white text-gray-900 shadow-sm'
+                  ? 'bg-white text-gray-900 shadow-xs'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -123,7 +123,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
             <select
               value={category}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
             >
               {CATEGORY_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -142,7 +142,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                   value={scoreItemName}
                   onChange={(e) => onScoreItemNameChange(e.target.value)}
                   placeholder="如：施工组织设计"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                 />
                 </div>
                 <div>
@@ -154,7 +154,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                   value={scoreWeight}
                   onChange={(e) => onScoreWeightChange(e.target.value)}
                   placeholder="如：20"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                 />
                 </div>
               </div>
@@ -169,7 +169,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
               onChange={(e) => onDescriptionChange(e.target.value)}
               rows={mode === 'scoring_item' ? 3 : 4}
               placeholder={mode === 'scoring_item' ? '请输入评分项的评审内容或评分标准原文' : '请输入招标要求的详细描述'}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary resize-y"
             />
           </div>
           {mode === 'scoring_item' ? (
@@ -189,7 +189,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                     onChange={(e) => onScoreRulesChange(e.target.value)}
                     rows={3}
                     placeholder="每行一条得分/分档规则"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary resize-y"
                   />
                 </div>
                 <div>
@@ -199,7 +199,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                     onChange={(e) => onDeductionRulesChange(e.target.value)}
                     rows={3}
                     placeholder="每行一条扣分或不得分规则"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary resize-y"
                   />
                 </div>
               </div>
@@ -209,7 +209,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                   <select
                     value={volume}
                     onChange={(e) => onVolumeChange(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                   >
                     <option value="">未归属</option>
                     <option value="technical">技术标</option>
@@ -228,7 +228,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                     value={volumeLabel}
                     onChange={(e) => onVolumeLabelChange(e.target.value)}
                     placeholder="如：技术部分"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div>
@@ -237,7 +237,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                     value={lot}
                     onChange={(e) => onLotChange(e.target.value)}
                     placeholder="如：采购包1"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div>
@@ -246,7 +246,7 @@ export const RequirementAddDialog: React.FC<RequirementAddDialogProps> = ({
                     value={sourcePages}
                     onChange={(e) => onSourcePagesChange(e.target.value)}
                     placeholder="如：12, 13"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>

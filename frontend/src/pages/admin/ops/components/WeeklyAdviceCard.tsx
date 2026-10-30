@@ -209,7 +209,7 @@ const WeeklyAdviceCard: React.FC = () => {
                       {demLabel ? ` · 降权 ${demLabel}` : ''}
                     </div>
                   </div>
-                  <div className="flex flex-shrink-0 items-center gap-1.5">
+                  <div className="flex shrink-0 items-center gap-1.5">
                     {item.writable && item.status === 'pending' && (
                       <button
                         type="button"

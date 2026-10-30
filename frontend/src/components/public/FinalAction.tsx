@@ -24,14 +24,14 @@ const FinalAction: React.FC = () => {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             to={actionPath}
-            className="inline-flex h-12 items-center rounded-xl bg-white px-6 text-sm font-semibold text-[#0A2540] transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A2540]"
+            className="inline-flex h-12 items-center rounded-xl bg-white px-6 text-sm font-semibold text-[#0A2540] transition-colors hover:bg-slate-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A2540]"
           >
             {actionLabel}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
           <a
             href="#trust"
-            className="inline-flex h-12 items-center rounded-xl border border-white/25 bg-white/5 px-6 text-sm font-semibold text-white transition-colors hover:border-white/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A2540]"
+            className="inline-flex h-12 items-center rounded-xl border border-white/25 bg-white/5 px-6 text-sm font-semibold text-white transition-colors hover:border-white/40 hover:bg-white/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A2540]"
           >
             {publicHomeContent.finalAction.secondaryCta}
           </a>

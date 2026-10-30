@@ -244,7 +244,7 @@ const PdfPreviewDialog: React.FC<PdfPreviewDialogProps> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-7xl w-[92vw] h-[90vh] flex flex-col p-0 gap-0 overflow-hidden">
-        <DialogHeader className="px-4 pt-4 pb-2 flex-shrink-0">
+        <DialogHeader className="px-4 pt-4 pb-2 shrink-0">
           <DialogTitle className="text-base">
             PDF 原文预览
             <span className="text-sm text-gray-500 ml-2">

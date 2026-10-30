@@ -100,7 +100,7 @@ test('项目行不再渲染业务类型文字徽标，表头与行共用列轨',
   assert.doesNotMatch(cardSource, /PROJECT_TYPE_CONFIG/)
   assert.doesNotMatch(cardSource, /FileText/)
   assert.match(cardSource, /ClipboardCheck/)
-  assert.match(cardSource, /border-primary\/15 bg-primary\/\[0\.08\]/)
+  assert.match(cardSource, /border-primary\/15 bg-primary\/8/)
   assert.match(cardSource, /h-\[18px\] w-\[18px\]/)
   assert.match(cardSource, /w-full justify-center/)
   assert.match(contentSource, /projectListColumnAlignClass/)

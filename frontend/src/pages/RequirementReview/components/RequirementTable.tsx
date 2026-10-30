@@ -112,7 +112,7 @@ export const RequirementTable: React.FC<RequirementTableProps> = ({
                     setEditingId(null)
                   }
                 }}
-                className="w-full border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary resize-y text-sm"
+                className="w-full border rounded px-2 py-1 focus:outline-hidden focus:ring-2 focus:ring-primary resize-y text-sm"
                 autoFocus
               />
               <p className="text-xs text-gray-400 mt-1">
@@ -290,7 +290,7 @@ export const RequirementTable: React.FC<RequirementTableProps> = ({
                     <span
                       role="link"
                       tabIndex={0}
-                      className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-medium text-slate-600 shadow-sm transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-medium text-slate-600 shadow-xs transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                       title={`查看本类 ${referenceCount} 条参考条款`}
                       onClick={(event) => {
                         event.stopPropagation()

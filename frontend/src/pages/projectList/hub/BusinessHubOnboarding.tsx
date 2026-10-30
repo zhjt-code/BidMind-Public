@@ -29,11 +29,11 @@ const BusinessHubOnboarding: React.FC<BusinessHubOnboardingProps> = ({
   const { theme } = config
 
   return (
-    <section className={`relative overflow-hidden rounded-2xl border shadow-sm ${theme.cardClass}`}>
+    <section className={`relative overflow-hidden rounded-2xl border shadow-xs ${theme.cardClass}`}>
       <div className={`pointer-events-none absolute inset-0 ${theme.glowClass}`} />
       <div className="relative space-y-6 p-5 sm:p-6">
         <div className="flex items-start gap-3">
-          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ${theme.iconWrapClass}`}>
+          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-xs ${theme.iconWrapClass}`}>
             <Icon className={`h-5 w-5 ${theme.iconClass}`} />
           </div>
           <div className="min-w-0">
@@ -47,7 +47,7 @@ const BusinessHubOnboarding: React.FC<BusinessHubOnboardingProps> = ({
           </div>
         </div>
 
-        <div className="rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm backdrop-blur-sm">
+        <div className="rounded-xl border border-white/70 bg-white/70 p-4 shadow-xs backdrop-blur-xs">
           <p className="mb-3 text-xs font-medium tracking-wide text-slate-500">
             {config.flowSteps.length} 步快速上手
           </p>
@@ -67,7 +67,7 @@ const BusinessHubOnboarding: React.FC<BusinessHubOnboardingProps> = ({
                   </>
                 )}
                 <div
-                  className={`flex min-w-0 flex-1 items-center gap-3 rounded-xl border px-3 py-2 shadow-sm ${theme.stepCardClass}`}
+                  className={`flex min-w-0 flex-1 items-center gap-3 rounded-xl border px-3 py-2 shadow-xs ${theme.stepCardClass}`}
                 >
                   <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${theme.stepDotClass}`}>
                     {index + 1}

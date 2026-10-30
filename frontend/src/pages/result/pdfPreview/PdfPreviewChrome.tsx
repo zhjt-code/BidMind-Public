@@ -54,7 +54,7 @@ export const PdfPreviewToolbar: React.FC<PdfPreviewToolbarProps> = ({
   }
 
   return (
-    <div className="flex-shrink-0 px-3 py-2 border-b flex flex-wrap items-center gap-2 bg-neutral-50">
+    <div className="shrink-0 px-3 py-2 border-b flex flex-wrap items-center gap-2 bg-neutral-50">
       <Button
         type="button"
         variant="outline"
@@ -208,7 +208,7 @@ export const PdfPreviewThumbRail: React.FC<PdfPreviewThumbRailProps> = ({
     <aside
       ref={railRef}
       aria-label="页面缩略图"
-      className="w-36 flex-shrink-0 overflow-y-auto overscroll-contain border-r bg-neutral-100 p-2 space-y-2"
+      className="w-36 shrink-0 overflow-y-auto overscroll-contain border-r bg-neutral-100 p-2 space-y-2"
     >
       {pageNumbers(numPages).map((page) => {
         const selected = page === pageNumber

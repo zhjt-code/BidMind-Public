@@ -204,7 +204,7 @@ const ErrorLogCard: React.FC<{ item: ErrorLogTimelineItem; onOpenChain?: (iid: s
   return (
     <div className={`border rounded-md px-3 py-2 ${colorClass}`}>
       <div className="flex items-start gap-2">
-        <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${iconColor}`} />
+        <Icon className={`h-4 w-4 mt-0.5 shrink-0 ${iconColor}`} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-[11px] font-medium text-gray-700">{item.level}</span>
@@ -227,7 +227,7 @@ const ErrorLogCard: React.FC<{ item: ErrorLogTimelineItem; onOpenChain?: (iid: s
               <span className="text-[11px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded">已处理</span>
             )}
           </div>
-          <p className="text-sm text-gray-800 break-words">{item.message}</p>
+          <p className="text-sm text-gray-800 wrap-break-word">{item.message}</p>
           <div className="mt-1 text-[11px] text-gray-500 flex items-center gap-3 flex-wrap">
             <span>{formatTime(item.ts)}</span>
             {item.origin_module ? (
@@ -273,7 +273,7 @@ const TaskObsCard: React.FC<{ item: TaskObsTimelineItem }> = ({ item }) => {
   return (
     <div className="border rounded-md px-3 py-2 bg-white">
       <div className="flex items-start gap-2">
-        <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${iconColor}`} />
+        <Icon className={`h-4 w-4 mt-0.5 shrink-0 ${iconColor}`} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-[11px] font-medium text-gray-700">{phaseLabel}</span>
@@ -294,7 +294,7 @@ const TaskObsCard: React.FC<{ item: TaskObsTimelineItem }> = ({ item }) => {
             {item.failure_state && <span className="text-red-500">{item.failure_state}</span>}
           </div>
           {item.last_error && (
-            <p className="mt-1 text-[11px] text-red-600 break-words">{item.last_error}</p>
+            <p className="mt-1 text-[11px] text-red-600 wrap-break-word">{item.last_error}</p>
           )}
         </div>
       </div>
@@ -307,7 +307,7 @@ const MilestoneCard: React.FC<{ item: MilestoneTimelineItem; onOpenChain?: (iid:
   return (
     <div className={`border rounded-md px-3 py-2 ${isFailed ? 'border-red-200 bg-red-50/30' : 'border-blue-200 bg-blue-50/30'}`}>
       <div className="flex items-start gap-2">
-        <Flag className={`h-4 w-4 mt-0.5 flex-shrink-0 ${isFailed ? 'text-red-500' : 'text-blue-500'}`} />
+        <Flag className={`h-4 w-4 mt-0.5 shrink-0 ${isFailed ? 'text-red-500' : 'text-blue-500'}`} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-[11px] font-medium text-gray-700">里程碑</span>
@@ -319,7 +319,7 @@ const MilestoneCard: React.FC<{ item: MilestoneTimelineItem; onOpenChain?: (iid:
             )}
           </div>
           {item.summary && (
-            <p className="text-sm text-gray-800 break-words">{item.summary}</p>
+            <p className="text-sm text-gray-800 wrap-break-word">{item.summary}</p>
           )}
           <div className="mt-1 text-[11px] text-gray-500 flex items-center gap-3 flex-wrap">
             <span>{formatTime(item.ts)}</span>
@@ -342,7 +342,7 @@ const MilestoneCard: React.FC<{ item: MilestoneTimelineItem; onOpenChain?: (iid:
 const AuditCard: React.FC<{ item: AuditTimelineItem }> = ({ item }) => (
   <div className="border rounded-md px-3 py-2 bg-purple-50/40 border-purple-200">
     <div className="flex items-start gap-2">
-      <UserCog className="h-4 w-4 mt-0.5 flex-shrink-0 text-purple-500" />
+      <UserCog className="h-4 w-4 mt-0.5 shrink-0 text-purple-500" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap mb-1">
           <span className="text-[11px] font-medium text-gray-700">用户操作</span>
@@ -354,7 +354,7 @@ const AuditCard: React.FC<{ item: AuditTimelineItem }> = ({ item }) => (
           )}
         </div>
         {item.detail && (
-          <p className="text-sm text-gray-800 break-words">{item.detail}</p>
+          <p className="text-sm text-gray-800 wrap-break-word">{item.detail}</p>
         )}
         <div className="mt-1 text-[11px] text-gray-500">
           <span>{formatTime(item.ts)}</span>

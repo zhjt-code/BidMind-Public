@@ -108,7 +108,7 @@ const WorkerHealthPanel: React.FC<WorkerHealthPanelProps> = ({ className = '' })
   const actionItems = summary?.action_items ?? []
 
   return (
-    <section id="ops-worker-health" className={`overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
+    <section id="ops-worker-health" className={`overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs ${className}`}>
       <div className="border-b border-slate-100 bg-slate-950 px-4 py-4 text-white">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">

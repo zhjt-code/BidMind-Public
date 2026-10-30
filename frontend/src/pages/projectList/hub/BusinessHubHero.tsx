@@ -63,12 +63,12 @@ const BusinessHubHero: React.FC<BusinessHubHeroProps> = ({
   const { theme } = config
 
   return (
-    <section className={`relative overflow-hidden rounded-2xl border shadow-sm ${theme.cardClass}`}>
+    <section className={`relative overflow-hidden rounded-2xl border shadow-xs ${theme.cardClass}`}>
       <div className={`pointer-events-none absolute inset-0 ${theme.glowClass}`} />
       <div className="relative flex flex-col gap-2.5 p-3.5 sm:p-4">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl shadow-sm ${theme.iconWrapClass}`}>
+            <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl shadow-xs ${theme.iconWrapClass}`}>
               <Icon className={`h-4 w-4 ${theme.iconClass}`} />
             </div>
             <div className="min-w-0">
@@ -85,7 +85,7 @@ const BusinessHubHero: React.FC<BusinessHubHeroProps> = ({
                 variant="outline"
                 size="sm"
                 title={recentProject.name}
-                className="max-w-[14rem] border-slate-200 bg-white/80 text-slate-700 hover:bg-white sm:max-w-[18rem]"
+                className="max-w-56 border-slate-200 bg-white/80 text-slate-700 hover:bg-white sm:max-w-[18rem]"
                 onClick={() => navigate(getTargetRoute(recentProject))}
               >
                 <span className="min-w-0 truncate">
@@ -116,7 +116,7 @@ const BusinessHubHero: React.FC<BusinessHubHeroProps> = ({
                 key={metric.key}
                 type="button"
                 onClick={() => onStatClick(metric.statusFilter)}
-                className={`group flex items-center gap-2.5 rounded-xl border px-2.5 py-2 text-left shadow-sm transition ${toneClass.hover}`}
+                className={`group flex items-center gap-2.5 rounded-xl border px-2.5 py-2 text-left shadow-xs transition ${toneClass.hover}`}
               >
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${toneClass.iconWrap}`}>
                   <MetricIcon className={`h-3.5 w-3.5 ${toneClass.icon}`} />

@@ -349,7 +349,7 @@ const WritingPreviewPage: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-xl border shadow-sm">
+      <div className="bg-white rounded-xl border shadow-xs">
         {loading ? (
           <div className="text-center py-20 text-muted-foreground">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />

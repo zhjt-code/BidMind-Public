@@ -252,7 +252,7 @@ const CollusionStats: React.FC<CollusionStatsProps> = ({
   const { similarityMatrix, documentLabels } = results
 
   return (
-    <div ref={rootRef} className="bg-white rounded-lg shadow mb-4 overflow-hidden">
+    <div ref={rootRef} className="bg-white rounded-lg shadow-sm mb-4 overflow-hidden">
       {/* 始终可见的概览头部 */}
       <div className="flex items-center justify-between px-4 py-3 border-b">
         <div className="flex items-center gap-4 flex-wrap">
@@ -272,7 +272,7 @@ const CollusionStats: React.FC<CollusionStatsProps> = ({
         <div className="flex items-center gap-3">
           {collapsed && !results.hasTenderDoc && (
             <span className="flex items-center gap-1 text-xs text-amber-600 font-semibold bg-amber-50 border border-amber-300 rounded-full px-2.5 py-0.5">
-              <AlertTriangle className="h-3 w-3 flex-shrink-0" />
+              <AlertTriangle className="h-3 w-3 shrink-0" />
               未上传招标文件, 请注意甄别
             </span>
           )}
@@ -396,7 +396,7 @@ const CollusionStats: React.FC<CollusionStatsProps> = ({
                     {decisionSummaryText}
                   </p>
                 </div>
-                <div className="hidden lg:grid grid-cols-3 gap-3 text-center flex-shrink-0">
+                <div className="hidden lg:grid grid-cols-3 gap-3 text-center shrink-0">
                   <div className="rounded-md bg-white/80 border border-[#E3D5F5] px-3 py-2">
                     <div className="text-lg font-semibold text-gray-900">{documentLabels.length}</div>
                     <div className="text-[11px] text-gray-500">投标文件</div>

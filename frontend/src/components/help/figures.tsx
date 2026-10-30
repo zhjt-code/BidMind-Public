@@ -168,7 +168,7 @@ function SkipVlFigure() {
       <div className="flex items-center gap-1.5 rounded-md border bg-white px-2 py-1.5">
         <Num n={1} />
         <span className="text-[10px] font-medium text-gray-800">图片识别</span>
-        <span className="rounded bg-white px-1.5 py-0.5 text-[9px] shadow-sm ring-1 ring-gray-200">加速</span>
+        <span className="rounded bg-white px-1.5 py-0.5 text-[9px] shadow-xs ring-1 ring-gray-200">加速</span>
         <span className="rounded px-1.5 py-0.5 text-[9px] text-gray-500">完整识别</span>
         <HelpCircle className="h-3 w-3 text-gray-500" strokeWidth={2} aria-hidden="true" />
       </div>
@@ -253,7 +253,7 @@ function HeaderUserMenuFigure() {
   ]
   return (
     <FigureFrame>
-      <div className="w-[156px] overflow-hidden rounded-md border bg-white p-1 shadow-sm">
+      <div className="w-[156px] overflow-hidden rounded-md border bg-white p-1 shadow-xs">
         <div className="px-1.5 py-1">
           <p className="text-[10px] font-medium leading-none text-gray-900">用户名</p>
           <p className="mt-1 text-[9px] leading-none text-gray-400">登录邮箱</p>

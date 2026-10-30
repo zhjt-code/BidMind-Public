@@ -27,7 +27,7 @@ const DocumentQualityStats: React.FC<DocumentQualityStatsProps> = ({ data }) => 
   const scopeNotices = imagePageNotices(scan.documents, bidPartLabel)
 
   return (
-    <div className="bg-white rounded-lg shadow mb-4 px-4 py-3">
+    <div className="bg-white rounded-lg shadow-sm mb-4 px-4 py-3">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-4">
           <h2 className="font-medium text-gray-700">质检概览</h2>
@@ -68,7 +68,7 @@ const DocumentQualityStats: React.FC<DocumentQualityStatsProps> = ({ data }) => 
               className="flex items-center gap-1 text-xs text-gray-500"
               title={QA_IMAGE_PAGE_HINT}
             >
-              <Info className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+              <Info className="h-3.5 w-3.5 shrink-0 text-gray-400" aria-hidden="true" />
               <span>{notice.text}</span>
             </p>
           ))}
@@ -78,9 +78,9 @@ const DocumentQualityStats: React.FC<DocumentQualityStatsProps> = ({ data }) => 
       {(scanAbnormal || checkersFailed.length > 0 || scan.status === 'degraded') && (
         <div className="mt-2 flex items-start gap-1.5 text-xs rounded border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-amber-800">
           {scanAbnormal ? (
-            <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+            <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
           ) : (
-            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+            <Info className="h-3.5 w-3.5 mt-0.5 shrink-0" />
           )}
           <span>
             {QA_SCAN_STATUS_LABELS[scan.status] || scan.status}

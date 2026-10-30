@@ -112,7 +112,7 @@ const CapabilityTab: React.FC<Props> = ({ purpose, form, capabilities, onChange 
           <input type="number" min={1024} step={1024} value={form.context_window_tokens}
             onChange={(e) => onChange({ ...form, context_window_tokens: e.target.value })}
             placeholder="留空不限制"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
           <p className="text-xs text-gray-400 mt-1">按厂商文档填写；决定长文档任务能否路由到本模型</p>
         </div>
         <div>
@@ -120,7 +120,7 @@ const CapabilityTab: React.FC<Props> = ({ purpose, form, capabilities, onChange 
           <input type="number" min={256} step={256} value={form.max_output_tokens}
             onChange={(e) => onChange({ ...form, max_output_tokens: e.target.value })}
             placeholder="留空不限制"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
           <p className="text-xs text-gray-400 mt-1">低于任务输出需求的模型将被调度自动跳过，避免截断</p>
         </div>
       </div>

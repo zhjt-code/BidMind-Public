@@ -34,7 +34,7 @@ test('主内容区在 flex 列内可收缩，并阻断滚轮链式传到文档',
 test('钉住侧栏与导航各自形成独立滚动边界', () => {
   assert.match(
     sidenavSource,
-    /<aside className="w-56 flex-shrink-0 min-h-0 overflow-hidden border-r border-gray-200\/80 bg-white">/,
+    /<aside className="w-56 shrink-0 min-h-0 overflow-hidden border-r border-gray-200\/80 bg-white">/,
   )
   assert.match(
     sidenavSource,

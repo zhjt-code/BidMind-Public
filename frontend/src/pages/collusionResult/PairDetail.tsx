@@ -199,7 +199,7 @@ const EvidenceChunksPanel: React.FC<{
                           label={formatPageRangeLabel(ec.pageA)}
                           onClick={() => onOpenPage(docAId, ec.pageA, ec.textA)}
                           title={`打开 ${docAName} 第 ${ec.pageA} 页`}
-                          className="!text-[10px]"
+                          className="text-[10px]!"
                         />
                       </>
                     )}
@@ -216,7 +216,7 @@ const EvidenceChunksPanel: React.FC<{
                           label={formatPageRangeLabel(ec.pageB)}
                           onClick={() => onOpenPage(docBId, ec.pageB, ec.textB)}
                           title={`打开 ${docBName} 第 ${ec.pageB} 页`}
-                          className="!text-[10px]"
+                          className="text-[10px]!"
                         />
                       </>
                     )}
@@ -388,7 +388,7 @@ const PairOverview: React.FC<{
               const barColor = isBoilerplate ? 'bg-[#E3D5F5]' : 'bg-[#9056D8]'
               // 文字：统一雅黑(text-gray-700)消除原有三档灰阶；
               // 仅"通用模板"得分文字弱化为 gray-400 以保留"该相似度可能来自模板而非串通"的视觉提示
-              const labelClass = 'text-xs w-24 flex-shrink-0 text-gray-700'
+              const labelClass = 'text-xs w-24 shrink-0 text-gray-700'
               const scoreClass = `text-xs text-right ${
                 hasScore && !isBoilerplate ? 'font-medium text-gray-700'
                   : isBoilerplate ? 'text-gray-400'

@@ -17,18 +17,18 @@ const PLATFORM_OUTPUTS = [
 const FlowConnector: React.FC = () => (
   <div className="flex items-center justify-center" aria-hidden="true">
     <div className="flex flex-col items-center lg:hidden">
-      <span className="h-3 w-px bg-gradient-to-b from-blue-200/20 to-indigo-400/80" />
+      <span className="h-3 w-px bg-linear-to-b from-blue-200/20 to-indigo-400/80" />
       <span className="flex h-7 w-7 items-center justify-center rounded-full border border-indigo-200 bg-white text-[#635BFF] shadow-[0_6px_18px_rgba(99,91,255,0.22)]">
         <ChevronDown className="h-4 w-4" />
       </span>
-      <span className="h-3 w-px bg-gradient-to-b from-indigo-400/80 to-violet-200/20" />
+      <span className="h-3 w-px bg-linear-to-b from-indigo-400/80 to-violet-200/20" />
     </div>
     <div className="hidden w-full items-center lg:flex">
-      <span className="h-px flex-1 bg-gradient-to-r from-blue-200/20 to-indigo-400/80" />
+      <span className="h-px flex-1 bg-linear-to-r from-blue-200/20 to-indigo-400/80" />
       <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full border border-indigo-200 bg-white text-[#635BFF] shadow-[0_6px_18px_rgba(99,91,255,0.22)]">
         <ChevronRight className="h-4 w-4" />
       </span>
-      <span className="h-px flex-1 bg-gradient-to-r from-indigo-400/80 to-violet-200/20" />
+      <span className="h-px flex-1 bg-linear-to-r from-indigo-400/80 to-violet-200/20" />
     </div>
   </div>
 )
@@ -47,7 +47,7 @@ const UnifiedPlatform: React.FC = () => {
           </p>
         </div>
 
-        <div className="gradient-hairline-frame mt-12 rounded-[2rem] bg-white">
+        <div className="gradient-hairline-frame mt-12 rounded-4xl bg-white">
           <div className="rounded-[1.9rem] bg-white p-4 sm:p-6 lg:p-8">
             <div className="grid gap-5 lg:grid-cols-[minmax(0,0.78fr)_3rem_minmax(0,1.7fr)_3rem_minmax(0,0.78fr)] lg:items-center">
               <div>
@@ -69,7 +69,7 @@ const UnifiedPlatform: React.FC = () => {
                 <h3 className="mt-2 text-2xl font-bold">统一证据与任务底座</h3>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   {publicHomeContent.platform.map(item => (
-                    <div key={item.label} className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+                    <div key={item.label} className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-xs">
                       <p className="text-sm font-semibold text-white">{item.label}</p>
                       <p className="mt-2 text-xs leading-5 text-white/75">{item.description}</p>
                     </div>

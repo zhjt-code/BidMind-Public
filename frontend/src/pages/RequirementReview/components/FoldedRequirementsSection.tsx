@@ -72,7 +72,7 @@ export const FoldedRequirementsSection: React.FC<FoldedRequirementsSectionProps>
   }
 
   return (
-    <div id="reference-requirements-section" className="mt-4 bg-white rounded-lg shadow">
+    <div id="reference-requirements-section" className="mt-4 bg-white rounded-lg shadow-sm">
       <button
         type="button"
         onClick={() => setCollapsed((v) => !v)}

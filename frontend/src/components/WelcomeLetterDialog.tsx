@@ -135,7 +135,7 @@ const WelcomeLetterDialog: React.FC = () => {
             aria-busy={submitting}
             onClick={handleConfirm}
             className="w-full sm:w-auto min-w-[180px] px-8 py-3 rounded-md text-sm font-medium transition-colors
-              bg-blue-800 text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2
+              bg-blue-800 text-white hover:bg-blue-900 focus:outline-hidden focus:ring-2 focus:ring-blue-700 focus:ring-offset-2
               disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? '正在确认……' : '我已知晓，开始使用'}

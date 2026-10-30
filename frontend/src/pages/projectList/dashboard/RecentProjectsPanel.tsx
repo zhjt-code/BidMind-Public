@@ -13,7 +13,7 @@ const RecentProjectsPanel: React.FC<RecentProjectsPanelProps> = ({ projects }) =
   const navigate = useNavigate()
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
       <div className="mb-3 flex items-center gap-2">
         <Activity className="h-4 w-4 text-cyan-600" />
         <h3 className="text-sm font-semibold text-gray-900">最近更新</h3>
@@ -32,7 +32,7 @@ const RecentProjectsPanel: React.FC<RecentProjectsPanelProps> = ({ projects }) =
                 onClick={() => navigate(getTargetRoute(project))}
                 className="relative w-full rounded-lg px-3 py-2 text-left transition hover:bg-blue-50/50"
               >
-                <span className="absolute -left-[17px] top-4 h-2 w-2 rounded-full border border-white bg-cyan-500 shadow-[0_0_0_3px_rgba(6,182,212,.16)]" />
+                <span className="absolute left-[-17px] top-4 h-2 w-2 rounded-full border border-white bg-cyan-500 shadow-[0_0_0_3px_rgba(6,182,212,.16)]" />
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
                     <span className="truncate text-sm font-medium text-gray-900">{project.name}</span>

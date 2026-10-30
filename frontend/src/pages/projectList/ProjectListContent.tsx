@@ -62,7 +62,7 @@ const ProjectListContent: React.FC<ProjectListContentProps> = ({
   onDeleteProject,
   onPageChange,
 }) => (
-  <div className="project-list-shell bg-white rounded-lg shadow">
+  <div className="project-list-shell bg-white rounded-lg shadow-sm">
     {viewState === 'loading' ? (
       <SkeletonList rows={5} />
     ) : viewState === 'load_error' ? (

@@ -22,7 +22,7 @@ const FieldHintButton: React.FC<FieldHintButtonProps> = ({ label, children }) =>
     <TooltipTrigger asChild>
       <button
         type="button"
-        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-[rgba(28,39,51,0.06)] hover:text-[#1c2733] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-[rgba(28,39,51,0.06)] hover:text-[#1c2733] focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
         aria-label={label}
       >
         <HelpCircle className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden="true" />

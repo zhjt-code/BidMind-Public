@@ -39,7 +39,7 @@ const ProjectStatsBar: React.FC<ProjectStatsBarProps> = ({ stats, loading, onSta
   }
 
   return (
-    <div className="bg-white rounded-lg shadow px-2 py-1">
+    <div className="bg-white rounded-lg shadow-sm px-2 py-1">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <StatCard

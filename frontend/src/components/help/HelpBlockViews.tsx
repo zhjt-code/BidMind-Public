@@ -63,7 +63,7 @@ const CalloutBlock: React.FC<{ tone: 'info' | 'warning' | 'success'; text: strin
   const Icon = style.Icon
   return (
     <div className={`flex items-start gap-2 p-3 rounded-lg border ${style.wrap}`}>
-      <Icon className={`w-4 h-4 ${style.icon} mt-0.5 flex-shrink-0`} />
+      <Icon className={`w-4 h-4 ${style.icon} mt-0.5 shrink-0`} />
       <p className={`text-xs leading-relaxed ${style.text}`}>{text}</p>
     </div>
   )
@@ -73,7 +73,7 @@ const CardHeader: React.FC<{ item: HelpCardItem }> = ({ item }) => {
   const Icon = item.icon
   return (
     <>
-      <Icon className={`w-4 h-4 ${item.color} mt-0.5 flex-shrink-0`} />
+      <Icon className={`w-4 h-4 ${item.color} mt-0.5 shrink-0`} />
       <div className="min-w-0 flex-1">
         <p className="text-sm font-medium text-gray-800">{item.title}</p>
         <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{item.description}</p>
@@ -103,7 +103,7 @@ const CardsBlock: React.FC<{
           <button
             type="button"
             onClick={() => onToggleStep(stepId)}
-            className="w-full flex items-start gap-2.5 p-2.5 text-left hover:bg-black/[0.02] transition-colors"
+            className="w-full flex items-start gap-2.5 p-2.5 text-left hover:bg-black/2 transition-colors"
           >
             <CardHeader item={item} />
             <ChevronRight
@@ -132,7 +132,7 @@ const StepsBlock: React.FC<{ items: HelpStepItem[] }> = ({ items }) => (
       const Icon = item.icon
       return (
         <div key={item.title} className="flex gap-3">
-          <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mt-0.5">
             <Icon className="w-3.5 h-3.5 text-gray-500" />
           </div>
           <div className="flex-1 text-sm">
@@ -142,7 +142,7 @@ const StepsBlock: React.FC<{ items: HelpStepItem[] }> = ({ items }) => (
               <ul className="mt-1.5 space-y-1">
                 {item.details.map(detail => (
                   <li key={detail} className="text-xs text-gray-500 flex items-start gap-1.5 leading-relaxed">
-                    <span className="w-1 h-1 rounded-full bg-gray-300 mt-1.5 flex-shrink-0" />
+                    <span className="w-1 h-1 rounded-full bg-gray-300 mt-1.5 shrink-0" />
                     {detail}
                   </li>
                 ))}
@@ -173,7 +173,7 @@ const QualityBlock: React.FC<{ items: HelpQualityItem[]; heading?: string }> = (
           <div className="flex items-center gap-1.5">
             <p className="text-xs font-semibold text-gray-800">{item.title}</p>
             {item.emphasis && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-medium flex-shrink-0">
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-medium shrink-0">
                 重点
               </span>
             )}
@@ -194,7 +194,7 @@ const NotesBlock: React.FC<{ items: string[] }> = ({ items }) => (
     <ul className="space-y-1.5">
       {items.map(text => (
         <li key={text} className="text-xs text-gray-500 flex items-start gap-1.5 leading-relaxed">
-          <span className="w-1 h-1 rounded-full bg-gray-300 mt-1.5 flex-shrink-0" />
+          <span className="w-1 h-1 rounded-full bg-gray-300 mt-1.5 shrink-0" />
           {text}
         </li>
       ))}

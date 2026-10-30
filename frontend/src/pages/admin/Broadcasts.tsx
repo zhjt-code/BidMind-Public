@@ -211,7 +211,7 @@ const BroadcastsPage: React.FC = () => {
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">加载中...</div>
         ) : items.length === 0 ? (
@@ -385,7 +385,7 @@ const BroadcastsPage: React.FC = () => {
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               maxLength={200}
               placeholder="例：系统将于 4/30 22:00 - 23:00 维护"
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
 
@@ -397,7 +397,7 @@ const BroadcastsPage: React.FC = () => {
               rows={4}
               maxLength={2000}
               placeholder="详细说明，支持纯文本"
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
             <p className="text-xs text-gray-400 mt-1">{form.content.length} / 2000</p>
           </div>
@@ -411,7 +411,7 @@ const BroadcastsPage: React.FC = () => {
               onChange={(e) => setForm((f) => ({ ...f, refUrl: e.target.value }))}
               maxLength={500}
               placeholder="例：/account 或 https://example.com"
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
 
@@ -422,7 +422,7 @@ const BroadcastsPage: React.FC = () => {
                 type="datetime-local"
                 value={form.startsAt}
                 onChange={(e) => setForm((f) => ({ ...f, startsAt: e.target.value }))}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
               <p className="text-xs text-gray-400 mt-1">留空则立即生效</p>
             </div>
@@ -432,7 +432,7 @@ const BroadcastsPage: React.FC = () => {
                 type="datetime-local"
                 value={form.endsAt}
                 onChange={(e) => setForm((f) => ({ ...f, endsAt: e.target.value }))}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
               <p className="text-xs text-gray-400 mt-1">留空则长期有效</p>
             </div>
