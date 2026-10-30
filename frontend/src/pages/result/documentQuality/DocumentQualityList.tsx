@@ -89,7 +89,7 @@ const DocumentQualityList: React.FC<DocumentQualityListProps> = ({
                   </Badge>
                 ))}
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 text-xs text-gray-400">
+              <div className="flex items-center gap-2 shrink-0 text-xs text-gray-400">
                 <span>{QA_CERTAINTY_LABELS[finding.certainty] || finding.certainty}</span>
                 {page !== Number.MAX_SAFE_INTEGER && <span>P{page}</span>}
               </div>

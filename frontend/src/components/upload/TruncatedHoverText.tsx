@@ -20,7 +20,7 @@ const TruncatedHoverText: React.FC<TruncatedHoverTextProps> = ({ text, className
     <TooltipTrigger asChild>
       <span className={className}>{text}</span>
     </TooltipTrigger>
-    <TooltipContent side="top" className="z-[80] max-w-lg break-all whitespace-normal">
+    <TooltipContent side="top" className="z-80 max-w-lg break-all whitespace-normal">
       {text}
     </TooltipContent>
   </Tooltip>

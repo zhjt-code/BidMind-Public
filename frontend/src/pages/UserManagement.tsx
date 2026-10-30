@@ -336,7 +336,7 @@ const UserManagementPage: React.FC = () => {
       )}
       
       {/* 筛选栏 */}
-      <div className="bg-white rounded-lg shadow p-4 mb-6">
+      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-4">
           {/* 搜索框 */}
           <div className="flex-1 min-w-[200px]">
@@ -345,7 +345,7 @@ const UserManagementPage: React.FC = () => {
               placeholder="搜索用户名或邮箱..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border rounded-md px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
             />
           </div>
           
@@ -356,7 +356,7 @@ const UserManagementPage: React.FC = () => {
               setRoleFilter(e.target.value)
               setPagination(prev => ({ ...prev, page: 1 }))
             }}
-            className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border rounded-md px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
           >
             <option value="">全部角色</option>
             <option value="admin">管理员</option>
@@ -370,7 +370,7 @@ const UserManagementPage: React.FC = () => {
               setStatusFilter(e.target.value)
               setPagination(prev => ({ ...prev, page: 1 }))
             }}
-            className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border rounded-md px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
           >
             <option value="">全部状态</option>
             <option value="active">已启用</option>
@@ -381,7 +381,7 @@ const UserManagementPage: React.FC = () => {
       </div>
       
       {/* 用户列表 */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             <svg className="animate-spin h-8 w-8 mx-auto mb-2 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -445,7 +445,7 @@ const UserManagementPage: React.FC = () => {
                     <select
                       value={user.role}
                       onChange={(e) => handleRoleChange(user, e.target.value as 'user' | 'admin')}
-                      className="text-sm border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="text-sm border rounded px-2 py-1 focus:outline-hidden focus:ring-2 focus:ring-primary"
                     >
                       <option value="user">普通用户</option>
                       <option value="admin">管理员</option>
@@ -581,7 +581,7 @@ const UserManagementPage: React.FC = () => {
             <input type="text" value={newUser.username}
               onChange={(e) => setNewUser(prev => ({ ...prev, username: e.target.value }))}
               placeholder="请输入用户名（至少3个字符）"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -590,7 +590,7 @@ const UserManagementPage: React.FC = () => {
             <input type="email" value={newUser.email}
               onChange={(e) => setNewUser(prev => ({ ...prev, email: e.target.value }))}
               placeholder="请输入邮箱地址"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -599,7 +599,7 @@ const UserManagementPage: React.FC = () => {
             <input type="password" value={newUser.password}
               onChange={(e) => setNewUser(prev => ({ ...prev, password: e.target.value }))}
               placeholder="请输入密码（至少8个字符）"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -608,13 +608,13 @@ const UserManagementPage: React.FC = () => {
             <input type="password" value={newUser.confirmPassword}
               onChange={(e) => setNewUser(prev => ({ ...prev, confirmPassword: e.target.value }))}
               placeholder="请再次输入密码"
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">角色</label>
             <select value={newUser.role}
               onChange={(e) => setNewUser(prev => ({ ...prev, role: e.target.value as 'user' | 'admin' }))}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary">
               <option value="user">普通用户</option>
               <option value="admin">管理员</option>
             </select>

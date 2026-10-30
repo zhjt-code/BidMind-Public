@@ -412,7 +412,7 @@ const CollusionResultPage: React.FC = () => {
   if (loading) {
     return (
       <div className={RESULT_PAGE_ROOT_CLASS}>
-        <div className="flex justify-between items-center px-1 py-3 flex-shrink-0">
+        <div className="flex justify-between items-center px-1 py-3 shrink-0">
           <div className="flex items-center">
             <Button variant="ghost" size="icon" onClick={goBack} className="mr-3">
               <ArrowLeft className="h-5 w-5" />
@@ -422,7 +422,7 @@ const CollusionResultPage: React.FC = () => {
           <div className="h-9 w-28 bg-gray-200 rounded animate-pulse" />
         </div>
         <SkeletonStatCards count={3} className="mb-4 px-1" />
-        <div className="bg-white rounded-lg shadow mx-1 flex-1">
+        <div className="bg-white rounded-lg shadow-sm mx-1 flex-1">
           {[1, 2, 3].map(i => (
             <SkeletonCard key={i} lines={3} hasTitle className="border-b last:border-b-0" />
           ))}
@@ -434,7 +434,7 @@ const CollusionResultPage: React.FC = () => {
   if (error || !results) {
     return (
       <div className={RESULT_PAGE_ROOT_CLASS}>
-        <div className="flex items-center px-1 py-3 flex-shrink-0">
+        <div className="flex items-center px-1 py-3 shrink-0">
           <Button variant="ghost" size="icon" onClick={() => navigate(APP_HOME)} className="mr-3">
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -453,11 +453,11 @@ const CollusionResultPage: React.FC = () => {
           </div>
         )}
         {!retryState?.failedNode && retryStateError && (
-          <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 flex-shrink-0">
+          <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 shrink-0">
             <p className="text-sm text-amber-800">恢复状态加载失败: {retryStateError}</p>
           </div>
         )}
-        <div className="flex-1 bg-white rounded-lg shadow mx-1">
+        <div className="flex-1 bg-white rounded-lg shadow-sm mx-1">
           <EmptyState
             variant="folder"
             title="暂无分析结果"
@@ -472,7 +472,7 @@ const CollusionResultPage: React.FC = () => {
   return (
     <div className={RESULT_PAGE_ROOT_CLASS}>
       {/* ---- 页头 ---- */}
-      <div className="flex justify-between items-center px-1 py-3 flex-shrink-0">
+      <div className="flex justify-between items-center px-1 py-3 shrink-0">
         <div className="flex items-center">
           <Button variant="ghost" size="icon" onClick={goBack} title="返回分析进度" className="mr-3">
             <ArrowLeft className="h-5 w-5" />
@@ -507,13 +507,13 @@ const CollusionResultPage: React.FC = () => {
         </div>
       )}
       {!retryState?.failedNode && retryStateError && (
-        <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 flex-shrink-0">
+        <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 shrink-0">
           <p className="text-sm text-amber-800">恢复状态加载失败: {retryStateError}</p>
         </div>
       )}
 
       {sortedPairs.length === 0 ? (
-        <div className="flex-1 bg-white rounded-lg shadow mx-1">
+        <div className="flex-1 bg-white rounded-lg shadow-sm mx-1">
           <EmptyState
             variant="chart"
             title="暂无对比对结果"
@@ -524,7 +524,7 @@ const CollusionResultPage: React.FC = () => {
       ) : (
         <>
           {/* ---- 统计概览 ---- */}
-          <div className="flex-shrink-0 px-1">
+          <div className="shrink-0 px-1">
             <CollusionStats
               results={results}
               sortedPairs={sortedPairs}
@@ -537,7 +537,7 @@ const CollusionResultPage: React.FC = () => {
             <div className={RESULT_PAGE_CONTENT_SHELL_CLASS}>
               {/* 左栏: 群组导航 + 风险等级 + 证据级别 + 全局发现（默认 22%，右缘可拖） */}
               <ResizableLeftPane defaultWidthPercent={RESULT_LEFT_PANE_COLLUSION_GROUP_PERCENT}>
-                <ScrollArea className="flex-1 min-h-0 [&>div>div]:!min-h-0 [&>div>div]:!block">
+                <ScrollArea className="flex-1 min-h-0 [&>div>div]:min-h-0! [&>div>div]:block!">
                   <div className="py-2">
                     {/* 群组导航 */}
                     <div className="px-2 mb-2">
@@ -618,7 +618,7 @@ const CollusionResultPage: React.FC = () => {
 
               {/* 中栏: 证据扁平列表（默认 28%，右缘可拖） */}
               <ResizableMiddlePane defaultWidthPercent={RESULT_MIDDLE_PANE_COLLUSION_GROUP_PERCENT}>
-                <div className="px-4 py-3 bg-gray-50 border-b flex-shrink-0">
+                <div className="px-4 py-3 bg-gray-50 border-b shrink-0">
                   <div className="text-sm font-medium text-gray-800">
                     {midTitle}
                   </div>
@@ -816,7 +816,7 @@ const FilterItem: React.FC<{
       {dotColor && <span className={`inline-block w-2 h-2 rounded-full ${dotColor}`} />}
       {label}
     </span>
-    <Badge variant="secondary" className="ml-2 h-5 min-w-[1.5rem] justify-center text-xs">
+    <Badge variant="secondary" className="ml-2 h-5 min-w-6 justify-center text-xs">
       {count}
     </Badge>
   </button>
@@ -896,7 +896,7 @@ function DimensionGroupedList<F extends CommonFinding>({
                             {getFindingDimensionLabel(finding.dimension)}
                           </Badge>
                         )}
-                        <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                        <div className="flex items-center gap-2 ml-auto shrink-0">
                           {finding.similarity != null ? (
                             <span className="text-[10px] text-gray-400">
                               {(finding.similarity * 100).toFixed(0)}%
@@ -908,7 +908,7 @@ function DimensionGroupedList<F extends CommonFinding>({
                           ) : null}
                         </div>
                       </div>
-                      <div className="text-sm text-gray-700 line-clamp-2 break-words [overflow-wrap:anywhere]">
+                      <div className="text-sm text-gray-700 line-clamp-2 wrap-break-word wrap-anywhere">
                         {buildFindingListSummary({
                           ...finding,
                           description: replaceRefs(finding.description),

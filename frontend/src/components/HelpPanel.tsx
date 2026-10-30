@@ -41,7 +41,7 @@ const HelpPanel: React.FC<HelpPanelProps> = ({ open, onOpenChange, onOpenFeedbac
                     onClick={() => toggleSection(section.key)}
                     className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                   >
-                    <div className={`w-8 h-8 rounded-lg ${section.bgColor} flex items-center justify-center flex-shrink-0`}>
+                    <div className={`w-8 h-8 rounded-lg ${section.bgColor} flex items-center justify-center shrink-0`}>
                       <Icon className={`w-4 h-4 ${section.color}`} />
                     </div>
                     <span className="text-sm font-medium text-gray-900 flex-1">{section.title}</span>

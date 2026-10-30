@@ -13,28 +13,28 @@ type ActionTone = ProjectDashboardActionItem['tone']
 
 const TONE_CLASS: Record<ActionTone, { card: string; accent: string; icon: string; value: string; button: string }> = {
   red: {
-    card: 'border-red-300/25 bg-red-300/[0.08]',
+    card: 'border-red-300/25 bg-red-300/8',
     accent: 'bg-red-300',
     icon: 'bg-red-300/15 text-red-200',
     value: 'text-red-200',
     button: 'text-red-100 group-hover:bg-red-300/10',
   },
   orange: {
-    card: 'border-orange-300/25 bg-orange-300/[0.08]',
+    card: 'border-orange-300/25 bg-orange-300/8',
     accent: 'bg-orange-300',
     icon: 'bg-orange-300/15 text-orange-100',
     value: 'text-orange-100',
     button: 'text-orange-50 group-hover:bg-orange-300/10',
   },
   amber: {
-    card: 'border-amber-300/25 bg-amber-300/[0.08]',
+    card: 'border-amber-300/25 bg-amber-300/8',
     accent: 'bg-amber-300',
     icon: 'bg-amber-300/15 text-amber-200',
     value: 'text-amber-200',
     button: 'text-amber-100 group-hover:bg-amber-300/10',
   },
   cyan: {
-    card: 'border-cyan-200/20 bg-cyan-200/[0.06]',
+    card: 'border-cyan-200/20 bg-cyan-200/6',
     accent: 'bg-cyan-200',
     icon: 'bg-cyan-200/15 text-cyan-100',
     value: 'text-cyan-100',
@@ -50,7 +50,7 @@ const ICONS: Record<string, React.ReactNode> = {
 }
 
 const ProjectDashboardActionQueue: React.FC<ProjectDashboardActionQueueProps> = ({ items, onSelect }) => (
-  <section className="rounded-2xl border border-white/10 bg-white/[0.07] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,.10)] backdrop-blur">
+  <section className="rounded-2xl border border-white/10 bg-white/[0.07] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,.10)] backdrop-blur-sm">
     <div className="mb-2 flex items-center justify-between gap-3">
       <h3 className="text-sm font-semibold text-white">需要立即处理</h3>
       <span className="text-[11px] font-medium text-cyan-100/80">点击定位列表</span>
@@ -63,7 +63,7 @@ const ProjectDashboardActionQueue: React.FC<ProjectDashboardActionQueueProps> = 
             key={item.id}
             type="button"
             onClick={() => onSelect(toFilterPatch(item.filter))}
-            className={`group relative overflow-hidden rounded-xl border px-3 py-2 text-left transition hover:-translate-y-0.5 hover:bg-white/[0.10] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-300/70 ${toneClass.card}`}
+            className={`group relative overflow-hidden rounded-xl border px-3 py-2 text-left transition hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-cyan-300/70 ${toneClass.card}`}
           >
             <span className={`absolute inset-y-0 left-0 w-1 ${toneClass.accent}`} />
             <div className="flex items-center justify-between gap-2 pl-1">

@@ -38,7 +38,7 @@ const TrustAndDataBoundary: React.FC = () => {
           <p className="mt-4 text-base leading-7 text-slate-600">{publicHomeContent.trustIntro}</p>
         </div>
 
-        <div className="mt-10 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(10,37,64,0.08)] sm:p-8">
+        <div className="mt-10 rounded-4xl border border-slate-200 bg-white p-6 shadow-[0_20px_50px_rgba(10,37,64,0.08)] sm:p-8">
           <div className="grid gap-4 md:grid-cols-3">
             {publicHomeContent.deploymentPaths.map(item => {
               const tone = DEPLOYMENT_PATH_TONES[item.key]

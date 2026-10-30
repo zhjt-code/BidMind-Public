@@ -19,10 +19,10 @@ test('投标审查上传页与串标/编写共用白卡片主题，不用卷宗�
   assert.doesNotMatch(page, /upload-workbench/)
   assert.doesNotMatch(page, /bg-amber-50/)
   assert.doesNotMatch(view, /UploadDocket/)
-  assert.match(view, /bg-white rounded-lg shadow p-6/)
+  assert.match(view, /bg-white rounded-lg shadow-sm p-6/)
   assert.match(view, /SkipVlOption/)
   assert.match(view, /EnvelopeModeSwitch/)
-  assert.match(writing, /bg-white rounded-lg shadow p-6/)
+  assert.match(writing, /bg-white rounded-lg shadow-sm p-6/)
   assert.doesNotMatch(writing, /rounded-xl border p-8/)
 })
 

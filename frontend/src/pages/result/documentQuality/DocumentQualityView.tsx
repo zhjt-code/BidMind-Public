@@ -99,7 +99,7 @@ const DocumentQualityView: React.FC<DocumentQualityViewProps> = ({
 
   if (error) {
     return (
-      <div className="flex-1 bg-white rounded-lg shadow mx-1">
+      <div className="flex-1 bg-white rounded-lg shadow-sm mx-1">
         <EmptyState
           variant="chart"
           title="文档质检结果加载失败"
@@ -112,7 +112,7 @@ const DocumentQualityView: React.FC<DocumentQualityViewProps> = ({
 
   if (!data || (data.scan.status === 'missing' && data.findings.length === 0)) {
     return (
-      <div className="flex-1 bg-white rounded-lg shadow mx-1">
+      <div className="flex-1 bg-white rounded-lg shadow-sm mx-1">
         <EmptyState
           variant="chart"
           title="暂无文档质检结果"
@@ -125,7 +125,7 @@ const DocumentQualityView: React.FC<DocumentQualityViewProps> = ({
 
   if (data.scan.status === 'building' && data.findings.length === 0) {
     return (
-      <div className="flex-1 bg-white rounded-lg shadow mx-1">
+      <div className="flex-1 bg-white rounded-lg shadow-sm mx-1">
         <EmptyState
           variant="chart"
           title="文档质检进行中"
@@ -138,7 +138,7 @@ const DocumentQualityView: React.FC<DocumentQualityViewProps> = ({
 
   return (
     <>
-      <div className="flex-shrink-0 px-1">
+      <div className="shrink-0 px-1">
         <DocumentQualityStats data={data} />
       </div>
       <div className={RESULT_PAGE_CONTENT_SHELL_CLASS}>

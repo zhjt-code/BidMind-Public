@@ -62,7 +62,7 @@ const NewUserLaunchPad: React.FC = () => {
                   className="group rounded-xl border border-white/10 bg-white/8 p-4 text-left transition hover:-translate-y-0.5 hover:border-cyan-300/50 hover:bg-white/12 motion-reduce:transform-none"
                 >
                   <div className="mb-4 flex items-start justify-between gap-2">
-                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${card.accent}`}>
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br ${card.accent}`}>
                       <Icon className="h-5 w-5 text-white" />
                     </div>
                   </div>

@@ -77,7 +77,7 @@ export const ChildMaterialItem: React.FC<ChildMaterialItemProps> = ({
               <>
                 <button
                   type="button"
-                  className="min-w-0 rounded-sm px-1 py-0.5 text-left transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="min-w-0 rounded-sm px-1 py-0.5 text-left transition-colors hover:bg-muted/60 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
                   onClick={() => onStartEditTitle(child)}
                   disabled={isProcessing || savingPendingTitles}
                   title="点击直接编辑标题"

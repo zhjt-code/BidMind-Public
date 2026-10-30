@@ -179,7 +179,7 @@ const GuideTour: React.FC<GuideTourProps> = ({ steps, storageKey, delay = 800 })
 
         <div className="flex items-start justify-between mb-2">
           <h3 className="text-sm font-semibold text-gray-900">{step.title}</h3>
-          <span className="text-xs text-gray-400 ml-2 flex-shrink-0">
+          <span className="text-xs text-gray-400 ml-2 shrink-0">
             {currentStep + 1}/{steps.length}
           </span>
         </div>

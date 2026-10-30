@@ -153,7 +153,7 @@ const DocumentQualityDetail: React.FC<DocumentQualityDetailProps> = ({
             onChange={(e) => setNote(e.target.value)}
             placeholder="处置备注(可选)"
             maxLength={200}
-            className="w-full mb-2 px-2.5 py-1.5 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full mb-2 px-2.5 py-1.5 text-sm border rounded focus:outline-hidden focus:ring-1 focus:ring-primary"
           />
           <div className="flex items-center gap-2 flex-wrap">
             <Button

@@ -44,7 +44,7 @@ const OpenWechatContact: React.FC<OpenWechatContactProps> = ({
         <span className={labelClassName}>{label}</span>
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="z-[60] max-w-sm">
+        <DialogContent className="z-60 max-w-sm">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>

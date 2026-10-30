@@ -24,7 +24,7 @@ const PlatformKnowledgeSection: React.FC = () => {
           <p className="mt-4 text-base leading-7 text-slate-600">{content.summary}</p>
         </div>
 
-        <div className="gradient-hairline-frame mt-10 rounded-[2rem] bg-white">
+        <div className="gradient-hairline-frame mt-10 rounded-4xl bg-white">
           <div className="rounded-[1.9rem] bg-white p-6 sm:p-8">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
               <div>
@@ -44,7 +44,7 @@ const PlatformKnowledgeSection: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="flex h-full min-h-[32rem] flex-col rounded-[1.75rem] bg-[linear-gradient(135deg,#1677FF,#635BFF_62%,#8B5CF6)] p-6 text-white shadow-[0_24px_70px_rgba(99,91,255,0.24)] sm:p-8">
+              <div className="flex h-full min-h-128 flex-col rounded-[1.75rem] bg-[linear-gradient(135deg,#1677FF,#635BFF_62%,#8B5CF6)] p-6 text-white shadow-[0_24px_70px_rgba(99,91,255,0.24)] sm:p-8">
                 <div className="flex items-center justify-between border-b border-white/20 pb-4">
                   <p className="text-sm font-semibold text-white">企业知识沉淀</p>
                   <span className="text-xs font-semibold text-white/80">界面示意</span>

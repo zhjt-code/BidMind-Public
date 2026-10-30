@@ -64,7 +64,7 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
   <div className={`divide-y divide-gray-100 ${className}`}>
     {Array.from({ length: rows }).map((_, i) => (
       <div key={i} className="flex items-start gap-3 p-4">
-        <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse flex-shrink-0" />
+        <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse shrink-0" />
         <div className="flex-1 space-y-2 pt-1">
           <SkeletonLine width="w-1/3" height="h-4" />
           <SkeletonLine width="w-2/3" height="h-3" />
@@ -87,7 +87,7 @@ export const SkeletonStatCards: React.FC<SkeletonStatCardsProps> = ({
 }) => (
   <div className={`grid gap-4 ${count === 4 ? 'grid-cols-4' : 'grid-cols-3'} ${className}`}>
     {Array.from({ length: count }).map((_, i) => (
-      <div key={i} className="bg-white rounded-lg shadow p-4">
+      <div key={i} className="bg-white rounded-lg shadow-sm p-4">
         <SkeletonLine width="w-1/2" height="h-8" className="mb-2" />
         <SkeletonLine width="w-3/4" height="h-3" />
       </div>

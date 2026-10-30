@@ -87,7 +87,7 @@ const WritingScoringTotalsBanner: React.FC<WritingScoringTotalsBannerProps> = ({
     <Button
       size="sm"
       type="button"
-      className="h-8 bg-amber-600 text-white shadow-sm hover:bg-amber-700"
+      className="h-8 bg-amber-600 text-white shadow-xs hover:bg-amber-700"
       onClick={onAddScoringItem}
       title="手动新增一条评分项"
     >

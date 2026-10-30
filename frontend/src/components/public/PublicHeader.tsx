@@ -70,14 +70,14 @@ const PublicHeader: React.FC = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-        <Link to={PUBLIC_HOME} className="flex flex-shrink-0 items-center" aria-label="BidMind AI 首页">
+        <Link to={PUBLIC_HOME} className="flex shrink-0 items-center" aria-label="BidMind AI 首页">
           <Logo size="md" />
         </Link>
 
         <div
-          className="mx-4 hidden h-6 w-px flex-shrink-0 bg-slate-200 md:block lg:mx-6"
+          className="mx-4 hidden h-6 w-px shrink-0 bg-slate-200 md:block lg:mx-6"
           aria-hidden="true"
         />
 
@@ -116,7 +116,7 @@ const PublicHeader: React.FC = () => {
           )}
           <Link
             to={actionPath}
-            className="inline-flex h-10 items-center rounded-xl bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex h-10 items-center rounded-xl bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             {actionLabel}
           </Link>

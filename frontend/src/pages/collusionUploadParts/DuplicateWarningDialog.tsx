@@ -46,7 +46,7 @@ export const DuplicateWarningDialog: React.FC<DuplicateWarningDialogProps> = ({
       <div className="space-y-3">
         <div className="flex items-start gap-2 p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <svg
-            className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
+            className="w-5 h-5 text-orange-500 shrink-0 mt-0.5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

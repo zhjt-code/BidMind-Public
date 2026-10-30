@@ -629,7 +629,7 @@ const WritingUploadPage: React.FC = () => {
           refreshing={refreshingRetry}
         />
       )}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-lg shadow-sm p-6">
         {guardLoading ? (
           <div className="text-center py-8">
             <Loader2 className="h-8 w-8 mx-auto text-primary animate-spin mb-2" />

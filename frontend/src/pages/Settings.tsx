@@ -360,7 +360,7 @@ const ModelSection: React.FC<ModelSectionProps> = ({
   )
 
   return (
-    <div className="bg-white rounded-lg shadow mb-6">
+    <div className="bg-white rounded-lg shadow-sm mb-6">
       <ModelConfigModal visible={modalVisible} purpose={purpose}
         config={editingConfig}
         onSaved={() => { closeModal(); onReload() }} onCancel={closeModal} />
@@ -439,7 +439,7 @@ const SettingsPage: React.FC = () => {
       <div>
         <div className="h-8 w-24 bg-gray-200 rounded animate-pulse mb-6" />
         {[1, 2].map(i => (
-          <div key={i} className="bg-white rounded-lg shadow mb-6">
+          <div key={i} className="bg-white rounded-lg shadow-sm mb-6">
             <div className="px-6 py-4 border-b">
               <div className="h-5 w-32 bg-gray-200 rounded animate-pulse mb-2" />
               <div className="h-3 w-64 bg-gray-200 rounded animate-pulse" />

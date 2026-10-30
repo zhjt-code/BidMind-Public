@@ -67,7 +67,7 @@ const ProjectFilters: React.FC<ProjectFiltersProps> = ({
         </div>
 
         {isAdmin && onUsernameSearchChange && (
-          <div className="relative w-full flex-shrink-0 lg:w-[200px]">
+          <div className="relative w-full shrink-0 lg:w-[200px]">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               value={usernameSearch ?? ''}

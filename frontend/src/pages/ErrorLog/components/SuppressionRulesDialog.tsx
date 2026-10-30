@@ -69,7 +69,7 @@ export const SuppressionRulesDialog: React.FC<SuppressionRulesDialogProps> = ({
                         <p className="text-[11px] text-gray-500">原因: {rule.reason}</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
+                    <div className="flex items-center gap-1 shrink-0">
                       <Button
                         variant="ghost"
                         size="sm"

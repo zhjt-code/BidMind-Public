@@ -30,7 +30,7 @@ const GroupNav: React.FC<GroupNavProps> = ({ groups, selectedGroupIdx, onSelectG
             key={group.groupIndex}
             className={`w-full text-left p-3 rounded-lg border transition-colors ${
               isSelected
-                ? 'border-[#9056D8] bg-[#F6F1FC] shadow-sm'
+                ? 'border-[#9056D8] bg-[#F6F1FC] shadow-xs'
                 : 'border-gray-200 bg-white hover:border-[#C4B0EA] hover:bg-[#F6F1FC]/70'
             }`}
           >

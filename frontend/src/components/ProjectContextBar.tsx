@@ -128,7 +128,7 @@ const ProjectContextBar: React.FC<ProjectContextBarProps> = ({
             variant="ghost"
             size="sm"
             onClick={onBackToList}
-            className="h-7 flex-shrink-0 gap-1.5 px-2 text-gray-600 hover:text-gray-900"
+            className="h-7 shrink-0 gap-1.5 px-2 text-gray-600 hover:text-gray-900"
             title="返回列表"
           >
             <CornerUpLeft className="h-4 w-4" />
@@ -136,7 +136,7 @@ const ProjectContextBar: React.FC<ProjectContextBarProps> = ({
           </Button>
 
           <div className="ml-auto flex min-w-0 items-center gap-1.5 pl-4">
-            <span className="flex-shrink-0 text-xs text-gray-500">项目名称</span>
+            <span className="shrink-0 text-xs text-gray-500">项目名称</span>
             <span className="truncate font-semibold text-gray-900" title={displayName}>
               {displayName}
             </span>

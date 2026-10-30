@@ -130,7 +130,7 @@ const MetricCard: React.FC<Props> = ({ metric, onClick, muted }) => {
   return (
     <button
       onClick={onClick}
-      className={`group w-full text-left bg-white rounded-lg border border-gray-200 border-l-4 ${pillarBorder} p-4 shadow-sm hover:shadow-md hover:border-gray-300 transition-all ${muted ? 'opacity-60' : ''}`}
+      className={`group w-full text-left bg-white rounded-lg border border-gray-200 border-l-4 ${pillarBorder} p-4 shadow-xs hover:shadow-md hover:border-gray-300 transition-all ${muted ? 'opacity-60' : ''}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">

@@ -145,7 +145,7 @@ const FeedbackManagementPage: React.FC = () => {
       )}
 
       {/* 筛选栏 */}
-      <div className="bg-white rounded-lg shadow p-4 mb-6">
+      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-4">
           <select
             value={statusFilter}
@@ -153,7 +153,7 @@ const FeedbackManagementPage: React.FC = () => {
               setStatusFilter(e.target.value)
               setPagination((prev) => ({ ...prev, page: 1 }))
             }}
-            className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border rounded-md px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
           >
             {STATUS_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -168,7 +168,7 @@ const FeedbackManagementPage: React.FC = () => {
               setTypeFilter(e.target.value)
               setPagination((prev) => ({ ...prev, page: 1 }))
             }}
-            className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border rounded-md px-3 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
           >
             {TYPE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -180,7 +180,7 @@ const FeedbackManagementPage: React.FC = () => {
       </div>
 
       {/* 反馈列表 */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             <svg
@@ -425,7 +425,7 @@ const FeedbackManagementPage: React.FC = () => {
                 placeholder="添加处理备注（可选）..."
                 rows={3}
                 maxLength={1000}
-                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg resize-none focus:outline-hidden focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
             </div>
           </div>

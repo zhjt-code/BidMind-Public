@@ -41,7 +41,7 @@ const ProjectDashboardFilterBar: React.FC<ProjectDashboardFilterBarProps> = ({ f
       type="button"
       ref={ref}
       onClick={onClear}
-      className="inline-flex h-8 max-w-full items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 text-sm text-blue-800 outline-none transition hover:bg-blue-100 focus:ring-2 focus:ring-blue-300"
+      className="inline-flex h-8 max-w-full items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 text-sm text-blue-800 outline-hidden transition hover:bg-blue-100 focus:ring-2 focus:ring-blue-300"
       title="取消当前筛选"
     >
       <span className="truncate">{labels.join(' / ')}</span>

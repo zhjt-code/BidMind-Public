@@ -60,9 +60,9 @@ const InlineProgressBar: React.FC<InlineProgressBarProps> = ({
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           {completed ? (
-            <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
+            <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
           ) : (
-            <Loader2 className={`h-5 w-5 animate-spin flex-shrink-0 ${colors.spinner}`} />
+            <Loader2 className={`h-5 w-5 animate-spin shrink-0 ${colors.spinner}`} />
           )}
           <span className="text-sm font-medium text-gray-700">{title}</span>
         </div>

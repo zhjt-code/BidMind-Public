@@ -108,12 +108,12 @@ const ResultRow: React.FC<ResultRowProps> = ({ result, selected, onSelect, isChi
       <div className="flex items-start justify-between mb-1 gap-2">
         <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
           {/* 核心徽标组: 符合度 + 类别 + 评分项 始终同一行(类别在列表中省去"要求"二字腾空间) */}
-          <span className="flex items-center gap-1.5 flex-shrink-0">
+          <span className="flex items-center gap-1.5 shrink-0">
             {groupBadges && (
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); groupBadges.onToggleCollapse() }}
-                className="text-gray-400 hover:text-gray-600 flex-shrink-0"
+                className="text-gray-400 hover:text-gray-600 shrink-0"
                 title={groupBadges.collapsed ? '展开同源条目' : '折叠同源条目'}
                 aria-label={groupBadges.collapsed ? '展开同源条目' : '折叠同源条目'}
               >
@@ -189,7 +189,7 @@ const ResultRow: React.FC<ResultRowProps> = ({ result, selected, onSelect, isChi
             <Badge variant="warning" className="text-[10px] px-1.5 py-0" title="组内存在待复核条目">组内待复核</Badge>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <span className="text-sm font-bold text-blue-500">{result.score}</span>
           <span className={`text-xs ${getRiskColor(result.riskLevel)}`}>
             {riskLevelLabels[result.riskLevel]}

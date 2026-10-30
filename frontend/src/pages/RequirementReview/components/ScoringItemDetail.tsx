@@ -60,7 +60,7 @@ export const ScoringItemDetail: React.FC<ScoringItemDetailProps> = ({
                 if (e.key === 'Enter') handleEditSubmit()
                 if (e.key === 'Escape') setEditing(false)
               }}
-              className="w-16 border rounded px-1 py-0.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-16 border rounded px-1 py-0.5 text-xs focus:outline-hidden focus:ring-1 focus:ring-primary"
               autoFocus
               aria-label="修正满分分值"
             />

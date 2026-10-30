@@ -54,7 +54,7 @@ export const WritingComposeSidebar: React.FC<WritingComposeSidebarProps> = ({
   const navigate = useNavigate()
 
   return (
-    <div className="border-r bg-white flex-shrink-0 flex flex-col relative" style={{ width: sidebarWidth }}>
+    <div className="border-r bg-white shrink-0 flex flex-col relative" style={{ width: sidebarWidth }}>
       <div className="p-3 border-b">
         <Button
           variant="ghost"
@@ -131,7 +131,7 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
         data-has-generated-diagram={node.hasGeneratedDiagram ? '1' : '0'}
       >
         <span
-          className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${dotClass}${
+          className={`inline-block w-2 h-2 rounded-full shrink-0 ${dotClass}${
             node.hasGeneratedDiagram ? ' ring-2 ring-orange-500 ring-offset-1 ring-offset-white' : ''
           }`}
           title={node.hasGeneratedDiagram ? '本章含算法生成图示' : undefined}
@@ -139,13 +139,13 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
         <span className="min-w-0 flex-1 truncate">{node.title}</span>
         {primaryBadge && (
           <span
-            className={`ml-auto inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full ${hasHighSeverity ? 'bg-red-500' : 'bg-amber-500'}`}
+            className={`ml-auto inline-flex h-2.5 w-2.5 shrink-0 rounded-full ${hasHighSeverity ? 'bg-red-500' : 'bg-amber-500'}`}
             title={badgeHint}
             data-testid="gate-badge"
             aria-label={primaryBadge.label}
           />
         )}
-        {node.isLocked && <Lock className="h-3 w-3 flex-shrink-0 text-muted-foreground" />}
+        {node.isLocked && <Lock className="h-3 w-3 shrink-0 text-muted-foreground" />}
       </button>
     )
   }
@@ -158,20 +158,20 @@ const SidebarTreeNode: React.FC<SidebarTreeNodeProps> = ({
         className="w-full text-left py-1.5 transition flex items-center gap-1 hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-transparent"
         style={{ paddingLeft: `${indent}px`, paddingRight: '8px' }}
       >
-        <ChevronDown className={`h-3.5 w-3.5 flex-shrink-0 text-muted-foreground transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
+        <ChevronDown className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${isCollapsed ? '-rotate-90' : ''}`} />
         <span className={`min-w-0 flex-1 truncate ${node.depth === 0 ? 'font-semibold text-sm' : 'font-medium text-sm text-foreground/80'}`}>
           {node.title}
         </span>
         {node.gateWarningCount > 0 && (
           <span
-            className="flex-shrink-0 rounded bg-red-100 px-1.5 py-0.5 text-[10px] leading-none text-red-700"
+            className="shrink-0 rounded bg-red-100 px-1.5 py-0.5 text-[10px] leading-none text-red-700"
             title={`${node.gateWarningCount} 个子章节需复核`}
           >
             {node.gateWarningCount}
           </span>
         )}
         {node.childLeafCount > 0 && (
-          <span className="text-xs text-muted-foreground flex-shrink-0">
+          <span className="text-xs text-muted-foreground shrink-0">
             {node.childDraftCount}/{node.childLeafCount}
           </span>
         )}

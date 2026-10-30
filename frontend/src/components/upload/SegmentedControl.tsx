@@ -49,11 +49,11 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
           }}
           aria-label={option.ariaLabel}
           className={cn(
-            'inline-flex items-center gap-1.5 rounded-[5px] px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+            'inline-flex items-center gap-1.5 rounded-[5px] px-3 py-1.5 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring',
             selected
               ? emphasized
-                ? 'bg-blue-500 text-white shadow-sm'
-                : 'bg-white text-[#1c2733] shadow-sm'
+                ? 'bg-blue-500 text-white shadow-xs'
+                : 'bg-white text-[#1c2733] shadow-xs'
               : disabled
                 ? 'cursor-not-allowed text-gray-400'
                 : 'text-gray-600 hover:text-[#1c2733]',

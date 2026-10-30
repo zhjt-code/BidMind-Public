@@ -18,7 +18,7 @@ export const PENDING_JUDGMENT_DOT = 'bg-[#722169]'
 export const PENDING_JUDGMENT_COLOR = PENDING_JUDGMENT_HEX
 
 export const PENDING_JUDGMENT_BADGE_CLASS =
-  'border-transparent bg-[#722169] text-white shadow hover:bg-[#722169]/80'
+  'border-transparent bg-[#722169] text-white shadow-sm hover:bg-[#722169]/80'
 
 export const COMPLIANCE_NAV_VALUES = [
   'pending',

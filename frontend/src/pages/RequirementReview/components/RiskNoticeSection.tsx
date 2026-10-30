@@ -57,7 +57,7 @@ export const RiskNoticeSection: React.FC<RiskNoticeSectionProps> = ({
   }
 
   return (
-    <div id="risk-notice-section" className="mt-4 bg-white rounded-lg shadow border border-red-100">
+    <div id="risk-notice-section" className="mt-4 bg-white rounded-lg shadow-sm border border-red-100">
       <button
         type="button"
         onClick={markViewedAndToggle}

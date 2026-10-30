@@ -186,7 +186,7 @@ test('运行健康卡替代状态环图, 业务类型图保留绘图区', () => 
   assert.match(healthSource, /getProjectTypeColor/)
   assert.match(healthSource, /HEALTH_GLASS_CARD/)
   assert.match(healthSource, /bg-white\/50/)
-  assert.match(healthSource, /backdrop-blur-sm/)
+  assert.match(healthSource, /backdrop-blur-xs/)
   assert.match(healthSource, /hover:-translate-y-1/)
   assert.match(healthSource, /hover:shadow-\[0_10px_24px_rgba\(15,23,42,0\.14\)\]/)
   assert.doesNotMatch(healthSource, /border-l-emerald-500/)

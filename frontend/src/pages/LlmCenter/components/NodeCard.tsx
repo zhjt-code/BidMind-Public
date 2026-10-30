@@ -51,7 +51,7 @@ export const NodeCard: React.FC<NodeCardProps> = ({ node, onClick, onClassChange
           onClick()
         }
       }}
-      className={`w-full text-left p-3 rounded-lg border hover:border-primary/40 hover:shadow-sm transition-all bg-white group relative cursor-pointer ${
+      className={`w-full text-left p-3 rounded-lg border hover:border-primary/40 hover:shadow-xs transition-all bg-white group relative cursor-pointer ${
         node.has_draft ? 'border-orange-300 ring-1 ring-orange-200' : 'border-gray-200'
       }`}
     >

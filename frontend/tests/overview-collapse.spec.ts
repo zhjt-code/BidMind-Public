@@ -103,7 +103,7 @@ const collusionPageSource = readFileSync(
   'utf8',
 )
 
-test('两页都把概览包在 flex-shrink-0 里，随后渲染三栏壳供 detail_engage 挂载', () => {
-  assert.match(resultPageSource, /flex-shrink-0 px-1[\s\S]{0,180}<ReviewStats[\s\S]{0,280}RESULT_PAGE_CONTENT_SHELL_CLASS/)
-  assert.match(collusionPageSource, /flex-shrink-0 px-1[\s\S]{0,220}<CollusionStats[\s\S]{0,360}RESULT_PAGE_CONTENT_SHELL_CLASS/)
+test('两页都把概览包在 shrink-0 里，随后渲染三栏壳供 detail_engage 挂载', () => {
+  assert.match(resultPageSource, /shrink-0 px-1[\s\S]{0,180}<ReviewStats[\s\S]{0,280}RESULT_PAGE_CONTENT_SHELL_CLASS/)
+  assert.match(collusionPageSource, /shrink-0 px-1[\s\S]{0,220}<CollusionStats[\s\S]{0,360}RESULT_PAGE_CONTENT_SHELL_CLASS/)
 })

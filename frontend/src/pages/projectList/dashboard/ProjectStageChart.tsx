@@ -19,7 +19,7 @@ const STAGE_GROUP_COLOR: Record<string, string> = {
 const ProjectStageChart: React.FC<ProjectStageChartProps> = ({ groups, onSelect }) => {
   const visibleItems = groups.filter((group) => group.count > 0)
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
       <div className="mb-3">
         <h3 className="text-sm font-semibold text-gray-900">当前办理阶段</h3>
         <p className="text-xs text-gray-500">按业务阶段汇总，点击查看对应项目</p>

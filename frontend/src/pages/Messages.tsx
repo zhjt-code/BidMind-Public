@@ -122,7 +122,7 @@ const MessagesPage: React.FC = () => {
         )}
       </div>
 
-      <div className="bg-white rounded-lg shadow p-4 mb-6">
+      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-2">
           {FILTER_OPTIONS.map((opt) => (
             <button
@@ -140,7 +140,7 @@ const MessagesPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             <svg className="animate-spin h-8 w-8 mx-auto mb-2 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -162,14 +162,14 @@ const MessagesPage: React.FC = () => {
                     msg.isRead ? 'bg-white' : 'bg-blue-50/40'
                   }`}
                 >
-                  <div className="pt-1 flex-shrink-0">
+                  <div className="pt-1 shrink-0">
                     <Icon className={`h-4 w-4 ${colorClass}`} />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       {!msg.isRead && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       )}
                       <span className={`text-sm ${msg.isRead ? 'text-gray-600' : 'text-gray-900 font-medium'}`}>
                         {msg.title}
@@ -184,7 +184,7 @@ const MessagesPage: React.FC = () => {
                   {!msg.isRead && (
                     <button
                       onClick={() => handleMarkRead(msg)}
-                      className="flex-shrink-0 text-xs text-primary hover:underline mt-1"
+                      className="shrink-0 text-xs text-primary hover:underline mt-1"
                     >
                       标记已读
                     </button>

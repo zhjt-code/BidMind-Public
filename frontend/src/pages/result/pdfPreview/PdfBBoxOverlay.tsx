@@ -25,7 +25,7 @@ const PdfBBoxOverlay: React.FC<PdfBBoxOverlayProps> = ({ highlights }) => {
         return (
           <div
             key={`${highlight.page}-${index}`}
-            className="absolute rounded-sm bg-amber-400/15 outline outline-2 outline-amber-500/80 outline-offset-2"
+            className="absolute rounded-sm bg-amber-400/15 outline-solid outline-2 outline-amber-500/80 outline-offset-2"
             style={rect}
           />
         )

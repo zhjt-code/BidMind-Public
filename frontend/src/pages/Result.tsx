@@ -430,7 +430,7 @@ const ResultPage: React.FC = () => {
           <div className="h-9 w-28 bg-gray-200 rounded animate-pulse" />
         </div>
         <SkeletonStatCards count={4} className="mb-6" />
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow-sm">
           <div className="px-4 py-3 border-b bg-gray-50">
             <div className="h-5 w-24 bg-gray-200 rounded animate-pulse" />
           </div>
@@ -445,7 +445,7 @@ const ResultPage: React.FC = () => {
   return (
     <div className={RESULT_PAGE_ROOT_CLASS}>
       {/* ---- 页头 ---- */}
-      <div className="flex justify-between items-center gap-2 px-1 py-3 flex-shrink-0 flex-wrap">
+      <div className="flex justify-between items-center gap-2 px-1 py-3 shrink-0 flex-wrap">
         <div className="flex items-center gap-3 min-w-0 flex-wrap">
           <Button
             variant="ghost" size="icon"
@@ -483,7 +483,7 @@ const ResultPage: React.FC = () => {
       {view === 'review' && (
         <>
       {error && (
-        <div className="mx-1 mb-3 p-3 bg-red-50 rounded-lg border border-red-200 flex-shrink-0">
+        <div className="mx-1 mb-3 p-3 bg-red-50 rounded-lg border border-red-200 shrink-0">
           <p className="text-sm text-red-800">{error}</p>
         </div>
       )}
@@ -517,13 +517,13 @@ const ResultPage: React.FC = () => {
         </div>
       )}
       {!retryState?.failedNode && retryStateError && (
-        <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 flex-shrink-0">
+        <div className="mx-1 mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200 shrink-0">
           <p className="text-sm text-amber-800">恢复状态加载失败: {retryStateError}</p>
         </div>
       )}
 
       {results.length === 0 ? (
-        <div className="flex-1 bg-white rounded-lg shadow">
+        <div className="flex-1 bg-white rounded-lg shadow-sm">
           <EmptyState
             variant="chart"
             title="暂无审查结果"
@@ -535,7 +535,7 @@ const ResultPage: React.FC = () => {
         <>
           {/* ---- 统计图表（可折叠） ---- */}
           {summary && (
-            <div className="flex-shrink-0 px-1">
+            <div className="shrink-0 px-1">
               <ReviewStats results={results} summary={summary} extractionWarnings={extractionWarnings} />
             </div>
           )}

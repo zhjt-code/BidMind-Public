@@ -139,7 +139,7 @@ const ProjectListPage: React.FC = () => {
       )}
 
       {isBusinessHub && !hubReady && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
           <div className="h-7 w-40 animate-pulse rounded bg-slate-200" />
           <div className="mt-3 h-4 w-full max-w-xl animate-pulse rounded bg-slate-100" />
           <div className="mt-5 grid gap-2 sm:grid-cols-3">
@@ -168,7 +168,7 @@ const ProjectListPage: React.FC = () => {
       )}
 
       {isConsoleRoot && dashboardQuery.isLoading && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="h-6 w-48 animate-pulse rounded bg-slate-200" />
           <div className="mt-4 grid gap-3 lg:grid-cols-3">
             <div className="h-28 animate-pulse rounded-xl bg-slate-100" />
@@ -202,7 +202,7 @@ const ProjectListPage: React.FC = () => {
           )}
 
           {showHubListSection && (
-            <section ref={listAnchorRef} className="scroll-mt-4 rounded-lg border border-slate-200 bg-white shadow-sm">
+            <section ref={listAnchorRef} className="scroll-mt-4 rounded-lg border border-slate-200 bg-white shadow-xs">
               {isConsoleRoot && (
                 <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>

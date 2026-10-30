@@ -43,7 +43,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
         <label className="block text-sm font-medium text-gray-700 mb-1">思考策略</label>
         <select value={form.thinking_policy}
           onChange={(e) => onChange({ ...form, thinking_policy: e.target.value as ThinkingPolicy })}
-          className="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary">
+          className="w-full border rounded-lg px-3 py-2 bg-white focus:outline-hidden focus:ring-2 focus:ring-primary">
           {THINKING_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
@@ -58,7 +58,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
         <label className="block text-sm font-medium text-gray-700 mb-1">默认推理强度</label>
         <select value={form.reasoning_effort}
           onChange={(e) => onChange({ ...form, reasoning_effort: e.target.value as ReasoningEffort })}
-          className="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary">
+          className="w-full border rounded-lg px-3 py-2 bg-white focus:outline-hidden focus:ring-2 focus:ring-primary">
           {EFFORT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
@@ -77,7 +77,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
           <input type="number" step="0.1" min="0" max="2" value={form.temperature}
             onChange={(e) => onChange({ ...form, temperature: e.target.value })}
             placeholder="留空使用默认值 0.1"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
           <p className="text-xs text-gray-400 mt-1">调用方未显式指定温度时使用；业务节点意图仍以 LLM Center 为准</p>
         </div>
 
@@ -110,7 +110,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
                 disabled={form.temperature_mode !== 'exact'}
                 onChange={(e) => onChange({ ...form, temperature_exact: e.target.value })}
                 placeholder="如 1"
-                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-none focus:ring-1 focus:ring-primary" />
+                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-hidden focus:ring-1 focus:ring-primary" />
             </div>
             <div>
               <label className={`block text-xs mb-1 ${form.temperature_mode === 'clamp' ? 'text-gray-600' : 'text-gray-300'}`}>
@@ -121,7 +121,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
                 disabled={form.temperature_mode !== 'clamp'}
                 onChange={(e) => onChange({ ...form, temperature_min: e.target.value })}
                 placeholder="如 0"
-                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-none focus:ring-1 focus:ring-primary" />
+                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-hidden focus:ring-1 focus:ring-primary" />
             </div>
             <div>
               <label className={`block text-xs mb-1 ${form.temperature_mode === 'clamp' ? 'text-gray-600' : 'text-gray-300'}`}>
@@ -132,7 +132,7 @@ const GenerationTab: React.FC<Props> = ({ purpose, form, onChange }) => {
                 disabled={form.temperature_mode !== 'clamp'}
                 onChange={(e) => onChange({ ...form, temperature_max: e.target.value })}
                 placeholder="如 1"
-                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-none focus:ring-1 focus:ring-primary" />
+                className="w-full border rounded-lg px-3 py-1.5 text-sm disabled:bg-gray-50 disabled:text-gray-300 focus:outline-hidden focus:ring-1 focus:ring-primary" />
             </div>
           </div>
         </div>

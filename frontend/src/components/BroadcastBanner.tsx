@@ -84,7 +84,7 @@ const BannerRow: React.FC<BannerRowProps> = ({ banner, onDismiss, onNavigate }) 
       role={clickable ? 'button' : undefined}
       tabIndex={clickable ? 0 : undefined}
     >
-      <Icon className={`h-4 w-4 flex-shrink-0 ${style.iconColor}`} />
+      <Icon className={`h-4 w-4 shrink-0 ${style.iconColor}`} />
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 text-sm">
@@ -104,7 +104,7 @@ const BannerRow: React.FC<BannerRowProps> = ({ banner, onDismiss, onNavigate }) 
       {banner.dismissible && (
         <button
           onClick={handleDismiss}
-          className="flex-shrink-0 p-1 rounded hover:bg-black/5 transition-colors"
+          className="shrink-0 p-1 rounded hover:bg-black/5 transition-colors"
           title="关闭"
           aria-label="关闭横幅"
         >

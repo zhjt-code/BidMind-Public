@@ -525,7 +525,7 @@ const WritingClausesPage: React.FC = () => {
                                     {clause.scoreWeight != null && (
                                       <Badge
                                         variant="secondary"
-                                        className="border border-amber-300 bg-amber-100 text-xs font-bold text-amber-900 shadow-sm ring-1 ring-amber-200/70 hover:bg-amber-100"
+                                        className="border border-amber-300 bg-amber-100 text-xs font-bold text-amber-900 shadow-xs ring-1 ring-amber-200/70 hover:bg-amber-100"
                                       >
                                         {clause.scoreWeight}分
                                       </Badge>
@@ -600,7 +600,7 @@ const WritingClausesPage: React.FC = () => {
                                     )}
                                   </div>
 
-                                  <div className="flex items-center justify-end gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+                                  <div className="flex items-center justify-end gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                                     {editingId !== clause.id && (
                                       <>
                                         <Button
@@ -767,7 +767,7 @@ const WritingClausesPage: React.FC = () => {
                 onChange={(e) => setAddForm((prev) => ({ ...prev, content: e.target.value }))}
                 rows={4}
                 placeholder="请输入约束内容"
-                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring resize-y"
+                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs focus:outline-hidden focus:ring-1 focus:ring-ring resize-y"
               />
             </div>
             {addForm.subType === 'scoring_criterion' && (

@@ -133,7 +133,7 @@ const ReviewStats: React.FC<ReviewStatsProps> = ({ results, summary, extractionW
   }, [results])
 
   return (
-    <div ref={rootRef} className="bg-white rounded-lg shadow mb-4 overflow-hidden">
+    <div ref={rootRef} className="bg-white rounded-lg shadow-sm mb-4 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b">
         <div className="flex items-center gap-4">
           <h2 className="font-medium text-gray-700">审查概览</h2>
@@ -258,7 +258,7 @@ const ReviewStats: React.FC<ReviewStatsProps> = ({ results, summary, extractionW
                     {decisionSummaryText}
                   </p>
                 </div>
-                <div className="hidden lg:grid grid-cols-3 gap-3 text-center flex-shrink-0">
+                <div className="hidden lg:grid grid-cols-3 gap-3 text-center shrink-0">
                   <div className="rounded-md bg-white/80 border border-blue-100 px-3 py-2">
                     <div className="text-lg font-semibold text-blue-700">{summary.weightedScore.toFixed(1)}</div>
                     <div className="text-[11px] text-gray-500">综合符合度</div>
@@ -298,7 +298,7 @@ const ReviewStats: React.FC<ReviewStatsProps> = ({ results, summary, extractionW
                                   <p className="text-xs font-medium text-blue-700">其中：</p>
                                   {item.children.map(child => (
                                     <div key={`${item.text}-${child}`} className="flex items-start gap-2 text-xs text-gray-700">
-                                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400" aria-hidden="true" />
+                                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" aria-hidden="true" />
                                       <span>{child}</span>
                                     </div>
                                   ))}
@@ -320,7 +320,7 @@ const ReviewStats: React.FC<ReviewStatsProps> = ({ results, summary, extractionW
                       )}
                       {section.note && (
                         <p className={`mt-2 flex items-start gap-1.5 border-t pt-2 text-xs font-medium leading-relaxed ${style.note}`}>
-                          <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
+                          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                           <span>{section.note}</span>
                         </p>
                       )}

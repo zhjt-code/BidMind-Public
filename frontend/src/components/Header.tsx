@@ -112,18 +112,18 @@ const Header: React.FC<HeaderProps> = ({ onOpenHelp }) => {
   const primaryNavClassName = (active: boolean): string =>
     `relative flex h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg border px-2.5 text-[15px] transition-all duration-200 xl:px-3 ${
       active
-        ? 'border-primary/15 bg-primary/[0.08] font-semibold text-primary shadow-sm'
+        ? 'border-primary/15 bg-primary/8 font-semibold text-primary shadow-xs'
         : 'border-transparent font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900'
     }`
 
   return (
     <>
-      <div className="h-0.5 bg-gradient-to-r from-primary via-blue-500 to-cyan-400" />
+      <div className="h-0.5 bg-linear-to-r from-primary via-blue-500 to-cyan-400" />
       <header className="bg-white border-b border-gray-200/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
             {/* Logo */}
-            <Link to={APP_HOME} className="flex items-center flex-shrink-0">
+            <Link to={APP_HOME} className="flex items-center shrink-0">
               <Logo size="md" />
             </Link>
 
@@ -177,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenHelp }) => {
             <div className="h-5 w-px bg-gray-200 mx-3" />
 
             {/* 工具区 */}
-            <div className="flex items-center gap-1 flex-shrink-0">
+            <div className="flex items-center gap-1 shrink-0">
               {/* 站内信铃铛：仅有未读时显示 */}
               {unreadCount > 0 && (
               <DropdownMenu onOpenChange={(open) => { if (open) fetchRecent() }}>
@@ -221,9 +221,9 @@ const Header: React.FC<HeaderProps> = ({ onOpenHelp }) => {
                             }}
                           >
                             <div className="flex items-center gap-2 w-full">
-                              <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${colorClass}`} />
+                              <Icon className={`h-3.5 w-3.5 shrink-0 ${colorClass}`} />
                               {!msg.isRead && (
-                                <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                               )}
                               <span className={`text-sm truncate flex-1 ${msg.isRead ? 'text-gray-500' : 'text-gray-900 font-medium'}`}>
                                 {msg.title}
@@ -269,8 +269,8 @@ const Header: React.FC<HeaderProps> = ({ onOpenHelp }) => {
               {/* 用户菜单 */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-50 focus:outline-none">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center text-xs font-semibold">
+                  <button className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-50 focus:outline-hidden">
+                    <div className="w-7 h-7 rounded-full bg-linear-to-br from-primary to-blue-600 text-white flex items-center justify-center text-xs font-semibold">
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <span className="text-sm text-gray-700 font-medium max-w-[80px] truncate hidden sm:block">

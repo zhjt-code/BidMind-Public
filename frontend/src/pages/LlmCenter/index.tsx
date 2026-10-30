@@ -192,7 +192,7 @@ const LlmCenterPage: React.FC = () => {
             key={f.flow_key}
             className={`p-4 rounded-lg border cursor-pointer transition-all ${
               activeFlow === f.flow_key
-                ? 'border-primary bg-primary/5 shadow-sm'
+                ? 'border-primary bg-primary/5 shadow-xs'
                 : 'border-gray-200 bg-white hover:border-gray-300'
             }`}
             onClick={() => setActiveFlow(f.flow_key)}
@@ -244,7 +244,7 @@ const LlmCenterPage: React.FC = () => {
             <button
               onClick={() => setViewMode('business')}
               className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium transition-colors ${
-                viewMode === 'business' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'
+                viewMode === 'business' ? 'bg-white shadow-xs text-gray-900' : 'text-gray-500'
               }`}
             >
               <Eye className="h-3.5 w-3.5" /> 业务视图
@@ -252,7 +252,7 @@ const LlmCenterPage: React.FC = () => {
             <button
               onClick={() => setViewMode('technical')}
               className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium transition-colors ${
-                viewMode === 'technical' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'
+                viewMode === 'technical' ? 'bg-white shadow-xs text-gray-900' : 'text-gray-500'
               }`}
             >
               <Code2 className="h-3.5 w-3.5" /> 技术视图

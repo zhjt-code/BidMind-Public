@@ -41,7 +41,7 @@ const ConnectionTab: React.FC<Props> = ({ form, onChange }) => {
         <input type="text" value={form.api_base}
           onChange={(e) => onChange({ ...form, api_base: e.target.value })}
           placeholder="http://localhost:11434/v1 或 https://api.deepseek.com"
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
         <p className="text-xs text-gray-400 mt-1">本地: http://localhost:11434/v1 | 云端: https://api.deepseek.com</p>
       </div>
       <div>
@@ -49,7 +49,7 @@ const ConnectionTab: React.FC<Props> = ({ form, onChange }) => {
         <input type="text" value={form.model_name}
           onChange={(e) => onChange({ ...form, model_name: e.target.value })}
           placeholder="qwen3-vl:4b 或 deepseek-chat"
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
         <p className="text-xs text-gray-400 mt-1">须与厂商模型 ID 完全一致，保存后建议执行「保存并验证」</p>
       </div>
       <div>
@@ -62,7 +62,7 @@ const ConnectionTab: React.FC<Props> = ({ form, onChange }) => {
             }
           }}
           placeholder="请配置密钥"
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          className="w-full border rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-primary" />
       </div>
 
       {isCloud && (
@@ -92,11 +92,11 @@ const ConnectionTab: React.FC<Props> = ({ form, onChange }) => {
                     }
                   }}
                   placeholder="请配置密钥"
-                  className="w-full sm:flex-1 sm:min-w-0 border rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                  className="w-full sm:flex-1 sm:min-w-0 border rounded px-2 py-1.5 text-sm focus:outline-hidden focus:ring-1 focus:ring-primary" />
                 <input type="text" value={ki.label}
                   onChange={(e) => updateApiKey(idx, 'label', e.target.value)}
                   placeholder="标签"
-                  className="w-full sm:w-20 border rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+                  className="w-full sm:w-20 border rounded px-2 py-1.5 text-sm focus:outline-hidden focus:ring-1 focus:ring-primary" />
                 <label className="flex items-center text-xs text-gray-500 whitespace-nowrap">
                   <input type="checkbox" checked={ki.enabled}
                     onChange={(e) => updateApiKey(idx, 'enabled', e.target.checked)}

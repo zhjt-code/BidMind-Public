@@ -63,7 +63,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full border rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full border rounded-lg px-3 py-2 pr-10 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary"
           autoComplete={autoComplete}
         />
         <button
@@ -71,7 +71,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
           aria-label={showPassword ? '隐藏密码' : '显示密码'}
           title={showPassword ? '隐藏密码' : '显示密码'}
           onClick={() => setShowPassword(current => !current)}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none focus:text-primary transition-colors"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-hidden focus:text-primary transition-colors"
         >
           {showPassword ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

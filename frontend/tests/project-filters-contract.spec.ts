@@ -96,8 +96,8 @@ test('业务类型页零项目引导文案在桌面宽度下不应被通用窄�
 test('项目列表顶部和统计条外层间距保持紧凑', () => {
   assert.match(projectListSource, /className="space-y-3 -mt-3"/)
   assert.doesNotMatch(projectListSource, /className="space-y-4"/)
-  assert.match(statsBarSource, /className="bg-white rounded-lg shadow px-2 py-1"/)
-  assert.doesNotMatch(statsBarSource, /bg-white rounded-lg shadow mb-4 px-2 py-2/)
+  assert.match(statsBarSource, /className="bg-white rounded-lg shadow-sm px-2 py-1"/)
+  assert.doesNotMatch(statsBarSource, /bg-white rounded-lg shadow-sm mb-4 px-2 py-2/)
   assert.doesNotMatch(statsBarSource, /SkeletonStatCards count=\{4\} className="mb-4"/)
 })
 

@@ -184,7 +184,7 @@ const LoginPage: React.FC = () => {
     <AuthLayout>
       {/* 错误弹窗 */}
       {errorDialog && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 w-96 max-w-[90vw] shadow-xl">
             <div className="flex justify-center mb-4">
               {errorDialog.type === 'password' && (
@@ -306,7 +306,7 @@ const LoginPage: React.FC = () => {
         <form className="space-y-6" onSubmit={handleSubmit}>
           {formError && (
             <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-700 text-sm flex items-center">
-              <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               {formError}
@@ -335,7 +335,7 @@ const LoginPage: React.FC = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity((e.target as HTMLInputElement).validity.valueMissing ? '请填写用户名或邮箱' : '')}
                   onInput={(e) => (e.currentTarget as HTMLInputElement).setCustomValidity('')}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 outline-none text-base"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 outline-hidden text-base"
                   placeholder="请输入用户名或邮箱"
                 />
               </div>
@@ -362,7 +362,7 @@ const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity((e.target as HTMLInputElement).validity.valueMissing ? '请填写密码' : '')}
                   onInput={(e) => (e.currentTarget as HTMLInputElement).setCustomValidity('')}
-                  className="w-full pl-11 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 outline-none text-base"
+                  className="w-full pl-11 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 outline-hidden text-base"
                   placeholder="请输入密码"
                 />
                 <button
@@ -370,7 +370,7 @@ const LoginPage: React.FC = () => {
                   aria-label={showPassword ? '隐藏密码' : '显示密码'}
                   title={showPassword ? '隐藏密码' : '显示密码'}
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none focus:text-primary transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-hidden focus:text-primary transition-colors"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -415,7 +415,7 @@ const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-md text-base font-semibold text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 mt-2"
+            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-md text-base font-semibold text-white bg-primary hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 mt-2"
           >
             {isLoading ? (
               <span className="flex items-center">
