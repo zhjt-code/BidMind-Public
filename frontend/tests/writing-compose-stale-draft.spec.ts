@@ -31,7 +31,7 @@ test('RichTextEditor 必须消费生成完成后的外部草稿内容刷新', ()
   const source = readFileSync(new URL('../src/components/RichTextEditor.tsx', import.meta.url), 'utf8')
 
   assert.doesNotMatch(source, /isInternalUpdate/)
-  assert.match(source, /editor\.commands\.setContent\(ensureBlockStructure\(content\), false\)/)
+  assert.match(source, /editor\.commands\.setContent\(ensureBlockStructure\(content\), \{ emitUpdate: false \}\)/)
 })
 
 test('RichTextEditor setEditable 不得在挂载时触发 update 事件', () => {
