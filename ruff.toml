@@ -1,0 +1,2 @@
+# Keep OCR and utility scripts on the same explicit rules as the backend.
+extend = "backend/pyproject.toml"
