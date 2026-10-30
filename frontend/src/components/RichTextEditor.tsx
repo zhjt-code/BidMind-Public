@@ -3,10 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
+import { Table, TableRow, TableCell, TableHeader } from '@tiptap/extension-table'
 import { MaterialImage } from '@/components/editor/MaterialImageExtension'
 import { SectionDiagram } from '@/components/editor/DiagramFigureExtension'
 import { Button } from '@/components/ui/button'
@@ -57,6 +54,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     extensions: [
       StarterKit.configure({
         heading: { levels: [2, 3, 4] },
+        link: false,
+        underline: false,
       }),
       Highlight,
       MaterialImage.configure({ projectId: projectId ?? null }),
@@ -69,6 +68,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     ],
     content: ensureBlockStructure(content),
     editable,
+    // Keep toolbar active/undo states in sync as they were in Tiptap 2.
+    shouldRerenderOnTransaction: true,
     onUpdate: ({ editor: e }) => {
       onChange(e.getHTML())
     },
@@ -81,7 +82,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   useEffect(() => {
     if (editor && ensureBlockStructure(content) !== editor.getHTML()) {
-      editor.commands.setContent(ensureBlockStructure(content), false)
+      editor.commands.setContent(ensureBlockStructure(content), { emitUpdate: false })
     }
   }, [content, editor])
 
