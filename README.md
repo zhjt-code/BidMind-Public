@@ -8,11 +8,11 @@ Copyright (C) 2026 <郑州智蕴信息技术服务有限公司>
 
 ## 功能
 
-- 投标审查：从招标文件提取要求，再比对投标响应
-- 串标审查：多份投标文件交叉对比
-- 标书编写：确认约束与目录后生成章节并导出 Word
+- **投标审查**：从招标文件提取要求，再比对投标响应
+- **串标审查**：多份投标文件交叉对比
+- **标书编写**：确认约束与目录后生成章节并导出 Word
 
-  **详情可访问 www.bidmind-ai.com 了解**
+**详情可访问 www.bidmind-ai.com 了解**
 
 ## 技术栈
 
@@ -20,6 +20,30 @@ Copyright (C) 2026 <郑州智蕴信息技术服务有限公司>
 - 前端：React 18、TypeScript
 - 文档：pdfplumber、PyMuPDF
 - 向量与推理：bge-m3；推理服务需自行准备（兼容 OpenAI 接口的本地或云端模型）
+
+## 项目结构
+
+```
+bidmin-ai-public/
+├── backend/                    # Python 后端服务
+│   ├── app/
+│   │   ├── api/               # API 路由
+│   │   │   └── routers/       # 各业务模块路由
+│   │   ├── core/              # 核心业务逻辑
+│   │   │   ├── ai/            # AI 服务（LLM、向量、审查）
+│   │   │   ├── collusion/     # 串标分析
+│   │   │   ├── extractor/     # 投标响应提取
+│   │   │   └── document_qa/   # 文档质量分析
+│   │   ├── billing/           # 计费服务
+│   │   └── ...                # 其他模块
+│   ├── migrations_alembic/    # 数据库迁移
+│   ├── requirements.txt       # Python 依赖
+│   └── Dockerfile
+├── frontend/                   # React 前端
+├── docker-compose.yml         # Docker 编排配置
+├── docs/                      # 文档
+└── ...
+```
 
 ## 开始使用
 
@@ -40,7 +64,7 @@ Copyright (C) 2026 <郑州智蕴信息技术服务有限公司>
 | Node.js 22.13 或更新的 LTS | 运行网页和 TypeScript 契约测试 | `node --version` 显示 v22.13 或更高 |
 | Chrome / Edge 111+ 或 Firefox 128+ | 网页端需要 Tailwind CSS 4 支持的现代 CSS 功能 | 建议使用最新稳定版浏览器 |
 
-Windows 安装 Python 时勾选 “Add python.exe to PATH”。安装 Docker Desktop 后，要等托盘里的 Docker 图标显示正在运行，再做后面的步骤。
+Windows 安装 Python 时勾选 "Add python.exe to PATH"。安装 Docker Desktop 后，要等托盘里的 Docker 图标显示正在运行，再做后面的步骤。
 
 ### 2. 按电脑配置选择 OCR、structure 和 GPU
 
@@ -60,23 +84,6 @@ Windows 安装 Python 时勾选 “Add python.exe to PATH”。安装 Docker Des
 同时处理几份文档由 `DOC_PROCESS_CONCURRENCY` 控制，示例值是 3。普通笔记本改成 2。CPU 核数很多、内存也够时可以改成 4。
 
 `structure-1` 占用的 CPU 核数是环境变量 `STRUCTURE_CPUS`，不设置时按 4 核。可以设成「逻辑核数的八成」，但不要超过机器的逻辑核数。它不使用 GPU。
-
-建议按下面选择要启动的容器：
-
-| 你的电脑 | OCR | structure | 向量 |
-|---|---|---|---|
-| 没有 NVIDIA 显卡 | 不启动 GPU 版 `ocr-1` / `ocr-2` / `ocr-3`。地址留空，由本机 CPU 识别 | 需要版面分析时启动 `structure-1`，它本身就是 CPU | `EMBEDDING_DEVICE=cpu` |
-| 有 NVIDIA 显卡，显存大约 8GB | 只启动 `ocr-1` | 需要版面分析时启动 `structure-1` | `auto` |
-| 显存大约 16GB 或更多 | 可以启动 `ocr-1`、`ocr-2`、`ocr-3` | 仍然只启动 1 个 `structure-1` | `auto` |
-| `nvidia-smi` 里显存已经用到大约九成 | 停掉多余的 OCR，只留 1 个或 2 个 | 保持 1 个 | 把 `EMBEDDING_DEVICE` 改成 `cpu` |
-
-没有 NVIDIA 显卡时，扫描件不会改走云端。`OCR_SERVICE_URL` 和 `OCR_SERVICE_URLS` 保持空白，后端就在自己的进程里用 CPU 版 PaddleOCR 识别，大约每页 2 到 3 秒。默认依赖里没有这个包，安装完后端依赖后还要再装一次。
-
-这里先只做配置选择，不要立即执行 OCR 安装命令。第 3 节创建虚拟环境、第 4 或第 5 节安装完后端依赖后，再执行对应系统下的 CPU OCR 安装命令。
-
-有 NVIDIA 显卡时，GPU 容器大约每页 0.1 到 0.3 秒。启动容器后还要把地址写进 `backend/.env`，后端才会去用容器。只开 `ocr-1` 时写 `OCR_SERVICE_URLS=http://localhost:9000`。三个都开时写成 `http://localhost:9000,http://localhost:9001,http://localhost:9002`。不写地址时，即使容器已启动，识别仍在本机 CPU 上做。
-
-仓库里的生产 compose 最多准备了 5 个 OCR。那是给显存更大的服务器用的。本机第一次部署用上面的表即可。OCR 容器第一次启动会下载识别模型，可能要几分钟。
 
 ### 3. 准备配置文件
 
