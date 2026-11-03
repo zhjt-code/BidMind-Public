@@ -79,7 +79,7 @@ bcrypt==3.2.2
 cryptography>=46.0.3
 
 # B5: 写标模板化
-Jinja2>=3.1.0
+Jinja2>=3.1.6
 
 # 注: 生产 OCR 由独立 sidecar 容器 (ocr/Dockerfile + ocr/requirements.txt) 提供, backend 镜像不再
 # 内置 paddlepaddle/paddleocr。如需在裸机本地开发时启用进程内 CPU OCR fallback,
