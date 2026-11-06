@@ -72,12 +72,18 @@ const WritingComposePage: React.FC = () => {
   const [progressValue, setProgressValue] = useState(0)
   const [editContent, setEditContent] = useState('')
   const [syncedEditorKey, setSyncedEditorKey] = useState<string | null>(null)
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const [initialEditorSyncPending, setInitialEditorSyncPending] = useState(false)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const initialEditorSyncRef = useRef(false)
   const mountedRef = useRef(true)
   const pollAbortRef = useRef<AbortController | null>(null)
   const autoTriggeredRef = useRef(false)
   const [initialLoaded, setInitialLoaded] = useState(false)
+  const [loadedPid, setLoadedPid] = useState(pid)
+  if (pid !== loadedPid) {
+    setLoadedPid(pid)
+    setInitialLoaded(false)
+  }
   const [sidebarWidth, setSidebarWidth] = useState(220)
   const [collapsedNodes, setCollapsedNodes] = useState<Record<number, boolean>>({})
   const [nodeImages, setNodeImages] = useState<MaterialImageInfo[]>([])
@@ -85,7 +91,11 @@ const WritingComposePage: React.FC = () => {
   const [composeRetryState, setComposeRetryState] = useState<WritingRetryState | null>(null)
   const [singleRetryState, setSingleRetryState] = useState<WritingRetryState | null>(null)
   const [retryingNode, setRetryingNode] = useState<string | null>(null)
-  const [refreshingRetryNode, setRefreshingRetryNode] = useState<string | null>(null)
+  const [refreshingRetryNode, setRefreshingRetryNode] = useState<string | null>(
+    ready && projectStatus === 'failed'
+      ? (currentNodeId ? 'writing_compose_single' : 'writing_compose')
+      : null,
+  )
   const [regenerating, setRegenerating] = useState(false)
   const isDraggingRef = useRef(false)
 
@@ -200,7 +210,6 @@ const WritingComposePage: React.FC = () => {
 
   useEffect(() => {
     if (!pid) return
-    setInitialLoaded(false)
     autoTriggeredRef.current = false
 
     Promise.all([
@@ -270,11 +279,11 @@ const WritingComposePage: React.FC = () => {
   // 编辑器按 (章节, 草稿) 维度重挂载，初始内容必须在渲染期同步就绪。
   // 若等 effect 晚一帧修正，新章节编辑器会短暂持有上一章内容，
   // 挂载期任何 update 事件都会把上一章 HTML 经自动保存写入新章节。
-  const editorInstanceKey = `${currentNodeId ?? 'none'}:${selectedDraft?.id ?? 'none'}`
+  const editorInstanceKey = `${currentNodeId ?? 'none'}:${selectedDraft?.id ?? 'none'}:${selectedDraft?.content ?? ''}`
   if (syncedEditorKey !== editorInstanceKey) {
     setSyncedEditorKey(editorInstanceKey)
     setEditContent(selectedDraft?.content || '')
-    initialEditorSyncRef.current = Boolean(selectedDraft?.content)
+    setInitialEditorSyncPending(Boolean(selectedDraft?.content))
   }
 
   const { treeRoots, parentMap } = useMemo(
@@ -297,22 +306,32 @@ const WritingComposePage: React.FC = () => {
     setCollapsedNodes((prev) => ({ ...prev, [nodeId]: !prev[nodeId] }))
   }, [])
 
-  useEffect(() => {
-    if (!currentNodeId) return
-    setCollapsedNodes((prev) => {
-      const next = { ...prev }
-      let cur: number | null | undefined = parentMap.get(currentNodeId) ?? null
-      let changed = false
-      while (cur != null) {
-        if (next[cur]) {
-          delete next[cur]
-          changed = true
+  const [collapseSync, setCollapseSync] = useState<{
+    nodeId: number | null
+    map: typeof parentMap
+  } | null>(null)
+  if (
+    collapseSync === null
+    || collapseSync.nodeId !== currentNodeId
+    || collapseSync.map !== parentMap
+  ) {
+    setCollapseSync({ nodeId: currentNodeId, map: parentMap })
+    if (currentNodeId) {
+      setCollapsedNodes((prev) => {
+        const next = { ...prev }
+        let cur: number | null | undefined = parentMap.get(currentNodeId) ?? null
+        let changed = false
+        while (cur != null) {
+          if (next[cur]) {
+            delete next[cur]
+            changed = true
+          }
+          cur = parentMap.get(cur) ?? null
         }
-        cur = parentMap.get(cur) ?? null
-      }
-      return changed ? next : prev
-    })
-  }, [currentNodeId, parentMap])
+        return changed ? next : prev
+      })
+    }
+  }
 
   useEffect(() => {
     if (currentNodeId || treeRoots.length === 0) return
@@ -339,21 +358,14 @@ const WritingComposePage: React.FC = () => {
     setCurrentNodeId(drafts[0].outlineNodeId)
   }, [composing, currentNodeId, drafts, setCurrentNodeId])
 
-  useEffect(() => {
-    if (selectedDraft?.content) {
-      setEditContent(selectedDraft.content)
-      initialEditorSyncRef.current = true
-    } else {
-      setEditContent('')
-      initialEditorSyncRef.current = false
-    }
-  }, [selectedDraft?.id, selectedDraft?.content])
+  const [imageNodeId, setImageNodeId] = useState(currentNodeId)
+  if (currentNodeId !== imageNodeId) {
+    setImageNodeId(currentNodeId)
+    if (!currentNodeId) setNodeImages([])
+  }
 
   useEffect(() => {
-    if (!currentNodeId) {
-      setNodeImages([])
-      return
-    }
+    if (!currentNodeId) return
     writingService.getNodeImages(pid, currentNodeId)
       .then(imgs => setNodeImages(imgs.map(i => ({
         id: i.id,
@@ -390,14 +402,19 @@ const WritingComposePage: React.FC = () => {
     }
   }, [pid, currentNodeId, loadDrafts, singleGate.capture, singleGate.clear, pollSingleStatus, replacePollSignal])
 
-  const refreshComposeRetryState = useCallback(async () => {
-    setRefreshingRetryNode('writing_compose')
+  const loadComposeRetryState = useCallback(async () => {
     try {
-      setComposeRetryState(await writingService.getRetryState(pid, 'writing_compose'))
+      const next = await writingService.getRetryState(pid, 'writing_compose')
+      setComposeRetryState(next)
     } finally {
       setRefreshingRetryNode(null)
     }
   }, [pid])
+
+  const refreshComposeRetryState = useCallback(() => {
+    setRefreshingRetryNode('writing_compose')
+    return loadComposeRetryState()
+  }, [loadComposeRetryState])
 
   const retryCompose = useCallback(async () => {
     const signal = replacePollSignal()
@@ -439,22 +456,38 @@ const WritingComposePage: React.FC = () => {
     }
   }, [composeGate.clear, composeRetryState, retryCompose, handleCompose])
 
-  const refreshSingleRetryState = useCallback(async () => {
+  const loadSingleRetryState = useCallback(async () => {
     if (!currentNodeId) return
-    setRefreshingRetryNode('writing_compose_single')
     try {
-      setSingleRetryState(await writingService.getRetryState(pid, 'writing_compose_single', currentNodeId))
+      const next = await writingService.getRetryState(pid, 'writing_compose_single', currentNodeId)
+      setSingleRetryState(next)
     } finally {
       setRefreshingRetryNode(null)
     }
   }, [pid, currentNodeId])
 
+  const refreshSingleRetryState = useCallback(() => {
+    if (!currentNodeId) return Promise.resolve()
+    setRefreshingRetryNode('writing_compose_single')
+    return loadSingleRetryState()
+  }, [currentNodeId, loadSingleRetryState])
+
+  const composeFailed = ready && projectStatus === 'failed'
+  const failedRetryKey = `${composeFailed}:${pid}:${currentNodeId ?? ''}`
+  const [prevFailedRetryKey, setPrevFailedRetryKey] = useState(failedRetryKey)
+  if (failedRetryKey !== prevFailedRetryKey) {
+    setPrevFailedRetryKey(failedRetryKey)
+    if (composeFailed) {
+      setRefreshingRetryNode(currentNodeId ? 'writing_compose_single' : 'writing_compose')
+    }
+  }
+
   useEffect(() => {
     if (ready && projectStatus === 'failed') {
-      refreshComposeRetryState().catch(() => {})
-      refreshSingleRetryState().catch(() => {})
+      loadComposeRetryState().catch(() => {})
+      loadSingleRetryState().catch(() => {})
     }
-  }, [ready, projectStatus, refreshComposeRetryState, refreshSingleRetryState])
+  }, [ready, projectStatus, loadComposeRetryState, loadSingleRetryState])
 
   const retrySingle = useCallback(async () => {
     if (!currentNodeId) return
@@ -494,23 +527,26 @@ const WritingComposePage: React.FC = () => {
     }
   }, [pid, currentNodeId, editContent, loadDrafts])
 
+  const selectedDraftLocked = Boolean(selectedDraft?.isLocked)
   const handleToggleLock = useCallback(async () => {
     if (!currentNodeId) return
     try {
       await writingService.toggleLock(pid, currentNodeId)
       await loadDrafts(pid)
-      toast.success(selectedDraft?.isLocked ? '已解锁' : '已锁定')
+      toast.success(selectedDraftLocked ? '已解锁' : '已锁定')
     } catch {
       toast.error('操作失败')
     }
-  }, [pid, currentNodeId, selectedDraft?.isLocked, loadDrafts])
+  }, [pid, currentNodeId, selectedDraftLocked, loadDrafts])
 
+  const selectedDraftContent = selectedDraft?.content
   const handleContentChange = useCallback((value: string) => {
     setEditContent(value)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    const initialEditorSync = initialEditorSyncRef.current
+    const initialEditorSync = initialEditorSyncPending
     initialEditorSyncRef.current = false
-    if (!shouldAutosaveDraftChange(value, selectedDraft?.content, { initialEditorSync })) {
+    if (initialEditorSyncPending) setInitialEditorSyncPending(false)
+    if (!shouldAutosaveDraftChange(value, selectedDraftContent, { initialEditorSync })) {
       return
     }
     debounceRef.current = setTimeout(() => {
@@ -518,12 +554,13 @@ const WritingComposePage: React.FC = () => {
         writingService.updateDraft(pid, currentNodeId, value).catch(() => {})
       }
     }, 2000)
-  }, [pid, currentNodeId, selectedDraft?.content])
+  }, [pid, currentNodeId, selectedDraftContent, initialEditorSyncPending])
 
   const loadCoverage = useCallback(async () => {
     if (!pid) return
     try {
-      setCoverage(await writingService.getClauseCoverage(pid))
+      const next = await writingService.getClauseCoverage(pid)
+      setCoverage(next)
     } catch {
       // 覆盖概览为辅助信息, 加载失败静默降级
     }
@@ -532,13 +569,18 @@ const WritingComposePage: React.FC = () => {
   useEffect(() => {
     const state = location.state as { refreshCoverage?: boolean } | null
     if (!state?.refreshCoverage) return
-    loadCoverage()
+    // loadCoverage 在 await 之后才 setState；微任务只为避开 effect 同步调用判定。
+    queueMicrotask(() => {
+      void loadCoverage()
+    })
     navigate(location.pathname, { replace: true, state: null })
   }, [location.pathname, location.state, loadCoverage, navigate])
 
   // 草稿/约束变化(生成、编辑、重生成后)自动刷新全局覆盖概览
   useEffect(() => {
-    loadCoverage()
+    queueMicrotask(() => {
+      void loadCoverage()
+    })
   }, [loadCoverage, drafts, clauses])
 
   if (guardLoading || !ready) {

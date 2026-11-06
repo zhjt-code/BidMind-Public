@@ -149,6 +149,11 @@ const AuditLogPage: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [actionFilter, setActionFilter] = useState<string>('all')
   const [resourceFilter, setResourceFilter] = useState<string>('all')
+  const [prevCategoryFilter, setPrevCategoryFilter] = useState(categoryFilter)
+  if (categoryFilter !== prevCategoryFilter) {
+    setPrevCategoryFilter(categoryFilter)
+    setResourceFilter('all')
+  }
   const [keyword, setKeyword] = useState('')
   const [searchInput, setSearchInput] = useState('')
   const [username, setUsername] = useState('')
@@ -172,11 +177,6 @@ const AuditLogPage: React.FC = () => {
     setSelectionMode(false)
     clearSelection()
   }, [clearSelection])
-
-  // 联动: 当 category 变化时重置 resource filter
-  useEffect(() => {
-    setResourceFilter('all')
-  }, [categoryFilter])
 
   const currentResourceOptions = useMemo(() => {
     if (categoryFilter === 'all') return ALL_RESOURCE_LABELS
@@ -284,20 +284,34 @@ const AuditLogPage: React.FC = () => {
     }
   }
 
-  const loadStats = useCallback(async () => {
-    setStatsLoading(true)
+  const fetchStats = useCallback(async () => {
+    let nextStats: AuditStats | null = null
     try {
       const res = await auditService.getStats() as { data?: AuditStats }
-      setStats(res?.data || null)
+      nextStats = res?.data || null
     } catch {
-      setStats(null)
+      nextStats = null
     } finally {
+      setStats(nextStats)
       setStatsLoading(false)
     }
   }, [])
 
-  const loadLogs = useCallback(async () => {
+  const loadStats = useCallback(async () => {
+    setStatsLoading(true)
+    await fetchStats()
+  }, [fetchStats])
+
+  const [prevLogsQuery, setPrevLogsQuery] = useState({ activeFilters, page })
+  if (activeFilters !== prevLogsQuery.activeFilters || page !== prevLogsQuery.page) {
+    setPrevLogsQuery({ activeFilters, page })
     setLoading(true)
+  }
+
+  const fetchLogs = useCallback(async () => {
+    let nextLogs: AuditLogItem[] = []
+    let nextTotal = 0
+    let nextTotalPages = 0
     try {
       const params: Record<string, unknown> = {
         page,
@@ -308,30 +322,75 @@ const AuditLogPage: React.FC = () => {
         data?: { items?: AuditLogItem[]; total?: number; total_pages?: number }
       }
       const data = res?.data
-      setLogs(data?.items || [])
-      setTotal(data?.total || 0)
-      setTotalPages(data?.total_pages || 0)
+      nextLogs = data?.items || []
+      nextTotal = data?.total || 0
+      nextTotalPages = data?.total_pages || 0
     } catch {
-      setLogs([])
-      setTotal(0)
-      setTotalPages(0)
+      nextLogs = []
+      nextTotal = 0
+      nextTotalPages = 0
     } finally {
+      setLogs(nextLogs)
+      setTotal(nextTotal)
+      setTotalPages(nextTotalPages)
       setLoading(false)
     }
   }, [activeFilters, page])
 
-  useEffect(() => { loadStats() }, [loadStats])
-  useEffect(() => { loadLogs() }, [loadLogs])
-  useEffect(() => { setPage(1) }, [categoryFilter, actionFilter, resourceFilter, username, keyword])
-  useEffect(() => { setJumpPageInput(String(page)) }, [page])
+  const loadLogs = useCallback(async () => {
+    setLoading(true)
+    await fetchLogs()
+  }, [fetchLogs])
 
-  useEffect(() => {
+  const [prevPageReset, setPrevPageReset] = useState({
+    categoryFilter, actionFilter, resourceFilter, username, keyword,
+  })
+  if (
+    categoryFilter !== prevPageReset.categoryFilter ||
+    actionFilter !== prevPageReset.actionFilter ||
+    resourceFilter !== prevPageReset.resourceFilter ||
+    username !== prevPageReset.username ||
+    keyword !== prevPageReset.keyword
+  ) {
+    setPrevPageReset({ categoryFilter, actionFilter, resourceFilter, username, keyword })
+    setPage(1)
+  }
+
+  const [prevJumpPage, setPrevJumpPage] = useState(page)
+  if (page !== prevJumpPage) {
+    setPrevJumpPage(page)
+    setJumpPageInput(String(page))
+  }
+
+  const [prevSelectionScope, setPrevSelectionScope] = useState({
+    username, keyword, categoryFilter, actionFilter, resourceFilter, selectionMode,
+  })
+  if (
+    username !== prevSelectionScope.username ||
+    keyword !== prevSelectionScope.keyword ||
+    categoryFilter !== prevSelectionScope.categoryFilter ||
+    actionFilter !== prevSelectionScope.actionFilter ||
+    resourceFilter !== prevSelectionScope.resourceFilter ||
+    selectionMode !== prevSelectionScope.selectionMode
+  ) {
+    setPrevSelectionScope({
+      username, keyword, categoryFilter, actionFilter, resourceFilter, selectionMode,
+    })
     if (selectionMode) clearSelection()
-  }, [clearSelection, username, keyword, categoryFilter, actionFilter, resourceFilter, selectionMode])
+  }
 
-  useEffect(() => {
+  const [prevPageSelection, setPrevPageSelection] = useState({ allMatchingSelected, page, selectionMode })
+  if (
+    allMatchingSelected !== prevPageSelection.allMatchingSelected ||
+    page !== prevPageSelection.page ||
+    selectionMode !== prevPageSelection.selectionMode
+  ) {
+    setPrevPageSelection({ allMatchingSelected, page, selectionMode })
     if (selectionMode && !allMatchingSelected) setSelectedIds(new Set())
-  }, [allMatchingSelected, page, selectionMode])
+  }
+
+  useEffect(() => { void fetchStats() }, [fetchStats])
+  useEffect(() => { void fetchLogs() }, [fetchLogs])
 
   const handleBatchDelete = async () => {
     if (selectedCount === 0) return

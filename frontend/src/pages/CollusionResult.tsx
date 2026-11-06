@@ -99,7 +99,16 @@ const CollusionResultPage: React.FC = () => {
   const [retryState, setRetryState] = useState<WritingRetryState | null>(null)
   const [retryStateError, setRetryStateError] = useState<string | null>(null)
   const [retrying, setRetrying] = useState(false)
-  const [refreshingRetry, setRefreshingRetry] = useState(false)
+  const [refreshingRetry, setRefreshingRetry] = useState(Boolean(projectId))
+
+  const [prevResultProjectId, setPrevResultProjectId] = useState(projectId)
+  if (projectId !== prevResultProjectId) {
+    setPrevResultProjectId(projectId)
+    if (projectId) {
+      setLoading(true)
+      setRefreshingRetry(true)
+    }
+  }
 
   const [selectedFindingIdx, setSelectedFindingIdx] = useState<number | null>(null)
   const [selectedGroupIdx, setSelectedGroupIdx] = useState<number | null>(null)
@@ -117,32 +126,46 @@ const CollusionResultPage: React.FC = () => {
 
   const fetchResults = useCallback(async () => {
     if (!projectId) return
+    let nextResults: CollusionResults | null = null
+    let nextError: string | null = null
     try {
-      setLoading(true)
-      const data = await collusionService.getResults(parseInt(projectId))
-      setResults(data)
+      nextResults = await collusionService.getResults(parseInt(projectId))
     } catch (err) {
-      setError(err instanceof Error ? err.message : '加载结果失败')
+      nextError = err instanceof Error ? err.message : '加载结果失败'
     } finally {
+      if (nextError !== null) setError(nextError)
+      else setResults(nextResults)
       setLoading(false)
     }
   }, [projectId])
 
-  useEffect(() => { fetchResults() }, [fetchResults])
+  useEffect(() => { void fetchResults() }, [fetchResults])
 
   const refreshRetryState = useCallback(async () => {
     if (!projectId) return
-    setRefreshingRetry(true)
+    let nextState: WritingRetryState | null = null
+    let thrown: unknown = null
     try {
-      setRetryState(await collusionService.getRetryState(parseInt(projectId)))
-      setRetryStateError(null)
+      nextState = await collusionService.getRetryState(parseInt(projectId))
     } catch (error) {
-      setRetryStateError(error instanceof Error ? error.message : '恢复状态加载失败')
-      throw error
+      thrown = error
     } finally {
+      if (thrown) {
+        setRetryStateError(thrown instanceof Error ? thrown.message : '恢复状态加载失败')
+      } else {
+        setRetryState(nextState)
+        setRetryStateError(null)
+      }
       setRefreshingRetry(false)
     }
+    if (thrown) throw thrown
   }, [projectId])
+
+  const refreshRetryStateWithSpinner = useCallback(async () => {
+    if (!projectId) return
+    setRefreshingRetry(true)
+    await refreshRetryState()
+  }, [projectId, refreshRetryState])
 
   useEffect(() => {
     refreshRetryState().catch(() => {})
@@ -166,11 +189,11 @@ const CollusionResultPage: React.FC = () => {
       if (!gate.capture(error)) {
         toast.error(error instanceof Error ? error.message : '串标分析重试启动失败')
       }
-      await refreshRetryState().catch(() => {})
+      await refreshRetryStateWithSpinner().catch(() => {})
     } finally {
       setRetrying(false)
     }
-  }, [projectId, navigate, refreshRetryState, retryState?.failedNode, retryState?.targetId, gate.capture, gate.clear])
+  }, [projectId, navigate, refreshRetryStateWithSpinner, retryState?.failedNode, retryState?.targetId, gate.capture, gate.clear])
 
   const handleDownloadReport = async () => {
     if (!projectId) return
@@ -214,11 +237,9 @@ const CollusionResultPage: React.FC = () => {
     setSelectedFindingIdx(null)
   }, [])
 
-  useEffect(() => {
-    if (hasGroups && selectedGroupIdx === null && results?.groups?.length) {
-      handleSelectGroup(results.groups[0].groupIndex)
-    }
-  }, [hasGroups, selectedGroupIdx, results, handleSelectGroup])
+  if (hasGroups && selectedGroupIdx === null && results?.groups?.length) {
+    handleSelectGroup(results.groups[0].groupIndex)
+  }
 
   const filteredPairs = useMemo(() => {
     if (!hasGroups || selectedGroupIdx === null || !results) return sortedPairs
@@ -274,25 +295,47 @@ const CollusionResultPage: React.FC = () => {
     return filterFindingsByLevel(riskFiltered, filters.evidenceLevel as EvidenceLevelFilter)
   }, [groupFindings, filters])
 
-  useEffect(() => {
-    if (hasGroups && displayFindings.length > 0 && selectedFindingIdx === null) {
-      setSelectedFindingIdx(0)
-    }
-  }, [hasGroups, displayFindings, selectedFindingIdx])
+  if (hasGroups && displayFindings.length > 0 && selectedFindingIdx === null) {
+    setSelectedFindingIdx(0)
+  }
 
   // 维度折叠重置：群组/筛选切换时清空用户主动设定，回退到 defaultOpen ----
-  useEffect(() => {
+  const [prevDimReset, setPrevDimReset] = useState({
+    hasGroups,
+    selectedGroupIdx,
+    risk: filters.risk,
+    evidenceLevel: filters.evidenceLevel,
+    selectedPairKey,
+  })
+  if (
+    hasGroups !== prevDimReset.hasGroups ||
+    selectedGroupIdx !== prevDimReset.selectedGroupIdx ||
+    filters.risk !== prevDimReset.risk ||
+    filters.evidenceLevel !== prevDimReset.evidenceLevel ||
+    selectedPairKey !== prevDimReset.selectedPairKey
+  ) {
+    setPrevDimReset({
+      hasGroups,
+      selectedGroupIdx,
+      risk: filters.risk,
+      evidenceLevel: filters.evidenceLevel,
+      selectedPairKey,
+    })
     setDimExpand({})
-  }, [hasGroups, selectedGroupIdx, filters.risk, filters.evidenceLevel, selectedPairKey])
+  }
 
   // 选中证据时自动展开其所在维度（避免选中项被折叠隐藏） ----
-  useEffect(() => {
-    if (selectedFindingIdx === null) return
-    const finding = displayFindings[selectedFindingIdx]
-    if (!finding) return
-    const dim = normalizeFindingDimension(finding.dimension)
-    setDimExpand(prev => prev[dim] === true ? prev : { ...prev, [dim]: true })
-  }, [selectedFindingIdx, displayFindings])
+  const [prevFindingExpand, setPrevFindingExpand] = useState({ selectedFindingIdx, displayFindings })
+  if (selectedFindingIdx !== prevFindingExpand.selectedFindingIdx || displayFindings !== prevFindingExpand.displayFindings) {
+    setPrevFindingExpand({ selectedFindingIdx, displayFindings })
+    if (selectedFindingIdx !== null) {
+      const finding = displayFindings[selectedFindingIdx]
+      if (finding) {
+        const dim = normalizeFindingDimension(finding.dimension)
+        setDimExpand(prev => prev[dim] === true ? prev : { ...prev, [dim]: true })
+      }
+    }
+  }
 
   const riskCounts = useMemo(() => {
     const counts: Record<string, number> = { all: groupFindings.length }
@@ -359,19 +402,24 @@ const CollusionResultPage: React.FC = () => {
   }, [selectedPairLegacy, selectedFindingIdxLegacy])
 
   // pair 模式：选中证据时自动展开其所在维度 ----
-  useEffect(() => {
-    if (selectedFindingIdxLegacy === null || !selectedPairLegacy) return
-    const finding = selectedPairLegacy.findings[selectedFindingIdxLegacy]
-    if (!finding) return
-    const dim = normalizeFindingDimension(finding.dimension)
-    setDimExpand(prev => prev[dim] === true ? prev : { ...prev, [dim]: true })
-  }, [selectedFindingIdxLegacy, selectedPairLegacy])
-
-  useEffect(() => {
-    if (!hasGroups && sortedPairs.length > 0 && !selectedPairKey) {
-      setSelectedPairKey(`${sortedPairs[0].docAId}_${sortedPairs[0].docBId}`)
+  const [prevLegacyExpand, setPrevLegacyExpand] = useState({ selectedFindingIdxLegacy, selectedPairLegacy })
+  if (
+    selectedFindingIdxLegacy !== prevLegacyExpand.selectedFindingIdxLegacy ||
+    selectedPairLegacy !== prevLegacyExpand.selectedPairLegacy
+  ) {
+    setPrevLegacyExpand({ selectedFindingIdxLegacy, selectedPairLegacy })
+    if (selectedFindingIdxLegacy !== null && selectedPairLegacy) {
+      const finding = selectedPairLegacy.findings[selectedFindingIdxLegacy]
+      if (finding) {
+        const dim = normalizeFindingDimension(finding.dimension)
+        setDimExpand(prev => prev[dim] === true ? prev : { ...prev, [dim]: true })
+      }
     }
-  }, [hasGroups, sortedPairs, selectedPairKey])
+  }
+
+  if (!hasGroups && sortedPairs.length > 0 && !selectedPairKey) {
+    setSelectedPairKey(`${sortedPairs[0].docAId}_${sortedPairs[0].docBId}`)
+  }
 
   const handleSelectPairLegacy = useCallback((pair: CollusionPairResult) => {
     setSelectedPairKey(`${pair.docAId}_${pair.docBId}`)
@@ -446,7 +494,7 @@ const CollusionResultPage: React.FC = () => {
             <RetryActionPanel
               state={retryState}
               onRetry={handleRetryAnalysis}
-              onRefresh={refreshRetryState}
+              onRefresh={refreshRetryStateWithSpinner}
               retrying={retrying}
               refreshing={refreshingRetry}
             />
@@ -500,7 +548,7 @@ const CollusionResultPage: React.FC = () => {
           <RetryActionPanel
             state={retryState}
             onRetry={handleRetryAnalysis}
-            onRefresh={refreshRetryState}
+            onRefresh={refreshRetryStateWithSpinner}
             retrying={retrying}
             refreshing={refreshingRetry}
           />

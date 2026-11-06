@@ -54,9 +54,11 @@ interface UseMetricProbeOptions {
 }
 
 export function useMetricProbe(opts: UseMetricProbeOptions) {
-  const mountAt = useRef<number>(performance.now())
+  const mountAt = useRef(0)
 
   useEffect(() => {
+    const startedAt = performance.now()
+    mountAt.current = startedAt
     reportMetric('web_page_mount_total', 1, { page: opts.page })
 
     if (opts.firstPaint !== false) {
@@ -68,7 +70,7 @@ export function useMetricProbe(opts: UseMetricProbeOptions) {
     }
 
     return () => {
-      const duration = (performance.now() - mountAt.current) / 1000
+      const duration = (performance.now() - startedAt) / 1000
       if (duration < 3) {
         reportMetric('web_page_abort_total', 1, { page: opts.page })
       }

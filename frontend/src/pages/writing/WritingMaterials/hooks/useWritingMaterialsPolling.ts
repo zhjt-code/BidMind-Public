@@ -63,7 +63,7 @@ export function useWritingMaterialsPolling(
 
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const lastProgressKeyRef = useRef('')
-  const lastAdvanceAtRef = useRef(Date.now())
+  const lastAdvanceAtRef = useRef(0)
   const consecutiveErrorsRef = useRef(0)
   const inFlightRef = useRef(false)
 

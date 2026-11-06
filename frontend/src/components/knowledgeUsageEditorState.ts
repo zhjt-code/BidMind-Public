@@ -29,34 +29,39 @@ export function useProjectKnowledgeUsageEditor(
 ) {
   const [docs, setDocs] = useState<KnowledgeDocument[]>([])
   const [config, setConfig] = useState<KnowledgeUsageConfig | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => Boolean(projectId))
   const [saving, setSaving] = useState(false)
   const [enabled, setEnabled] = useState(false)
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [pickerOpen, setPickerOpen] = useState(false)
+  const loadKey = `${projectId}:${flow}`
+  const [prevLoadKey, setPrevLoadKey] = useState(loadKey)
+  if (loadKey !== prevLoadKey) {
+    setPrevLoadKey(loadKey)
+    setLoading(Boolean(projectId))
+  }
 
-  const loadAll = useCallback(async () => {
+  useEffect(() => {
     if (!projectId) return
-    setLoading(true)
-    try {
-      const [usableDocs, projectConfig] = await Promise.all([
-        knowledgeBaseService.listDocuments({ applicableFlow: flow, includeDisabled: false }),
-        knowledgeBaseService.getProjectUsageConfig(projectId),
-      ])
+    let active = true
+    Promise.all([
+      knowledgeBaseService.listDocuments({ applicableFlow: flow, includeDisabled: false }),
+      knowledgeBaseService.getProjectUsageConfig(projectId),
+    ]).then(([usableDocs, projectConfig]) => {
+      if (!active) return
       setDocs(usableDocs.filter((doc) => canAutoUseKnowledgeDocument(doc)))
       setConfig(projectConfig)
       setEnabled(projectConfig.enabled && projectConfig.flow === flow)
       setSelectedIds(projectConfig.flow === flow ? projectConfig.selectedKbDocumentIds : [])
-    } catch {
-      toast.error(KNOWLEDGE_USAGE_LOAD_FAILED)
-    } finally {
-      setLoading(false)
+    }).catch(() => {
+      if (active) toast.error(KNOWLEDGE_USAGE_LOAD_FAILED)
+    }).finally(() => {
+      if (active) setLoading(false)
+    })
+    return () => {
+      active = false
     }
   }, [projectId, flow])
-
-  useEffect(() => {
-    void loadAll()
-  }, [loadAll])
 
   const savedIds = config?.flow === flow ? config.selectedKbDocumentIds : []
   const isDirty = useMemo(

@@ -19,24 +19,48 @@ interface NodeDrawerProps {
 
 export const NodeDrawer: React.FC<NodeDrawerProps> = ({ nodeKey, onClose, onChanged }) => {
   const [detail, setDetail] = useState<LlmNodeDetail | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(Boolean(nodeKey))
   const [activeTab, setActiveTab] = useState<'prompt' | 'params' | 'versions' | 'traces' | 'history'>('prompt')
   const [editing, setEditing] = useState<{ role: string; content: string } | null>(null)
   const [saving, setSaving] = useState(false)
+  const [prevNodeKey, setPrevNodeKey] = useState(nodeKey)
+  if (nodeKey !== prevNodeKey) {
+    setPrevNodeKey(nodeKey)
+    if (!nodeKey) {
+      setDetail(null)
+      setEditing(null)
+    } else {
+      setLoading(true)
+    }
+  }
+
+  const fetchDetail = useCallback((key: string) => {
+    let cancelled = false
+    llmCenterService.getNodeDetail(key)
+      .then((data) => {
+        if (!cancelled) setDetail(data)
+      })
+      .catch(() => {
+        if (!cancelled) toast.error('加载节点详情失败')
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const reload = useCallback(() => {
     if (!nodeKey) return
     setLoading(true)
-    llmCenterService.getNodeDetail(nodeKey)
-      .then(setDetail)
-      .catch(() => toast.error('加载节点详情失败'))
-      .finally(() => setLoading(false))
-  }, [nodeKey])
+    fetchDetail(nodeKey)
+  }, [nodeKey, fetchDetail])
 
   useEffect(() => {
-    if (!nodeKey) { setDetail(null); setEditing(null); return }
-    reload()
-  }, [nodeKey, reload])
+    if (!nodeKey) return
+    return fetchDetail(nodeKey)
+  }, [nodeKey, fetchDetail])
 
   const reloadAndNotify = () => {
     reload()

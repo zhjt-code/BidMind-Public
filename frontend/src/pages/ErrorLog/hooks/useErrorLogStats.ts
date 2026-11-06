@@ -12,20 +12,32 @@ export function useErrorLogStats(timeRange: number): UseErrorLogStatsResult {
   const [stats, setStats] = useState<ErrorStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(true)
 
-  const reload = useCallback(async () => {
+  const [prevTimeRange, setPrevTimeRange] = useState(timeRange)
+  if (timeRange !== prevTimeRange) {
+    setPrevTimeRange(timeRange)
     setStatsLoading(true)
+  }
+
+  const fetchStats = useCallback(async () => {
+    let nextStats: ErrorStats | null = null
     try {
       const hours = timeRange > 0 ? timeRange : 168
       const res = await errorLogService.getStats({ hours }) as { data?: ErrorStats }
-      setStats(res?.data || null)
+      nextStats = res?.data || null
     } catch {
-      setStats(null)
+      nextStats = null
     } finally {
+      setStats(nextStats)
       setStatsLoading(false)
     }
   }, [timeRange])
 
-  useEffect(() => { reload() }, [reload])
+  const reload = useCallback(async () => {
+    setStatsLoading(true)
+    await fetchStats()
+  }, [fetchStats])
+
+  useEffect(() => { void fetchStats() }, [fetchStats])
 
   return { stats, statsLoading, reload }
 }

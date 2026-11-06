@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { withSampledStartDate } from './useErrorLogFilters'
 import type { ErrorLogGroup, ErrorLogItem } from '../types'
 
 interface UseErrorLogSelectionOptions {
@@ -45,6 +46,27 @@ export function useErrorLogSelection(opts: UseErrorLogSelectionOptions): UseErro
   const [allMatchingSelected, setAllMatchingSelected] = useState(false)
   const [excludedIds, setExcludedIds] = useState<Set<number>>(new Set())
   const [selectedFingerprints, setSelectedFingerprints] = useState<Set<string>>(new Set())
+
+  const [prevSelectionScope, setPrevSelectionScope] = useState({ activeFilters, selectionMode })
+  if (activeFilters !== prevSelectionScope.activeFilters || selectionMode !== prevSelectionScope.selectionMode) {
+    setPrevSelectionScope({ activeFilters, selectionMode })
+    if (selectionMode) {
+      setSelectedIds(new Set())
+      setAllMatchingSelected(false)
+      setExcludedIds(new Set())
+      setSelectedFingerprints(new Set())
+    }
+  }
+
+  const [prevPageSelection, setPrevPageSelection] = useState({ allMatchingSelected, page, selectionMode })
+  if (
+    allMatchingSelected !== prevPageSelection.allMatchingSelected ||
+    page !== prevPageSelection.page ||
+    selectionMode !== prevPageSelection.selectionMode
+  ) {
+    setPrevPageSelection({ allMatchingSelected, page, selectionMode })
+    if (selectionMode && !allMatchingSelected) setSelectedIds(new Set())
+  }
 
   const clearSelection = useCallback(() => {
     setSelectedIds(new Set())
@@ -138,26 +160,18 @@ export function useErrorLogSelection(opts: UseErrorLogSelectionOptions): UseErro
     if (viewMode === 'grouped' && selectedFingerprints.size > 0) {
       return {
         select_all: true,
-        filters: { ...activeFilters, fingerprints: Array.from(selectedFingerprints) },
+        filters: withSampledStartDate({ ...activeFilters, fingerprints: Array.from(selectedFingerprints) }),
       }
     }
     if (allMatchingSelected) {
       return {
         select_all: true,
         exclude_ids: Array.from(excludedIds),
-        filters: activeFilters,
+        filters: withSampledStartDate(activeFilters),
       }
     }
     return { log_ids: Array.from(selectedIds) }
   }, [activeFilters, allMatchingSelected, excludedIds, selectedIds, viewMode, selectedFingerprints])
-
-  useEffect(() => {
-    if (selectionMode) clearSelection()
-  }, [clearSelection, activeFilters, selectionMode])
-
-  useEffect(() => {
-    if (selectionMode && !allMatchingSelected) setSelectedIds(new Set())
-  }, [allMatchingSelected, page, selectionMode])
 
   return {
     selectionMode, setSelectionMode,

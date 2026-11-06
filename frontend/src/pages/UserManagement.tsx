@@ -27,10 +27,10 @@ const UserManagementPage: React.FC = () => {
     pageSize: 10,
     total: 0,
   })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [onlineStats, setOnlineStats] = useState<UserOnlineStats | null>(null)
-  const [onlineStatsLoading, setOnlineStatsLoading] = useState(false)
+  const [onlineStatsLoading, setOnlineStatsLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState<string>('')
   const [statusFilter, setStatusFilter] = useState<string>('')
@@ -59,11 +59,19 @@ const UserManagementPage: React.FC = () => {
   const [resetResult, setResetResult] = useState<{ username: string; password: string } | null>(null)
   const [resetting, setResetting] = useState(false)
   
-  // 加载用户列表
-  const loadUsers = useCallback(async () => {
+  const usersQueryKey = `${pagination.page}|${pagination.pageSize}|${roleFilter}|${statusFilter}|${search}`
+  const [prevUsersQueryKey, setPrevUsersQueryKey] = useState(usersQueryKey)
+  if (usersQueryKey !== prevUsersQueryKey) {
+    setPrevUsersQueryKey(usersQueryKey)
     setLoading(true)
     setError(null)
-    
+  }
+
+  // 加载用户列表
+  const fetchUsers = useCallback(async () => {
+    let nextItems: UserListItem[] | null = null
+    let nextTotal = 0
+    let nextError: string | null = null
     try {
       const result = await userService.getUsers({
         page: pagination.page,
@@ -73,40 +81,48 @@ const UserManagementPage: React.FC = () => {
         isOnline: statusFilter === 'online' ? true : undefined,
         search: search || undefined,
       })
-      
-      setUsers(result.items)
-      setPagination(prev => ({
-        ...prev,
-        total: result.total,
-      }))
+      nextItems = result.items
+      nextTotal = result.total
     } catch (err) {
-      const message = err instanceof Error ? err.message : '加载用户列表失败'
-      setError(message)
+      nextError = err instanceof Error ? err.message : '加载用户列表失败'
     } finally {
+      if (nextError !== null) setError(nextError)
+      else if (nextItems) {
+        setUsers(nextItems)
+        setPagination(prev => ({
+          ...prev,
+          total: nextTotal,
+        }))
+      }
       setLoading(false)
     }
   }, [pagination.page, pagination.pageSize, roleFilter, statusFilter, search])
+
+  const loadUsers = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    await fetchUsers()
+  }, [fetchUsers])
   
   useEffect(() => {
-    loadUsers()
-  }, [loadUsers])
+    void fetchUsers()
+  }, [fetchUsers])
 
   const loadOnlineStats = useCallback(async (options: { silent?: boolean } = {}) => {
-    if (!options.silent) {
-      setOnlineStatsLoading(true)
-    }
-
+    let nextStats: UserOnlineStats | null = null
+    let loaded = false
+    let toastMessage: string | null = null
     try {
-      const result = await userService.getOnlineStats()
-      setOnlineStats(result)
+      nextStats = await userService.getOnlineStats()
+      loaded = true
     } catch (err) {
       if (!options.silent) {
-        toast.error(err instanceof Error ? err.message : '加载在线用户统计失败')
+        toastMessage = err instanceof Error ? err.message : '加载在线用户统计失败'
       }
     } finally {
-      if (!options.silent) {
-        setOnlineStatsLoading(false)
-      }
+      if (loaded) setOnlineStats(nextStats)
+      if (toastMessage) toast.error(toastMessage)
+      if (!options.silent) setOnlineStatsLoading(false)
     }
   }, [])
 

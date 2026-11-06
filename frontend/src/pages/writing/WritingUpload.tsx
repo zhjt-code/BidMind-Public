@@ -104,6 +104,7 @@ const WritingUploadPage: React.FC = () => {
     gateResult: DocGateResult
   } | null>(null)
   const [gateBusy, setGateBusy] = useState(false)
+  const [handlingUpload, setHandlingUpload] = useState(false)
 
   const initialSteps = useMemo<ProgressStep[]>(
     () => buildUploadPlaceholderSteps(readPersistedWritingSkipVl(pid) ?? true),
@@ -117,8 +118,42 @@ const WritingUploadPage: React.FC = () => {
 
   const mountedRef = useRef(true)
   const isHandlingRef = useRef(false)
+  const setUploadHandling = (active: boolean) => {
+    isHandlingRef.current = active
+    setHandlingUpload(active)
+  }
   const lastOverallRef = useRef(0)
   const effectiveVlSkippedRef = useRef(effectiveVlSkipped)
+  const [vlPid, setVlPid] = useState(pid)
+  let vlSkippedForStage = effectiveVlSkipped
+  if (pid !== vlPid) {
+    setVlPid(pid)
+    vlSkippedForStage = readPersistedWritingSkipVl(pid) ?? true
+    setEffectiveVlSkipped(vlSkippedForStage)
+  }
+  const uploadStageKey = `${guardLoading}:${projectStatus ?? ''}:${pid}:${projectId ?? ''}`
+  const [prevUploadStageKey, setPrevUploadStageKey] = useState<string | null>(null)
+  if (uploadStageKey !== prevUploadStageKey) {
+    setPrevUploadStageKey(uploadStageKey)
+    if (!guardLoading && projectStatus && !handlingUpload) {
+      if (isWritingDoneProjectStatus(projectStatus)) {
+        setStage('already_done')
+      } else if (projectStatus === 'extracting') {
+        setStage('extracting')
+        setStageText('准备处理文档')
+        updateTargets(buildUploadPlaceholderSteps(vlSkippedForStage), 0)
+      } else if (isAwaitingExtractProjectStatus(projectStatus)) {
+        setStage('awaiting_extract')
+        setStageText('招标文件处理完成，等待继续提取')
+      } else if (isResumableUploadProjectStatus(projectStatus)) {
+        setStage('processing')
+        setHandlingUpload(true)
+      } else if (projectStatus === 'failed') {
+        setStage('error')
+        setErrorMsg(UPLOAD_FAILURE_FALLBACK)
+      }
+    }
+  }
   // 镜像 gate.isBlocked 供长轮询闭包读取，避免闭包过期漏截断自动提取
   const gateBlockedRef = useRef(gate.isBlocked)
 
@@ -230,11 +265,8 @@ const WritingUploadPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    const persisted = readPersistedWritingSkipVl(pid)
-    const next = persisted ?? true
-    effectiveVlSkippedRef.current = next
-    setEffectiveVlSkipped(next)
-  }, [pid])
+    effectiveVlSkippedRef.current = effectiveVlSkipped
+  }, [effectiveVlSkipped])
 
   useEffect(() => {
     if (stage === 'done' || stage === 'already_done') {
@@ -387,13 +419,13 @@ const WritingUploadPage: React.FC = () => {
       toast.error(msg)
       refreshRetryState().catch(() => {})
     } finally {
-      isHandlingRef.current = false
+      setUploadHandling(false)
     }
   }, [applyUploadStatus, pid, pollUploadStatus, projectStatus, refreshRetryState, resetUploadProgress])
 
   const handleContinueExtract = useCallback(async () => {
     if (isHandlingRef.current) return
-    isHandlingRef.current = true
+    setUploadHandling(true)
     setErrorMsg('')
     setContinuingExtract(true)
     try {
@@ -415,18 +447,17 @@ const WritingUploadPage: React.FC = () => {
       refreshRetryState().catch(() => {})
     } finally {
       setContinuingExtract(false)
-      isHandlingRef.current = false
+      setUploadHandling(false)
     }
   }, [gate.clear, pollUploadStatus, refreshRetryState, startExtract])
 
   useEffect(() => {
-    if (!guardLoading && projectStatus && !isHandlingRef.current) {
-      if (isWritingDoneProjectStatus(projectStatus)) {
-        setStage('already_done')
-      } else if (projectStatus === 'extracting') {
-        setStage('extracting')
-        resetUploadProgress()
-        pollUploadStatus(false)
+    if (guardLoading || !projectStatus || isHandlingRef.current) return
+    if (projectStatus === 'extracting') {
+      lastOverallRef.current = 0
+      // 轮询/恢复函数的 setState 在 await 之后。直接调用会被当成 effect 同步 setState。
+      queueMicrotask(() => {
+        void pollUploadStatus(false)
           .then((ok) => { if (ok && mountedRef.current) setStage('done') })
           .catch((err: Error) => {
             if (!mountedRef.current) return
@@ -434,16 +465,14 @@ const WritingUploadPage: React.FC = () => {
             setErrorMsg(err.message || '约束提取失败')
             refreshRetryState().catch(() => {})
           })
-      } else if (isAwaitingExtractProjectStatus(projectStatus)) {
-        setStage('awaiting_extract')
-        setStageText('招标文件处理完成，等待继续提取')
-      } else if (isResumableUploadProjectStatus(projectStatus)) {
-        setStage('processing')
-        resumeUploadPoll()
-      } else if (projectStatus === 'failed') {
-        setStage('error')
-        setErrorMsg(UPLOAD_FAILURE_FALLBACK)
-        refreshFailedEntryRetryState()
+      })
+    } else if (isResumableUploadProjectStatus(projectStatus)) {
+      queueMicrotask(() => {
+        void resumeUploadPoll()
+      })
+    } else if (projectStatus === 'failed') {
+      queueMicrotask(() => {
+        void refreshFailedEntryRetryState()
           .then((state) => {
             if (!mountedRef.current || !state?.failedNode) return
             const target = getWritingFailedNodeRoute(projectId || pid, state.failedNode)
@@ -452,13 +481,13 @@ const WritingUploadPage: React.FC = () => {
             }
           })
           .catch(() => {})
-      }
+      })
     }
-  }, [guardLoading, navigate, pid, pollUploadStatus, projectId, projectStatus, refreshFailedEntryRetryState, refreshRetryState, resetUploadProgress, resumeUploadPoll])
+  }, [guardLoading, navigate, pid, pollUploadStatus, projectId, projectStatus, refreshFailedEntryRetryState, refreshRetryState, resumeUploadPoll])
 
   // 上传落库之后的解析与提取流程(门禁放行/用户确认继续后的公共后半程)
   const continueProcessingAfterGate = useCallback(async (docId: number, gateAck: boolean) => {
-    isHandlingRef.current = true
+    setUploadHandling(true)
     try {
       setStage('processing')
       try {
@@ -487,7 +516,7 @@ const WritingUploadPage: React.FC = () => {
       toast.error(msg)
       refreshRetryState().catch(() => {})
     } finally {
-      isHandlingRef.current = false
+      setUploadHandling(false)
     }
   }, [pid, pollUploadStatus, refreshRetryState, skipVlForTender])
 
@@ -497,15 +526,15 @@ const WritingUploadPage: React.FC = () => {
       return
     }
 
-    isHandlingRef.current = true
+    setUploadHandling(true)
     syncEffectiveVlSkipped(skipVlForTender)
     resetUploadProgress()
     setStage('uploading')
     setErrorMsg('')
       setRetryState(null)
 
-    let docId: number | null = null
-    let gateResult: DocGateResult | null = null
+    let docId: number | null
+    let gateResult: DocGateResult | null
     try {
       const uploadResult = await documentService.uploadFile(pid, file, 'tender')
       const resultData = uploadResult?.data
@@ -519,7 +548,7 @@ const WritingUploadPage: React.FC = () => {
       setErrorMsg(msg)
       toast.error(msg)
       refreshRetryState().catch(() => {})
-      isHandlingRef.current = false
+      setUploadHandling(false)
       return
     }
 
@@ -527,7 +556,7 @@ const WritingUploadPage: React.FC = () => {
     if (gateResult && gateResult.verdict !== 'pass') {
       setGatePending({ docId, filename: file.name, gateResult })
       setStageText('等待确认文档')
-      isHandlingRef.current = false
+      setUploadHandling(false)
       return
     }
 

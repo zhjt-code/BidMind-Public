@@ -22,23 +22,26 @@ const Modal: React.FC<ModalProps> = ({
   maskClosable = true,
 }) => {
   // mounted 控制是否渲染 DOM；entering 控制 CSS 过渡类
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(visible)
   const [entering, setEntering] = useState(false)
+  const [prevVisible, setPrevVisible] = useState(visible)
+  if (visible !== prevVisible) {
+    setPrevVisible(visible)
+    if (visible) setMounted(true)
+    else setEntering(false)
+  }
 
   useEffect(() => {
     if (visible) {
-      setMounted(true)
       // 两帧延迟，确保初始 opacity-0/scale-95 先渲染，再触发过渡
       const raf = requestAnimationFrame(() =>
         requestAnimationFrame(() => setEntering(true))
       )
       return () => cancelAnimationFrame(raf)
-    } else {
-      setEntering(false)
-      // 等动画结束后卸载 DOM（duration-200 = 200ms）
-      const timer = setTimeout(() => setMounted(false), 220)
-      return () => clearTimeout(timer)
     }
+    // 等动画结束后卸载 DOM（duration-200 = 200ms）
+    const timer = setTimeout(() => setMounted(false), 220)
+    return () => clearTimeout(timer)
   }, [visible])
 
   // 按 Escape 关闭

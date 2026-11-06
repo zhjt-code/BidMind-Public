@@ -33,17 +33,20 @@ const MaterialImageNodeView: React.FC<NodeViewProps> = ({
   const caption = node.attrs.caption as string | null
   const projectId = (extension.options as MaterialImageOptions).projectId
   const [objectUrl, setObjectUrl] = useState<string>('')
-  const [failed, setFailed] = useState(false)
+  const [failed, setFailed] = useState(() => !imageId || !projectId)
   const editable = editor.isEditable
+  const [prevImageId, setPrevImageId] = useState(imageId)
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  if (imageId !== prevImageId || projectId !== prevProjectId) {
+    setPrevImageId(imageId)
+    setPrevProjectId(projectId)
+    setFailed(!imageId || !projectId)
+  }
 
   useEffect(() => {
-    if (!imageId || !projectId) {
-      setFailed(true)
-      return
-    }
+    if (!imageId || !projectId) return
     let active = true
     let createdUrl = ''
-    setFailed(false)
     writingService
       .fetchImageBlob(projectId, imageId)
       .then((blob) => {

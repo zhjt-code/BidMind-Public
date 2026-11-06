@@ -39,23 +39,30 @@ export const FoldedRequirementsSection: React.FC<FoldedRequirementsSectionProps>
   const [collapsed, setCollapsed] = useState(true)
   // 分类子分组展开态：默认全部收起，用户按需点击展开（label 在集合中表示已展开）
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
+  const [prevJumpToCategory, setPrevJumpToCategory] = useState(jumpToCategory)
+  if (jumpToCategory !== prevJumpToCategory) {
+    setPrevJumpToCategory(jumpToCategory)
+    if (jumpToCategory) {
+      setCollapsed(false)
+      setExpandedGroups((prev) => {
+        const next = new Set(prev)
+        next.add(jumpToCategory)
+        return next
+      })
+    }
+  }
 
   useEffect(() => {
     if (!jumpToCategory) return
-    setCollapsed(false)
-    setExpandedGroups((prev) => {
-      const next = new Set(prev)
-      next.add(jumpToCategory)
-      return next
-    })
     const targetId = `reference-group-${jumpToCategory}`
-    window.requestAnimationFrame(() => {
+    const frame = window.requestAnimationFrame(() => {
       document.getElementById(targetId)?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
     })
     onJumpConsumed?.()
+    return () => window.cancelAnimationFrame(frame)
   }, [jumpToCategory, onJumpConsumed])
 
   if (items.length === 0) return null

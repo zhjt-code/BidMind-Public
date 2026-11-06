@@ -22,6 +22,11 @@ const LlmCenterPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('business')
   const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [prevActiveFlow, setPrevActiveFlow] = useState(activeFlow)
+  if (activeFlow !== prevActiveFlow) {
+    setPrevActiveFlow(activeFlow)
+    setLoading(true)
+  }
   const [registryStatus, setRegistryStatus] = useState<{ total_nodes: number; total_active_versions: number } | null>(null)
 
   const [expandedStages, setExpandedStages] = useState<Set<string>>(new Set())
@@ -41,8 +46,7 @@ const LlmCenterPage: React.FC = () => {
     } catch { toast.error('加载流程列表失败') }
   }, [])
 
-  const loadTopology = useCallback(async (flowKey: string) => {
-    setLoading(true)
+  const fetchTopology = useCallback(async (flowKey: string) => {
     try {
       const data = await llmCenterService.getFlowTopology(flowKey)
       setTopology(data)
@@ -51,8 +55,21 @@ const LlmCenterPage: React.FC = () => {
     finally { setLoading(false) }
   }, [])
 
-  useEffect(() => { loadFlows() }, [loadFlows])
-  useEffect(() => { loadTopology(activeFlow) }, [activeFlow, loadTopology])
+  const loadTopology = useCallback(async (flowKey: string) => {
+    setLoading(true)
+    await fetchTopology(flowKey)
+  }, [fetchTopology])
+
+  useEffect(() => {
+    void (async () => {
+      await loadFlows()
+    })()
+  }, [loadFlows])
+  useEffect(() => {
+    void (async () => {
+      await fetchTopology(activeFlow)
+    })()
+  }, [activeFlow, fetchTopology])
 
   const toggleStage = useCallback((stageKey: string) => {
     setExpandedStages(prev => {

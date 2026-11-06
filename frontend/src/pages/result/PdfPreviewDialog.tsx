@@ -51,10 +51,10 @@ const PdfPreviewDialog: React.FC<PdfPreviewDialogProps> = ({
   open, onOpenChange, pdfUrl, initialPage, accessToken, highlights, excerpts,
 }) => {
   const [pdfData, setPdfData] = useState<Uint8Array | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => open && Boolean(pdfUrl))
   const [error, setError] = useState<string | null>(null)
   const [numPages, setNumPages] = useState(0)
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(() => Math.max(1, initialPage || 1))
   const [zoom, setZoom] = useState(1)
   const [pageWidth, setPageWidth] = useState(720)
   const [pdfDoc, setPdfDoc] = useState<PreviewPdfDocument | null>(null)
@@ -64,28 +64,40 @@ const PdfPreviewDialog: React.FC<PdfPreviewDialogProps> = ({
   const pendingAlignRef = useRef<'start' | 'end' | null>(null)
   const lastTurnAtRef = useRef(0)
   const excerptKey = (excerpts || []).join('\u0001')
+  const fetchSession = open ? pdfUrl : null
+  const [prevFetchSession, setPrevFetchSession] = useState(fetchSession)
+  if (fetchSession !== prevFetchSession) {
+    setPrevFetchSession(fetchSession)
+    if (!open) {
+      setPdfData(null)
+      setNumPages(0)
+      setPdfDoc(null)
+      setLocatedHighlights([])
+    } else if (pdfUrl) {
+      setLoading(true)
+      setError(null)
+      setPdfData(null)
+      setNumPages(0)
+      setPdfDoc(null)
+      setLocatedHighlights([])
+      setZoom(1)
+      setPageNumber(Math.max(1, initialPage || 1))
+    }
+  }
+  const [prevInitialPage, setPrevInitialPage] = useState(initialPage)
+  const [prevOpenForPage, setPrevOpenForPage] = useState(open)
+  if (initialPage !== prevInitialPage || open !== prevOpenForPage) {
+    setPrevInitialPage(initialPage)
+    setPrevOpenForPage(open)
+    setPageNumber(Math.max(1, initialPage || 1))
+  }
 
   const pdfFile = useMemo(() => {
     if (!pdfData) return null
     return { data: clonePdfBytes(pdfData) }
   }, [pdfData])
 
-  const fetchPdf = useCallback(async () => {
-    if (!pdfUrl) return
-
-    abortRef.current?.abort()
-    const controller = new AbortController()
-    abortRef.current = controller
-
-    setLoading(true)
-    setError(null)
-    setPdfData(null)
-    setNumPages(0)
-    setPdfDoc(null)
-    setLocatedHighlights([])
-    setZoom(1)
-    setPageNumber(Math.max(1, initialPage || 1))
-
+  const readPdf = useCallback(async (controller: AbortController) => {
     try {
       const doFetch = async (token: string | null) => {
         const headers: Record<string, string> = {}
@@ -134,24 +146,40 @@ const PdfPreviewDialog: React.FC<PdfPreviewDialogProps> = ({
     } finally {
       if (!controller.signal.aborted) setLoading(false)
     }
-  }, [pdfUrl, accessToken, initialPage])
+  }, [pdfUrl, accessToken])
+
+  const fetchPdf = useCallback(async () => {
+    if (!pdfUrl) return
+
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    setLoading(true)
+    setError(null)
+    setPdfData(null)
+    setNumPages(0)
+    setPdfDoc(null)
+    setLocatedHighlights([])
+    setZoom(1)
+    setPageNumber(Math.max(1, initialPage || 1))
+
+    await readPdf(controller)
+  }, [pdfUrl, initialPage, readPdf])
 
   useEffect(() => {
-    if (open) {
-      fetchPdf()
-    } else {
-      abortRef.current?.abort()
-      setPdfData(null)
-      setNumPages(0)
-      setPdfDoc(null)
-      setLocatedHighlights([])
+    if (!open || !pdfUrl) {
+      if (!open) abortRef.current?.abort()
+      return () => { abortRef.current?.abort() }
     }
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    void (async () => {
+      await readPdf(controller)
+    })()
     return () => { abortRef.current?.abort() }
   }, [open, pdfUrl])  // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    setPageNumber(Math.max(1, initialPage || 1))
-  }, [initialPage, open])
 
   useEffect(() => {
     if (!open) return
@@ -215,11 +243,15 @@ const PdfPreviewDialog: React.FC<PdfPreviewDialogProps> = ({
     setPageNumber((current) => clampPage(current, loaded.numPages))
   }, [])
 
+  const highlightsActive = Boolean(open && pdfDoc && excerptKey)
+  const [prevHighlightsActive, setPrevHighlightsActive] = useState(highlightsActive)
+  if (highlightsActive !== prevHighlightsActive) {
+    setPrevHighlightsActive(highlightsActive)
+    if (!highlightsActive) setLocatedHighlights([])
+  }
+
   useEffect(() => {
-    if (!open || !pdfDoc || !excerptKey) {
-      setLocatedHighlights([])
-      return
-    }
+    if (!open || !pdfDoc || !excerptKey) return
     let cancelled = false
     const run = async () => {
       try {

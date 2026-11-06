@@ -33,19 +33,24 @@ export const RiskNoticeSection: React.FC<RiskNoticeSectionProps> = ({
   expandRequest = false,
   onExpandRequestConsumed,
 }) => {
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(!expandRequest)
+  const [prevExpandRequest, setPrevExpandRequest] = useState(expandRequest)
+  if (expandRequest !== prevExpandRequest) {
+    setPrevExpandRequest(expandRequest)
+    if (expandRequest) setCollapsed(false)
+  }
 
   React.useEffect(() => {
     if (!expandRequest) return
-    setCollapsed(false)
     onViewed()
     onExpandRequestConsumed?.()
-    window.requestAnimationFrame(() => {
+    const frame = window.requestAnimationFrame(() => {
       document.getElementById('risk-notice-section')?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
     })
+    return () => window.cancelAnimationFrame(frame)
   }, [expandRequest, onViewed, onExpandRequestConsumed])
 
   if (items.length === 0) return null

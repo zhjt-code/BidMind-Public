@@ -1,7 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { TASK_LABELS, TASK_BY_CATEGORY } from '../constants'
 
 const DEFAULT_TIME_RANGE = 24
+
+let sampledStartDate: string | undefined
+
+/** 请求参数附上最近一次筛选变更时采样的 start_date。 */
+export function withSampledStartDate(filters: Record<string, unknown>): Record<string, unknown> {
+  if (sampledStartDate == null) return filters
+  return { ...filters, start_date: sampledStartDate }
+}
 
 export interface UseErrorLogFiltersResult {
   categoryFilter: string
@@ -36,12 +44,19 @@ export function useErrorLogFilters(): UseErrorLogFiltersResult {
   const [keyword, setKeyword] = useState('')
   const [searchInput, setSearchInput] = useState('')
 
-  useEffect(() => { setTaskFilter('all') }, [categoryFilter])
+  const [prevCategoryFilter, setPrevCategoryFilter] = useState(categoryFilter)
+  if (categoryFilter !== prevCategoryFilter) {
+    setPrevCategoryFilter(categoryFilter)
+    setTaskFilter('all')
+  }
 
   const currentTaskOptions = useMemo(() => {
     if (categoryFilter === 'all') return TASK_LABELS
     return TASK_BY_CATEGORY[categoryFilter] || {}
   }, [categoryFilter])
+
+  // 时间窗锚点在筛选变更的 effect 里采样，避免渲染期调用 Date.now。
+  const anchorMsRef = useRef(0)
 
   const activeFilters = useMemo<Record<string, unknown>>(() => {
     const filters: Record<string, unknown> = {}
@@ -51,11 +66,18 @@ export function useErrorLogFilters(): UseErrorLogFiltersResult {
     if (sourceFilter !== 'all') filters.source = sourceFilter
     if (resolvedFilter === 'unresolved') filters.resolved = false
     else if (resolvedFilter === 'resolved') filters.resolved = true
-    if (timeRange > 0) {
-      filters.start_date = new Date(Date.now() - timeRange * 3600 * 1000).toISOString()
-    }
+    // timeRange 只参与查询身份（换新对象触发重新请求）。start_date 在 effect 中采样，
+    // 由 withSampledStartDate 在发起请求时附上。
+    if (timeRange < 0) filters.time_range_invalid = true
     if (keyword) filters.keyword = keyword
     return filters
+  }, [categoryFilter, taskFilter, levelFilter, sourceFilter, resolvedFilter, timeRange, keyword])
+
+  useEffect(() => {
+    anchorMsRef.current = Date.now()
+    sampledStartDate = timeRange > 0
+      ? new Date(anchorMsRef.current - timeRange * 3600 * 1000).toISOString()
+      : undefined
   }, [categoryFilter, taskFilter, levelFilter, sourceFilter, resolvedFilter, timeRange, keyword])
 
   const hasFilters =

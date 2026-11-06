@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { Project } from '@/stores/projectStore'
 import { useInvalidateProjectDashboard } from '@/hooks/useProjectDashboard'
 
@@ -29,6 +29,15 @@ export function useProjectListManagement({
   const [batchDeleting, setBatchDeleting] = useState(false)
   // 批量删除开始前冻结目标快照，避免乐观更新后对话框数量归零。
   const [batchDeleteTargets, setBatchDeleteTargets] = useState<Project[]>([])
+
+  const [prevSelectionMode, setPrevSelectionMode] = useState(selectionMode)
+  const [prevSelectionResetKey, setPrevSelectionResetKey] = useState(selectionResetKey)
+  if (selectionMode !== prevSelectionMode || selectionResetKey !== prevSelectionResetKey) {
+    setPrevSelectionMode(selectionMode)
+    setPrevSelectionResetKey(selectionResetKey)
+    if (selectionMode) setSelectedIds(new Set())
+  }
+
   const invalidateProjectDashboard = useInvalidateProjectDashboard()
 
   const selectableProjects = useMemo(
@@ -99,12 +108,6 @@ export function useProjectListManagement({
       exitSelectionMode()
     }
   }
-
-  useEffect(() => {
-    if (selectionMode) {
-      setSelectedIds(new Set())
-    }
-  }, [selectionMode, selectionResetKey])
 
   return {
     deleteConfirm,

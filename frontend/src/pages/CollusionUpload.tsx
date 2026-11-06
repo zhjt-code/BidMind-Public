@@ -125,6 +125,15 @@ const CollusionUploadPage: React.FC = () => {
     const persisted = readPersistedCollusionSkipVl(pidNum, 'bid')
     return persisted ?? false
   })
+  const [prevSkipProjectId, setPrevSkipProjectId] = useState(projectId)
+  if (projectId !== prevSkipProjectId) {
+    setPrevSkipProjectId(projectId)
+    const pidNum = projectId ? parseInt(projectId) : NaN
+    const persistedTender = readPersistedCollusionSkipVl(pidNum, 'tender')
+    const persistedBid = readPersistedCollusionSkipVl(pidNum, 'bid')
+    if (persistedTender !== null) setSkipTenderVl(persistedTender)
+    if (persistedBid !== null) setSkipBidVl(persistedBid)
+  }
 
   const handleSkipTenderVlChange = useCallback((checked: boolean) => {
     setSkipTenderVl(checked)
@@ -212,19 +221,45 @@ const CollusionUploadPage: React.FC = () => {
     }
   }, [])
 
-  // projectId 变化时（极少触发，但与 writing 模块对齐保持健壮性）
-  // 从 sessionStorage 重新读取并同步本地状态，避免显示与持久化偏好脱节
-  useEffect(() => {
-    const pidNum = projectId ? parseInt(projectId) : NaN
-    const persistedTender = readPersistedCollusionSkipVl(pidNum, 'tender')
-    const persistedBid = readPersistedCollusionSkipVl(pidNum, 'bid')
-    if (persistedTender !== null) {
-      setSkipTenderVl(persistedTender)
-    }
-    if (persistedBid !== null) {
-      setSkipBidVl(persistedBid)
-    }
-  }, [projectId])
+  // 对已存在但仍在处理中的文件轮询（接入 useDocumentProcessPolling）
+  const startExistingDocPolling = (type: 'tender' | 'bid', documentId: number) => {
+    if (!projectId) return
+    docPolling.startPoll({
+      documentId,
+      pollKey: `existing_${type}_${documentId}`,
+      onTick: (d) => {
+        if (type === 'bid') {
+          setExistingBidProcessStatuses((prev) => ({ ...prev, [documentId]: d }))
+        } else {
+          setExistingTenderProcessStatus(d)
+        }
+      },
+      onCompleted: () => {
+        if (type === 'bid') {
+          setExistingBids((prev) =>
+            prev.map((doc) => doc.id === documentId ? { ...doc, parsed: 1 } : doc)
+          )
+          setExistingBidProcessStatuses((prev) => { const n = { ...prev }; delete n[documentId]; return n })
+        } else {
+          setExistingTender((prev) => prev ? { ...prev, parsed: 1 } : null)
+          setExistingTenderProcessStatus(null)
+        }
+      },
+      onFailed: (errMsg) => {
+        const failure = toExistingDocumentFailure(errMsg)
+        if (type === 'bid') {
+          setExistingBids((prev) =>
+            prev.map((doc) => doc.id === documentId ? { ...doc, ...failure } : doc)
+          )
+          setExistingBidProcessStatuses((prev) => { const n = { ...prev }; delete n[documentId]; return n })
+        } else {
+          setExistingTender((prev) => prev ? { ...prev, ...failure } : null)
+          setExistingTenderProcessStatus(null)
+        }
+        // onRefreshRetryState 由 hook 内部触发；无需在此重复调用
+      },
+    })
+  }
 
   // 加载已有文档，不做任何自动跳转（避免循环导航问题）
   useEffect(() => {
@@ -267,47 +302,6 @@ const CollusionUploadPage: React.FC = () => {
     init()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, refreshRetryState])
-
-
-  // 对已存在但仍在处理中的文件轮询（接入 useDocumentProcessPolling）
-  const startExistingDocPolling = (type: 'tender' | 'bid', documentId: number) => {
-    if (!projectId) return
-    docPolling.startPoll({
-      documentId,
-      pollKey: `existing_${type}_${documentId}`,
-      onTick: (d) => {
-        if (type === 'bid') {
-          setExistingBidProcessStatuses((prev) => ({ ...prev, [documentId]: d }))
-        } else {
-          setExistingTenderProcessStatus(d)
-        }
-      },
-      onCompleted: () => {
-        if (type === 'bid') {
-          setExistingBids((prev) =>
-            prev.map((doc) => doc.id === documentId ? { ...doc, parsed: 1 } : doc)
-          )
-          setExistingBidProcessStatuses((prev) => { const n = { ...prev }; delete n[documentId]; return n })
-        } else {
-          setExistingTender((prev) => prev ? { ...prev, parsed: 1 } : null)
-          setExistingTenderProcessStatus(null)
-        }
-      },
-      onFailed: (errMsg) => {
-        const failure = toExistingDocumentFailure(errMsg)
-        if (type === 'bid') {
-          setExistingBids((prev) =>
-            prev.map((doc) => doc.id === documentId ? { ...doc, ...failure } : doc)
-          )
-          setExistingBidProcessStatuses((prev) => { const n = { ...prev }; delete n[documentId]; return n })
-        } else {
-          setExistingTender((prev) => prev ? { ...prev, ...failure } : null)
-          setExistingTenderProcessStatus(null)
-        }
-        // onRefreshRetryState 由 hook 内部触发；无需在此重复调用
-      },
-    })
-  }
 
   // 计算总投标数（已有 + 新上传成功）
   const totalBidCount = existingBids.length + bidFiles.filter((f) => f.status !== 'error').length
@@ -603,7 +597,7 @@ const CollusionUploadPage: React.FC = () => {
     }
 
     let documentId: number
-    let gateResult: DocGateResult | null = null
+    let gateResult: DocGateResult | null
     try {
       const uploadResp = await documentService.uploadFile(
         parseInt(projectId),
@@ -796,7 +790,6 @@ const CollusionUploadPage: React.FC = () => {
     if (!projectId || !canStartAnalysis) return
     if (startInFlightRef.current) return
     startInFlightRef.current = true
-    setIsStartingAnalysis(true)
     try {
       const latestProject = await projectService.getProject(parseInt(projectId))
       setProjectStatus(latestProject.status)
@@ -824,17 +817,27 @@ const CollusionUploadPage: React.FC = () => {
     }
   }
 
+  const requestStartAnalysis = () => {
+    if (!projectId || !canStartAnalysis || startInFlightRef.current) return
+    setIsStartingAnalysis(true)
+    void handleStartAnalysis()
+  }
+
+  const shouldAutoStart = shouldAutoStartCollusionAnalysis({
+    canStartAnalysis,
+    isSomethingLoading,
+    isUploading,
+    projectStatus,
+    isStartingAnalysis,
+    analysisBlockedByBalance: gate.isBlocked,
+  })
+  if (shouldAutoStart && projectId) {
+    setIsStartingAnalysis(true)
+  }
+
   useEffect(() => {
-    if (shouldAutoStartCollusionAnalysis({
-      canStartAnalysis,
-      isSomethingLoading,
-      isUploading,
-      projectStatus,
-      isStartingAnalysis,
-      analysisBlockedByBalance: gate.isBlocked,
-    })) {
-      handleStartAnalysis()
-    }
+    if (startInFlightRef.current || !isStartingAnalysis) return
+    void handleStartAnalysis()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canStartAnalysis, isSomethingLoading, isUploading, projectStatus, isStartingAnalysis, gate.isBlocked])
 
@@ -905,7 +908,7 @@ const CollusionUploadPage: React.FC = () => {
           )}
           {projectStatus !== 'completed' && projectStatus !== 'reviewing' && canStartAnalysis && (
             <button
-              onClick={handleStartAnalysis}
+              onClick={requestStartAnalysis}
               disabled={isStartingAnalysis}
               className={`px-6 py-2 rounded-md text-white flex items-center ${
                 isStartingAnalysis ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
@@ -981,7 +984,7 @@ const CollusionUploadPage: React.FC = () => {
           paymentEnabled={isPaymentEnabled}
           continueBusy={isStartingAnalysis}
           onRecharge={gate.openRecharge}
-          onContinue={() => { void handleStartAnalysis() }}
+          onContinue={requestStartAnalysis}
         />
       )}
 

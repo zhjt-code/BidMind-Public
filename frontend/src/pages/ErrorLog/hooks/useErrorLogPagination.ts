@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 
 interface UseErrorLogPaginationOptions {
@@ -26,6 +26,20 @@ export function useErrorLogPagination(opts: UseErrorLogPaginationOptions): UseEr
   const [groupPage, setGroupPage] = useState(1)
   const [jumpPageInput, setJumpPageInput] = useState('1')
 
+  const [prevFilterKey, setPrevFilterKey] = useState({ activeFilters, groupSortBy })
+  if (activeFilters !== prevFilterKey.activeFilters || groupSortBy !== prevFilterKey.groupSortBy) {
+    setPrevFilterKey({ activeFilters, groupSortBy })
+    setPage(1)
+    setGroupPage(1)
+  }
+
+  const displayedPage = viewMode === 'grouped' ? groupPage : page
+  const [prevJump, setPrevJump] = useState({ page, groupPage, viewMode })
+  if (page !== prevJump.page || groupPage !== prevJump.groupPage || viewMode !== prevJump.viewMode) {
+    setPrevJump({ page, groupPage, viewMode })
+    setJumpPageInput(String(displayedPage))
+  }
+
   const effectiveTotalPages = viewMode === 'grouped' ? groupTotalPages : totalPages
 
   const handlePageChange = useCallback((nextPage: number) => {
@@ -46,15 +60,6 @@ export function useErrorLogPagination(opts: UseErrorLogPaginationOptions): UseEr
     }
     handlePageChange(targetPage)
   }, [handlePageChange, jumpPageInput, effectiveTotalPages])
-
-  useEffect(() => {
-    setPage(1)
-    setGroupPage(1)
-  }, [activeFilters, groupSortBy])
-
-  useEffect(() => {
-    setJumpPageInput(String(viewMode === 'grouped' ? groupPage : page))
-  }, [page, groupPage, viewMode])
 
   return {
     page, groupPage, jumpPageInput,

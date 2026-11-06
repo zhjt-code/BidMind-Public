@@ -2,7 +2,7 @@
  * 职责: 评分核对条的常驻摘要、折叠开关和操作区。
  * 不做: 不计算通过或复核结论，不决定某个操作按钮是否出现。
  */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,10 +28,11 @@ export const ScoringBannerChrome: React.FC<ScoringBannerChromeProps> = (props) =
   const [collapsed, setCollapsed] = useState(() =>
     initialScoringDetailsCollapsed(props.attentionVisible),
   )
-
-  useEffect(() => {
+  const [prevAttentionVisible, setPrevAttentionVisible] = useState(props.attentionVisible)
+  if (props.attentionVisible !== prevAttentionVisible) {
+    setPrevAttentionVisible(props.attentionVisible)
     if (props.attentionVisible) setCollapsed(false)
-  }, [props.attentionVisible])
+  }
 
   const showDetails = shouldShowScoringDetails(collapsed, props.hasDetails)
   const toggleLabel = collapsed ? '展开明细' : '收起明细'

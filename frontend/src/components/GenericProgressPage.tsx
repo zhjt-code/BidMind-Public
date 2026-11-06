@@ -217,34 +217,42 @@ const GenericProgressPage: React.FC<{ config: ProgressPageConfig }> = ({ config 
     }
   }
 
-  useEffect(() => {
-    if (!statusData) return
-    const derived = deriveSteps(statusData, config.initialSteps, config)
-    const overallStatus = normalizeOverallStatus(statusData.overallStatus)
-
-    initialStatusRef.current = nextProgressSessionStatus(
-      initialStatusRef.current,
-      overallStatus,
-    )
-
-    updateTargets(derived.steps, derived.overallTarget)
-    setIsRunning(derived.isRunning)
-    setIsCompleted(isProgressCompleted(statusData.overallStatus))
-    setStageText(derived.stageText)
-    setIsRecovering(derived.isRecovering)
-    setRecoveryMessage(derived.recoveryMessage)
-    setIsInitialLoading(false)
-    setError(getProgressPageError({
-      overallStatus,
-      errorMessage: statusData.errorMessage ?? null,
-      failedText: config.textMap.failed,
-    }))
-    if (overallStatus === 'failed') {
-      setIsRunning(false)
+  const [seenStatusData, setSeenStatusData] = useState<CommonStatus | null | undefined>(null)
+  const [seenConfig, setSeenConfig] = useState<ProgressPageConfig | null>(null)
+  const [seenQueryError, setSeenQueryError] = useState<unknown>(null)
+  const [seenQueryStatus, setSeenQueryStatus] = useState<CommonStatus | null | undefined>(null)
+  const [seenFailedText, setSeenFailedText] = useState<string | null>(null)
+  if (seenStatusData !== statusData || seenConfig !== config) {
+    setSeenStatusData(statusData)
+    setSeenConfig(config)
+    if (statusData) {
+      const derived = deriveSteps(statusData, config.initialSteps, config)
+      const overallStatus = normalizeOverallStatus(statusData.overallStatus)
+      updateTargets(derived.steps, derived.overallTarget)
+      setIsRunning(derived.isRunning)
+      setIsCompleted(isProgressCompleted(statusData.overallStatus))
+      setStageText(derived.stageText)
+      setIsRecovering(derived.isRecovering)
+      setRecoveryMessage(derived.recoveryMessage)
+      setIsInitialLoading(false)
+      setError(getProgressPageError({
+        overallStatus,
+        errorMessage: statusData.errorMessage ?? null,
+        failedText: config.textMap.failed,
+      }))
+      if (overallStatus === 'failed') {
+        setIsRunning(false)
+      }
     }
-  }, [statusData, updateTargets, config])
-
-  useEffect(() => {
+  }
+  if (
+    seenQueryError !== queryError
+    || seenQueryStatus !== statusData
+    || seenFailedText !== config.textMap.failed
+  ) {
+    setSeenQueryError(queryError)
+    setSeenQueryStatus(statusData)
+    setSeenFailedText(config.textMap.failed)
     if (queryError) {
       setError(getProgressPageError({
         overallStatus: normalizeOverallStatus(statusData?.overallStatus),
@@ -254,7 +262,15 @@ const GenericProgressPage: React.FC<{ config: ProgressPageConfig }> = ({ config 
       }))
       setIsInitialLoading(false)
     }
-  }, [queryError, statusData, config.textMap.failed])
+  }
+
+  useEffect(() => {
+    if (!statusData) return
+    initialStatusRef.current = nextProgressSessionStatus(
+      initialStatusRef.current,
+      normalizeOverallStatus(statusData.overallStatus),
+    )
+  }, [statusData])
 
   // 完成态自动跳转：仅在 autoNavigateOnCompleteMs > 0 且无错误时触发
   // 失败态保留在进度页便于用户查看错误并选择重试

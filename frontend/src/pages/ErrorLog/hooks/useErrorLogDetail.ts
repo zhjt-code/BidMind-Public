@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 import { errorLogService } from '@/services/errorLogApi'
 import type { ErrorLogItem } from '../types'
@@ -21,6 +21,14 @@ export function useErrorLogDetail(opts: UseErrorLogDetailOptions): UseErrorLogDe
   const [expandedId, setExpandedId] = useState<number | null>(null)
   const [detailCache, setDetailCache] = useState<Record<number, ErrorLogItem>>({})
   const [detailLoadingId, setDetailLoadingId] = useState<number | null>(null)
+
+  // page 切换时清缓存与展开
+  const [prevPage, setPrevPage] = useState(page)
+  if (page !== prevPage) {
+    setPrevPage(page)
+    setDetailCache({})
+    setExpandedId(null)
+  }
 
   const loadDetail = useCallback(async (id: number) => {
     if (detailCache[id]) return
@@ -47,12 +55,6 @@ export function useErrorLogDetail(opts: UseErrorLogDetailOptions): UseErrorLogDe
     setDetailCache({})
     setExpandedId(null)
   }, [])
-
-  // page 切换时清缓存与展开
-  useEffect(() => {
-    setDetailCache({})
-    setExpandedId(null)
-  }, [page])
 
   return { expandedId, detailCache, detailLoadingId, handleToggleExpand, reset }
 }

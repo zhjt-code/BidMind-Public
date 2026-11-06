@@ -9,7 +9,7 @@
  * - 多条同级时显示 "+N 条"，点击展开下拉
  */
 
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Megaphone, AlertTriangle, CheckCircle2, X, ChevronDown } from 'lucide-react'
 import type { BannerItem, BroadcastLevel } from '@/services/bannerApi'
@@ -121,6 +121,11 @@ const BroadcastBanner: React.FC = () => {
   const navigate = useNavigate()
   const { banners, dismissBanner } = useMessageStore()
   const [showAll, setShowAll] = useState(false)
+  const [prevBannerCount, setPrevBannerCount] = useState(banners.length)
+  if (banners.length !== prevBannerCount) {
+    setPrevBannerCount(banners.length)
+    if (banners.length <= 1) setShowAll(false)
+  }
 
   const handleDismiss = useCallback(
     async (id: number) => {
@@ -140,11 +145,6 @@ const BroadcastBanner: React.FC = () => {
     },
     [navigate],
   )
-
-  // 关闭展开态：当 banners 全部消失时收起
-  useEffect(() => {
-    if (banners.length <= 1) setShowAll(false)
-  }, [banners.length])
 
   if (banners.length === 0) return null
 
