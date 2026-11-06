@@ -112,13 +112,28 @@ export const DiagramEditDialog: React.FC<DiagramEditDialogProps> = ({
   const [wbsPackages, setWbsPackages] = useState<EditableLayer[]>([])
   const [zones, setZones] = useState<EditableTextItem[]>([])
   const [style, setStyle] = useState<WritingDiagramStyle>(DEFAULT_DIAGRAM_STYLE)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(open)
   const [saving, setSaving] = useState(false)
+  const [prevOpen, setPrevOpen] = useState(open)
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  const [prevDiagramId, setPrevDiagramId] = useState(diagramId)
+  const [prevFallbackTitle, setPrevFallbackTitle] = useState(fallbackTitle)
+  if (
+    open !== prevOpen
+    || projectId !== prevProjectId
+    || diagramId !== prevDiagramId
+    || fallbackTitle !== prevFallbackTitle
+  ) {
+    setPrevOpen(open)
+    setPrevProjectId(projectId)
+    setPrevDiagramId(diagramId)
+    setPrevFallbackTitle(fallbackTitle)
+    if (open) setLoading(true)
+  }
 
   useEffect(() => {
     if (!open) return
     let active = true
-    setLoading(true)
     writingService
       .getDiagram(projectId, diagramId)
       .then((data) => {

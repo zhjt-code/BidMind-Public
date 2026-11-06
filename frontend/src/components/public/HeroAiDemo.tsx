@@ -186,6 +186,12 @@ const HeroAiDemo: React.FC = () => {
   const [activePhase, setActivePhase] = useState(0)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const activeScene = HERO_DEMO_SCENES.find(scene => scene.key === activeKey) ?? HERO_DEMO_SCENES[0]
+  const reducedPhaseKey = prefersReducedMotion ? `${activeKey}:${activeScene.frames.length}` : ''
+  const [prevReducedPhaseKey, setPrevReducedPhaseKey] = useState(reducedPhaseKey)
+  if (reducedPhaseKey !== prevReducedPhaseKey) {
+    setPrevReducedPhaseKey(reducedPhaseKey)
+    if (prefersReducedMotion) setActivePhase(activeScene.frames.length - 1)
+  }
   const activeTone = HERO_DEMO_TONES[activeKey]
   const scannedLineCount = prefersReducedMotion
     ? HERO_DEMO_DOC_LINE_TOTAL
@@ -201,10 +207,7 @@ const HeroAiDemo: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setActivePhase(activeScene.frames.length - 1)
-      return
-    }
+    if (prefersReducedMotion) return
 
     const intervalId = window.setInterval(() => {
       setActivePhase(current => {

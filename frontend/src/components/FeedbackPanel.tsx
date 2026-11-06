@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import ServiceWechatContact from '@/components/ServiceWechatContact'
 import {
   dismissFeedbackFab,
@@ -35,19 +35,20 @@ const FeedbackPanel: React.FC<FeedbackPanelProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [feedbackType, setFeedbackType] = useState<string>(defaultType || 'feature')
+  const [prevDefaultType, setPrevDefaultType] = useState(defaultType)
   const [content, setContent] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [dismissed, setDismissed] = useState(() => isFeedbackFabDismissed())
   const panelRef = useRef<HTMLDivElement>(null)
+  if (defaultType !== prevDefaultType) {
+    setPrevDefaultType(defaultType)
+    if (defaultType) setFeedbackType(defaultType)
+  }
 
   const isControlled = controlledVisible !== undefined
   const panelVisible = isControlled ? controlledVisible : isOpen
-
-  useEffect(() => {
-    if (defaultType) setFeedbackType(defaultType)
-  }, [defaultType])
 
   const handleOpen = () => {
     if (!isControlled) setIsOpen(true)

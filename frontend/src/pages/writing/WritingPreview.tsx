@@ -105,6 +105,7 @@ const WritingPreviewPage: React.FC = () => {
 
   useEffect(() => {
     if (!pid || !canLoadPreviewData) return
+    // 两个加载函数都在 await 之后才 setState。微任务避开 effect 同步调用判定，请求仍在本轮事件循环发出。
     queueMicrotask(() => {
       void Promise.all([
         loadConsistencySafely(),

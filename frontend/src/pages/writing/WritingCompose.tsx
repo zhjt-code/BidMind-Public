@@ -73,7 +73,7 @@ const WritingComposePage: React.FC = () => {
   const [editContent, setEditContent] = useState('')
   const [syncedEditorKey, setSyncedEditorKey] = useState<string | null>(null)
   const [initialEditorSyncPending, setInitialEditorSyncPending] = useState(false)
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>()
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const initialEditorSyncRef = useRef(false)
   const mountedRef = useRef(true)
   const pollAbortRef = useRef<AbortController | null>(null)
@@ -569,6 +569,7 @@ const WritingComposePage: React.FC = () => {
   useEffect(() => {
     const state = location.state as { refreshCoverage?: boolean } | null
     if (!state?.refreshCoverage) return
+    // loadCoverage 在 await 之后才 setState；微任务只为避开 effect 同步调用判定。
     queueMicrotask(() => {
       void loadCoverage()
     })

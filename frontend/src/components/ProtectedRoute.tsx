@@ -101,16 +101,19 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { isAuthenticated, accessToken, user } = useAuthStore()
   const location = useLocation()
-  const [authChecked, setAuthChecked] = useState(false)
+  const [authChecked, setAuthChecked] = useState(() => !isAuthenticated)
+  const [prevIsAuthenticated, setPrevIsAuthenticated] = useState(isAuthenticated)
+  const [prevAccessToken, setPrevAccessToken] = useState(accessToken)
+  if (prevIsAuthenticated !== isAuthenticated || prevAccessToken !== accessToken) {
+    setPrevIsAuthenticated(isAuthenticated)
+    setPrevAccessToken(accessToken)
+    setAuthChecked(!isAuthenticated)
+  }
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      setAuthChecked(true)
-      return
-    }
+    if (!isAuthenticated) return
 
     let cancelled = false
-    setAuthChecked(false)
     ensureAuthReady().finally(() => {
       if (!cancelled) setAuthChecked(true)
     })

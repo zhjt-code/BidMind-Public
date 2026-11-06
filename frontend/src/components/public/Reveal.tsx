@@ -12,9 +12,11 @@ const Reveal: React.FC<RevealProps> = ({ children, className = '', delayMs = 0 }
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-      setVisible(true)
-      return
+    if (prefersReducedMotion) return
+
+    if (!('IntersectionObserver' in window)) {
+      const frame = requestAnimationFrame(() => setVisible(true))
+      return () => cancelAnimationFrame(frame)
     }
 
     const node = rootRef.current

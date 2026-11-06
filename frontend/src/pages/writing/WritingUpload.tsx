@@ -455,6 +455,7 @@ const WritingUploadPage: React.FC = () => {
     if (guardLoading || !projectStatus || isHandlingRef.current) return
     if (projectStatus === 'extracting') {
       lastOverallRef.current = 0
+      // 轮询/恢复函数的 setState 在 await 之后。直接调用会被当成 effect 同步 setState。
       queueMicrotask(() => {
         void pollUploadStatus(false)
           .then((ok) => { if (ok && mountedRef.current) setStage('done') })

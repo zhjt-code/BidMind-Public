@@ -17,16 +17,17 @@ export function useProjectRunMode(projectId: number | string | undefined) {
   const queryClient = useQueryClient()
   const [runMode, setRunModeState] = useState<RunMode>('guided')
   const [status, setStatus] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(() => Boolean(projectId))
   const [saving, setSaving] = useState(false)
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  if (projectId !== prevProjectId) {
+    setPrevProjectId(projectId)
+    setLoading(Boolean(projectId))
+  }
 
   useEffect(() => {
-    if (!projectId) {
-      setLoading(false)
-      return
-    }
+    if (!projectId) return
     let cancelled = false
-    setLoading(true)
     projectService.getProject(Number(projectId)).then((project) => {
       if (cancelled) return
       setRunModeState(normalizeRunMode(project.runMode))

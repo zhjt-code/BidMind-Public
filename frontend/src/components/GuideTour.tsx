@@ -64,26 +64,31 @@ const GuideTour: React.FC<GuideTourProps> = ({ steps, storageKey, delay = 800 })
     clearPoll()
 
     const step = steps[currentStep]
-    if (updateRect(step.target)) return
+    const frame = requestAnimationFrame(() => {
+      if (updateRect(step.target)) return
 
-    pollStart.current = Date.now()
-    pollTimer.current = setInterval(() => {
-      if (updateRect(step.target)) {
-        clearPoll()
-        return
-      }
-      if (Date.now() - pollStart.current > POLL_TIMEOUT) {
-        clearPoll()
-        if (currentStep < steps.length - 1) {
-          setCurrentStep(prev => prev + 1)
-        } else {
-          markSeen()
-          setCurrentStep(-1)
+      pollStart.current = Date.now()
+      pollTimer.current = setInterval(() => {
+        if (updateRect(step.target)) {
+          clearPoll()
+          return
         }
-      }
-    }, POLL_INTERVAL)
+        if (Date.now() - pollStart.current > POLL_TIMEOUT) {
+          clearPoll()
+          if (currentStep < steps.length - 1) {
+            setCurrentStep(prev => prev + 1)
+          } else {
+            markSeen()
+            setCurrentStep(-1)
+          }
+        }
+      }, POLL_INTERVAL)
+    })
 
-    return clearPoll
+    return () => {
+      cancelAnimationFrame(frame)
+      clearPoll()
+    }
   }, [currentStep, steps, updateRect, clearPoll, markSeen])
 
   useEffect(() => {

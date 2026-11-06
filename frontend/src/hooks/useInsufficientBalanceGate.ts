@@ -2,7 +2,7 @@
  * 职责: 页面级余额不足门禁状态编排（捕获/清除/会话恢复/充值入口/toast 去重）
  * 不做: 发起业务请求、渲染 UI、查询钱包、充值到账后自动继续消费
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 
 import { INSUFFICIENT_BALANCE_TOAST } from '@/lib/balanceGateCopy'
@@ -52,11 +52,13 @@ export function useInsufficientBalanceGate({
   const [blocked, setBlocked] = useState<InsufficientBalanceInfo | null>(
     () => toInfo(readBalanceGateSnapshot(projectId, nodeKey)),
   )
-
-  // projectId/nodeKey 切换时重新从会话快照恢复，防止跨项目携带陈旧阻断
-  useEffect(() => {
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  const [prevNodeKey, setPrevNodeKey] = useState(nodeKey)
+  if (projectId !== prevProjectId || nodeKey !== prevNodeKey) {
+    setPrevProjectId(projectId)
+    setPrevNodeKey(nodeKey)
     setBlocked(toInfo(readBalanceGateSnapshot(projectId, nodeKey)))
-  }, [projectId, nodeKey])
+  }
 
   const capture = useCallback((error: unknown): boolean => {
     const info = parseInsufficientBalanceError(error)

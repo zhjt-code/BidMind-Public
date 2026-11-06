@@ -68,40 +68,43 @@ const ProjectContextBar: React.FC<ProjectContextBarProps> = ({
   useEffect(() => {
     clearTimers()
     const seenKey = getProjectContextSeenKey(projectId)
+    let expand = true
 
     if (!seenKey) {
-      setExpanded(true)
       initialHideTimerRef.current = window.setTimeout(() => {
         setExpanded(false)
         initialHideTimerRef.current = null
       }, INITIAL_HIDE_MS)
-      return clearTimers
+    } else {
+      let hasSeen: boolean
+      try {
+        hasSeen = window.sessionStorage.getItem(seenKey) === '1'
+      } catch {
+        hasSeen = false
+      }
+
+      if (hasSeen) {
+        expand = false
+      } else {
+        try {
+          window.sessionStorage.setItem(seenKey, '1')
+        } catch {
+          // sessionStorage 不可用时仍保留本次首次展示行为。
+        }
+        initialHideTimerRef.current = window.setTimeout(() => {
+          setExpanded(false)
+          initialHideTimerRef.current = null
+        }, INITIAL_HIDE_MS)
+      }
     }
 
-    let hasSeen = false
-    try {
-      hasSeen = window.sessionStorage.getItem(seenKey) === '1'
-    } catch {
-      hasSeen = false
+    const frame = window.requestAnimationFrame(() => {
+      setExpanded(expand)
+    })
+    return () => {
+      window.cancelAnimationFrame(frame)
+      clearTimers()
     }
-
-    if (hasSeen) {
-      setExpanded(false)
-      return clearTimers
-    }
-
-    setExpanded(true)
-    try {
-      window.sessionStorage.setItem(seenKey, '1')
-    } catch {
-      // sessionStorage 不可用时仍保留本次首次展示行为。
-    }
-    initialHideTimerRef.current = window.setTimeout(() => {
-      setExpanded(false)
-      initialHideTimerRef.current = null
-    }, INITIAL_HIDE_MS)
-
-    return clearTimers
   }, [projectId])
 
   return (

@@ -34,22 +34,29 @@ const SectionDiagramNodeView: React.FC<NodeViewProps> = ({
   const projectId = (extension.options as SectionDiagramOptions).projectId
   const editable = editor.isEditable
   const [objectUrl, setObjectUrl] = useState('')
-  const [failed, setFailed] = useState(false)
+  const [failed, setFailed] = useState(() => !diagramId || !projectId)
   const [editing, setEditing] = useState(false)
   const objectUrlRef = useRef('')
-
-  useEffect(() => {
+  const [prevDiagramId, setPrevDiagramId] = useState(diagramId)
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  if (diagramId !== prevDiagramId || projectId !== prevProjectId) {
+    setPrevDiagramId(diagramId)
+    setPrevProjectId(projectId)
     if (!diagramId || !projectId) {
       setFailed(true)
-      return
+    } else {
+      setFailed(false)
+      setObjectUrl('')
     }
+  }
+
+  useEffect(() => {
+    if (!diagramId || !projectId) return
     let active = true
-    setFailed(false)
     if (objectUrlRef.current) {
       URL.revokeObjectURL(objectUrlRef.current)
       objectUrlRef.current = ''
     }
-    setObjectUrl('')
     writingService
       .fetchDiagramBlob(projectId, diagramId)
       .then((blob) => {

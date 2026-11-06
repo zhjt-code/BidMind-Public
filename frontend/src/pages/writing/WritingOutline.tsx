@@ -169,7 +169,8 @@ const WritingOutlinePage: React.FC = () => {
 
   useEffect(() => {
     if (!ready || projectStatus !== 'outlining') return
-    // 轮询内的 setState 在 await 之后；微任务使其离开 effect 同步调用栈。
+    // pollUntilDone 的 setState 都在 await 之后。直接调用仍会被编译器看成 effect 同步 setState，
+    // 因此放到微任务里启动；首轮等待本来就是轮询间隔，不改变目录生成时序。
     queueMicrotask(() => {
       void pollUntilDone()
     })

@@ -188,7 +188,8 @@ export function useMatchPolling({
   }, [pid, loadBindings, updateMatchTargets, onBalanceCleared])
 
   // projectStatus === 'matching' 恢复轮询。matching 标志在渲染期按状态切换置位。
-  // 轮询里的 setState 都在 await 之后；微任务让它们离开 effect 的同步调用栈。
+  // 轮询内的 setState 都在 await 之后。编译器仍把函数调用本身当成同步 setState，
+  // 所以从微任务启动；首轮等待本来就是轮询间隔。
   useEffect(() => {
     if (!ready || projectStatus !== 'matching') return
     queueMicrotask(() => {
