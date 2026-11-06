@@ -398,27 +398,49 @@ const ProjectTimelinePage: React.FC = () => {
     return out
   }, [page, levelMode, taskTypeFilter, keyword])
 
-  const load = useCallback(async () => {
+  const projectValid = Number.isInteger(projectId) && projectId > 0
+  const [prevTimelineQuery, setPrevTimelineQuery] = useState({ projectId, queryParams })
+  if (projectId !== prevTimelineQuery.projectId || queryParams !== prevTimelineQuery.queryParams) {
+    setPrevTimelineQuery({ projectId, queryParams })
+    if (projectValid) setLoading(true)
+  }
+
+  const [prevPageReset, setPrevPageReset] = useState({ levelMode, taskTypeFilter, keyword })
+  if (
+    levelMode !== prevPageReset.levelMode ||
+    taskTypeFilter !== prevPageReset.taskTypeFilter ||
+    keyword !== prevPageReset.keyword
+  ) {
+    setPrevPageReset({ levelMode, taskTypeFilter, keyword })
+    setPage(1)
+  }
+
+  const fetchTimeline = useCallback(async () => {
     if (!Number.isInteger(projectId) || projectId <= 0) {
       toast.error('项目 ID 无效')
       return
     }
-    setLoading(true)
+    let nextData: TimelineResponse | null = null
+    let failed = false
     try {
       const res = await errorLogService.getProjectTimeline(projectId, queryParams) as {
         data?: TimelineResponse
       }
-      setData(res?.data || null)
+      nextData = res?.data || null
     } catch {
-      toast.error('加载项目时间线失败')
-      setData(null)
+      failed = true
     } finally {
+      if (failed) {
+        toast.error('加载项目时间线失败')
+        setData(null)
+      } else {
+        setData(nextData)
+      }
       setLoading(false)
     }
   }, [projectId, queryParams])
 
-  useEffect(() => { load() }, [load])
-  useEffect(() => { setPage(1) }, [levelMode, taskTypeFilter, keyword])
+  useEffect(() => { void fetchTimeline() }, [fetchTimeline])
 
   const handleSearch = () => setKeyword(searchInput.trim())
 

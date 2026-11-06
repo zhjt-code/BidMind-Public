@@ -125,6 +125,13 @@ const FileUploadPage: React.FC = () => {
     const persisted = readPersistedFileUploadSkipVl(pidNum)
     return persisted ?? true
   })
+  const [prevSkipProjectId, setPrevSkipProjectId] = useState(projectId)
+  if (projectId !== prevSkipProjectId) {
+    setPrevSkipProjectId(projectId)
+    const pidNum = projectId ? parseInt(projectId) : NaN
+    const persisted = readPersistedFileUploadSkipVl(pidNum)
+    if (persisted !== null) setSkipVlForTender(persisted)
+  }
 
   const handleSkipVlForTenderChange = useCallback((checked: boolean) => {
     setSkipVlForTender(checked)
@@ -170,15 +177,6 @@ const FileUploadPage: React.FC = () => {
       document.removeEventListener('drop', preventDefaultDrop)
     }
   }, [])
-
-  // 同源扩散：projectId 变化时从 sessionStorage 重新读取并同步本地状态
-  useEffect(() => {
-    const pidNum = projectId ? parseInt(projectId) : NaN
-    const persisted = readPersistedFileUploadSkipVl(pidNum)
-    if (persisted !== null) {
-      setSkipVlForTender(persisted)
-    }
-  }, [projectId])
 
   // 对已存在但仍在处理中的文件轮询
   const startExistingDocPolling = (slotId: string, documentId: number) => {

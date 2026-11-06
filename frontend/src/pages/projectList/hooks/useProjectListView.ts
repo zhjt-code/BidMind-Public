@@ -43,7 +43,9 @@ export function useProjectListView({ projects, isAdmin }: UseProjectListViewArgs
     ? dashboardFilter.statusFilter
     : statusFilter
 
-  useEffect(() => {
+  const [prevActiveTab, setPrevActiveTab] = useState(activeTab)
+  if (activeTab !== prevActiveTab) {
+    setPrevActiveTab(activeTab)
     setCurrentPage(getRememberedProjectListPage(activeTab))
     setSearchInput('')
     setSearchQuery('')
@@ -51,7 +53,7 @@ export function useProjectListView({ projects, isAdmin }: UseProjectListViewArgs
     setUsernameQuery('')
     setStatusFilter('all')
     setUpdatedWithin('all')
-  }, [activeTab])
+  }
 
   useDebouncedTrimmedValue(searchInput, (nextQuery) => {
     setSearchQuery((prev) => {
@@ -95,13 +97,11 @@ export function useProjectListView({ projects, isAdmin }: UseProjectListViewArgs
     setCurrentPage(memory[activeTab])
   }, [activeTab])
 
-  useEffect(() => {
-    const clampedPage = Math.min(Math.max(1, currentPage), totalPages)
-    if (clampedPage !== currentPage) {
-      setRememberedProjectListPage(activeTab, clampedPage)
-      setCurrentPage(clampedPage)
-    }
-  }, [activeTab, currentPage, totalPages])
+  const clampedPage = Math.min(Math.max(1, currentPage), totalPages)
+  if (clampedPage !== currentPage) {
+    setRememberedProjectListPage(activeTab, clampedPage)
+    setCurrentPage(clampedPage)
+  }
 
   const pagedProjects = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE

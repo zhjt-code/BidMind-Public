@@ -91,7 +91,7 @@ const computeStatus = (b: BroadcastResponse): { label: string; className: string
 const BroadcastsPage: React.FC = () => {
   const [items, setItems] = useState<BroadcastResponse[]>([])
   const [pagination, setPagination] = useState<PaginationInfo>({ page: 1, pageSize: 20, total: 0 })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   // 创建/编辑弹窗
@@ -100,16 +100,30 @@ const BroadcastsPage: React.FC = () => {
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [saving, setSaving] = useState(false)
 
-  const loadItems = useCallback(async () => {
+  const listQueryKey = `${pagination.page}|${pagination.pageSize}`
+  const [prevListQueryKey, setPrevListQueryKey] = useState(listQueryKey)
+  if (listQueryKey !== prevListQueryKey) {
+    setPrevListQueryKey(listQueryKey)
     setLoading(true)
     setError(null)
+  }
+
+  const loadItems = useCallback(async () => {
+    let nextItems: BroadcastResponse[] | null = null
+    let nextTotal = 0
+    let nextError: string | null = null
     try {
       const result = await broadcastService.list(pagination.page, pagination.pageSize)
-      setItems(result.items)
-      setPagination((prev) => ({ ...prev, total: result.total }))
+      nextItems = result.items
+      nextTotal = result.total
     } catch (err) {
-      setError(err instanceof Error ? err.message : '加载广播列表失败')
+      nextError = err instanceof Error ? err.message : '加载广播列表失败'
     } finally {
+      if (nextError !== null) setError(nextError)
+      else if (nextItems) {
+        setItems(nextItems)
+        setPagination((prev) => ({ ...prev, total: nextTotal }))
+      }
       setLoading(false)
     }
   }, [pagination.page, pagination.pageSize])

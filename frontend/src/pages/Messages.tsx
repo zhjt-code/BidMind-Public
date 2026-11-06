@@ -45,12 +45,20 @@ const getTypeIcon = (msg: MessageItem): TypeIconConfig =>
 const MessagesPage: React.FC = () => {
   const [messages, setMessages] = useState<MessageItem[]>([])
   const [pagination, setPagination] = useState<PaginationInfo>({ page: 1, pageSize: 20, total: 0 })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<FilterMode>('all')
   const { refreshUnread, markRead: storeMarkRead, markAllRead: storeMarkAllRead } = useMessageStore()
 
-  const loadMessages = useCallback(async () => {
+  const messagesQueryKey = `${pagination.page}|${pagination.pageSize}|${filter}`
+  const [prevMessagesQueryKey, setPrevMessagesQueryKey] = useState(messagesQueryKey)
+  if (messagesQueryKey !== prevMessagesQueryKey) {
+    setPrevMessagesQueryKey(messagesQueryKey)
     setLoading(true)
+  }
+
+  const loadMessages = useCallback(async () => {
+    let nextItems: MessageItem[] | null = null
+    let nextTotal = 0
     try {
       const params: Parameters<typeof messageService.getList>[0] = {
         page: pagination.page,
@@ -64,11 +72,15 @@ const MessagesPage: React.FC = () => {
         params.source = 'message'
       }
       const result = await messageService.getList(params)
-      setMessages(result.items)
-      setPagination((prev) => ({ ...prev, total: result.total }))
+      nextItems = result.items
+      nextTotal = result.total
     } catch {
       // 静默
     } finally {
+      if (nextItems) {
+        setMessages(nextItems)
+        setPagination((prev) => ({ ...prev, total: nextTotal }))
+      }
       setLoading(false)
     }
   }, [pagination.page, pagination.pageSize, filter])

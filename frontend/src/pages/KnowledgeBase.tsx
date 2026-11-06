@@ -68,27 +68,35 @@ const KnowledgeBase: React.FC = () => {
   const [atomLoadingId, setAtomLoadingId] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
+  const [prevDocQuery, setPrevDocQuery] = useState({ flowFilter, categoryFilter })
+  if (flowFilter !== prevDocQuery.flowFilter || categoryFilter !== prevDocQuery.categoryFilter) {
+    setPrevDocQuery({ flowFilter, categoryFilter })
+    setLoading(true)
+  }
+
   const loadDocs = async (options?: { silent?: boolean }) => {
-    if (!options?.silent) {
-      setLoading(true)
-    }
+    let nextDocs: KnowledgeDocument[] | null = null
+    let failed = false
     try {
       const items = await knowledgeBaseService.listDocuments({
         applicableFlow: flowFilter || undefined,
         includeDisabled: true,
       })
-      setDocs(
-        categoryFilter === 'all'
-          ? items
-          : items.filter((doc) => getKnowledgeLibraryCategory(doc) === categoryFilter),
-      )
+      nextDocs = categoryFilter === 'all'
+        ? items
+        : items.filter((doc) => getKnowledgeLibraryCategory(doc) === categoryFilter)
     } catch {
-      toast.error('知识库列表加载失败')
+      failed = true
     } finally {
-      if (!options?.silent) {
-        setLoading(false)
-      }
+      if (failed) toast.error('知识库列表加载失败')
+      else if (nextDocs) setDocs(nextDocs)
+      if (!options?.silent) setLoading(false)
     }
+  }
+
+  const reloadDocs = async () => {
+    setLoading(true)
+    await loadDocs()
   }
 
   useEffect(() => {
@@ -220,20 +228,24 @@ const KnowledgeBase: React.FC = () => {
           })
         } catch (err) {
           const reason = err instanceof Error ? err.message : String(err)
-          throw new Error(`${file.name} 上传失败: ${reason}`)
+          // tsconfig lib 是 ES2020，Error 的 cause 参数在 ES2022 类型里。
+          // @ts-expect-error ES2022 Error constructor options are outside the configured lib.
+          throw new Error(`${file.name} 上传失败: ${reason}`, { cause: err })
         }
         setUploadProgressText(`正在启动索引 ${index + 1}/${files.length}: ${file.name}`)
         try {
           await knowledgeBaseService.processDocument(doc.id)
         } catch (err) {
           const reason = err instanceof Error ? err.message : String(err)
-          throw new Error(`${file.name} 索引任务启动失败: ${reason}`)
+          // tsconfig lib 是 ES2020，Error 的 cause 参数在 ES2022 类型里。
+          // @ts-expect-error ES2022 Error constructor options are outside the configured lib.
+          throw new Error(`${file.name} 索引任务启动失败: ${reason}`, { cause: err })
         }
       }
       toast.success(`已上传 ${files.length} 份知识资料，索引任务已启动`)
       setFiles([])
       setUploadProgressText('')
-      await loadDocs()
+      await reloadDocs()
     } catch (err) {
       const message = err instanceof Error ? err.message : '知识资料上传失败'
       setUploadProgressText(message)
@@ -248,7 +260,7 @@ const KnowledgeBase: React.FC = () => {
     try {
       await knowledgeBaseService.processDocument(doc.id)
       toast.success('知识资料已重新索引')
-      await loadDocs()
+      await reloadDocs()
     } catch {
       toast.error('重新索引失败')
     } finally {
@@ -261,7 +273,7 @@ const KnowledgeBase: React.FC = () => {
     try {
       await knowledgeBaseService.updateDocument(doc.id, { enabled: !doc.enabled })
       toast.success(doc.enabled ? '知识资料已停用' : '知识资料已启用')
-      await loadDocs()
+      await reloadDocs()
     } catch {
       toast.error('状态更新失败')
     } finally {
@@ -275,7 +287,7 @@ const KnowledgeBase: React.FC = () => {
     try {
       await knowledgeBaseService.deleteDocument(doc.id)
       toast.success('知识资料已删除')
-      await loadDocs()
+      await reloadDocs()
     } catch {
       toast.error('删除失败')
     } finally {
@@ -332,7 +344,7 @@ const KnowledgeBase: React.FC = () => {
       toast.success('知识资料已更新')
       setEditingDoc(null)
       setEditForm(null)
-      await loadDocs()
+      await reloadDocs()
     } catch (err) {
       toast.error(err instanceof Error ? err.message : '更新失败')
     } finally {
@@ -367,7 +379,7 @@ const KnowledgeBase: React.FC = () => {
             管理企业资料、规范标准和审查经验，供三大流程按门控规则引用。
           </p>
         </div>
-        <Button variant="outline" onClick={() => loadDocs()} disabled={loading}>
+        <Button variant="outline" onClick={() => { void reloadDocs() }} disabled={loading}>
           <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
           刷新
         </Button>

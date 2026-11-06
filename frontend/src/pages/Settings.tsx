@@ -422,17 +422,27 @@ const SettingsPage: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const loadSettings = useCallback(async () => {
-    setLoading(true); setError(null)
+  const fetchSettings = useCallback(async () => {
+    let nextSettings: AISettingsData | null = null
+    let nextError: string | null = null
     try {
-      const data = await settingsService.getAISettings()
-      setAiSettings(data)
+      nextSettings = await settingsService.getAISettings()
     } catch (err) {
-      setError(`加载设置失败: ${err instanceof Error ? err.message : '未知错误'}`)
-    } finally { setLoading(false) }
+      nextError = `加载设置失败: ${err instanceof Error ? err.message : '未知错误'}`
+    } finally {
+      if (nextError !== null) setError(nextError)
+      else setAiSettings(nextSettings)
+      setLoading(false)
+    }
   }, [])
 
-  useEffect(() => { loadSettings() }, [loadSettings])
+  const loadSettings = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    await fetchSettings()
+  }, [fetchSettings])
+
+  useEffect(() => { void fetchSettings() }, [fetchSettings])
 
   if (loading) {
     return (

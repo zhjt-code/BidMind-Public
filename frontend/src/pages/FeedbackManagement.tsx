@@ -53,7 +53,7 @@ const FeedbackManagementPage: React.FC = () => {
     pageSize: 10,
     total: 0,
   })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState('')
   const [typeFilter, setTypeFilter] = useState('')
@@ -64,10 +64,18 @@ const FeedbackManagementPage: React.FC = () => {
   const [editNote, setEditNote] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const loadFeedbacks = useCallback(async () => {
+  const feedbackQueryKey = `${pagination.page}|${pagination.pageSize}|${statusFilter}|${typeFilter}`
+  const [prevFeedbackQueryKey, setPrevFeedbackQueryKey] = useState(feedbackQueryKey)
+  if (feedbackQueryKey !== prevFeedbackQueryKey) {
+    setPrevFeedbackQueryKey(feedbackQueryKey)
     setLoading(true)
     setError(null)
+  }
 
+  const loadFeedbacks = useCallback(async () => {
+    let nextItems: FeedbackItem[] | null = null
+    let nextTotal = 0
+    let nextError: string | null = null
     try {
       const result = await feedbackService.getList({
         page: pagination.page,
@@ -75,12 +83,16 @@ const FeedbackManagementPage: React.FC = () => {
         status: statusFilter || undefined,
         type: typeFilter || undefined,
       })
-
-      setFeedbacks(result.items)
-      setPagination((prev) => ({ ...prev, total: result.total }))
+      nextItems = result.items
+      nextTotal = result.total
     } catch (err) {
-      setError(err instanceof Error ? err.message : '加载反馈列表失败')
+      nextError = err instanceof Error ? err.message : '加载反馈列表失败'
     } finally {
+      if (nextError !== null) setError(nextError)
+      else if (nextItems) {
+        setFeedbacks(nextItems)
+        setPagination((prev) => ({ ...prev, total: nextTotal }))
+      }
       setLoading(false)
     }
   }, [pagination.page, pagination.pageSize, statusFilter, typeFilter])

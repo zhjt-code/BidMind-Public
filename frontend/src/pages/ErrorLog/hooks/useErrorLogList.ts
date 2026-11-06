@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { errorLogService } from '@/services/errorLogApi'
+import { withSampledStartDate } from './useErrorLogFilters'
 import type { ErrorLogItem } from '../types'
 import { PAGE_SIZE } from '../constants'
 
@@ -23,33 +24,53 @@ export function useErrorLogList(opts: UseErrorLogListOptions): UseErrorLogListRe
   const [logs, setLogs] = useState<ErrorLogItem[]>([])
   const [loading, setLoading] = useState(true)
 
-  const reload = useCallback(async () => {
-    setLoading(true)
+  const [prevListQuery, setPrevListQuery] = useState({ viewMode, activeFilters, page })
+  if (
+    viewMode !== prevListQuery.viewMode ||
+    activeFilters !== prevListQuery.activeFilters ||
+    page !== prevListQuery.page
+  ) {
+    setPrevListQuery({ viewMode, activeFilters, page })
+    if (viewMode === 'flat') setLoading(true)
+  }
+
+  const fetchLogs = useCallback(async () => {
+    let nextLogs: ErrorLogItem[] = []
+    let nextTotal = 0
+    let nextTotalPages = 0
     try {
-      const params: Record<string, unknown> = {
+      const params = withSampledStartDate({
         page,
         page_size: PAGE_SIZE,
         ...activeFilters,
-      }
+      })
       const res = await errorLogService.getLogs(params) as {
         data?: { items?: ErrorLogItem[]; total?: number; total_pages?: number }
       }
       const data = res?.data
-      setLogs(data?.items || [])
-      onTotal(data?.total || 0)
-      onTotalPages(data?.total_pages || 0)
+      nextLogs = data?.items || []
+      nextTotal = data?.total || 0
+      nextTotalPages = data?.total_pages || 0
     } catch {
-      setLogs([])
-      onTotal(0)
-      onTotalPages(0)
+      nextLogs = []
+      nextTotal = 0
+      nextTotalPages = 0
     } finally {
+      setLogs(nextLogs)
+      onTotal(nextTotal)
+      onTotalPages(nextTotalPages)
       setLoading(false)
     }
   }, [activeFilters, page, onTotal, onTotalPages])
 
+  const reload = useCallback(async () => {
+    setLoading(true)
+    await fetchLogs()
+  }, [fetchLogs])
+
   useEffect(() => {
-    if (viewMode === 'flat') reload()
-  }, [reload, viewMode])
+    if (viewMode === 'flat') void fetchLogs()
+  }, [fetchLogs, viewMode])
 
   return { logs, loading, reload }
 }

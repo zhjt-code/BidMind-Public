@@ -14,8 +14,8 @@ type Status = 'verifying' | 'success' | 'error'
 const VerifyEmailPage: React.FC = () => {
   const [params] = useSearchParams()
   const token = params.get('token') || ''
-  const [status, setStatus] = useState<Status>('verifying')
-  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<Status>(token ? 'verifying' : 'error')
+  const [message, setMessage] = useState(token ? '' : '验证链接无效，缺少令牌')
   // 防 StrictMode 双调用导致令牌被消费两次而误报失败
   const ranRef = useRef(false)
 
@@ -23,11 +23,7 @@ const VerifyEmailPage: React.FC = () => {
     if (ranRef.current) return
     ranRef.current = true
 
-    if (!token) {
-      setStatus('error')
-      setMessage('验证链接无效，缺少令牌')
-      return
-    }
+    if (!token) return
 
     authService
       .verifyEmail(token)

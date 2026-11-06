@@ -47,6 +47,18 @@ const ProjectLogsPanel: React.FC<Props> = ({ flow }) => {
   const [allMatching, setAllMatching] = useState(false)
   const [excludedIds, setExcludedIds] = useState<Set<number>>(new Set())
 
+  const [prevSelectionScope, setPrevSelectionScope] = useState({ flow, keyword, onlyUnresolved })
+  if (
+    flow !== prevSelectionScope.flow
+    || keyword !== prevSelectionScope.keyword
+    || onlyUnresolved !== prevSelectionScope.onlyUnresolved
+  ) {
+    setPrevSelectionScope({ flow, keyword, onlyUnresolved })
+    setSelectedIds(new Set())
+    setAllMatching(false)
+    setExcludedIds(new Set())
+  }
+
   const [batchResolving, setBatchResolving] = useState(false)
   const [batchDeleting, setBatchDeleting] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -80,11 +92,6 @@ const ProjectLogsPanel: React.FC<Props> = ({ flow }) => {
     setAllMatching(false)
     setExcludedIds(new Set())
   }, [])
-
-  // 切换 flow / 筛选时清空选择, 避免跨筛选误删
-  useEffect(() => {
-    clearSelection()
-  }, [flow, keyword, onlyUnresolved, clearSelection])
 
   const isSelected = useCallback(
     (pid: number) => (allMatching ? !excludedIds.has(pid) : selectedIds.has(pid)),
