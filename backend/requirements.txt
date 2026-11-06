@@ -1,7 +1,7 @@
 # FastAPI核心
 fastapi==0.162.0
 uvicorn[standard]==0.54.0
-python-multipart==0.0.32
+python-multipart==0.0.33
 
 # 数据库
 sqlalchemy[asyncio]==2.1.6
@@ -16,14 +16,14 @@ redis[hiredis]==5.2.1
 
 # 文档解析
 # Keep Pillow 11 compatibility; newer pdfplumber requires Pillow 12.2+.
-pdfplumber==0.11.4
-PyMuPDF==2.0
+pdfplumber==0.11.10
+PyMuPDF==2.1
 
 # 语义处理 (LangChain 0.3.x 新架构)
 langchain==0.3.27
 langchain-core==0.3.72
 # Keep the LangChain 0.3 family aligned; community 0.4 requires core 1.x.
-langchain-community==0.3.27
+langchain-community==0.4.2
 langchain-text-splitters==0.3.9
 sentence-transformers[onnx]==5.2.1
 numpy==2.5.4
@@ -35,8 +35,8 @@ openai==1.97.1
 httpx==0.28.1
 
 # 数据校验
-pydantic==2.14.1
-pydantic-settings==2.16.1
+pydantic==2.14.2
+pydantic-settings==2.16.2
 email-validator==2.3.0
 
 # PDF生成
