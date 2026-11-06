@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import type { SectionDraft } from '@/services/writingApi'
 import type { WritingClause } from '@/services/writingClauseTransforms'
@@ -19,6 +19,11 @@ export default function WritingClauseCoveragePanel({
   currentNodeId,
 }: WritingClauseCoveragePanelProps) {
   const [collapsed, setCollapsed] = useState(true)
+  const [collapsedNodeId, setCollapsedNodeId] = useState(currentNodeId)
+  if (currentNodeId !== collapsedNodeId) {
+    setCollapsedNodeId(currentNodeId)
+    setCollapsed(true)
+  }
   const countedClauses = clauses.filter(
     (clause) => clause.confirmed === 1 && isCoverageCountedClause(clause),
   )
@@ -28,10 +33,6 @@ export default function WritingClauseCoveragePanel({
   const currentClauses = (selectedDraft?.sourceClauseIds || [])
     .map((clauseId) => clauseMap.get(clauseId))
     .filter((clause): clause is WritingClause => Boolean(clause))
-
-  useEffect(() => {
-    setCollapsed(true)
-  }, [currentNodeId])
 
   return (
     <div className="mb-3 rounded-lg border bg-slate-50 p-3 text-sm">

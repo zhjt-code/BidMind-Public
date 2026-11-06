@@ -53,14 +53,27 @@ const WritingPreviewPage: React.FC = () => {
   const { consistencyIssues, loadConsistency } = useWritingStore()
   const [previewHtml, setPreviewHtml] = useState<string>('')
   const [loading, setLoading] = useState(true)
+  const canLoadPreviewData = ready && !guardLoading && isAtLeast(projectStatus, 'composed')
+  const previewLoadKey = `${pid}:${canLoadPreviewData}`
+  const [prevPreviewLoadKey, setPrevPreviewLoadKey] = useState(previewLoadKey)
+  if (previewLoadKey !== prevPreviewLoadKey) {
+    setPrevPreviewLoadKey(previewLoadKey)
+    if (pid && canLoadPreviewData) setLoading(true)
+  }
+  const refreshFailed = ready && projectStatus === 'failed'
+  const failedRetryKey = `${refreshFailed}:${pid}`
   const [rendering, setRendering] = useState(false)
   const [downloading, setDownloading] = useState(false)
   const [showDownloadConfirm, setShowDownloadConfirm] = useState(false)
   const [showIssues, setShowIssues] = useState(false)
   const [collapsedIssueGroups, setCollapsedIssueGroups] = useState<Record<string, boolean>>({})
   const [retryState, setRetryState] = useState<WritingRetryState | null>(null)
-  const [refreshingRetry, setRefreshingRetry] = useState(false)
-  const canLoadPreviewData = ready && !guardLoading && isAtLeast(projectStatus, 'composed')
+  const [refreshingRetry, setRefreshingRetry] = useState(refreshFailed)
+  const [prevFailedRetryKey, setPrevFailedRetryKey] = useState(failedRetryKey)
+  if (failedRetryKey !== prevFailedRetryKey) {
+    setPrevFailedRetryKey(failedRetryKey)
+    if (refreshFailed) setRefreshingRetry(true)
+  }
 
   const showRequestFeedback = useCallback((message: string, fallback: string) => {
     const readableMessage = message.trim() || fallback
@@ -72,7 +85,6 @@ const WritingPreviewPage: React.FC = () => {
   }, [])
 
   const loadPreview = useCallback(async () => {
-    setLoading(true)
     try {
       const html = await writingService.getPreviewHtml(pid)
       setPreviewHtml(html)
@@ -93,10 +105,12 @@ const WritingPreviewPage: React.FC = () => {
 
   useEffect(() => {
     if (!pid || !canLoadPreviewData) return
-    void Promise.all([
-      loadConsistencySafely(),
-      loadPreview(),
-    ])
+    queueMicrotask(() => {
+      void Promise.all([
+        loadConsistencySafely(),
+        loadPreview(),
+      ])
+    })
   }, [pid, canLoadPreviewData, loadConsistencySafely, loadPreview])
 
   const handleRender = useCallback(async () => {
@@ -105,6 +119,7 @@ const WritingPreviewPage: React.FC = () => {
     try {
       await writingService.triggerRender(pid)
       toast.success('渲染完成')
+      setLoading(true)
       await Promise.all([
         loadPreview(),
         loadConsistencySafely(),
@@ -119,20 +134,25 @@ const WritingPreviewPage: React.FC = () => {
     }
   }, [pid, loadConsistencySafely, loadPreview, showRequestFeedback])
 
-  const refreshRetryState = useCallback(async () => {
-    setRefreshingRetry(true)
+  const loadRetryState = useCallback(async () => {
     try {
-      setRetryState(await writingService.getRetryState(pid, 'writing_render'))
+      const next = await writingService.getRetryState(pid, 'writing_render')
+      setRetryState(next)
     } finally {
       setRefreshingRetry(false)
     }
   }, [pid])
 
+  const refreshRetryState = useCallback(() => {
+    setRefreshingRetry(true)
+    return loadRetryState()
+  }, [loadRetryState])
+
   useEffect(() => {
     if (ready && projectStatus === 'failed') {
-      refreshRetryState().catch(() => {})
+      loadRetryState().catch(() => {})
     }
-  }, [ready, projectStatus, refreshRetryState])
+  }, [ready, projectStatus, loadRetryState])
 
   const handleRetryRender = useCallback(async () => {
     setRendering(true)
@@ -140,6 +160,7 @@ const WritingPreviewPage: React.FC = () => {
       await writingService.retryWritingNode(pid, 'writing_render')
       setRetryState(null)
       toast.success('重新渲染完成')
+      setLoading(true)
       await Promise.all([
         loadPreview(),
         loadConsistencySafely(),

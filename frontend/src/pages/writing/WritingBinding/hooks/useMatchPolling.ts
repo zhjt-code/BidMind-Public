@@ -79,11 +79,24 @@ export function useMatchPolling({
   onBalanceBlocked,
   onBalanceCleared,
 }: UseMatchPollingInputs): UseMatchPollingResult {
-  const [matching, setMatching] = useState(false)
+  const resumeMatching = ready && projectStatus === 'matching'
+  const [matching, setMatching] = useState(resumeMatching)
+  const [prevResumeMatching, setPrevResumeMatching] = useState(resumeMatching)
+  if (resumeMatching !== prevResumeMatching) {
+    setPrevResumeMatching(resumeMatching)
+    if (resumeMatching) setMatching(true)
+  }
+  const refreshFailed = ready && projectStatus === 'failed'
+  const failedRetryKey = `${refreshFailed}:${pid}`
   const [matchStageText, setMatchStageText] = useState('')
   const [retryState, setRetryState] = useState<WritingRetryState | null>(null)
   const [retrying, setRetrying] = useState(false)
-  const [refreshingRetry, setRefreshingRetry] = useState(false)
+  const [refreshingRetry, setRefreshingRetry] = useState(refreshFailed)
+  const [prevFailedRetryKey, setPrevFailedRetryKey] = useState(failedRetryKey)
+  if (failedRetryKey !== prevFailedRetryKey) {
+    setPrevFailedRetryKey(failedRetryKey)
+    if (refreshFailed) setRefreshingRetry(true)
+  }
 
   const mountedRef = useRef(true)
   const autoTriggeredRef = useRef(false)
@@ -174,12 +187,13 @@ export function useMatchPolling({
     setMatching(false)
   }, [pid, loadBindings, updateMatchTargets, onBalanceCleared])
 
-  // projectStatus === 'matching' 恢复轮询
+  // projectStatus === 'matching' 恢复轮询。matching 标志在渲染期按状态切换置位。
+  // 轮询里的 setState 都在 await 之后；微任务让它们离开 effect 的同步调用栈。
   useEffect(() => {
-    if (ready && projectStatus === 'matching') {
-      setMatching(true)
-      pollMatchStatus()
-    }
+    if (!ready || projectStatus !== 'matching') return
+    queueMicrotask(() => {
+      void pollMatchStatus()
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, projectStatus])
 
@@ -205,21 +219,26 @@ export function useMatchPolling({
     }
   }, [pid, triggerMatch, pollMatchStatus, onBalanceBlocked, onBalanceCleared])
 
-  const refreshRetryState = useCallback(async () => {
-    setRefreshingRetry(true)
+  const loadRetryState = useCallback(async () => {
     try {
-      setRetryState(await writingService.getRetryState(pid, 'writing_match'))
+      const next = await writingService.getRetryState(pid, 'writing_match')
+      setRetryState(next)
     } finally {
       setRefreshingRetry(false)
     }
   }, [pid])
 
-  // projectStatus === 'failed' refresh retry
+  const refreshRetryState = useCallback(() => {
+    setRefreshingRetry(true)
+    return loadRetryState()
+  }, [loadRetryState])
+
+  // projectStatus === 'failed' refresh retry。刷新中标志在渲染期置位，避免 effect 同步 setState。
   useEffect(() => {
     if (ready && projectStatus === 'failed') {
-      refreshRetryState().catch(() => {})
+      loadRetryState().catch(() => {})
     }
-  }, [ready, projectStatus, refreshRetryState])
+  }, [ready, projectStatus, loadRetryState])
 
   const handleRetryMatch = useCallback(async () => {
     setRetrying(true)

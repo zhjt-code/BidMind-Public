@@ -434,13 +434,18 @@ export const TreeNodeItem: React.FC<TreeNodeItemProps> = ({
       <div className={`flex items-center gap-2 py-2 px-2 rounded group ${rowBg}`}>
         <div className="flex shrink-0 items-center gap-0.5">
           {dragHandleProps ? (
+            // dnd-kit activator refs are a render-time attachment API.
+            // The disables below cover only the activator ref, attributes, and listeners.
             <button
               type="button"
+              // eslint-disable-next-line react-hooks/refs -- dnd-kit activator ref attachment
               ref={dragHandleProps.setActivatorNodeRef}
               className="p-1 rounded text-blue-500 hover:bg-blue-50 hover:text-blue-700 cursor-grab active:cursor-grabbing"
               aria-label={`拖动排序：${node.title}`}
               title="拖动调整同级顺序"
+              // eslint-disable-next-line react-hooks/refs -- dnd-kit activator attributes attachment
               {...dragHandleProps.attributes}
+              // eslint-disable-next-line react-hooks/refs -- dnd-kit activator listeners attachment
               {...dragHandleProps.listeners}
             >
               <GripVertical className="h-3.5 w-3.5" />

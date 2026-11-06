@@ -108,7 +108,6 @@ export function mapStageToProgressSteps(
   const steps: ProgressStep[] = configSteps.map((cfg, i) => {
     let status: ProgressStep['status'] = 'pending'
     let targetProgress = 0
-    let detail: string | undefined
 
     if (isCompleted || i < activeIdx) {
       status = 'completed'
@@ -128,7 +127,7 @@ export function mapStageToProgressSteps(
       status,
       progress: 0,
       targetProgress,
-      detail,
+      detail: undefined,
     }
   })
 

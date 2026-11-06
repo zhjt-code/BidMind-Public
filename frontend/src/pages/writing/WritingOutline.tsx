@@ -59,7 +59,13 @@ const WritingOutlinePage: React.FC = () => {
     paymentEnabled: isPaymentEnabled,
   })
   const { outlineNodes, loading, loadOutline, triggerOutlineGenerate, createNode, deleteNode, loadChecklist } = useWritingStore()
-  const [generating, setGenerating] = useState(false)
+  const resumeOutlining = ready && projectStatus === 'outlining'
+  const [generating, setGenerating] = useState(resumeOutlining)
+  const [prevResumeOutlining, setPrevResumeOutlining] = useState(resumeOutlining)
+  if (resumeOutlining !== prevResumeOutlining) {
+    setPrevResumeOutlining(resumeOutlining)
+    if (resumeOutlining) setGenerating(true)
+  }
   const [stageText, setStageText] = useState('')
   const [riskDialogOpen, setRiskDialogOpen] = useState(false)
   const [riskActionLabel, setRiskActionLabel] = useState('')
@@ -75,9 +81,16 @@ const WritingOutlinePage: React.FC = () => {
   const [addType, setAddType] = useState('free_writing')
   const [addTargetWordCount, setAddTargetWordCount] = useState('800')
   const [creatingNode, setCreatingNode] = useState(false)
+  const refreshFailed = ready && projectStatus === 'failed'
+  const failedRetryKey = `${refreshFailed}:${pid}`
   const [retryState, setRetryState] = useState<WritingRetryState | null>(null)
   const [retrying, setRetrying] = useState(false)
-  const [refreshingRetry, setRefreshingRetry] = useState(false)
+  const [refreshingRetry, setRefreshingRetry] = useState(refreshFailed)
+  const [prevFailedRetryKey, setPrevFailedRetryKey] = useState(failedRetryKey)
+  if (failedRetryKey !== prevFailedRetryKey) {
+    setPrevFailedRetryKey(failedRetryKey)
+    if (refreshFailed) setRefreshingRetry(true)
+  }
   const riskActionRef = useRef<null | (() => Promise<void>)>(null)
   const dirtySaveActionsRef = useRef(new Map<number, () => Promise<boolean>>())
 
@@ -106,13 +119,6 @@ const WritingOutlinePage: React.FC = () => {
       loadOutline(pid).catch(() => {})
     }
   }, [pid, ready, loadOutline])
-
-  useEffect(() => {
-    if (ready && projectStatus === 'outlining') {
-      setGenerating(true)
-      pollUntilDone()
-    }
-  }, [ready, projectStatus])
 
   const pollUntilDone = useCallback(async () => {
     for (let i = 0; i < WRITING_LONG_POLL_MAX_ATTEMPTS; i++) {
@@ -160,6 +166,16 @@ const WritingOutlinePage: React.FC = () => {
     }
     setGenerating(false)
   }, [pid, loadOutline, loadChecklist, updateTargets])
+
+  useEffect(() => {
+    if (!ready || projectStatus !== 'outlining') return
+    // 轮询内的 setState 在 await 之后；微任务使其离开 effect 同步调用栈。
+    queueMicrotask(() => {
+      void pollUntilDone()
+    })
+    // pollUntilDone 身份变化不应重启已在进行的轮询
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, projectStatus])
 
   const tree = buildTree(outlineNodes)
   const shouldWarnDownstreamStale = isAtLeast(projectStatus, 'matched')
@@ -352,20 +368,25 @@ const WritingOutlinePage: React.FC = () => {
     }
   }, [gate.capture, gate.clear, pid, outlineNodes.length, triggerOutlineGenerate, pollUntilDone])
 
-  const refreshRetryState = useCallback(async () => {
-    setRefreshingRetry(true)
+  const loadRetryState = useCallback(async () => {
     try {
-      setRetryState(await writingService.getRetryState(pid, 'writing_outline'))
+      const next = await writingService.getRetryState(pid, 'writing_outline')
+      setRetryState(next)
     } finally {
       setRefreshingRetry(false)
     }
   }, [pid])
 
+  const refreshRetryState = useCallback(() => {
+    setRefreshingRetry(true)
+    return loadRetryState()
+  }, [loadRetryState])
+
   useEffect(() => {
     if (ready && projectStatus === 'failed') {
-      refreshRetryState().catch(() => {})
+      loadRetryState().catch(() => {})
     }
-  }, [ready, projectStatus, refreshRetryState])
+  }, [ready, projectStatus, loadRetryState])
 
   const handleRetryOutline = useCallback(async () => {
     setRetrying(true)

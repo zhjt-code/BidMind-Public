@@ -49,6 +49,11 @@ const WritingBindingPage: React.FC = () => {
   const { ready, loading: guardLoading, projectStatus } = useWritingGuard(pid, WRITING_PAGE_MIN_STATUS.binding)
   const { bindings, outlineNodes, clauses, materials, loading, loadBindings, loadOutline, loadClauses, loadMaterials, triggerMatch } = useWritingStore()
   const [initialLoaded, setInitialLoaded] = useState(false)
+  const [loadedPid, setLoadedPid] = useState(pid)
+  if (pid !== loadedPid) {
+    setLoadedPid(pid)
+    setInitialLoaded(false)
+  }
   const [rematchDialogOpen, setRematchDialogOpen] = useState(false)
   const [ignoreOrphansDialogOpen, setIgnoreOrphansDialogOpen] = useState(false)
   const [ignoringOrphans, setIgnoringOrphans] = useState(false)
@@ -69,12 +74,7 @@ const WritingBindingPage: React.FC = () => {
     handleConfirmAll,
   } = useBatchConfirmFlow({ pid, bindings, loadBindings, setPendingBindingAction })
 
-  // pid 切换时重置主入口 state；hook 内的守卫 ref 各自负责（useBindingFilter / useMatchPolling）
-  useEffect(() => {
-    setInitialLoaded(false)
-  }, [pid])
-
-  // 初始加载（4 个 store 并行 fetch）
+  // 初始加载（4 个 store 并行 fetch）。pid 切换时的 initialLoaded 重置在渲染期完成。
   const initialLoadMountedRef = useRef(true)
   useEffect(() => {
     initialLoadMountedRef.current = true

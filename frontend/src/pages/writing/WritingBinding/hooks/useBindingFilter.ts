@@ -51,13 +51,18 @@ export function useBindingFilter({
 }: UseBindingFilterInputs): UseBindingFilterResult {
   const [collapsedTypes, setCollapsedTypes] = useState<Record<string, boolean>>({})
   const [confidenceFilter, setConfidenceFilter] = useState<BindingFilter>(null)
+  const [filterPid, setFilterPid] = useState(pid)
   const initialCollapseAppliedRef = useRef(false)
 
-  // pid 切换时重置守卫：必须在 hook 内部维护守卫 ref（不跨 hook 共享）。
-  useEffect(() => {
-    initialCollapseAppliedRef.current = false
+  if (pid !== filterPid) {
+    setFilterPid(pid)
     setConfidenceFilter(null)
     setCollapsedTypes({})
+  }
+
+  // 初始展开守卫是 ref，不能在渲染期写入；pid 切换时只重置守卫。
+  useEffect(() => {
+    initialCollapseAppliedRef.current = false
   }, [pid])
 
   // 初始加载完成 + 有节点 + 首次进入：默认全部展开，便于用户定位绑定项。

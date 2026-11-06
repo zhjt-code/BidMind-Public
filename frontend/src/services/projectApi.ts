@@ -47,7 +47,7 @@ export const projectService = {
   getProjects: async (pageSize = 500) => {
     const allItems: ProjectResponse[] = []
     let page = 1
-    let totalPages = 1
+    let totalPages: number
 
     // 项目列表页统计依赖完整数据集，不能只取第一页。
     do {

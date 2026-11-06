@@ -10,7 +10,7 @@
  * 本文件仅做：useEffect 联动 + 顶部 Header + 下一步编排 + 组件装配。
  * 禁止在本文件内写业务规则或闭包状态机，新增逻辑应放入对应 hook / 组件。
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, BookOpen, Loader2, Upload } from 'lucide-react'
 import { toast } from 'sonner'
@@ -76,6 +76,36 @@ const WritingMaterialsPage: React.FC = () => {
     paymentEnabled: isPaymentEnabled,
   })
 
+  // 轮询回调需要重试动作，但重试启动又要调用 polling.start()。
+  // 先创建轮询，再把重试动作写进 ref，避免在声明前读取 polling。
+  const retryBridgeRef = useRef<{
+    setRetryState: (status: MaterialBatchStatus) => void
+    refreshRetryState: () => Promise<unknown>
+  } | null>(null)
+
+  // ============ 轮询 ============
+  const polling = useWritingMaterialsPolling({
+    pid,
+    updateTargets,
+    onStatusTick: useCallback((status: MaterialBatchStatus) => {
+      setBatchStatus(status)
+      retryBridgeRef.current?.setRetryState(status)
+    }, []),
+    onSettled: useCallback(
+      async (terminal: 'done' | 'failed' | 'idle') => {
+        setShowMaterials(false)
+        setShowNotices(false)
+        await loadMaterials(pid)
+        await loadChecklist(pid)
+        if (terminal === 'failed') {
+          await retryBridgeRef.current?.refreshRetryState()
+        }
+      },
+      [pid, loadMaterials, loadChecklist],
+    ),
+    onBalanceBlocked: gate.capture,
+  })
+
   // ============ 重试状态 ============
   const retry = useWritingMaterialsRetry({
     pid,
@@ -94,29 +124,12 @@ const WritingMaterialsPage: React.FC = () => {
     onBalanceBlocked: gate.capture,
   })
 
-  // ============ 轮询 ============
-  const polling = useWritingMaterialsPolling({
-    pid,
-    updateTargets,
-    onStatusTick: useCallback((status: MaterialBatchStatus) => {
-      setBatchStatus(status)
-      retry.setRetryState(status)
-    }, []), // eslint-disable-line react-hooks/exhaustive-deps
-    onSettled: useCallback(
-      async (terminal: 'done' | 'failed' | 'idle') => {
-        setShowMaterials(false)
-        setShowNotices(false)
-        await loadMaterials(pid)
-        await loadChecklist(pid)
-        if (terminal === 'failed') {
-          await retry.refreshRetryState()
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [pid, loadMaterials, loadChecklist],
-    ),
-    onBalanceBlocked: gate.capture,
-  })
+  useEffect(() => {
+    retryBridgeRef.current = {
+      setRetryState: retry.setRetryState,
+      refreshRetryState: retry.refreshRetryState,
+    }
+  }, [retry.setRetryState, retry.refreshRetryState])
 
   // ============ 知识库投影 ============
   const kb = useKnowledgeBaseProjection({
@@ -222,8 +235,9 @@ const WritingMaterialsPage: React.FC = () => {
     [pid, loadMaterials],
   )
 
+  const materialsProcessing = polling.isProcessing
   const handleNextStep = useCallback(async () => {
-    if (polling.isProcessing) {
+    if (materialsProcessing) {
       toast.warning('素材正在处理中，请等待全部处理完成后再进入下一步')
       return
     }
@@ -271,7 +285,7 @@ const WritingMaterialsPage: React.FC = () => {
       titleEditing.setSavingPendingTitles(false)
     }
   }, [
-    polling.isProcessing,
+    materialsProcessing,
     titleEditing,
     loadMaterials,
     navigate,
