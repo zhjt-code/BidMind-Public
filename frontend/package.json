@@ -55,7 +55,7 @@
     "@tiptap/pm": "3.32.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.64.1",
     "@types/dompurify": "^3.2.0",
     "@types/node": "^20.19.41",
