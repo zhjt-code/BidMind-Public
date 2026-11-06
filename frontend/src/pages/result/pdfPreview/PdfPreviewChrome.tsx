@@ -39,10 +39,11 @@ export const PdfPreviewToolbar: React.FC<PdfPreviewToolbarProps> = ({
   downloadDisabled,
 }) => {
   const [pageDraft, setPageDraft] = useState(String(pageNumber))
-
-  useEffect(() => {
+  const [prevPageNumber, setPrevPageNumber] = useState(pageNumber)
+  if (pageNumber !== prevPageNumber) {
+    setPrevPageNumber(pageNumber)
     setPageDraft(String(pageNumber))
-  }, [pageNumber])
+  }
 
   const commitPageDraft = () => {
     const parsed = Number.parseInt(pageDraft, 10)
@@ -149,12 +150,15 @@ export const PdfPreviewThumbRail: React.FC<PdfPreviewThumbRailProps> = ({
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set([pageNumber]))
 
   useEffect(() => {
-    setVisiblePages((current) => {
-      if (current.has(pageNumber)) return current
-      const next = new Set(current)
-      next.add(pageNumber)
-      return next
+    const frame = window.requestAnimationFrame(() => {
+      setVisiblePages((current) => {
+        if (current.has(pageNumber)) return current
+        const next = new Set(current)
+        next.add(pageNumber)
+        return next
+      })
     })
+    return () => window.cancelAnimationFrame(frame)
   }, [pageNumber])
 
   useEffect(() => {

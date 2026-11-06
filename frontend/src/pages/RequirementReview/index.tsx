@@ -103,6 +103,14 @@ const RequirementReviewPage: React.FC = () => {
   const [confirming, setConfirming] = useState(false)
   const [reextracting, setReextracting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [prevProjectId, setPrevProjectId] = useState(projectId)
+  if (projectId !== prevProjectId) {
+    setPrevProjectId(projectId)
+    if (projectId) {
+      setLoading(true)
+      setError(null)
+    }
+  }
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [showReextractDialog, setShowReextractDialog] = useState(false)
   const [projectStatus, setProjectStatus] = useState<string>('')
@@ -309,8 +317,6 @@ const RequirementReviewPage: React.FC = () => {
 
   const loadRequirements = useCallback(async () => {
     if (!projectId) return
-    setLoading(true)
-    setError(null)
 
     const readiness = await refreshDocumentReadiness()
 
@@ -365,7 +371,9 @@ const RequirementReviewPage: React.FC = () => {
   }, [projectId, refreshDocumentReadiness, startExtractionIfNeeded])
 
   useEffect(() => {
-    loadRequirements()
+    void (async () => {
+      await loadRequirements()
+    })()
   }, [loadRequirements])
 
   // 删除要求：仅打开确认弹窗，实际删除由 confirmDelete 触发 hook.deleteRequirement

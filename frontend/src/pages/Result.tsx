@@ -83,7 +83,7 @@ const ResultPage: React.FC = () => {
   const [retryState, setRetryState] = useState<WritingRetryState | null>(null)
   const [retryStateError, setRetryStateError] = useState<string | null>(null)
   const [retrying, setRetrying] = useState(false)
-  const [refreshingRetry, setRefreshingRetry] = useState(false)
+  const [refreshingRetry, setRefreshingRetry] = useState(Boolean(projectId))
 
   // 视图切换: 响应审查(默认) | 文档质检(?view=quality) ----
   const [searchParams, setSearchParams] = useSearchParams()
@@ -100,21 +100,37 @@ const ResultPage: React.FC = () => {
 
   // 文档质检数据(独立结果域, 与响应审查结果互不阻塞) ----
   const [qualityData, setQualityData] = useState<DocumentQualityData | null>(null)
-  const [qualityLoading, setQualityLoading] = useState(false)
+  const [qualityLoading, setQualityLoading] = useState(Boolean(projectId))
   const [qualityError, setQualityError] = useState<string | null>(null)
-  const loadQuality = useCallback(async () => {
-    if (!projectId) return
-    setQualityLoading(true)
-    setQualityError(null)
+  const [prevQualityProjectId, setPrevQualityProjectId] = useState(projectId)
+  if (projectId !== prevQualityProjectId) {
+    setPrevQualityProjectId(projectId)
+    if (projectId) {
+      setQualityLoading(true)
+      setQualityError(null)
+    }
+  }
+  const fetchQuality = useCallback(async (id: string) => {
     try {
-      setQualityData(await documentQualityService.getDocumentQuality(parseInt(projectId)))
+      setQualityData(await documentQualityService.getDocumentQuality(parseInt(id)))
     } catch (err) {
       setQualityError(err instanceof Error ? err.message : '未知错误')
     } finally {
       setQualityLoading(false)
     }
-  }, [projectId])
-  useEffect(() => { loadQuality() }, [loadQuality])
+  }, [])
+  const loadQuality = useCallback(async () => {
+    if (!projectId) return
+    setQualityLoading(true)
+    setQualityError(null)
+    await fetchQuality(projectId)
+  }, [projectId, fetchQuality])
+  useEffect(() => {
+    if (!projectId) return
+    void (async () => {
+      await fetchQuality(projectId)
+    })()
+  }, [projectId, fetchQuality])
   const qualityPendingCount = useMemo(() => pendingFindingCount(qualityData), [qualityData])
 
   // 重试动作的余额门禁：与进度页共用 review_retry 节点快照
@@ -138,12 +154,19 @@ const ResultPage: React.FC = () => {
     setFilters(prev => ({ ...prev, ...partial }))
   }, [])
 
-  const loadResults = useCallback(async () => {
-    if (!projectId) return
-    setLoading(true)
-    setError(null)
+  const resultsQueryKey = `${projectId ?? ''}:${debugView ? '1' : '0'}`
+  const [prevResultsQueryKey, setPrevResultsQueryKey] = useState(resultsQueryKey)
+  if (resultsQueryKey !== prevResultsQueryKey) {
+    setPrevResultsQueryKey(resultsQueryKey)
+    if (projectId) {
+      setLoading(true)
+      setError(null)
+    }
+  }
+
+  const fetchResults = useCallback(async (id: string, debug: boolean) => {
     try {
-      const response = await reviewService.getReviewResults(parseInt(projectId), debugView)
+      const response = await reviewService.getReviewResults(parseInt(id), debug)
       const data = response as {
         summary?: Record<string, unknown>
         results?: Record<string, unknown>[]
@@ -157,15 +180,31 @@ const ResultPage: React.FC = () => {
     } finally {
       setLoading(false)
     }
-  }, [projectId, debugView])
+  }, [])
 
-  useEffect(() => { loadResults() }, [loadResults])
-
-  const refreshRetryState = useCallback(async () => {
+  const loadResults = useCallback(async () => {
     if (!projectId) return
-    setRefreshingRetry(true)
+    setLoading(true)
+    setError(null)
+    await fetchResults(projectId, debugView)
+  }, [projectId, debugView, fetchResults])
+
+  useEffect(() => {
+    if (!projectId) return
+    void (async () => {
+      await fetchResults(projectId, debugView)
+    })()
+  }, [projectId, debugView, fetchResults])
+
+  const [prevRetryProjectId, setPrevRetryProjectId] = useState(projectId)
+  if (projectId !== prevRetryProjectId) {
+    setPrevRetryProjectId(projectId)
+    if (projectId) setRefreshingRetry(true)
+  }
+
+  const fetchRetryState = useCallback(async (id: string) => {
     try {
-      setRetryState(await reviewService.getRetryState(parseInt(projectId)))
+      setRetryState(await reviewService.getRetryState(parseInt(id)))
       setRetryStateError(null)
     } catch (error) {
       setRetryStateError(error instanceof Error ? error.message : '恢复状态加载失败')
@@ -173,20 +212,31 @@ const ResultPage: React.FC = () => {
     } finally {
       setRefreshingRetry(false)
     }
-  }, [projectId])
+  }, [])
+
+  const refreshRetryState = useCallback(async () => {
+    if (!projectId) return
+    setRefreshingRetry(true)
+    await fetchRetryState(projectId)
+  }, [projectId, fetchRetryState])
 
   useEffect(() => {
-    refreshRetryState().catch(() => {})
-  }, [refreshRetryState])
+    if (!projectId) return
+    void (async () => {
+      await fetchRetryState(projectId)
+    })().catch(() => {})
+  }, [projectId, fetchRetryState])
 
+  const failedNode = retryState?.failedNode
+  const targetId = retryState?.targetId
   const handleRetryReview = useCallback(async () => {
     if (!projectId) return
     setRetrying(true)
     try {
       const state = await reviewService.retryReview(
         parseInt(projectId),
-        retryState?.failedNode,
-        retryState?.targetId,
+        failedNode,
+        targetId,
       )
       setRetryState(state)
       retryGate.clear()
@@ -201,7 +251,7 @@ const ResultPage: React.FC = () => {
     } finally {
       setRetrying(false)
     }
-  }, [projectId, navigate, refreshRetryState, retryState?.failedNode, retryState?.targetId, retryGate])
+  }, [projectId, navigate, refreshRetryState, failedNode, targetId, retryGate])
 
   useEffect(() => {
     if (!projectId) return
@@ -366,43 +416,32 @@ const ResultPage: React.FC = () => {
   )
 
   // 评分卷桶筛选项失效/归零时回退全部 ----
-  useEffect(() => {
-    if (
-      filters.scoringOnly &&
-      filters.scoringVolume !== null &&
-      !(filterCounts.byVolume[filters.scoringVolume] > 0)
-    ) {
-      setFilters(f => ({ ...f, scoringVolume: null }))
-    }
-  }, [filterCounts.byVolume, filters.scoringOnly, filters.scoringVolume])
+  if (
+    filters.scoringOnly &&
+    filters.scoringVolume !== null &&
+    !(filterCounts.byVolume[filters.scoringVolume] > 0)
+  ) {
+    setFilters(f => ({ ...f, scoringVolume: null }))
+  }
 
   // 筛选导致选项归零时自动重置 ----
-  useEffect(() => {
-    if (filters.compliance !== 'all' && !(filterCounts.byCompliance[filters.compliance] > 0)) {
-      setFilters(f => ({ ...f, compliance: 'all' }))
-    }
-  }, [filterCounts.byCompliance, filters.compliance])
-
-  useEffect(() => {
-    if (filters.risk !== 'all' && !(filterCounts.byRisk[filters.risk] > 0)) {
-      setFilters(f => ({ ...f, risk: 'all' }))
-    }
-  }, [filterCounts.byRisk, filters.risk])
-
-  useEffect(() => {
-    if (filters.category !== 'all' && !(filterCounts.byCategory[filters.category] > 0)) {
-      setFilters(f => ({ ...f, category: 'all' }))
-    }
-  }, [filterCounts.byCategory, filters.category])
+  if (filters.compliance !== 'all' && !(filterCounts.byCompliance[filters.compliance] > 0)) {
+    setFilters(f => ({ ...f, compliance: 'all' }))
+  }
+  if (filters.risk !== 'all' && !(filterCounts.byRisk[filters.risk] > 0)) {
+    setFilters(f => ({ ...f, risk: 'all' }))
+  }
+  if (filters.category !== 'all' && !(filterCounts.byCategory[filters.category] > 0)) {
+    setFilters(f => ({ ...f, category: 'all' }))
+  }
 
   // 自动选中第一条(数据首次加载 / 当前选中项被筛选掉) ----
-  useEffect(() => {
-    if (filteredResults.length === 0) return
+  if (filteredResults.length > 0) {
     const currentStillVisible = selectedResultId !== null && filteredResults.some(r => r.id === selectedResultId)
     if (!currentStillVisible) {
       setSelectedResultId(filteredResults[0].id)
     }
-  }, [filteredResults, selectedResultId])
+  }
 
   // 选中结果 ----
   const selectedResult = useMemo(

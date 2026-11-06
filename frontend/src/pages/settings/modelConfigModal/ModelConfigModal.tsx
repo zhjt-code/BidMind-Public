@@ -8,7 +8,7 @@
  * 宽度 680px: 能力状态行含"标签+探测徽标+说明+三态选择", 512px 会换行拥挤。
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 import { Modal } from '@/components'
 import {
@@ -63,20 +63,25 @@ function parseFloatOrNull(value: string): number | null {
 
 const ModelConfigModal: React.FC<Props> = ({ visible, purpose, config, onSaved, onCancel }) => {
   const [tab, setTab] = useState<TabKey>('connection')
-  const [form, setForm] = useState<ModelConfigForm>(emptyForm())
+  const [form, setForm] = useState<ModelConfigForm>(() =>
+    visible && config ? formFromConfig(config) : emptyForm(),
+  )
   const [errors, setErrors] = useState<Partial<Record<TabKey, string[]>>>({})
   const [saving, setSaving] = useState(false)
   const [verifying, setVerifying] = useState(false)
   const [requestError, setRequestError] = useState<string | null>(null)
-
-  useEffect(() => {
+  const [prevVisible, setPrevVisible] = useState(visible)
+  const [prevConfig, setPrevConfig] = useState(config)
+  if (visible !== prevVisible || config !== prevConfig) {
+    setPrevVisible(visible)
+    setPrevConfig(config)
     if (visible) {
       setForm(config ? formFromConfig(config) : emptyForm())
       setTab('connection')
       setErrors({})
       setRequestError(null)
     }
-  }, [visible, config])
+  }
 
   const busy = saving || verifying
 
@@ -164,7 +169,7 @@ const ModelConfigModal: React.FC<Props> = ({ visible, purpose, config, onSaved, 
 
   const handleSaveAndVerify = async () => {
     setSaving(true)
-    let savedId: string | null = null
+    let savedId: string | null
     try {
       savedId = await doSave()
     } finally {

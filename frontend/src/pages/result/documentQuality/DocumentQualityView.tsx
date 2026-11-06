@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { EmptyState, SkeletonCard } from '@/components'
 import { documentQualityService } from '@/services/documentQualityApi'
@@ -49,15 +49,11 @@ const DocumentQualityView: React.FC<DocumentQualityViewProps> = ({
   const counts = useMemo(() => countFindings(sorted, filters), [sorted, filters])
 
   // 选中项被筛掉/首次加载时自动选中第一条
-  useEffect(() => {
-    if (filtered.length === 0) {
-      setSelectedId(null)
-      return
-    }
-    if (selectedId === null || !filtered.some(f => f.id === selectedId)) {
-      setSelectedId(filtered[0].id)
-    }
-  }, [filtered, selectedId])
+  if (filtered.length === 0) {
+    if (selectedId !== null) setSelectedId(null)
+  } else if (selectedId === null || !filtered.some(f => f.id === selectedId)) {
+    setSelectedId(filtered[0].id)
+  }
 
   const selected = useMemo(
     () => (data?.findings ?? []).find(f => f.id === selectedId) ?? null,

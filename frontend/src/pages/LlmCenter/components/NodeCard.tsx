@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 import { llmCenterService, type LlmNodeClass, type LlmNodeSummary } from '@/services/llmCenterApi'
 import { CHANNEL_COLORS, NODE_CLASS_COLORS, NODE_CLASS_LABELS } from '../lib/constants'
@@ -16,11 +16,14 @@ function isNodeClassLocked(node: LlmNodeSummary): boolean {
 export const NodeCard: React.FC<NodeCardProps> = ({ node, onClick, onClassChanged }) => {
   const [nodeClass, setNodeClass] = useState<LlmNodeClass>(node.node_class ?? 'judgment')
   const [updating, setUpdating] = useState(false)
-  const locked = isNodeClassLocked(node)
-
-  useEffect(() => {
+  const [prevNodeKey, setPrevNodeKey] = useState(node.node_key)
+  const [prevNodeClass, setPrevNodeClass] = useState(node.node_class)
+  if (node.node_key !== prevNodeKey || node.node_class !== prevNodeClass) {
+    setPrevNodeKey(node.node_key)
+    setPrevNodeClass(node.node_class)
     setNodeClass(node.node_class ?? 'judgment')
-  }, [node.node_key, node.node_class])
+  }
+  const locked = isNodeClassLocked(node)
 
   const handleClassClick = async (e: React.MouseEvent) => {
     e.stopPropagation()

@@ -20,13 +20,27 @@ interface TracesTabProps {
 export const TracesTab: React.FC<TracesTabProps> = ({ nodeKey }) => {
   const [traces, setTraces] = useState<TraceRow[]>([])
   const [loading, setLoading] = useState(true)
+  const [prevNodeKey, setPrevNodeKey] = useState(nodeKey)
+  if (nodeKey !== prevNodeKey) {
+    setPrevNodeKey(nodeKey)
+    setLoading(true)
+  }
 
   useEffect(() => {
-    setLoading(true)
+    let cancelled = false
     llmCenterService.getExecutionTraces(nodeKey)
-      .then(setTraces)
-      .catch(() => toast.error('加载轨迹失败'))
-      .finally(() => setLoading(false))
+      .then((rows) => {
+        if (!cancelled) setTraces(rows)
+      })
+      .catch(() => {
+        if (!cancelled) toast.error('加载轨迹失败')
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [nodeKey])
 
   if (loading) return <div className="flex justify-center py-8"><div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
