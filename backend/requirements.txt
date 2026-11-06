@@ -17,7 +17,7 @@ redis[hiredis]==5.2.1
 # 文档解析
 # Keep Pillow 11 compatibility; newer pdfplumber requires Pillow 12.2+.
 pdfplumber==0.11.4
-PyMuPDF==1.26.7
+PyMuPDF==2.0
 
 # 语义处理 (LangChain 0.3.x 新架构)
 langchain==0.3.27
