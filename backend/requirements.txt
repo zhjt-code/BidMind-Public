@@ -31,7 +31,7 @@ numpy==2.5.4
 nvidia-ml-py==13.615.71
 
 # AI推理
-openai==1.97.1
+openai==3.46.0
 # OpenAI / OCR sidecar 客户端均直接 import httpx, 显式锁定避免上游隐式移除
 httpx==0.28.1
 
